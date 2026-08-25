@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
@@ -263,6 +264,7 @@ export default function LandingPage() {
             <a href="#fluxo">O fluxo</a>
             <a href="#modulos">Módulos</a>
             <a href="#tempo-real">Tempo real</a>
+             <Link to="/Sobre">Sobre nós</Link>
           </nav>
           <a href="#cta" className="btn btn--ghost">Falar com o time</a>
         </div>
