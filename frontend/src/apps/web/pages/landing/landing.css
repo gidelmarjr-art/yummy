@@ -42,8 +42,6 @@
   }
 }
 
-/* ---------- Tipografia utilitária ---------- */
-
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -86,8 +84,6 @@
   font-size: 1.05rem;
   margin: 0;
 }
-
-/* ---------- Botões ---------- */
 
 .btn {
   display: inline-flex;
@@ -141,8 +137,6 @@
   font-size: 1.05rem;
 }
 
-/* ---------- NAV ---------- */
-
 .nav {
   position: sticky;
   top: 0;
@@ -187,8 +181,6 @@
     display: none;
   }
 }
-
-/* ---------- HERO ---------- */
 
 .hero {
   padding-top: 5.5rem;
@@ -327,8 +319,6 @@
   opacity: 0.7;
 }
 
-/* ---------- Marquee ---------- */
-
 .marquee {
   overflow: hidden;
   border-top: 1px solid var(--line);
@@ -347,8 +337,6 @@
   color: var(--muted);
   white-space: nowrap;
 }
-
-/* ---------- PROBLEMA ---------- */
 
 .errors {
   max-width: 760px;
@@ -389,8 +377,6 @@
   font-size: 1.4rem;
   font-style: italic;
 }
-
-/* ---------- FLUXO ---------- */
 
 .flow__track {
   position: relative;
@@ -463,8 +449,6 @@
   font-size: 0.82rem;
   color: var(--muted);
 }
-
-/* ---------- MÓDULOS ---------- */
 
 .modules {
   background: var(--navy-2);
@@ -547,8 +531,6 @@
   background: var(--orange);
 }
 
-/* ---------- TEMPO REAL / PULSE ---------- */
-
 .pulse__inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -630,8 +612,6 @@
 .pulse__node--2 { bottom: 10%; left: 0%; }
 .pulse__node--3 { top: 12%; right: 2%; }
 
-/* ---------- ESTOQUE ---------- */
-
 .stock__panel {
   max-width: 620px;
   margin: 0 auto;
@@ -689,8 +669,6 @@
   padding-top: 1.2rem;
 }
 
-/* ---------- CTA FINAL ---------- */
-
 .final-cta {
   text-align: center;
   overflow: hidden;
@@ -731,8 +709,6 @@
   margin: 0 0 2rem;
 }
 
-/* ---------- FOOTER ---------- */
-
 .footer {
   display: flex;
   justify-content: space-between;
@@ -749,8 +725,6 @@
     text-align: center;
   }
 }
-
-/* ---------- Movimento reduzido ---------- */
 
 @media (prefers-reduced-motion: reduce) {
   .yummy-lp * {

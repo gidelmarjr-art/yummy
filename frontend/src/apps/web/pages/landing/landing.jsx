@@ -15,13 +15,9 @@ import {
   Utensils, 
   Heart 
 } from "lucide-react";
-import "./landing.css";
+import "./Landing.css";
 
 gsap.registerPlugin(ScrollTrigger);
-
-/* ------------------------------------------------------------------ */
-/* Conteúdo                                                           */
-/* ------------------------------------------------------------------ */
 
 const CANAIS = [
   <><Smartphone size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Cliente</>, 
@@ -98,10 +94,6 @@ const FICHA_TECNICA = [
   { nome: "Molho", de: 25, para: 0, unidade: "ml" },
 ];
 
-/* ------------------------------------------------------------------ */
-/* Componente                                                         */
-/* ------------------------------------------------------------------ */
-
 export default function LandingPage() {
   const root = useRef(null);
   const flowLineRef = useRef(null);
@@ -121,7 +113,6 @@ export default function LandingPage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      /* ---- Entrada do hero ---- */
       gsap.timeline({ defaults: { ease: "power3.out" } })
         .from(".hero__eyebrow", { opacity: 0, y: 16, duration: 0.6 })
         .from(".hero__title .line", { opacity: 0, y: 40, stagger: 0.12, duration: 0.9 }, "-=0.3")
@@ -129,7 +120,6 @@ export default function LandingPage() {
         .from(".hero__ctas > *", { opacity: 0, y: 16, stagger: 0.1, duration: 0.6 }, "-=0.4")
         .from(ticketRef.current, { opacity: 0, x: 60, rotate: 10, duration: 1 }, "-=0.8");
 
-      /* ---- Ticket flutuando (idle) ---- */
       gsap.to(ticketRef.current, {
         y: -14,
         rotate: -3,
@@ -139,7 +129,6 @@ export default function LandingPage() {
         repeat: -1,
       });
 
-      /* ---- Marquee de canais ---- */
       gsap.to(".marquee__track", {
         xPercent: -50,
         ease: "none",
@@ -147,7 +136,6 @@ export default function LandingPage() {
         repeat: -1,
       });
 
-      /* ---- Erros: entram tremendo, um a um ---- */
       gsap.utils.toArray(".error-card").forEach((card, i) => {
         gsap.from(card, {
           opacity: 0,
@@ -173,7 +161,6 @@ export default function LandingPage() {
         },
       });
 
-      /* ---- Fluxo: linha + nós, no ritmo do scroll (scrub) ---- */
       const flowTl = gsap.timeline({
         scrollTrigger: {
           trigger: ".flow__track",
@@ -194,7 +181,6 @@ export default function LandingPage() {
         );
       });
 
-      /* ---- Cards de módulos ---- */
       gsap.from(".module-card", {
         opacity: 0,
         y: 40,
@@ -206,7 +192,6 @@ export default function LandingPage() {
         },
       });
 
-      /* ---- Pulso em tempo real ---- */
       gsap.from(".pulse__event", {
         opacity: 0,
         x: -16,
@@ -230,7 +215,6 @@ export default function LandingPage() {
         },
       });
 
-      /* ---- Ficha técnica: barras esvaziando com o scroll ---- */
       const stockTl = gsap.timeline({
         scrollTrigger: {
           trigger: ".stock__panel",
@@ -244,7 +228,6 @@ export default function LandingPage() {
         stockTl.to(bar, { scaleX: 0, ease: "none" }, i * 0.15);
       });
 
-      /* ---- Blob final pulsando ---- */
       gsap.to(".final-cta__blob", {
         scale: 1.15,
         opacity: 0.9,
@@ -271,7 +254,6 @@ export default function LandingPage() {
 
   return (
     <div className="yummy-lp" ref={root}>
-      {/* ---------------- NAV ---------------- */}
       <header className="nav">
         <div className="nav__inner">
           <span className="nav__logo">
@@ -286,7 +268,6 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* ---------------- HERO ---------------- */}
       <section className="hero">
         <div className="hero__inner">
           <div className="hero__copy">
@@ -330,7 +311,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ---------------- PROBLEMA ---------------- */}
       <section className="problem">
         <div className="section__head">
           <p className="eyebrow">Hoje, sem o Yummy</p>
@@ -356,7 +336,6 @@ export default function LandingPage() {
         </p>
       </section>
 
-      {/* ---------------- FLUXO (signature) ---------------- */}
       <section className="flow" id="fluxo">
         <div className="section__head">
           <p className="eyebrow">Um pedido, uma jornada</p>
@@ -382,7 +361,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ---------------- MÓDULOS ---------------- */}
       <section className="modules" id="modulos">
         <div className="section__head">
           <p className="eyebrow">Seis papéis, um só sistema</p>
@@ -405,7 +383,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ---------------- TEMPO REAL ---------------- */}
       <section className="pulse" id="tempo-real">
         <div className="pulse__inner">
           <div className="pulse__copy section__head section__head--left">
@@ -442,7 +419,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ---------------- ESTOQUE / FICHA TÉCNICA ---------------- */}
       <section className="stock">
         <div className="section__head">
           <p className="eyebrow">Ficha técnica</p>
@@ -472,7 +448,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ---------------- CTA FINAL ---------------- */}
       <section className="final-cta" id="cta">
         <div className="final-cta__blob" />
         <div className="final-cta__content">
@@ -488,7 +463,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ---------------- FOOTER ---------------- */}
       <footer className="footer">
         <span>Yummy © 2026</span>
         <span>Feito com <Heart size={14} fill="currentColor" style={{ display: "inline", verticalAlign: "middle", margin: "0 2px" }} /> para a indústria de restaurantes.</span>
