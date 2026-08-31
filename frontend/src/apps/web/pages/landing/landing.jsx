@@ -16,7 +16,7 @@ import {
   Utensils, 
   Heart 
 } from "lucide-react";
-import "./landing.css";
+import "./pages/Langing/Landing.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
