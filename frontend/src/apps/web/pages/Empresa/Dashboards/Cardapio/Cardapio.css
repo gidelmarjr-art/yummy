@@ -1,0 +1,453 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.cardapio-page-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fcfcfc;
+  font-family: 'Inter', sans-serif;
+  color: #333333;
+}
+
+.cardapio-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Superior */
+.cardapio-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.5rem;
+  background-color: #ffffff;
+}
+
+.page-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f2f4f8;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  width: 240px;
+}
+
+.search-icon {
+  color: #a0aab8;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.action-circle-btn {
+  background-color: #fff0f0;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff8877;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.action-circle-btn:hover {
+  transform: scale(1.05);
+}
+
+.user-profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.user-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Corpo Laranja */
+.cardapio-dashboard-body {
+  background-color: #ffc4ab;
+  flex: 1;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Botões Superiores */
+.top-action-buttons {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.btn-primary-orange {
+  background-color: #ff5500;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 85, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-primary-orange:hover {
+  background-color: #e04b00;
+  transform: translateY(-1px);
+}
+
+.btn-danger-action {
+  background-color: #ff5500;
+}
+
+/* Card da Tabela */
+.cardapio-table-container {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+  min-height: 360px;
+}
+
+/* Abas */
+.categories-tab-bar {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.category-tab-item {
+  background: none;
+  border: none;
+  color: #ff8b66;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.4rem 0.2rem;
+  position: relative;
+  white-space: nowrap;
+}
+
+.category-tab-item.active {
+  color: #ff5500;
+  font-weight: 700;
+}
+
+.category-tab-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -0.85rem;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #ff5500;
+  border-radius: 2px;
+}
+
+/* Tabela de Produtos */
+.menu-items-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item-row {
+  display: grid;
+  grid-template-columns: 40px 60px 2.2fr 1.6fr 1.2fr 140px;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #f7f7f7;
+  font-size: 0.85rem;
+}
+
+.menu-item-row:last-child {
+  border-bottom: none;
+}
+
+.item-camera-icon {
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.item-code {
+  font-weight: 700;
+  color: #2b2b2b;
+}
+
+.item-title {
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+/* Botão Rápido de Toggle de Estoque */
+.btn-toggle-stock {
+  border: none;
+  border-radius: 20px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.btn-toggle-stock.in-stock {
+  background-color: #e6f9ed;
+  color: #12b76a;
+  border: 1px solid #a6f4c5;
+}
+
+.btn-toggle-stock.in-stock:hover {
+  background-color: #d1fadf;
+}
+
+.btn-toggle-stock.out-stock {
+  background-color: #ffe4e4;
+  color: #d92d20;
+  border: 1px solid #fecdca;
+}
+
+.btn-toggle-stock.out-stock:hover {
+  background-color: #fecdca;
+}
+
+.item-cost {
+  font-weight: 700;
+  color: #2b2b2b;
+}
+
+.item-actions-col {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-edit-item {
+  background-color: #ff5500;
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-edit-item:hover {
+  opacity: 0.9;
+}
+
+.btn-delete-single {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0.4rem;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.btn-delete-single:hover {
+  color: #d92d20;
+}
+
+.empty-table-message {
+  padding: 2.5rem;
+  text-align: center;
+  color: #888;
+  font-weight: 500;
+}
+
+/* Paginação */
+.cardapio-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.btn-page-step {
+  background: none;
+  border: none;
+  color: #333333;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.btn-page-step:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-numbers {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.btn-page-number {
+  background: none;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #333333;
+  cursor: pointer;
+}
+
+.btn-page-number.active {
+  background-color: #ff5500;
+  color: #ffffff;
+}
+
+/* Modal Styling */
+.cardapio-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.cardapio-modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.8rem;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.modal-header h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #888;
+  cursor: pointer;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #ff5500;
+}
+
+.form-group-row {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.btn-save-modal {
+  flex: 1;
+  background-color: #ff5500;
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-cancel-modal {
+  background-color: #eee;
+  color: #444;
+  border: none;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+}

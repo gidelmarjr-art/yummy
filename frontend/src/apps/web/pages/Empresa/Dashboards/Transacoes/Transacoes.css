@@ -1,0 +1,325 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.transacoes-page-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fcfcfc;
+  font-family: 'Inter', sans-serif;
+  color: #333333;
+}
+
+.transacoes-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.transacoes-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.5rem;
+  background-color: #ffffff;
+}
+
+.page-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f2f4f8;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  width: 240px;
+}
+
+.search-icon {
+  color: #a0aab8;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.action-circle-btn {
+  background-color: #fff0f0;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff8877;
+  cursor: pointer;
+}
+
+.user-profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.user-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Corpo Laranja */
+.transacoes-dashboard-body {
+  background-color: #ffc4ab;
+  flex: 1;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Cards do Topo */
+.metrics-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.metric-summary-card {
+  background-color: #ffffff;
+  border-radius: 18px;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.metric-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.cyan-bg { background-color: #e0fbf6; }
+.icon-cyan { color: #00d2b5; }
+
+.pink-bg { background-color: #ffe8f0; }
+.icon-pink { color: #ff4d8d; }
+
+.blue-bg { background-color: #e8f0fe; }
+.icon-blue { color: #3b82f6; }
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 0.78rem;
+  color: #718096;
+  font-weight: 600;
+}
+
+.metric-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-top: 2px;
+}
+
+/* Gráficos do Meio */
+.charts-two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.transacoes-chart-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+}
+
+.transacoes-chart-card.highlight-border {
+  border: 2px solid #0088ff;
+}
+
+.transacoes-chart-card h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 1.2rem 0;
+}
+
+/* Seção Inferior */
+.bottom-two-columns {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1.5rem;
+}
+
+.investments-list-section h3,
+.trending-stock-section h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+}
+
+.investments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.investment-item-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.investment-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.investment-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.investment-names {
+  display: flex;
+  flex-direction: column;
+}
+
+.investment-names strong {
+  font-size: 0.9rem;
+  color: #1a1a1a;
+}
+
+.investment-names span {
+  font-size: 0.75rem;
+  color: #a0aec0;
+}
+
+.investment-right {
+  display: flex;
+  gap: 2rem;
+}
+
+.investment-val-group,
+.investment-return-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.investment-val-group strong,
+.investment-return-group strong {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.investment-val-group span,
+.investment-return-group span {
+  font-size: 0.72rem;
+  color: #a0aec0;
+}
+
+/* Tabela Trending Stock */
+.trending-stock-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.trending-table-wrapper {
+  background-color: #ffffff;
+  border-radius: 18px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  flex: 1;
+}
+
+.trending-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.trending-table th {
+  text-align: left;
+  color: #a0aec0;
+  font-weight: 600;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.trending-table td {
+  padding: 0.75rem 0;
+  color: #2d3748;
+}
+
+.sl-col {
+  color: #a0aec0;
+  font-weight: 600;
+}
+
+.name-col {
+  font-weight: 700;
+}
+
+.price-col {
+  font-weight: 700;
+}
+
+.return-col {
+  font-weight: 800;
+  text-align: right;
+}
+
+.trending-table th:last-child {
+  text-align: right;
+}
+
+/* Cores de Retorno */
+.text-positive {
+  color: #10b981;
+}
+
+.text-negative {
+  color: #ef4444;
+}
