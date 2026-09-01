@@ -264,16 +264,19 @@ export default function LandingPage() {
             <a href="#fluxo">O fluxo</a>
             <a href="#modulos">Módulos</a>
             <a href="#tempo-real">Tempo real</a>
-             <Link to="/Sobre">Sobre nós</Link>
+            <Link to="/Sobre">Sobre nós</Link>
           </nav>
-          <a href="#cta" className="btn btn--ghost">Falar com o time</a>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <Link to="/login" className="btn btn--ghost">Entrar</Link>
+            <a href="#cta" className="btn btn--ghost">Falar com o time</a>
+          </div>
         </div>
       </header>
 
       <section className="hero">
         <div className="hero__inner">
           <div className="hero__copy">
-            <p className="hero__eyebrow">Sistema omnichannel para restaurantes</p>
+            <p className="hero__eyebrow">Sistema omnichannel para restaurantes[cite: 9]</p>
             <h1 className="hero__title">
               <span className="line">O pedido entra</span>
               <span className="line em">uma única vez.</span>
@@ -466,7 +469,7 @@ export default function LandingPage() {
       </section>
 
       <footer className="footer">
-        <span>Yummy © 2026</span>
+        <span>Yummy © 2026[cite: 10]</span>
         <span>Feito com <Heart size={14} fill="currentColor" style={{ display: "inline", verticalAlign: "middle", margin: "0 2px" }} /> para a indústria de restaurantes.</span>
       </footer>
     </div>
