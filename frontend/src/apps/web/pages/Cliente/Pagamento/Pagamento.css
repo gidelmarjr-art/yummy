@@ -1,0 +1,614 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.payment-page-bg {
+  min-height: 100vh;
+  background-color: #fff6f0;
+  color: #2b2b2b;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  padding: 1.5rem 2rem 3rem 2rem;
+  box-sizing: border-box;
+}
+
+/* Header */
+.payment-header {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto 2rem auto;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: #f26624;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.btn-back:hover {
+  transform: translateX(-4px);
+}
+
+.payment-page-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #f26624;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+/* Layout Principal */
+.payment-main-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+/* Coluna da Esquerda (Imagens) */
+.payment-brand-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.brand-logo-wrapper {
+  max-width: 240px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.brand-logo-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.mascot-illustration-wrapper {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  justify-content: center;
+}
+
+.mascot-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(242, 102, 36, 0.08));
+}
+
+/* Card Principal */
+.payment-card-side {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 2.2rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+/* Seções */
+.payment-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #a0a0a0;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.2rem 0;
+}
+
+/* Lista de Itens */
+.order-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #333333;
+}
+
+.item-title {
+  font-weight: 500;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #a0a0a0;
+}
+
+/* Financeiro */
+.financial-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #a0a0a0;
+  font-weight: 600;
+}
+
+.summary-line.total {
+  font-size: 1rem;
+  color: #1a1a1a;
+  margin-top: 0.2rem;
+}
+
+.summary-line.total strong {
+  font-weight: 800;
+}
+
+/* Endereço */
+.address-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.address-text {
+  font-size: 0.9rem;
+  color: #333333;
+  font-weight: 500;
+}
+
+.btn-change-address {
+  background: none;
+  border: none;
+  color: #f26624;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.btn-change-address:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* Métodos de Pagamento */
+.payment-methods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.method-option {
+  width: 100%;
+  background: #f7f7f7;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: #333333;
+  box-sizing: border-box;
+}
+
+.method-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.method-icon {
+  font-size: 1.1rem;
+}
+
+.check-icon {
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.method-option.active {
+  background: #f26624;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(242, 102, 36, 0.3);
+}
+
+.method-option:hover:not(.active) {
+  background: #eaeaea;
+}
+
+/* Botão Confirmar */
+.confirm-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.btn-confirm-payment {
+  width: 80%;
+  background-color: #f26624;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 1.5rem;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(242, 102, 36, 0.3);
+  transition: all 0.25s ease;
+}
+
+.btn-confirm-payment:hover {
+  background-color: #e05312;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(242, 102, 36, 0.4);
+}
+
+/* Responsividade */
+@media (max-width: 860px) {
+  .payment-main-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .payment-brand-side {
+    display: none;
+  }
+
+  .payment-card-side {
+    padding: 1.5rem;
+  }
+
+  .btn-confirm-payment {
+    width: 100%;
+  }
+}
+
+/* Ícone de endereço */
+.address-icon {
+  color: #f26624;
+  margin-right: 4px;
+}
+
+/* Formulário de edição de endereço */
+.address-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.address-input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #f26624;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.address-form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-save-addr {
+  background: #f26624;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-cancel-addr {
+  background: #eee;
+  color: #555;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* Painéis extras das formas de pagamento */
+.method-extra-panel {
+  background: #fff8f4;
+  border: 1px dashed #f26624;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  margin-top: -0.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-copy-pix {
+  background: #f26624;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+}
+
+.change-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.change-input {
+  width: 90px;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Loading no botão */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* Modal de Sucesso */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1rem;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.modal-success-icon {
+  font-size: 3.5rem;
+  color: #52c41a;
+  margin-bottom: 0.8rem;
+}
+
+.modal-content h2 {
+  margin: 0 0 0.5rem 0;
+  color: #1a1a1a;
+}
+
+.modal-content p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.2rem;
+}
+
+.modal-details {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 0.8rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+}
+
+.btn-modal-close {
+  width: 100%;
+  background: #f26624;
+  color: #fff;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+/* Estilos Específicos para Cartão de Crédito */
+.panel-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 0.2rem;
+}
+
+.cards-selection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.card-radio-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #ffffff;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.card-radio-item.selected {
+  border-color: #f26624;
+  background-color: #fffaf7;
+}
+
+.card-radio-item input[type="radio"] {
+  accent-color: #f26624;
+  cursor: pointer;
+}
+
+.card-radio-info {
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.btn-show-add-card {
+  background: none;
+  border: none;
+  color: #f26624;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  padding: 0.3rem 0;
+  margin-top: 0.2rem;
+  align-self: flex-start;
+}
+
+.btn-show-add-card:hover {
+  text-decoration: underline;
+}
+
+/* Formulário de Novo Cartão */
+.new-card-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  background: #ffffff;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.card-input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.card-input:focus {
+  border-color: #f26624;
+}
+
+.card-form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.btn-save-card {
+  background: #f26624;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-cancel-card {
+  background: #eee;
+  color: #555;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
