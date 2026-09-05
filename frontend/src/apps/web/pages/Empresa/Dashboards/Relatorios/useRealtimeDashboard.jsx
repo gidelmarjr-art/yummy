@@ -21,7 +21,7 @@ export function useRealtimeDashboard() {
     { day: "Sex", deposit: 390, withdraw: 330 },
   ]);
 
-  const [paymentData, setPaymentData] = useState([
+  const [paymentData] = useState([
     { name: "Crédito", value: 35, color: "#ff4d00" },
     { name: "Pix", value: 30, color: "#ffaa00" },
     { name: "Débito", value: 20, color: "#fce4d6" },

@@ -4,8 +4,6 @@ import {
   FaCog,
   FaBell,
   FaStore,
-  FaBellSlash,
-  FaShieldAlt,
   FaSave
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";

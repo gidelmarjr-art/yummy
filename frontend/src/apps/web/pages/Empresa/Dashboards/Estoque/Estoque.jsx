@@ -9,7 +9,6 @@ import {
   FaPrint,
   FaEye,
   FaTimes,
-  FaWarehouse
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import "./Estoque.css";

@@ -7,12 +7,9 @@ import {
   FaChevronDown,
   FaPlus,
   FaPrint,
-  FaCheckCircle,
   FaClock,
   FaEye,
   FaTimes,
-  FaMotorcycle,
-  FaUtensils
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import "./Pedidos.css";

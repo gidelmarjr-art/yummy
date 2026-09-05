@@ -6,7 +6,6 @@ import "./Header.css";
 
 export default function Header({ cartCount }) {
   const location = useLocation();
-  const isActive = (path) => location.pathname.toLowerCase() === path.toLowerCase();
 
   return (
     <header className="yummy-header">

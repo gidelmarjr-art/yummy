@@ -28,7 +28,7 @@ export function useRealtimeTransactions() {
     { year: "Jun", revenue: 34000 },
   ]);
 
-  const [channelsData, setChannelsData] = useState([
+  const [channelsData] = useState([
     {
       id: 1,
       name: "App Yummy (Delivery)",
@@ -64,7 +64,7 @@ export function useRealtimeTransactions() {
     },
   ]);
 
-  const [recentTransactions, setRecentTransactions] = useState([
+  const [recentTransactions] = useState([
     { id: "#1024", name: "Lucas Silva", price: "R$ 120,00", status: "Pix (Aprovado)", isPositive: true },
     { id: "#1023", name: "Maria Oliveira", price: "R$ 85,50", status: "Crédito", isPositive: true },
     { id: "#1022", name: "João Santos", price: "R$ 42,00", status: "Estornado", isPositive: false },

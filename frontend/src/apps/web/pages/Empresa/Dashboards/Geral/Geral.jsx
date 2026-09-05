@@ -8,7 +8,6 @@ import {
   FaBoxes,
   FaUsers,
   FaDollarSign,
-  FaClock
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import "./Geral.css";
