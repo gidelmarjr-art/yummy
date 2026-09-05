@@ -17,39 +17,6 @@ export default function Header({ cartCount }) {
           </Link>
         </div>
 
-        <nav className="header-nav">
-          <Link 
-            to="/home" 
-            className={`nav-link ${isActive("/home") ? "active" : ""}`}
-          >
-            Home
-            {isActive("/home") && <span className="nav-indicator" />}
-          </Link>
-
-          <Link 
-            to="/restaurantes" 
-            className={`nav-link ${isActive("/restaurantes") ? "active" : ""}`}
-          >
-            Restaurantes
-            {isActive("/restaurantes") && <span className="nav-indicator" />}
-          </Link>
-
-          <Link 
-            to="/favoritos" 
-            className={`nav-link ${isActive("/favoritos") ? "active" : ""}`}
-          >
-            Favoritos
-            {isActive("/favoritos") && <span className="nav-indicator" />}
-          </Link>
-
-          <Link 
-            to="/Sobre" 
-            className={`nav-link ${isActive("/Sobre") ? "active" : ""}`}
-          >
-            Sobre Nós
-            {isActive("/Sobre") && <span className="nav-indicator" />}
-          </Link>
-        </nav>
 
         <div className="header-actions">
           <Link to="/carrinho" className="icon-btn" aria-label="Carrinho">
