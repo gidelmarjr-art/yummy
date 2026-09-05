@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa"; // FaSearch adicionado aqui
 import logoIcone from "../../../../imgs/LogoYummy.png";
 import "./Header.css";
