@@ -5,8 +5,6 @@ import logoIcone from "../../../../imgs/LogoYummy.png";
 import "./Header.css";
 
 export default function Header({ cartCount }) {
-  const location = useLocation();
-
   return (
     <header className="yummy-header">
       <div className="header-container">

@@ -3,7 +3,6 @@ import {
   FaSearch,
   FaCog,
   FaBell,
-  FaChartLine,
   FaUtensils,
   FaBoxes,
   FaUsers,
