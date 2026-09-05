@@ -163,40 +163,6 @@
   border: 2px solid #fff6f0;
 }
 
-.search-container {
-  position: relative;
-  max-width: 760px;
-  margin: 0 auto 2rem auto;
-}
-
-.search-icon {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
-  font-size: 1.1rem;
-}
-
-.search-container input {
-  width: 100%;
-  padding: 0.95rem 1rem 0.95rem 3.2rem;
-  border-radius: 30px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #ffffff;
-  font-size: 0.95rem;
-  outline: none;
-  color: #333;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-.search-container input:focus {
-  border-color: #f26624;
-  box-shadow: 0 10px 25px rgba(242, 102, 36, 0.12);
-}
-
 .restaurant-banner-card {
   background: #ffffff;
   border-radius: 24px;

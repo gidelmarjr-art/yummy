@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa"; // FaSearch adicionado aqui
 import logoIcone from "../../../../imgs/LogoYummy.png";
 import "./Header.css";
 
@@ -17,6 +17,11 @@ export default function Header({ cartCount }) {
           </Link>
         </div>
 
+        {/* Barra de pesquisa centralizada */}
+        <div className="search-container">
+          <FaSearch className="search-icon" />
+          <input type="text" placeholder="Pesquisar..." />
+        </div>
 
         <div className="header-actions">
           <Link to="/carrinho" className="icon-btn" aria-label="Carrinho">
