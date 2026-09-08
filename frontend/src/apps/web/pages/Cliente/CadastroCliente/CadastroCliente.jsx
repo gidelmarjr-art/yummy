@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Para redirecionar após o cadastro
+import axios from "axios";
 import { gsap } from "gsap";
 import { 
   FaEye, 
@@ -17,9 +19,61 @@ export default function CadastroCliente() {
   const containerRef = useRef(null);
   const cardRef = useRef(null);
   const mascotRef = useRef(null);
+  const navigate = useNavigate();
 
   const [showSenha, setShowSenha] = useState(false);
   const [showConfirmarSenha, setShowConfirmarSenha] = useState(false);
+
+  // Estados para capturar os dados do formulário
+  const [formData, setFormData] = useState({
+    nome_completo: "",
+    usuario: "", // email
+    telefone: "",
+    cpf: "",
+    endereco: "",
+    senha: "",
+    confirmarSenha: ""
+  });
+
+  const [erro, setErro] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCadastro = async (e) => {
+    e.preventDefault();
+    setErro("");
+
+    if (formData.senha !== formData.confirmarSenha) {
+      setErro("As senhas não coincidem!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const API_URL = process.env.REACT_APP_API_URL || "https://yummy-ms7e.onrender.com";
+      
+      // Enviando para a rota do FastAPI que ajustamos
+      await axios.post(`${API_URL}/auth/cadastrar`, {
+        usuario: formData.usuario,
+        senha: formData.senha,
+        nome_completo: formData.nome_completo,
+        telefone: formData.telefone,
+        cpf: formData.cpf,
+        endereco: formData.endereco
+      });
+
+      alert("Cadastro realizado com sucesso!");
+      navigate("/login"); // Redireciona para o login
+    } catch (err) {
+      console.error(err);
+      setErro(err.response?.data?.detail || "Erro ao realizar cadastro. Verifique os dados.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -113,32 +167,69 @@ export default function CadastroCliente() {
         <div className="cadastro-card" ref={cardRef}>
           <h2 className="form-title stagger-item">Cadastro Cliente</h2>
 
-          <form className="cadastro-form" onSubmit={(e) => e.preventDefault()}>
+          {erro && <div style={{ color: "red", marginBottom: "10px", fontSize: "14px" }} className="stagger-item">{erro}</div>}
+
+          <form className="cadastro-form" onSubmit={handleCadastro}>
             <div className="input-group stagger-item">
               <label>*Nome Completo</label>
-              <input type="text" placeholder="Seu nome" required />
+              <input 
+                type="text" 
+                name="nome_completo" 
+                placeholder="Seu nome" 
+                value={formData.nome_completo} 
+                onChange={handleChange} 
+                required 
+              />
             </div>
 
             <div className="input-group stagger-item">
               <label>*E-mail</label>
-              <input type="email" placeholder="seu@email.com" required />
+              <input 
+                type="email" 
+                name="usuario" 
+                placeholder="seu@email.com" 
+                value={formData.usuario} 
+                onChange={handleChange} 
+                required 
+              />
             </div>
 
             <div className="form-row">
               <div className="input-group stagger-item">
                 <label>*Telefone</label>
-                <input type="tel" placeholder="(00) 00000-0000" required />
+                <input 
+                  type="tel" 
+                  name="telefone" 
+                  placeholder="(00) 00000-0000" 
+                  value={formData.telefone} 
+                  onChange={handleChange} 
+                  required 
+                />
               </div>
 
               <div className="input-group stagger-item">
                 <label>*CPF</label>
-                <input type="text" placeholder="000.000.000-00" required />
+                <input 
+                  type="text" 
+                  name="cpf" 
+                  placeholder="000.000.000-00" 
+                  value={formData.cpf} 
+                  onChange={handleChange} 
+                  required 
+                />
               </div>
             </div>
 
             <div className="input-group stagger-item">
               <label>*Endereço</label>
-              <input type="text" placeholder="Rua, Número, Bairro" required />
+              <input 
+                type="text" 
+                name="endereco" 
+                placeholder="Rua, Número, Bairro" 
+                value={formData.endereco} 
+                onChange={handleChange} 
+                required 
+              />
             </div>
 
             <div className="form-row">
@@ -147,7 +238,10 @@ export default function CadastroCliente() {
                 <div className="password-wrapper">
                   <input 
                     type={showSenha ? "text" : "password"} 
+                    name="senha"
                     placeholder="••••••••" 
+                    value={formData.senha}
+                    onChange={handleChange}
                     required 
                   />
                   <button 
@@ -164,7 +258,10 @@ export default function CadastroCliente() {
                 <div className="password-wrapper">
                   <input 
                     type={showConfirmarSenha ? "text" : "password"} 
+                    name="confirmarSenha"
                     placeholder="••••••••" 
+                    value={formData.confirmarSenha}
+                    onChange={handleChange}
                     required 
                   />
                   <button 
@@ -183,8 +280,8 @@ export default function CadastroCliente() {
               <label htmlFor="terms">Li e aceito os termos de serviço</label>
             </div>
 
-            <button type="submit" className="btn-submit stagger-item">
-              CADASTRAR
+            <button type="submit" className="btn-submit stagger-item" disabled={loading}>
+              {loading ? "CADASTRANDO..." : "CADASTRAR"}
             </button>
 
             <div className="form-footer stagger-item">
