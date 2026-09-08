@@ -9,6 +9,9 @@ import {
   LayoutDashboard,
   ShieldCheck,
   User,
+  Target,
+  Eye,
+  Heart,
 } from "lucide-react";
 import "./Sobre.css";
 
@@ -17,6 +20,24 @@ gsap.registerPlugin(ScrollTrigger);
 /* ------------------------------------------------------------------ */
 /* Conteúdo                                                           */
 /* ------------------------------------------------------------------ */
+
+const MISSAO_VISAO_VALORES = [
+  {
+    icon: <Target size={24} />,
+    titulo: "Missão",
+    desc: "Simplificar a gestão de pedidos e aproximar restaurantes e clientes por meio de tecnologia acessível, ágil e transparente.",
+  },
+  {
+    icon: <Eye size={24} />,
+    titulo: "Visão",
+    desc: "Ser a plataforma referência em automação e experiência para o setor de alimentação, transformando a rotina de milhares de estabelecimentos.",
+  },
+  {
+    icon: <Heart size={24} />,
+    titulo: "Valores",
+    desc: "Transparência nas relações, paixão por simplificar, foco genuíno no sucesso do parceiro e inovação contínua.",
+  },
+];
 
 const NUMEROS = [
   { valor: "500+", label: "Restaurantes" },
@@ -76,6 +97,20 @@ export default function SobrePage() {
         stagger: 0.12,
         duration: 0.7,
         ease: "power3.out",
+      });
+
+      gsap.utils.toArray(".mvv-card").forEach((card, i) => {
+        gsap.from(card, {
+          opacity: 0,
+          y: 24,
+          duration: 0.6,
+          delay: i * 0.08,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+            toggleActions: "play none none reverse",
+          },
+        });
       });
 
       gsap.utils.toArray(".stat-card").forEach((card, i) => {
@@ -150,7 +185,7 @@ export default function SobrePage() {
         </div>
       </header>
 
-      {/* ---------------- HERO / MISSÃO ---------------- */}
+      {/* ---------------- HERO / PROPÓSITO ---------------- */}
       <section className="about-hero">
         <div className="section__head">
           <p className="eyebrow about-hero__eyebrow">Sobre nós</p>
@@ -163,6 +198,24 @@ export default function SobrePage() {
             funcionários devem ter total visibilidade e controle sobre cada
             solicitação que recebem.
           </p>
+        </div>
+      </section>
+
+      {/* ---------------- MISSÃO, VISÃO E VALORES ---------------- */}
+      <section className="mvv">
+        <div className="section__head">
+          <p className="eyebrow">Diretrizes</p>
+          <h2>Missão, Visão e Valores.</h2>
+        </div>
+
+        <div className="mvv__grid">
+          {MISSAO_VISAO_VALORES.map((item) => (
+            <div className="mvv-card" key={item.titulo}>
+              <span className="mvv-card__icon">{item.icon}</span>
+              <h3>{item.titulo}</h3>
+              <p>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 

@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.dashboard-page-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fcfcfc;
+  font-family: 'Inter', sans-serif;
+  color: #333333;
+}
+
+.dashboard-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Superior */
+.dashboard-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.5rem;
+  background-color: #ffffff;
+}
+
+.page-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f2f4f8;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  width: 240px;
+}
+
+.search-icon {
+  color: #a0aab8;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.action-circle-btn {
+  background-color: #fff0f0;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff8877;
+  cursor: pointer;
+}
+
+.user-profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.user-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Corpo Laranja do Dashboard */
+.dashboard-body-content {
+  background-color: #ffc4ab;
+  flex: 1;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Cards de Resumo Superior (Métricas) */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+}
+
+.metric-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #888;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.metric-icon-wrapper {
+  color: #ff5500;
+  font-size: 1.1rem;
+}
+
+.metric-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.metric-footer {
+  font-size: 0.75rem;
+  color: #15803d;
+  font-weight: 700;
+}
+
+/* Container de Informações Gerais / Seções */
+.dashboard-sections-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.dashboard-card-container {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Lista de Pedidos Recentes no Dashboard */
+.recent-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.recent-order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f7f7f7;
+  font-size: 0.85rem;
+}
+
+.recent-order-item:last-child {
+  border-bottom: none;
+}
+
+.order-info-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-client {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.order-detail-sub {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.status-pill {
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.72rem;
+}
+
+.status-novos { background: #e0f2fe; color: #0369a1; }
+.status-em-preparo { background: #fff7ed; color: #c2410c; }
+.status-prontos { background: #fef9c3; color: #a16207; }
+.status-entregues { background: #f0fdf4; color: #15803d; }
+
+.order-price {
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+/* Alertas de Estoque no Dashboard */
+.stock-alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.stock-alert-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f7f7f7;
+  font-size: 0.85rem;
+}
+
+.stock-name {
+  font-weight: 700;
+  color: #333;
+}
+
+.stock-badge-critical {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.stock-badge-low {
+  background-color: #fef9c3;
+  color: #a16207;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}

@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
-import { 
-  FaGoogle, 
-  FaFacebook, 
-  FaApple, 
-  FaEye, 
+import {
+  FaGoogle,
+  FaFacebook,
+  FaApple,
+  FaEye,
   FaEyeSlash,
   FaPizzaSlice,
   FaHamburger,
   FaUtensils,
-  FaIceCream
+  FaIceCream,
 } from "react-icons/fa";
 import "./LoginCliente.css";
 
@@ -19,35 +21,50 @@ export default function LoginCliente() {
   const containerRef = useRef(null);
   const cardRef = useRef(null);
   const logoRef = useRef(null);
+  const navigate = useNavigate();
 
   const [showSenha, setShowSenha] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Aqui você pode adicionar sua lógica de autenticação futuramente.
+    // Redireciona para a página inicial (ajuste a rota se necessário, ex: "/" ou "/home")
+    navigate("/home");
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         logoRef.current,
         { opacity: 0, y: -30, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" }
+        { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" },
       );
 
       gsap.fromTo(
         cardRef.current,
         { opacity: 0, y: 40, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: "power3.out", delay: 0.2 }
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          delay: 0.2,
+        },
       );
 
       gsap.fromTo(
         ".stagger-item",
         { opacity: 0, y: 15 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          stagger: 0.06, 
-          duration: 0.5, 
-          ease: "power2.out", 
-          delay: 0.35 
-        }
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.06,
+          duration: 0.5,
+          ease: "power2.out",
+          delay: 0.35,
+        },
       );
 
       gsap.to(logoRef.current, {
@@ -55,7 +72,7 @@ export default function LoginCliente() {
         duration: 2.5,
         yoyo: true,
         repeat: -1,
-        ease: "power1.inOut"
+        ease: "power1.inOut",
       });
 
       const handleMouseMove = (e) => {
@@ -67,13 +84,12 @@ export default function LoginCliente() {
           x: xPos,
           y: yPos,
           duration: 1,
-          ease: "power1.out"
+          ease: "power1.out",
         });
       };
 
       window.addEventListener("mousemove", handleMouseMove);
       return () => window.removeEventListener("mousemove", handleMouseMove);
-
     }, containerRef);
 
     return () => ctx.revert();
@@ -100,7 +116,7 @@ export default function LoginCliente() {
         <div className="login-card" ref={cardRef}>
           <h2 className="form-title stagger-item">Login</h2>
 
-          <form className="login-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="login-form" onSubmit={handleLogin}>
             <div className="input-group stagger-item">
               <label>*E-mail</label>
               <input type="email" placeholder="seu@email.com" required />
@@ -109,14 +125,14 @@ export default function LoginCliente() {
             <div className="input-group stagger-item relative-input">
               <label>*Senha</label>
               <div className="password-wrapper">
-                <input 
-                  type={showSenha ? "text" : "password"} 
-                  placeholder="••••••••" 
-                  required 
+                <input
+                  type={showSenha ? "text" : "password"}
+                  placeholder="••••••••"
+                  required
                 />
-                <button 
-                  type="button" 
-                  className="toggle-password" 
+                <button
+                  type="button"
+                  className="toggle-password"
                   onClick={() => setShowSenha(!showSenha)}
                 >
                   {showSenha ? <FaEyeSlash /> : <FaEye />}
@@ -141,13 +157,15 @@ export default function LoginCliente() {
             </div>
 
             <div className="forgot-password stagger-item">
-              <p>Esqueceu a senha? <a href="/recuperar-senha">Clique aqui</a></p>
+              <p>
+                Esqueceu a senha? <Link to="/redefinir-senha">Clique aqui</Link>
+              </p>
             </div>
 
             <div className="checkbox-group stagger-item">
-              <input 
-                type="checkbox" 
-                id="remember" 
+              <input
+                type="checkbox"
+                id="remember"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
               />
@@ -159,7 +177,9 @@ export default function LoginCliente() {
             </button>
 
             <div className="form-footer stagger-item">
-              <p>Não possui uma conta? <a href="/cadastro">Clique aqui</a></p>
+              <p>
+                Não possui uma conta? <a href="/cadastro">Clique aqui</a>
+              </p>
             </div>
           </form>
         </div>

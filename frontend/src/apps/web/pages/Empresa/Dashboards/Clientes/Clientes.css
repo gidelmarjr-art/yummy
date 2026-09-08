@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.clientes-page-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fcfcfc;
+  font-family: 'Inter', sans-serif;
+  color: #333333;
+}
+
+.clientes-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.clientes-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.5rem;
+  background-color: #ffffff;
+}
+
+.page-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f2f4f8;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  width: 240px;
+}
+
+.search-icon {
+  color: #a0aab8;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.action-circle-btn {
+  background-color: #fff0f0;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff8877;
+  cursor: pointer;
+}
+
+.user-profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.user-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Corpo Laranja */
+.clientes-dashboard-body {
+  background-color: #ffc4ab;
+  flex: 1;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.clientes-table-container {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+  min-height: 400px;
+}
+
+.clientes-items-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.cliente-row-item {
+  display: grid;
+  grid-template-columns: 40px 2fr 1.5fr 1.2fr 120px;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f7f7f7;
+  font-size: 0.85rem;
+}
+
+.cliente-row-item:last-child {
+  border-bottom: none;
+}
+
+.cliente-icon {
+  font-size: 1.1rem;
+  color: #1a1a1a;
+}
+
+.cliente-name-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.cliente-name {
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.cliente-email {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.cliente-phone, .cliente-orders {
+  font-weight: 600;
+  color: #555;
+}
+
+.btn-view-details {
+  background-color: #eee;
+  color: #333;
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.empty-msg {
+  padding: 3rem;
+  text-align: center;
+  color: #888;
+}
+
+/* Modais */
+.clientes-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.clientes-modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.8rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-header h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #888;
+  cursor: pointer;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.btn-cancel-modal {
+  flex: 1;
+  background-color: #eee;
+  color: #444;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}

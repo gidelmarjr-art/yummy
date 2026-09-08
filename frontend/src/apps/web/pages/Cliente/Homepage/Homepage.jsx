@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { 
-  FaSearch, 
   FaStar, 
   FaPlus,
   FaPizzaSlice,
   FaHamburger,
   FaUtensils,
   FaIceCream
-} from "react-icons/fa";
+} from "react-icons/fa"; // FaSearch removido daqui
 import "./Homepage.css";
 
 import Header from "../../../components/Header/Header";
@@ -103,10 +102,7 @@ export default function Home() {
 
       <div className="home-main-layout">
 
-        <div className="search-container">
-          <FaSearch className="search-icon" />
-          <input type="text" placeholder="Pesquisar..." />
-        </div>
+        {/* O search-container foi removido daqui e levado para o Header */}
 
         <div className="restaurant-banner-card" ref={bannerRef}>
           <div className="banner-cover-wrapper">

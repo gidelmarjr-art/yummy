@@ -221,3 +221,55 @@
   font-size: 0.92rem;
   color: var(--ink);
 }
+
+/* ---------- MISSÃO, VISÃO E VALORES ---------- */
+
+.mvv__grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+}
+
+@media (max-width: 900px) {
+  .mvv__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mvv-card {
+  background: var(--navy-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.mvv-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 149, 0, 0.14);
+  color: var(--orange);
+  margin-bottom: 0.4rem;
+}
+
+.mvv-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--ink);
+}
+
+.mvv-card p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0;
+  line-height: 1.5;
+}

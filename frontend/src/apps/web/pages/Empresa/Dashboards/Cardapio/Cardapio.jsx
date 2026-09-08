@@ -11,7 +11,6 @@ FaSearch,
   FaPlus,
   FaTrashAlt,
   FaTimes,
-  FaEdit
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import "./Cardapio.css";

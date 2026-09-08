@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
-import Carrinho_Item from "../../../components/Carrinho/Carrinho_Item";
+import CarrinhoItem from "../../../components/Carrinho/Carrinho_Item";
 import "./Carrinho.css";
 import { FaTag, FaRegStickyNote, FaShoppingBag } from "react-icons/fa";
 
@@ -21,6 +22,7 @@ const INITIAL_CART = [
 
 export default function Cart() {
   const containerRef = useRef(null);
+  const navigate = useNavigate(); // <-- Declaração do hook aqui
   const [cartItems, setCartItems] = useState(INITIAL_CART);
   const [couponCode, setCouponCode] = useState("");
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -41,7 +43,6 @@ export default function Cart() {
     return () => ctx.revert();
   }, [cartItems.length]);
 
-  // Modificar quantidade do produto
   const handleQuantityChange = (id, delta) => {
     setCartItems((prev) =>
       prev.map((item) =>
@@ -50,12 +51,10 @@ export default function Cart() {
     );
   };
 
-  // Remover item do carrinho
   const handleRemoveItem = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // Aplicar Cupom
   const handleApplyCoupon = (e) => {
     e.preventDefault();
     if (couponCode.trim().toUpperCase() === "YUMMY10") {
@@ -67,7 +66,6 @@ export default function Cart() {
     }
   };
 
-  // Cálculos de totais
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const discountAmount = (subtotal * discountPercent) / 100;
   const totalAmount = subtotal > 0 ? subtotal + DELIVERY_FEE - discountAmount : 0;
@@ -80,8 +78,7 @@ export default function Cart() {
       <main className="cart-container">
         <h1 className="cart-page-title stagger-cart">Meu carrinho</h1>
 
-        {Carrinho_Item.length === 0 ? (
-          /* Estado Vazio */
+        {cartItems.length === 0 ? (
           <div className="empty-cart-card stagger-cart">
             <FaShoppingBag className="empty-cart-icon" />
             <h2>Seu carrinho está vazio</h2>
@@ -92,7 +89,6 @@ export default function Cart() {
           </div>
         ) : (
           <div className="cart-content-wrapper">
-            {/* Restaurante */}
             <div className="restaurant-summary-card stagger-cart">
               <img src={RESTAURANT_AVATAR} alt="Codó burger" className="restaurant-summary-avatar" />
               <div className="restaurant-summary-details">
@@ -103,10 +99,9 @@ export default function Cart() {
               </div>
             </div>
 
-            {/* Lista de Itens */}
             <div className="cart-items-list stagger-cart">
               {cartItems.map((item) => (
-                <Carrinho_Item
+                <CarrinhoItem
                   key={item.id}
                   item={item}
                   onQuantityChange={handleQuantityChange}
@@ -115,7 +110,6 @@ export default function Cart() {
               ))}
             </div>
 
-            {/* Observação para o restaurante */}
             <div className="cart-section-card stagger-cart">
               <div className="section-card-title">
                 <FaRegStickyNote /> Observação do pedido
@@ -129,7 +123,6 @@ export default function Cart() {
               />
             </div>
 
-            {/* Cupom de Desconto */}
             <div className="cart-section-card stagger-cart">
               <div className="section-card-title">
                 <FaTag /> Cupom de desconto
@@ -151,7 +144,6 @@ export default function Cart() {
               )}
             </div>
 
-            {/* Detalhamento de Valores */}
             <div className="cart-total-card stagger-cart">
               <div className="summary-row">
                 <span>Subtotal</span>
@@ -174,9 +166,8 @@ export default function Cart() {
               </div>
             </div>
 
-            {/* Botão de Finalizar */}
             <div className="cart-action-container stagger-cart">
-              <button className="btn-continue" onClick={() => console.log("Ir para Checkout")}>
+              <button className="btn-continue" onClick={() => navigate("/pagamento")}>
                 Continuar
               </button>
             </div>

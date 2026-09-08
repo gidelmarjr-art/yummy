@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   FaHome,
   FaUtensils,
@@ -12,22 +13,24 @@ import {
 } from "react-icons/fa";
 import "./Sidebar.css";
 
-// Substitua pelo caminho exato da sua imagem de logo
 import logoImg from "../../../../imgs/LogoYummy_2.png";
 
 const NAV_ITEMS = [
-  { name: "Dashboard", icon: <FaHome /> },
-  { name: "Pedidos", icon: <FaUtensils /> },
-  { name: "Cardápio", icon: <FaClipboardList />, active: true },
-  { name: "Operacionais", icon: <FaTools /> },
-  { name: "Transactions", icon: <FaExchangeAlt /> },
-  { name: "Relatórios", icon: <FaChartBar /> },
-  { name: "Clientes", icon: <FaUsers /> },
-  { name: "Segurança", icon: <FaLock /> },
-  { name: "Configurações", icon: <FaCog /> },
+  { name: "Geral", path: "/dashboard", icon: <FaHome /> },
+  { name: "Pedidos", path: "/pedidos", icon: <FaUtensils /> },
+  { name: "Cardápio", path: "/cardapio", icon: <FaClipboardList /> },
+  { name: "Operacionais", path: "/estoque", icon: <FaTools /> },
+  { name: "Transactions", path: "/transacoes", icon: <FaExchangeAlt /> },
+  { name: "Relatórios", path: "/relatorios", icon: <FaChartBar /> },
+  { name: "Clientes", path: "/clientes", icon: <FaUsers /> },
+  { name: "Segurança", path: "/seguranca", icon: <FaLock /> },
+  { name: "Configurações", path: "/Configuracoes", icon: <FaCog /> },
 ];
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <aside className="sidebar-container">
       <div className="sidebar-logo">
@@ -35,15 +38,20 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        {NAV_ITEMS.map((item) => (
-          <button
-            key={item.name}
-            className={`sidebar-btn ${item.active ? "active" : ""}`}
-          >
-            <span className="sidebar-icon">{item.icon}</span>
-            <span className="sidebar-label">{item.name}</span>
-          </button>
-        ))}
+        {NAV_ITEMS.map((item) => {
+          const isActive = location.pathname === item.path;
+
+          return (
+            <button
+              key={item.name}
+              className={`sidebar-btn ${isActive ? "active" : ""}`}
+              onClick={() => navigate(item.path)}
+            >
+              <span className="sidebar-icon">{item.icon}</span>
+              <span className="sidebar-label">{item.name}</span>
+            </button>
+          );
+        })}
       </nav>
     </aside>
   );
