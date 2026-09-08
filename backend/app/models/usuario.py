@@ -6,6 +6,6 @@ class Usuario(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     usuario = Column(String, unique=True, index=True, nullable=False)
-    senha_hash = Column(String, nullable=False)
-    perfil = Column(String, nullable=False)
+    senha = Column(String, nullable=False)
+    perfil = Column(String, nullable=False, default="cliente")
     pin_seguranca = Column(String, nullable=True) # Apenas para gerentes
