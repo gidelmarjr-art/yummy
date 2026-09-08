@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { 
-  FaGoogle, 
-  FaFacebook, 
-  FaApple, 
   FaEye, 
   FaEyeSlash,
   FaPizzaSlice,
@@ -184,22 +181,6 @@ export default function CadastroCliente() {
             <div className="checkbox-group stagger-item">
               <input type="checkbox" id="terms" required />
               <label htmlFor="terms">Li e aceito os termos de serviço</label>
-            </div>
-
-            <div className="divider stagger-item">
-              <span>Entre com uma conta</span>
-            </div>
-
-            <div className="social-login stagger-item">
-              <button type="button" className="btn-social google">
-                <FaGoogle size={20} />
-              </button>
-              <button type="button" className="btn-social facebook">
-                <FaFacebook size={20} />
-              </button>
-              <button type="button" className="btn-social apple">
-                <FaApple size={20} />
-              </button>
             </div>
 
             <button type="submit" className="btn-submit stagger-item">

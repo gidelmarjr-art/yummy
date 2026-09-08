@@ -9,3 +9,7 @@ class Usuario(Base):
     senha = Column(String, nullable=False)
     perfil = Column(String, nullable=False, default="cliente")
     pin_seguranca = Column(String, nullable=True) # Apenas para gerentes
+    nome_completo = Column(String, nullable=True)
+    telefone = Column(String, nullable=True)
+    cpf = Column(String, nullable=True)
+    endereco = Column(String, nullable=True)

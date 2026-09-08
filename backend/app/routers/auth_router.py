@@ -20,7 +20,17 @@ def cadastrar_usuario(dados: UsuarioCreate, db: Session = Depends(get_db)):
         )
     
     senha_hash = gerar_hash_senha(dados.senha)
-    novo_usuario = Usuario(usuario=dados.usuario, senha=senha_hash)
+    
+    # Criando o usuário com todos os campos do formulário preenchidos
+    novo_usuario = Usuario(
+        usuario=dados.usuario,
+        senha=senha_hash,
+        nome_completo=dados.nome_completo,
+        telefone=dados.telefone,
+        cpf=dados.cpf,
+        endereco=dados.endereco,
+        perfil="cliente"  # Garante o perfil padrão
+    )
     
     db.add(novo_usuario)
     db.commit()
