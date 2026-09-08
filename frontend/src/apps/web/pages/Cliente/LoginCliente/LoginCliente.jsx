@@ -20,14 +20,38 @@ export default function LoginCliente() {
   const logoRef = useRef(null);
   const navigate = useNavigate();
 
+  const [usuario, setUsuario] = useState("");
+  const [senha, setSenha] = useState("");
   const [showSenha, setShowSenha] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar sua lógica de autenticação futuramente.
-    // Redireciona para a página inicial (ajuste a rota se necessário, ex: "/" ou "/home")
-    navigate("/home");
+
+    try {
+      // Altere para a URL do seu backend no Render quando fizer o deploy, ou use localhost para testes
+      const response = await fetch("http://127.0.0.1:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ usuario, senha }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Usuário ou senha incorretos.");
+      }
+
+      const data = await response.json();
+      
+      // Salva o token JWT no navegador
+      localStorage.setItem("access_token", data.access_token);
+      
+      // Redireciona para a home após o sucesso
+      navigate("/home");
+    } catch (error) {
+      alert(error.message || "Erro ao conectar com o servidor.");
+    }
   };
 
   useEffect(() => {
@@ -115,8 +139,14 @@ export default function LoginCliente() {
 
           <form className="login-form" onSubmit={handleLogin}>
             <div className="input-group stagger-item">
-              <label>*E-mail</label>
-              <input type="email" placeholder="seu@email.com" required />
+              <label>*Usuário</label>
+              <input
+                type="text"
+                placeholder="Seu nome de usuário"
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+                required
+              />
             </div>
 
             <div className="input-group stagger-item relative-input">
@@ -125,6 +155,8 @@ export default function LoginCliente() {
                 <input
                   type={showSenha ? "text" : "password"}
                   placeholder="••••••••"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
                   required
                 />
                 <button
