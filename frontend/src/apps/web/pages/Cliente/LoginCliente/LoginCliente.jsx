@@ -29,8 +29,11 @@ export default function LoginCliente() {
     e.preventDefault();
 
     try {
-      // Altere para a URL do seu backend no Render quando fizer o deploy, ou use localhost para testes
-      const response = await fetch("http://127.0.0.1:8000/auth/login", {
+      // Usa a URL do .env; se não existir, cai para o backend do Render (produção)
+      const API_URL =
+        process.env.REACT_APP_API_URL || "https://yummy-ms7e.onrender.com";
+
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

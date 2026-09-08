@@ -1,15 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.usuario_schema import UsuarioCreate, UsuarioResponse
 from app.models.usuario import Usuario
 from app.security.auth import verificar_senha, gerar_token_jwt, gerar_hash_senha
 
+# 1. O router e os schemas DEVEM vir primeiro
 router = APIRouter(
     prefix="/auth",
     tags=["Autenticação"]
 )
 
+class LoginSchema(BaseModel):
+    usuario: str
+    senha: str
+
+# 2. As rotas vêm depois
 @router.post("/cadastrar", response_model=UsuarioResponse, status_code=status.HTTP_201_CREATED)
 def cadastrar_usuario(dados: UsuarioCreate, db: Session = Depends(get_db)):
     db_usuario = db.query(Usuario).filter(Usuario.usuario == dados.usuario).first()
@@ -21,7 +28,6 @@ def cadastrar_usuario(dados: UsuarioCreate, db: Session = Depends(get_db)):
     
     senha_hash = gerar_hash_senha(dados.senha)
     
-    # Criando o usuário com todos os campos do formulário preenchidos
     novo_usuario = Usuario(
         usuario=dados.usuario,
         senha=senha_hash,
@@ -29,7 +35,7 @@ def cadastrar_usuario(dados: UsuarioCreate, db: Session = Depends(get_db)):
         telefone=dados.telefone,
         cpf=dados.cpf,
         endereco=dados.endereco,
-        perfil="cliente"  # Garante o perfil padrão
+        perfil="cliente"
     )
     
     db.add(novo_usuario)
@@ -39,7 +45,7 @@ def cadastrar_usuario(dados: UsuarioCreate, db: Session = Depends(get_db)):
     return novo_usuario
 
 @router.post("/login", summary="Realizar login do usuário")
-def login(dados_login: UsuarioCreate, db: Session = Depends(get_db)):
+def login(dados_login: LoginSchema, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.usuario == dados_login.usuario).first()
     
     if not usuario or not verificar_senha(dados_login.senha, usuario.senha):
