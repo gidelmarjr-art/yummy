@@ -140,22 +140,6 @@ export default function LoginCliente() {
               </div>
             </div>
 
-            <div className="divider stagger-item">
-              <span>Entre com uma conta</span>
-            </div>
-
-            <div className="social-login stagger-item">
-              <button type="button" className="btn-social google">
-                <FaGoogle size={20} />
-              </button>
-              <button type="button" className="btn-social facebook">
-                <FaFacebook size={20} />
-              </button>
-              <button type="button" className="btn-social apple">
-                <FaApple size={20} />
-              </button>
-            </div>
-
             <div className="forgot-password stagger-item">
               <p>
                 Esqueceu a senha? <Link to="/redefinir-senha">Clique aqui</Link>
