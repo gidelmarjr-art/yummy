@@ -14,7 +14,6 @@ def criar_usuario():
     senha_hash = get_password_hash("123456")
     
     with engine.connect() as connection:
-        # 1. Apaga a tabela antiga que está sem os campos novos e recria com a estrutura completa
         connection.execute(text("DROP TABLE IF EXISTS usuarios CASCADE;"))
         
         connection.execute(text("""
@@ -30,14 +29,13 @@ def criar_usuario():
             );
         """))
         
-        # 2. Insere o usuário de teste com os dados da imagem
         sql = text("""
             INSERT INTO usuarios (usuario, senha, perfil, nome_completo, telefone, cpf, endereco)
             VALUES (:usuario, :senha, :perfil, :nome_completo, :telefone, :cpf, :endereco);
         """)
         
         connection.execute(sql, {
-            "usuario": "user@gmail.com",
+            "usuario": "user",  # Alterado para 'user' caso a tela peça o nome de usuário
             "senha": senha_hash,
             "perfil": "cliente",
             "nome_completo": "user da silva",
@@ -47,7 +45,7 @@ def criar_usuario():
         })
         
         connection.commit()
-        print("Tabela recriada e usuário cadastrado com sucesso no Render!")
+        print("Banco recriado! Tente logar com usuario: 'user' e senha: '123456'")
 
 if __name__ == "__main__":
     criar_usuario()
