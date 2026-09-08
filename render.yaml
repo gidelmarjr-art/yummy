@@ -2,7 +2,6 @@ services:
   - type: web
     name: yummy-backend
     env: python
-    region: ohio # Ou a região de sua preferência
     plan: free
     rootDir: backend
     buildCommand: pip install -r requirements.txt
