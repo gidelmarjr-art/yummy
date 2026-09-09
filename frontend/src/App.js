@@ -19,6 +19,7 @@ import Clientes from './apps/web/pages/Empresa/Dashboards/Clientes/Clientes';
 import Geral from './apps/web/pages/Empresa/Dashboards/Geral/Geral';
 import Configuracoes from './apps/web/pages/Empresa/Dashboards/Configuracoes/Configuracoes';
 import RedefinirSenha from "./apps/web/pages/Cliente/RedefinirSenha/RedefinirSenha";
+import Privacidade from "./apps/web/pages/Privacidade/Privacidade";
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
         <Route path="/dashboard" element={<Geral />} />
         <Route path="/configuracoes" element={<Configuracoes />} />
         <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+        <Route path="/privacidade" element={<Privacidade />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,0 +1,214 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+.privacy-page {
+  --navy: #02143a;
+  --navy-2: #081d4e;
+  --navy-3: #112a63;
+  --orange: #ff9500;
+  --orange-2: #ff9d00;
+  --cream: #fff3e9;
+  --ink: #eef2fb;
+  --muted: #93a3c9;
+  --line: rgba(238, 242, 251, 0.12);
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  min-height: 100vh;
+  width: 100%;
+  background: var(--navy);
+  color: var(--ink);
+  font-family: var(--font-body);
+  position: relative;
+  padding: 6.5rem 6vw 5rem;
+  box-sizing: border-box;
+}
+
+.privacy-page * {
+  box-sizing: border-box;
+}
+
+.privacy-page a {
+  color: inherit;
+}
+
+.privacy-page__back {
+  position: fixed;
+  top: 1.6rem;
+  left: 6vw;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.88rem;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.privacy-page__back:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  transform: translateX(-2px);
+}
+
+.privacy-page__inner {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.privacy-page__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin: 0 0 1rem;
+}
+
+.privacy-page__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 4.6vw, 3.2rem);
+  line-height: 1.1;
+  margin: 0 0 1.4rem;
+}
+
+.privacy-page__title-line {
+  display: block;
+}
+
+.privacy-page__title-line--em {
+  font-style: italic;
+  color: var(--orange);
+}
+
+.privacy-page__sub {
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.65;
+  max-width: 620px;
+  margin: 0 0 3.5rem;
+}
+
+.privacy-page__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  margin-bottom: 3rem;
+}
+
+.privacy-page__card {
+  background: var(--navy-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.8rem 1.7rem;
+}
+
+.privacy-page__card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 149, 0, 0.12);
+  color: var(--orange);
+  margin-bottom: 1rem;
+}
+
+.privacy-page__card h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0 0 0.9rem;
+}
+
+.privacy-page__card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.privacy-page__card li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.privacy-page__card li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+.privacy-page__contact {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  background: linear-gradient(135deg, rgba(255, 149, 0, 0.12), rgba(255, 149, 0, 0.03));
+  border: 1px solid rgba(255, 149, 0, 0.25);
+  border-radius: 16px;
+  padding: 1.8rem 2rem;
+}
+
+.privacy-page__contact-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.privacy-page__contact h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin: 0 0 0.4rem;
+}
+
+.privacy-page__contact p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.privacy-page__contact a {
+  font-weight: 700;
+  color: var(--orange);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .privacy-page {
+    padding: 6rem 6vw 4rem;
+  }
+
+  .privacy-page__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-page__contact {
+    flex-direction: column;
+  }
+}

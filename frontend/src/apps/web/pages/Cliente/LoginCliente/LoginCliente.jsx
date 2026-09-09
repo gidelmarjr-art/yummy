@@ -1,149 +1,212 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import {
-  FaEye,
-  FaEyeSlash,
-  FaPizzaSlice,
-  FaHamburger,
-  FaUtensils,
-  FaIceCream,
-} from "react-icons/fa";
+  Eye,
+  EyeOff,
+  ArrowLeft,
+  UtensilsCrossed,
+  MapPin,
+  Heart,
+  ShieldCheck,
+} from "lucide-react";
 import "./LoginCliente.css";
 
 import logoIcone from "../../../../../imgs/LogoYummy.png";
 
+// Progressão de status de um pedido — reforça a proposta de "tempo real"
+// usando o mesmo vocabulário de eventos já usado na Landing.
+const STATUS_PEDIDO = ["PEDIDO_CRIADO", "EM_PREPARO", "A_CAMINHO", "ENTREGUE"];
+
+const BENEFICIOS = [
+  {
+    icon: <UtensilsCrossed size={18} />,
+    titulo: "Pedido em tempo real",
+    texto: "Acompanhe cada etapa, do preparo à entrega.",
+  },
+  {
+    icon: <MapPin size={18} />,
+    titulo: "Endereços salvos",
+    texto: "Delivery mais rápido, sem redigitar nada.",
+  },
+  {
+    icon: <Heart size={18} />,
+    titulo: "Favoritos e histórico",
+    texto: "Peça de novo o que você já amou.",
+  },
+];
+
 export default function LoginCliente() {
-  const containerRef = useRef(null);
-  const cardRef = useRef(null);
-  const logoRef = useRef(null);
+  const rootRef = useRef(null);
+  const ticketRef = useRef(null);
   const navigate = useNavigate();
 
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [showSenha, setShowSenha] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [carregando, setCarregando] = useState(false);
+  const [erro, setErro] = useState(null);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErro(null);
+    setCarregando(true);
 
     try {
-      // Usa a URL do .env; se não existir, cai para o backend do Render (produção)
       const API_URL =
         process.env.REACT_APP_API_URL || "https://yummy-ms7e.onrender.com";
 
       const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, senha }),
       });
 
       if (!response.ok) {
-        throw new Error("Usuário ou senha incorretos.");
+        setErro({
+          codigo: "ERR_LOGIN_FAILED",
+          mensagem: "Usuário ou senha incorretos.",
+        });
+        return;
       }
 
       const data = await response.json();
-      
-      // Salva o token JWT no navegador
       localStorage.setItem("access_token", data.access_token);
-      
-      // Redireciona para a home após o sucesso
       navigate("/home");
     } catch (error) {
-      alert(error.message || "Erro ao conectar com o servidor.");
+      setErro({
+        codigo: "ERR_NETWORK",
+        mensagem: "Não foi possível conectar ao servidor. Tente novamente.",
+      });
+    } finally {
+      setCarregando(false);
     }
   };
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        logoRef.current,
-        { opacity: 0, y: -30, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" },
-      );
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .from(".login-page__back", { opacity: 0, y: -10, duration: 0.5 })
+        .from(
+          ".login-page__eyebrow",
+          { opacity: 0, y: 16, duration: 0.6 },
+          "-=0.2",
+        )
+        .from(
+          ".login-page__title-line",
+          { opacity: 0, y: 32, stagger: 0.1, duration: 0.8 },
+          "-=0.3",
+        )
+        .from(".login-page__sub", { opacity: 0, y: 16, duration: 0.6 }, "-=0.4")
+        .from(
+          ".login-page__benefit",
+          { opacity: 0, x: -16, stagger: 0.08, duration: 0.5 },
+          "-=0.3",
+        )
+        .from(
+          ".login-page__chip",
+          { opacity: 0, y: 8, stagger: 0.05, duration: 0.4 },
+          "-=0.3",
+        )
+        .from(
+          ticketRef.current,
+          { opacity: 0, x: 60, rotate: 12, duration: 0.9 },
+          "-=0.6",
+        );
 
-      gsap.fromTo(
-        cardRef.current,
-        { opacity: 0, y: 40, scale: 0.95 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          delay: 0.2,
-        },
-      );
-
-      gsap.fromTo(
-        ".stagger-item",
-        { opacity: 0, y: 15 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.06,
-          duration: 0.5,
-          ease: "power2.out",
-          delay: 0.35,
-        },
-      );
-
-      gsap.to(logoRef.current, {
+      gsap.to(ticketRef.current, {
         y: -10,
-        duration: 2.5,
+        duration: 3.2,
+        ease: "sine.inOut",
         yoyo: true,
         repeat: -1,
-        ease: "power1.inOut",
       });
-
-      const handleMouseMove = (e) => {
-        const { clientX, clientY } = e;
-        const xPos = (clientX / window.innerWidth - 0.5) * 25;
-        const yPos = (clientY / window.innerHeight - 0.5) * 25;
-
-        gsap.to(".parallax-bg", {
-          x: xPos,
-          y: yPos,
-          duration: 1,
-          ease: "power1.out",
-        });
-      };
-
-      window.addEventListener("mousemove", handleMouseMove);
-      return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, containerRef);
+    }, rootRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="login-page-bg" ref={containerRef}>
-      <div className="bg-pattern"></div>
-      <div className="floating-icons-container parallax-bg">
-        <FaPizzaSlice className="food-icon icon-1" />
-        <FaHamburger className="food-icon icon-2" />
-        <FaUtensils className="food-icon icon-3" />
-        <FaIceCream className="food-icon icon-4" />
-      </div>
+    <div className="login-page" ref={rootRef}>
+      <Link to="/" className="login-page__back">
+        <ArrowLeft size={16} /> Início
+      </Link>
 
-      <div className="bg-shape shape-1 parallax-bg"></div>
-      <div className="bg-shape shape-2 parallax-bg"></div>
-      <div className="bg-shape shape-3 parallax-bg"></div>
-      <div className="login-content-wrapper">
-        <div className="login-logo-container" ref={logoRef}>
-          <img src={logoIcone} alt="Yummy Logo" className="login-logo" />
+      <div className="login-page__layout">
+        <div className="login-page__info">
+          <span className="login-page__logo">
+            Yummy<span className="login-page__logo-dot">.</span>
+          </span>
+
+          <p className="login-page__eyebrow">Acesso do cliente</p>
+
+          <h1 className="login-page__title">
+            <span className="login-page__title-line">Seu pedido</span>
+            <span className="login-page__title-line login-page__title-line--em">
+              não erra o caminho.
+            </span>
+          </h1>
+
+          <p className="login-page__sub">
+            Entre com sua conta Yummy para acompanhar cada pedido em tempo
+            real, do primeiro toque no cardápio até a sua mesa — ou a sua
+            porta.
+          </p>
+
+          <div className="login-page__benefits">
+            {BENEFICIOS.map((b) => (
+              <div className="login-page__benefit" key={b.titulo}>
+                <span className="login-page__benefit-icon">{b.icon}</span>
+                <div>
+                  <h3>{b.titulo}</h3>
+                  <p>{b.texto}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="login-page__chips">
+            {STATUS_PEDIDO.map((s) => (
+              <code className="login-page__chip" key={s}>
+                {s}
+              </code>
+            ))}
+          </div>
         </div>
 
-        <div className="login-card" ref={cardRef}>
-          <h2 className="form-title stagger-item">Login</h2>
+        <div className="login-page__ticket" ref={ticketRef}>
+          <div className="login-page__ticket-head">
+            <img
+              src={logoIcone}
+              alt="Yummy"
+              className="login-page__ticket-logo"
+            />
+            <h2>Entrar</h2>
+          </div>
 
-          <form className="login-form" onSubmit={handleLogin}>
-            <div className="input-group stagger-item">
-              <label>*Usuário</label>
+          <div className="login-page__ticket-punch login-page__ticket-punch--left" />
+          <div className="login-page__ticket-punch login-page__ticket-punch--right" />
+
+          {erro && (
+            <div className="login-page__error" role="alert">
+              <code className="login-page__error-code">{erro.codigo}</code>
+              <p className="login-page__error-msg">{erro.mensagem}</p>
+            </div>
+          )}
+
+          <form className="login-page__form" onSubmit={handleLogin}>
+            <div className="login-page__field">
+              <label htmlFor="login-usuario">Usuário</label>
               <input
+                id="login-usuario"
                 type="text"
                 placeholder="Seu nome de usuário"
                 value={usuario}
@@ -152,10 +215,11 @@ export default function LoginCliente() {
               />
             </div>
 
-            <div className="input-group stagger-item relative-input">
-              <label>*Senha</label>
-              <div className="password-wrapper">
+            <div className="login-page__field">
+              <label htmlFor="login-senha">Senha</label>
+              <div className="login-page__password">
                 <input
+                  id="login-senha"
                   type={showSenha ? "text" : "password"}
                   placeholder="••••••••"
                   value={senha}
@@ -164,39 +228,46 @@ export default function LoginCliente() {
                 />
                 <button
                   type="button"
-                  className="toggle-password"
-                  onClick={() => setShowSenha(!showSenha)}
+                  className="login-page__toggle-password"
+                  onClick={() => setShowSenha((v) => !v)}
+                  aria-label={showSenha ? "Esconder senha" : "Mostrar senha"}
                 >
-                  {showSenha ? <FaEyeSlash /> : <FaEye />}
+                  {showSenha ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
-            <div className="forgot-password stagger-item">
-              <p>
-                Esqueceu a senha? <Link to="/redefinir-senha">Clique aqui</Link>
-              </p>
+            <div className="login-page__row">
+              <label className="login-page__remember">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                Lembrar-me
+              </label>
+              <Link to="/redefinir-senha" className="login-page__forgot">
+                Esqueceu a senha?
+              </Link>
             </div>
 
-            <div className="checkbox-group stagger-item">
-              <input
-                type="checkbox"
-                id="remember"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              <label htmlFor="remember">Lembrar-me</label>
-            </div>
-
-            <button type="submit" className="btn-submit stagger-item">
-              LOGIN
+            <button
+              type="submit"
+              className="login-page__submit"
+              disabled={carregando}
+            >
+              {carregando ? "Entrando..." : "Entrar"}
             </button>
 
-            <div className="form-footer stagger-item">
-              <p>
-                Não possui uma conta? <a href="/cadastro">Clique aqui</a>
-              </p>
-            </div>
+            <p className="login-page__privacy">
+              <ShieldCheck size={14} />
+              Seus dados são protegidos pela LGPD ·{" "}
+              <Link to="/privacidade">Política de Privacidade</Link>
+            </p>
+
+            <p className="login-page__footer">
+              Não tem conta? <Link to="/cadastro">Cadastre-se</Link>
+            </p>
           </form>
         </div>
       </div>
