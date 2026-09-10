@@ -18,6 +18,7 @@ import {
 import "./Homepage.css";
 
 import Header from "../../../components/Header/Header";
+import MenuCarousel from '../MenuCarrossel/MenuCarrossel';
 
 const BANNER_IMG =
   "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80";
@@ -54,6 +55,14 @@ const PRODUCTS = [
   },
   {
     id: 3,
+    category: "lanches",
+    title: "Cachorro-Quente Especial",
+    desc: "Salsicha, molho da casa, milho, batata palha e queijo.",
+    price: "R$16,90",
+    img: "https://images.unsplash.com/photo-1613482084286-41f25b486fa2?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    id: 4,
     category: "pizzas",
     title: "Pizza Margherita",
     desc: "Molho de tomate, mussarela de búfala e manjericão fresco.",
@@ -61,7 +70,15 @@ const PRODUCTS = [
     img: "https://images.unsplash.com/photo-1516383934460-fc1c6e50d7b1?auto=format&fit=crop&w=500&q=80",
   },
   {
-    id: 4,
+    id: 5,
+    category: "pizzas",
+    title: "Pizza Calabresa",
+    desc: "Calabresa fatiada, cebola roxa e azeitonas pretas.",
+    price: "R$44,90",
+    img: "https://images.unsplash.com/photo-1516383934460-fc1c6e50d7b1?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    id: 6,
     category: "japonesa",
     title: "Combo Sushi 20 Peças",
     desc: "Sashimi, uramaki e niguiri selecionados do dia.",
@@ -69,7 +86,15 @@ const PRODUCTS = [
     img: "https://images.unsplash.com/photo-1626140814380-dda4c85c79ee?auto=format&fit=crop&w=500&q=80",
   },
   {
-    id: 5,
+    id: 7,
+    category: "japonesa",
+    title: "Ramen Tradicional",
+    desc: "Caldo encorpado, chashu, ovo marinado e cebolinha.",
+    price: "R$38,90",
+    img: "https://images.unsplash.com/photo-1709201759685-459d11d53d93?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    id: 8,
     category: "saudavel",
     title: "Bowl Fit de Quinoa",
     desc: "Quinoa, grão-de-bico, legumes assados e molho tahine.",
@@ -77,7 +102,15 @@ const PRODUCTS = [
     img: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=500&q=80",
   },
   {
-    id: 6,
+    id: 9,
+    category: "saudavel",
+    title: "Smoothie Bowl de Frutas",
+    desc: "Base de frutas vermelhas, granola e mel.",
+    price: "R$22,90",
+    img: "https://images.unsplash.com/photo-1511909525232-61113c912358?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    id: 10,
     category: "doces",
     title: "Trio de Rosquinhas",
     desc: "Três sabores: chocolate, morango e baunilha.",
@@ -85,7 +118,7 @@ const PRODUCTS = [
     img: "https://images.unsplash.com/photo-1519915495817-684cdf876a1c?auto=format&fit=crop&w=500&q=80",
   },
   {
-    id: 7,
+    id: 11,
     category: "doces",
     title: "Sundae de Chocolate",
     desc: "Sorvete cremoso com calda quente e chantilly.",
@@ -93,7 +126,15 @@ const PRODUCTS = [
     img: "https://images.unsplash.com/photo-1588195539297-f0b4efdb5472?auto=format&fit=crop&w=500&q=80",
   },
   {
-    id: 8,
+    id: 12,
+    category: "doces",
+    title: "Brownie com Sorvete",
+    desc: "Brownie quente de chocolate com bola de sorvete.",
+    price: "R$19,90",
+    img: "https://images.unsplash.com/photo-1504205758521-892897f3a28e?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    id: 13,
     category: "bebidas",
     title: "Suco Natural de Laranja",
     desc: "Extraído na hora, sem adição de açúcar.",
@@ -101,12 +142,28 @@ const PRODUCTS = [
     img: "https://images.unsplash.com/photo-1618046364546-81e9d03d39a6?auto=format&fit=crop&w=500&q=80",
   },
   {
-    id: 9,
+    id: 14,
+    category: "bebidas",
+    title: "Milk-shake de Baunilha",
+    desc: "Cremoso, batido na hora, com chantilly por cima.",
+    price: "R$16,90",
+    img: "https://images.unsplash.com/photo-1596151163116-98a5033814c2?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    id: 15,
     category: "frango",
     title: "Asinhas Apimentadas",
     desc: "10 unidades de frango crocante ao molho buffalo picante.",
     price: "R$32,90",
     img: "https://images.unsplash.com/photo-1608039755401-742074f0548d?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    id: 16,
+    category: "frango",
+    title: "Frango Grelhado ao Molho",
+    desc: "Peito de frango grelhado com ervas e molho da casa.",
+    price: "R$27,90",
+    img: "https://images.unsplash.com/photo-1616401616927-3c81de22dfa8?auto=format&fit=crop&w=500&q=80",
   },
 ];
 
@@ -116,6 +173,9 @@ export default function Home() {
 
   const [activeCategory, setActiveCategory] = useState("todos");
   const [cartCount, setCartCount] = useState(2);
+  const [mostrarTudo, setMostrarTudo] = useState(false);
+
+  const CATEGORIAS_REAIS = CATEGORIES.filter((c) => c.id !== "todos");
 
   const filteredProducts =
     activeCategory === "todos"
@@ -205,6 +265,33 @@ export default function Home() {
 
     return () => ctx.revert();
   }, [activeCategory]);
+
+  // Anima a seção "cardápio completo" quando o Ver mais é aberto
+  useEffect(() => {
+    if (!mostrarTudo) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".menu-carousel",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.12,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+      );
+    }, containerRef);
+
+    requestAnimationFrame(() => {
+      document
+        .querySelector(".full-menu-section")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    return () => ctx.revert();
+  }, [mostrarTudo]);
 
   const flyToCart = (originEl) => {
     const cartEl = document.querySelector(
@@ -362,8 +449,32 @@ export default function Home() {
         </div>
 
         <div className="see-more-container stagger-item">
-          <button className="btn-see-more">Ver mais</button>
+          <button
+            className="btn-see-more"
+            onClick={() => setMostrarTudo((v) => !v)}
+          >
+            {mostrarTudo ? "Ver menos" : "Ver mais"}
+          </button>
         </div>
+
+        {mostrarTudo && (
+          <div className="full-menu-section">
+            <div className="full-menu-section__header">
+              <h2>Cardápio completo</h2>
+              <p>Todas as categorias, com alguns exemplos de cada uma.</p>
+            </div>
+
+            {CATEGORIAS_REAIS.map((cat) => (
+              <MenuCarousel
+                key={cat.id}
+                title={cat.label}
+                icon={cat.icon}
+                items={PRODUCTS.filter((p) => p.category === cat.id)}
+                onAdd={handleAddToCart}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

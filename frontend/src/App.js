@@ -20,6 +20,7 @@ import Geral from './apps/web/pages/Empresa/Dashboards/Geral/Geral';
 import Configuracoes from './apps/web/pages/Empresa/Dashboards/Configuracoes/Configuracoes';
 import RedefinirSenha from "./apps/web/pages/Cliente/RedefinirSenha/RedefinirSenha";
 import Privacidade from "./apps/web/pages/Privacidade/Privacidade";
+import MenuCaroussel from './apps/web/pages/Cliente/MenuCarrossel/MenuCarrossel';
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         <Route path="/configuracoes" element={<Configuracoes />} />
         <Route path="/redefinir-senha" element={<RedefinirSenha />} />
         <Route path="/privacidade" element={<Privacidade />} />
+        <Route path="/menu-carousel" element={<MenuCaroussel />} />
       </Routes>
     </BrowserRouter>
   );
