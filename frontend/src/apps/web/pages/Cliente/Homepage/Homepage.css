@@ -37,6 +37,8 @@
 .icon-2 { top: 45%; right: 3%; font-size: 3rem; transform: rotate(20deg); animation-delay: -2s; }
 .icon-3 { bottom: 15%; left: 5%; font-size: 2.8rem; transform: rotate(10deg); animation-delay: -4s; }
 .icon-4 { top: 70%; right: 5%; font-size: 3.5rem; transform: rotate(-25deg); animation-delay: -6s; }
+.icon-5 { top: 28%; left: 12%; font-size: 2.4rem; transform: rotate(8deg); animation-delay: -3s; }
+.icon-6 { bottom: 32%; right: 12%; font-size: 2.6rem; transform: rotate(-12deg); animation-delay: -5s; }
 
 @keyframes floatRotate {
   0% { transform: translateY(0) rotate(0deg); }
@@ -75,100 +77,12 @@
   z-index: 2;
 }
 
-.home-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.8rem 0;
-  margin-bottom: 1.5rem;
-}
-
-.header-logo img {
-  height: 48px;
-  width: auto;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
-}
-
-.header-nav {
-  display: none;
-  gap: 2.5rem;
-  align-items: center;
-}
-
-.nav-link {
-  background: none;
-  border: none;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #f26624;
-  cursor: pointer;
-  position: relative;
-  padding: 0.4rem 0;
-  opacity: 0.7;
-  transition: all 0.25s ease;
-}
-
-.nav-link.active,
-.nav-link:hover {
-  opacity: 1;
-}
-
-.nav-indicator {
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: #f26624;
-  border-radius: 2px;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  color: #f26624;
-  cursor: pointer;
-  position: relative;
-  padding: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-}
-
-.icon-btn:hover {
-  transform: scale(1.1);
-}
-
-.cart-badge {
-  position: absolute;
-  top: 0px;
-  right: -2px;
-  background-color: #f26624;
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 700;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #fff6f0;
-}
-
 .restaurant-banner-card {
   background: #ffffff;
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
-  margin-bottom: 2rem;
+  margin-bottom: 1.4rem;
   position: relative;
 }
 
@@ -191,8 +105,8 @@
 
 .restaurant-info-bar {
   display: flex;
-  align-items: center;
-  padding: 1rem 2rem 1.2rem 2rem;
+  align-items: flex-start;
+  padding: 1rem 2rem 1.4rem 2rem;
   position: relative;
   gap: 1.5rem;
 }
@@ -227,6 +141,7 @@
   align-items: center;
   gap: 1rem;
   font-size: 0.85rem;
+  margin-bottom: 0.7rem;
 }
 
 .address {
@@ -238,17 +153,72 @@
   font-weight: 700;
 }
 
+.restaurant-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.info-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(242, 102, 36, 0.08);
+  color: #d85312;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+}
+
+.info-chip--rating {
+  background: rgba(82, 196, 26, 0.1);
+  color: #2f8c0f;
+}
+
 .restaurant-rating {
   display: flex;
   gap: 4px;
   color: #f26624;
   font-size: 1.1rem;
+  margin-top: 0.2rem;
+}
+
+.promo-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(90deg, rgba(242, 102, 36, 0.12), rgba(255, 175, 120, 0.06));
+  border: 1px solid rgba(242, 102, 36, 0.2);
+  border-radius: 14px;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1.6rem;
+  font-size: 0.9rem;
+  color: #7a3410;
+}
+
+.promo-banner strong {
+  color: #d85312;
+}
+
+.promo-banner__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #f26624;
+  flex-shrink: 0;
+  animation: pulseDot 1.6s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(242, 102, 36, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(242, 102, 36, 0); }
 }
 
 .categories-wrapper {
   display: flex;
   gap: 0.9rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.6rem;
   overflow-x: auto;
   padding-bottom: 0.5rem;
   scrollbar-width: none;
@@ -259,17 +229,25 @@
 }
 
 .category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.05);
   color: #f26624;
   font-weight: 600;
-  padding: 0.6rem 1.4rem;
+  padding: 0.6rem 1.3rem;
   border-radius: 20px;
   cursor: pointer;
   white-space: nowrap;
   font-size: 0.9rem;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.category-pill__icon {
+  display: inline-flex;
+  font-size: 0.95em;
 }
 
 .category-pill:hover {
@@ -284,11 +262,24 @@
   box-shadow: 0 6px 18px rgba(242, 102, 36, 0.3);
 }
 
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
 .section-header h2 {
   font-size: 1.3rem;
   font-weight: 700;
-  margin-bottom: 1.2rem;
+  margin: 0;
   color: #222;
+}
+
+.section-header__count {
+  font-size: 0.82rem;
+  color: #999;
+  font-weight: 600;
 }
 
 .products-grid {
@@ -323,6 +314,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-img-wrapper img {
+  transform: scale(1.08);
 }
 
 .product-info {
@@ -404,6 +400,19 @@
   box-shadow: 0 12px 25px rgba(242, 102, 36, 0.35);
 }
 
+/* Bolinha que "voa" do produto até o ícone do carrinho no header */
+.fly-to-cart {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #f26624;
+  box-shadow: 0 0 12px rgba(242, 102, 36, 0.7);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
 @media (max-width: 960px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -411,16 +420,6 @@
 }
 
 @media (max-width: 640px) {
-  .home-header {
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .header-nav {
-    order: 3;
-    width: 100%;
-    justify-content: space-around;
-    gap: 0.5rem;
-  }
   .restaurant-info-bar {
     flex-direction: column;
     align-items: flex-start;
@@ -434,5 +433,12 @@
   }
   .floating-icons-container {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .food-icon,
+  .promo-banner__dot {
+    animation: none !important;
   }
 }
