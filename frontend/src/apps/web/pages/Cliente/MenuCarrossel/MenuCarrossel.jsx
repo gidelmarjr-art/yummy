@@ -58,7 +58,7 @@ export default function MenuCarousel({ title, icon, items, onAdd }) {
                   <span className="menu-carousel-card__price">{item.price}</span>
                   <button
                     className="menu-carousel-card__add"
-                    onClick={(e) => onAdd(e)}
+                    onClick={(e) => onAdd(item, e)}
                     aria-label="Adicionar item"
                   >
                     <FaPlus />

@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+// Importe o CartProvider do local correto onde ele está salvo
+import { CartProvider } from './context/CartContext'; 
+
 import LandingPage from './apps/web/pages/landing/Landing';
 import CadastroCliente from './apps/web/pages/Cliente/CadastroCliente/CadastroCliente';
 import LoginCliente from './apps/web/pages/Cliente/LoginCliente/LoginCliente';
@@ -22,37 +25,37 @@ import RedefinirSenha from "./apps/web/pages/Cliente/RedefinirSenha/RedefinirSen
 import Privacidade from "./apps/web/pages/Privacidade/Privacidade";
 import MenuCaroussel from './apps/web/pages/Cliente/MenuCarrossel/MenuCarrossel';
 
-
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/cadastro" element={<CadastroCliente />} />
-        <Route path="/login" element={<LoginCliente />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/carrinho" element={<Cart />} />
-        <Route path="/Sobre" element={<Sobre />} />
-        
-        {/* Rotas novas para os botões do menu */}
-        <Route path="/restaurantes" element={<Home />} /> {/* Ajuste para a página correta se houver */}
-        <Route path="/favoritos" element={<Home />} />     {/* Ajuste para a página correta se houver */}
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/cadastro" element={<CadastroCliente />} />
+          <Route path="/login" element={<LoginCliente />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/carrinho" element={<Cart />} />
+          <Route path="/Sobre" element={<Sobre />} />
+          
+          <Route path="/restaurantes" element={<Home />} />
+          <Route path="/favoritos" element={<Home />} />  
 
-        <Route path="/pagamento" element={<Pagamento />} />
-        <Route path="/cardapio" element={<Cardapio />} />
-        <Route path="/pedidos" element={<Pedidos />} />
-        <Route path="/relatorios" element={<Relatorios />} />
-        <Route path="/transacoes" element={<Transacoes />} />
-        <Route path="/estoque" element={<Estoque />} />
-        <Route path="/seguranca" element={<Seguranca />} />
-        <Route path="/clientes" element={<Clientes />} />
-        <Route path="/dashboard" element={<Geral />} />
-        <Route path="/configuracoes" element={<Configuracoes />} />
-        <Route path="/redefinir-senha" element={<RedefinirSenha />} />
-        <Route path="/privacidade" element={<Privacidade />} />
-        <Route path="/menu-carousel" element={<MenuCaroussel />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/pagamento" element={<Pagamento />} />
+          <Route path="/cardapio" element={<Cardapio />} />
+          <Route path="/pedidos" element={<Pedidos />} />
+          <Route path="/relatorios" element={<Relatorios />} />
+          <Route path="/transacoes" element={<Transacoes />} />
+          <Route path="/estoque" element={<Estoque />} />
+          <Route path="/seguranca" element={<Seguranca />} />
+          <Route path="/clientes" element={<Clientes />} />
+          <Route path="/dashboard" element={<Geral />} />
+          <Route path="/configuracoes" element={<Configuracoes />} />
+          <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+          <Route path="/privacidade" element={<Privacidade />} />
+          <Route path="/menu-carousel" element={<MenuCaroussel />} />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 

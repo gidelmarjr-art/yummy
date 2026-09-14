@@ -1,29 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
 import CarrinhoItem from "../../../components/Carrinho/Carrinho_Item";
 import "./Carrinho.css";
-import { FaTag, FaRegStickyNote, FaShoppingBag } from "react-icons/fa";
+import { FaTag, FaRegStickyNote, FaShoppingBag, FaArrowLeft } from "react-icons/fa";
+import { useCart } from "../../../../../context/CartContext";
 
 const RESTAURANT_AVATAR = "https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=150&q=80";
-const FOOD_THUMB = "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=500&q=80";
-
-const INITIAL_CART = [
-  {
-    id: 3,
-    title: "Comida 3",
-    desc: "Uma deliciosa porção de batata frita com queijo cheddar",
-    price: 14.49,
-    quantity: 1,
-    image: FOOD_THUMB
-  }
-];
 
 export default function Cart() {
   const containerRef = useRef(null);
-  const navigate = useNavigate(); // <-- Declaração do hook aqui
-  const [cartItems, setCartItems] = useState(INITIAL_CART);
+  const navigate = useNavigate();
+  
+  const { cartItems, updateQuantity, removeFromCart, totalItemsCount } = useCart();
+  
   const [couponCode, setCouponCode] = useState("");
   const [discountPercent, setDiscountPercent] = useState(0);
   const [couponMessage, setCouponMessage] = useState("");
@@ -43,18 +33,6 @@ export default function Cart() {
     return () => ctx.revert();
   }, [cartItems.length]);
 
-  const handleQuantityChange = (id, delta) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + delta } : item
-      )
-    );
-  };
-
-  const handleRemoveItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
   const handleApplyCoupon = (e) => {
     e.preventDefault();
     if (couponCode.trim().toUpperCase() === "YUMMY10") {
@@ -66,24 +44,27 @@ export default function Cart() {
     }
   };
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0) * item.quantity, 0);
   const discountAmount = (subtotal * discountPercent) / 100;
   const totalAmount = subtotal > 0 ? subtotal + DELIVERY_FEE - discountAmount : 0;
-  const totalItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="cart-page-bg" ref={containerRef}>
-      <Header cartCount={totalItemsCount} />
+      {/* Header com a seta de voltar idêntica ao pagamento */}
+      <header className="payment-header">
+        <button className="btn-back" onClick={() => navigate("/home")} aria-label="Voltar">
+          <FaArrowLeft />
+        </button>
+        <h1 className="payment-page-title">Meu carrinho</h1>
+      </header>
 
       <main className="cart-container">
-        <h1 className="cart-page-title stagger-cart">Meu carrinho</h1>
-
         {cartItems.length === 0 ? (
           <div className="empty-cart-card stagger-cart">
             <FaShoppingBag className="empty-cart-icon" />
             <h2>Seu carrinho está vazio</h2>
             <p>Adicione itens do restaurante para iniciar seu pedido.</p>
-            <button className="btn-continue" onClick={() => console.log("Voltar ao cardápio")}>
+            <button className="btn-continue" onClick={() => navigate("/home")}>
               Voltar ao Cardápio
             </button>
           </div>
@@ -93,19 +74,19 @@ export default function Cart() {
               <img src={RESTAURANT_AVATAR} alt="Codó burger" className="restaurant-summary-avatar" />
               <div className="restaurant-summary-details">
                 <span className="restaurant-summary-name">Codó burger</span>
-                <button className="btn-add-more" onClick={() => console.log("Adicionar mais itens")}>
+                <button className="btn-add-more" onClick={() => navigate("/home")}>
                   Adicionar mais itens
                 </button>
               </div>
             </div>
 
             <div className="cart-items-list stagger-cart">
-              {cartItems.map((item) => (
+              {cartItems.main ? null : cartItems.map((item) => (
                 <CarrinhoItem
                   key={item.id}
                   item={item}
-                  onQuantityChange={handleQuantityChange}
-                  onRemove={handleRemoveItem}
+                  onQuantityChange={updateQuantity}
+                  onRemove={removeFromCart}
                 />
               ))}
             </div>

@@ -20,6 +20,7 @@ import "./Homepage.css";
 import Header from "../../../components/Header/Header";
 import MenuCarousel from '../MenuCarrossel/MenuCarrossel';
 import { PRODUCTS } from "./Productsdata";
+import { useCart } from "../../../../../context/CartContext";
 
 const BANNER_IMG =
   "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80";
@@ -60,8 +61,8 @@ export default function Home() {
   const bannerRef = useRef(null);
 
   const [activeCategory, setActiveCategory] = useState("todos");
-  const [cartCount, setCartCount] = useState(2);
   const [mostrarTudo, setMostrarTudo] = useState(false);
+  const { addToCart, totalItemsCount } = useCart();
 
   const CATEGORIAS_REAIS = CATEGORIES.filter((c) => c.id !== "todos");
 
@@ -223,19 +224,19 @@ export default function Home() {
     });
   };
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = (product, e) => {
     flyToCart(e.currentTarget);
     gsap.fromTo(
       e.currentTarget,
       { scale: 1 },
       { scale: 0.82, duration: 0.12, yoyo: true, repeat: 1, ease: "power1.inOut" },
     );
-    setCartCount((prev) => prev + 1);
+    addToCart(product);
   };
 
   return (
     <div className="home-page-bg" ref={containerRef}>
-      <Header cartCount={cartCount} />
+      <Header cartCount={totalItemsCount} />
 
       <div className="bg-pattern"></div>
 
@@ -333,7 +334,7 @@ export default function Home() {
                   </span>
                   <button
                     className="add-btn"
-                    onClick={handleAddToCart}
+                    onClick={(e) => handleAddToCart(prod, e)}
                     aria-label="Adicionar item"
                   >
                     <FaPlus />
@@ -349,7 +350,7 @@ export default function Home() {
             className="btn-see-more"
             onClick={() => setMostrarTudo((v) => !v)}
           >
-            {mostrarTudo ? "Ver menos" : "Ver Cardápio Completo"}
+            {mostrarTudo ? "Ver menos" : "Ver mais"}
           </button>
         </div>
 

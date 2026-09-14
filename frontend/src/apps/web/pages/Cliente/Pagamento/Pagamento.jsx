@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import { gsap } from "gsap";
+import { useNavigate } from "react-router-dom";
 import { 
   FaArrowLeft, 
   FaCreditCard, 
@@ -15,17 +15,16 @@ import {
   FaLock
 } from "react-icons/fa";
 import "./Pagamento.css";
+import { useCart } from "../../../../../context/CartContext";
 
 import logoMascote from "../../../../../imgs/LogoYummy_2.png";
 import logoNome from "../../../../../imgs/LogoYummy_3.png";
 
-const ORDER_ITEMS = [
-  { id: 1, title: "1x Comida 1 - Batata frita c/ cheddar", price: 14.50 },
-  { id: 2, title: "2x Sanduíche Codó Burguer", price: 38.00 }
-];
-
 export default function Pagamento() {
   const containerRef = useRef(null);
+
+  // Consumindo os dados reais do carrinho
+  const { cartItems, clearCart } = useCart();
 
   // Estados Gerais
   const [selectedMethod, setSelectedMethod] = useState("credit");
@@ -53,9 +52,9 @@ export default function Pagamento() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
-  const subtotal = ORDER_ITEMS.reduce((acc, item) => acc + item.price, 0);
+  const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0) * item.quantity, 0);
   const deliveryFee = 7.50;
-  const total = subtotal + deliveryFee;
+  const total = subtotal > 0 ? subtotal + deliveryFee : 0;
 
   // Cartão atualmente ativo
   const currentCard = savedCards.find((c) => c.id === selectedCardId) || savedCards[0];
@@ -119,10 +118,15 @@ export default function Pagamento() {
 
   // Confirmar Pagamento
   const handleConfirmPayment = () => {
+    if (cartItems.length === 0) {
+      alert("Seu carrinho está vazio!");
+      return;
+    }
     setIsProcessing(true);
     setTimeout(() => {
       setIsProcessing(false);
       setIsSuccessModalOpen(true);
+      clearCart(); // Limpa o carrinho após o sucesso da compra
     }, 1800);
   };
 
@@ -152,14 +156,18 @@ export default function Pagamento() {
           <section className="payment-section">
             <h2 className="section-subtitle">RESUMO DO PEDIDO</h2>
             <div className="order-items-list">
-              {ORDER_ITEMS.map((item) => (
-                <div key={item.id} className="order-item-row">
-                  <span className="item-title">{item.title}</span>
-                  <span className="item-price">
-                    {item.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                  </span>
-                </div>
-              ))}
+              {cartItems.length === 0 ? (
+                <p className="item-title" style={{ color: "#a0a0a0" }}>Nenhum item no carrinho.</p>
+              ) : (
+                cartItems.map((item) => (
+                  <div key={item.id} className="order-item-row">
+                    <span className="item-title">{item.quantity}x {item.title || item.name}</span>
+                    <span className="item-price">
+                      {((Number(item.price) || 0) * item.quantity).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    </span>
+                  </div>
+                ))
+              )}
             </div>
 
             <div className="financial-summary">
@@ -235,7 +243,6 @@ export default function Pagamento() {
                 <div className="method-extra-panel">
                   <span className="panel-label">Selecione um cartão ou adicione um novo:</span>
                   
-                  {/* Lista de Cartões Cadastrados */}
                   <div className="cards-selection-list">
                     {savedCards.map((card) => (
                       <label key={card.id} className={`card-radio-item ${selectedCardId === card.id ? "selected" : ""}`}>
@@ -252,7 +259,6 @@ export default function Pagamento() {
                     ))}
                   </div>
 
-                  {/* Botão para exibir formulário de novo cartão */}
                   {!showAddCardForm ? (
                     <button
                       type="button"
@@ -262,7 +268,6 @@ export default function Pagamento() {
                       <FaPlus /> Adicionar novo cartão
                     </button>
                   ) : (
-                    /* Formulário Inline de Novo Cartão */
                     <form onSubmit={handleAddNewCard} className="new-card-form">
                       <div className="form-group">
                         <input
@@ -331,7 +336,6 @@ export default function Pagamento() {
                 {selectedMethod === "pix" && <FaCheckCircle className="check-icon" />}
               </button>
 
-              {/* Painel Expansível Pix */}
               {selectedMethod === "pix" && (
                 <div className="method-extra-panel">
                   <p className="pix-instruction">Copie o código abaixo e pague no app do seu banco:</p>
@@ -354,7 +358,6 @@ export default function Pagamento() {
                 {selectedMethod === "cash" && <FaCheckCircle className="check-icon" />}
               </button>
 
-              {/* Painel Expansível Dinheiro */}
               {selectedMethod === "cash" && (
                 <div className="method-extra-panel">
                   <label className="checkbox-label">
