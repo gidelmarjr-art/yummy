@@ -1,19 +1,3 @@
-// productsData.js
-//
-// Monta a lista de produtos da Home automaticamente a partir das imagens
-// dentro de src/imgs/<Categoria>/. Basta colocar um novo arquivo de imagem
-// dentro da pasta da categoria correspondente que ele já aparece na Home,
-// sem precisar tocar em nenhum código.
-//
-// Para dar nome, descrição e preço "bonitos" a um prato específico, adicione
-// uma entrada em PRODUCT_DETAILS usando exatamente o nome do arquivo (sem a
-// extensão) como chave. Qualquer imagem que não tiver uma entrada aqui ainda
-// assim aparece na Home, usando o nome do arquivo como título e uma
-// descrição/preço padrão da categoria — assim nada quebra quando novas fotos
-// forem adicionadas antes de alguém preencher os detalhes.
-
-// Nome de exibição de cada categoria e valores usados quando uma imagem
-// ainda não tem uma entrada em PRODUCT_DETAILS.
 const CATEGORY_DEFAULTS = {
   lanches: {
     desc: "Feito na hora, com ingredientes selecionados.",

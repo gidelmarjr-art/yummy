@@ -41,6 +41,20 @@ const CATEGORIES = [
 // a partir das fotos em src/imgs/<Categoria>/. Basta adicionar uma nova
 // imagem lá dentro que ela aparece aqui sem precisar editar este arquivo.
 
+// Quantos produtos de cada categoria aparecem na aba "Tudo" (destaques)
+const HIGHLIGHTS_PER_CATEGORY = 2;
+
+// Monta os destaques pegando N produtos de cada categoria (na ordem em que
+// aparecem em PRODUCTS), em vez de mostrar o cardápio inteiro de uma vez.
+function getHighlights(products, categoryIds, count) {
+  const highlights = [];
+  categoryIds.forEach((categoryId) => {
+    const fromCategory = products.filter((p) => p.category === categoryId);
+    highlights.push(...fromCategory.slice(0, count));
+  });
+  return highlights;
+}
+
 export default function Home() {
   const containerRef = useRef(null);
   const bannerRef = useRef(null);
@@ -51,9 +65,15 @@ export default function Home() {
 
   const CATEGORIAS_REAIS = CATEGORIES.filter((c) => c.id !== "todos");
 
+  const highlightProducts = getHighlights(
+    PRODUCTS,
+    CATEGORIAS_REAIS.map((c) => c.id),
+    HIGHLIGHTS_PER_CATEGORY,
+  );
+
   const filteredProducts =
     activeCategory === "todos"
-      ? PRODUCTS
+      ? highlightProducts
       : PRODUCTS.filter((p) => p.category === activeCategory);
 
   const activeLabel =
@@ -329,7 +349,7 @@ export default function Home() {
             className="btn-see-more"
             onClick={() => setMostrarTudo((v) => !v)}
           >
-            {mostrarTudo ? "Ver menos" : "Ver mais"}
+            {mostrarTudo ? "Ver menos" : "Ver Cardápio Completo"}
           </button>
         </div>
 
