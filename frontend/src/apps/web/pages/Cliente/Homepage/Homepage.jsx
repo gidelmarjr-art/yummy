@@ -19,6 +19,7 @@ import "./Homepage.css";
 
 import Header from "../../../components/Header/Header";
 import MenuCarousel from '../MenuCarrossel/MenuCarrossel';
+import { PRODUCTS } from "./Productsdata";
 
 const BANNER_IMG =
   "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80";
@@ -36,136 +37,9 @@ const CATEGORIES = [
   { id: "frango", label: "Frango", icon: <FaDrumstickBite /> },
 ];
 
-const PRODUCTS = [
-  {
-    id: 1,
-    category: "lanches",
-    title: "Cheeseburger Artesanal",
-    desc: "Blend 180g, queijo cheddar, picles e molho especial da casa.",
-    price: "R$24,90",
-    img: "https://images.unsplash.com/photo-1549611016-3a70d82b5040?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 2,
-    category: "lanches",
-    title: "Batata Rústica com Cheddar",
-    desc: "Uma deliciosa porção de batata frita com queijo cheddar.",
-    price: "R$14,49",
-    img: "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 3,
-    category: "lanches",
-    title: "Cachorro-Quente Especial",
-    desc: "Salsicha, molho da casa, milho, batata palha e queijo.",
-    price: "R$16,90",
-    img: "https://images.unsplash.com/photo-1613482084286-41f25b486fa2?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 4,
-    category: "pizzas",
-    title: "Pizza Margherita",
-    desc: "Molho de tomate, mussarela de búfala e manjericão fresco.",
-    price: "R$42,90",
-    img: "https://images.unsplash.com/photo-1516383934460-fc1c6e50d7b1?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 5,
-    category: "pizzas",
-    title: "Pizza Calabresa",
-    desc: "Calabresa fatiada, cebola roxa e azeitonas pretas.",
-    price: "R$44,90",
-    img: "https://images.unsplash.com/photo-1516383934460-fc1c6e50d7b1?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 6,
-    category: "japonesa",
-    title: "Combo Sushi 20 Peças",
-    desc: "Sashimi, uramaki e niguiri selecionados do dia.",
-    price: "R$59,90",
-    img: "https://images.unsplash.com/photo-1626140814380-dda4c85c79ee?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 7,
-    category: "japonesa",
-    title: "Ramen Tradicional",
-    desc: "Caldo encorpado, chashu, ovo marinado e cebolinha.",
-    price: "R$38,90",
-    img: "https://images.unsplash.com/photo-1709201759685-459d11d53d93?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 8,
-    category: "saudavel",
-    title: "Bowl Fit de Quinoa",
-    desc: "Quinoa, grão-de-bico, legumes assados e molho tahine.",
-    price: "R$29,90",
-    img: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 9,
-    category: "saudavel",
-    title: "Smoothie Bowl de Frutas",
-    desc: "Base de frutas vermelhas, granola e mel.",
-    price: "R$22,90",
-    img: "https://images.unsplash.com/photo-1511909525232-61113c912358?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 10,
-    category: "doces",
-    title: "Trio de Rosquinhas",
-    desc: "Três sabores: chocolate, morango e baunilha.",
-    price: "R$16,90",
-    img: "https://images.unsplash.com/photo-1519915495817-684cdf876a1c?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 11,
-    category: "doces",
-    title: "Sundae de Chocolate",
-    desc: "Sorvete cremoso com calda quente e chantilly.",
-    price: "R$18,90",
-    img: "https://images.unsplash.com/photo-1588195539297-f0b4efdb5472?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 12,
-    category: "doces",
-    title: "Brownie com Sorvete",
-    desc: "Brownie quente de chocolate com bola de sorvete.",
-    price: "R$19,90",
-    img: "https://images.unsplash.com/photo-1504205758521-892897f3a28e?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 13,
-    category: "bebidas",
-    title: "Suco Natural de Laranja",
-    desc: "Extraído na hora, sem adição de açúcar.",
-    price: "R$12,90",
-    img: "https://images.unsplash.com/photo-1618046364546-81e9d03d39a6?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 14,
-    category: "bebidas",
-    title: "Milk-shake de Baunilha",
-    desc: "Cremoso, batido na hora, com chantilly por cima.",
-    price: "R$16,90",
-    img: "https://images.unsplash.com/photo-1596151163116-98a5033814c2?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 15,
-    category: "frango",
-    title: "Asinhas Apimentadas",
-    desc: "10 unidades de frango crocante ao molho buffalo picante.",
-    price: "R$32,90",
-    img: "https://images.unsplash.com/photo-1608039755401-742074f0548d?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    id: 16,
-    category: "frango",
-    title: "Frango Grelhado ao Molho",
-    desc: "Peito de frango grelhado com ervas e molho da casa.",
-    price: "R$27,90",
-    img: "https://images.unsplash.com/photo-1616401616927-3c81de22dfa8?auto=format&fit=crop&w=500&q=80",
-  },
-];
+// PRODUCTS agora vem de ./productsData.js, que monta a lista automaticamente
+// a partir das fotos em src/imgs/<Categoria>/. Basta adicionar uma nova
+// imagem lá dentro que ela aparece aqui sem precisar editar este arquivo.
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -434,7 +308,9 @@ export default function Home() {
                 <p className="product-desc">{prod.desc}</p>
 
                 <div className="product-footer">
-                  <span className="product-price">{prod.price}</span>
+                  <span className="product-price">
+                    {prod.price || "Consulte"}
+                  </span>
                   <button
                     className="add-btn"
                     onClick={handleAddToCart}
