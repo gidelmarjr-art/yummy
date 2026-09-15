@@ -21,6 +21,7 @@ import Seguranca from './apps/web/pages/Empresa/Dashboards/Seguranca/Seguranca';
 import Clientes from './apps/web/pages/Empresa/Dashboards/Clientes/Clientes';
 import Geral from './apps/web/pages/Empresa/Dashboards/Geral/Geral';
 import Configuracoes from './apps/web/pages/Empresa/Dashboards/Configuracoes/Configuracoes';
+import CadastroPratos from './apps/web/pages/Empresa/Dashboards/Cadastro_Pratos/Cadastro_Pratos';
 import RedefinirSenha from "./apps/web/pages/Cliente/RedefinirSenha/RedefinirSenha";
 import Privacidade from "./apps/web/pages/Privacidade/Privacidade";
 import MenuCaroussel from './apps/web/pages/Cliente/MenuCarrossel/MenuCarrossel';
@@ -50,6 +51,7 @@ function App() {
           <Route path="/clientes" element={<Clientes />} />
           <Route path="/dashboard" element={<Geral />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
+          <Route path="/cadastro-pratos" element={<CadastroPratos />} />
           <Route path="/redefinir-senha" element={<RedefinirSenha />} />
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/menu-carousel" element={<MenuCaroussel />} />

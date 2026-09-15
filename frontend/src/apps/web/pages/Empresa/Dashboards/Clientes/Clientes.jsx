@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch, FaCog, FaBell, FaUser, FaEye, FaTimes } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { getClientes } from "../../../../services/api";
+import "../dashboards-shared.css";
 import "./Clientes.css";
 
-const INITIAL_CLIENTES = [
-  { id: 1, name: "João Silva", email: "joao.silva@email.com", phone: "(61) 98888-1234", ordersCount: 12 },
-  { id: 2, name: "Maria Oliveira", email: "maria.oli@email.com", phone: "(61) 99911-5678", ordersCount: 8 },
-  { id: 3, name: "Carlos Eduardo", email: "carlos.edu@email.com", phone: "(61) 97722-4321", ordersCount: 5 },
-  { id: 4, name: "Ana Paula", email: "ana.paula@email.com", phone: "(61) 98123-9876", ordersCount: 19 }
-];
-
 export default function Clientes() {
-  const [clientes] = useState(INITIAL_CLIENTES);
+  const [clientes, setClientes] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedClient, setSelectedClient] = useState(null);
+
+  useEffect(() => {
+    getClientes()
+      .then(setClientes)
+      .catch((err) => setErro(err.detail || err.message))
+      .finally(() => setCarregando(false));
+  }, []);
 
   const filteredClientes = clientes.filter((c) =>
     c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -48,9 +52,12 @@ export default function Clientes() {
         </header>
 
         <div className="clientes-dashboard-body">
+          {erro && <p className="dashboard-error-msg">{erro}</p>}
           <div className="clientes-table-container">
             <div className="clientes-items-list">
-              {filteredClientes.length > 0 ? (
+              {carregando ? (
+                <p className="dashboard-loading-msg">Carregando clientes…</p>
+              ) : filteredClientes.length > 0 ? (
                 filteredClientes.map((cliente) => (
                   <div key={cliente.id} className="cliente-row-item">
                     <div className="cliente-icon"><FaUser /></div>

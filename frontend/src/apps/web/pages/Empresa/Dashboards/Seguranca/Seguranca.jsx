@@ -1,28 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCog, FaBell, FaLock, FaShieldAlt } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { alterarSenha, getSessoes, revogarSessao } from "../../../../services/api";
+import "../dashboards-shared.css";
 import "./Seguranca.css";
 
 export default function Seguranca() {
   const [passData, setPassData] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
-  const [sessions, setSessions] = useState([
-    { id: 1, device: "Chrome (Windows 10)", location: "Brasília, DF • Dispositivo Atual", active: true },
-    { id: 2, device: "App Mobile (iOS)", location: "Brasília, DF • Há 2 horas", active: false }
-  ]);
+  const [salvandoSenha, setSalvandoSenha] = useState(false);
+  const [mensagemSenha, setMensagemSenha] = useState(null);
 
-  const handlePasswordChange = (e) => {
+  const [sessions, setSessions] = useState([]);
+  const [carregandoSessoes, setCarregandoSessoes] = useState(true);
+  const [erroSessoes, setErroSessoes] = useState(null);
+
+  useEffect(() => {
+    getSessoes()
+      .then(setSessions)
+      .catch((err) => setErroSessoes(err.detail || err.message))
+      .finally(() => setCarregandoSessoes(false));
+  }, []);
+
+  const handlePasswordChange = async (e) => {
     e.preventDefault();
+    setMensagemSenha(null);
     if (passData.newPassword !== passData.confirmPassword) {
-      alert("As senhas não coincidem!");
+      setMensagemSenha({ tipo: "erro", texto: "As senhas não coincidem!" });
       return;
     }
-    alert("Senha alterada com sucesso!");
-    setPassData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    setSalvandoSenha(true);
+    try {
+      await alterarSenha(passData.currentPassword, passData.newPassword);
+      setMensagemSenha({ tipo: "sucesso", texto: "Senha alterada com sucesso!" });
+      setPassData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    } catch (err) {
+      setMensagemSenha({ tipo: "erro", texto: err.detail || "Não foi possível alterar a senha." });
+    } finally {
+      setSalvandoSenha(false);
+    }
   };
 
-  const handleRevoke = (id) => {
-    setSessions(sessions.filter(s => s.id !== id));
-    alert("Sessão encerrada com sucesso.");
+  const handleRevoke = async (id) => {
+    try {
+      await revogarSessao(id);
+      setSessions((prev) => prev.filter((s) => s.id !== id));
+    } catch (err) {
+      alert(err.detail || "Não foi possível encerrar a sessão.");
+    }
   };
 
   return (
@@ -46,6 +70,13 @@ export default function Seguranca() {
           <div className="security-grid">
             <div className="security-card">
               <h3><FaLock /> Alterar Senha de Acesso</h3>
+
+              {mensagemSenha && (
+                <p className={mensagemSenha.tipo === "erro" ? "form-error-msg" : "form-success-msg"}>
+                  {mensagemSenha.texto}
+                </p>
+              )}
+
               <form onSubmit={handlePasswordChange} className="security-form">
                 <div className="form-group">
                   <label>Senha Atual</label>
@@ -74,26 +105,35 @@ export default function Seguranca() {
                     required
                   />
                 </div>
-                <button type="submit" className="btn-save-security">Atualizar Senha</button>
+                <button type="submit" className="btn-save-security" disabled={salvandoSenha}>
+                  {salvandoSenha ? "Atualizando…" : "Atualizar Senha"}
+                </button>
               </form>
             </div>
 
             <div className="security-card">
               <h3><FaShieldAlt /> Sessões Ativas</h3>
+              {erroSessoes && <p className="dashboard-error-msg">{erroSessoes}</p>}
               <div className="sessions-list">
-                {sessions.map((session) => (
-                  <div key={session.id} className="session-item">
-                    <div className="session-info">
-                      <span className="session-device">{session.device}</span>
-                      <span className="session-location">{session.location}</span>
+                {carregandoSessoes ? (
+                  <p className="dashboard-loading-msg">Carregando sessões…</p>
+                ) : sessions.length === 0 ? (
+                  <p className="dashboard-empty-msg">Nenhuma sessão ativa.</p>
+                ) : (
+                  sessions.map((session) => (
+                    <div key={session.id} className="session-item">
+                      <div className="session-info">
+                        <span className="session-device">{session.device}</span>
+                        <span className="session-location">{session.location}</span>
+                      </div>
+                      {session.active ? (
+                        <span className="status-pill status-ativa">Ativa</span>
+                      ) : (
+                        <button className="btn-revoke" onClick={() => handleRevoke(session.id)}>Desconectar</button>
+                      )}
                     </div>
-                    {session.active ? (
-                      <span className="status-pill status-ativa">Ativa</span>
-                    ) : (
-                      <button className="btn-revoke" onClick={() => handleRevoke(session.id)}>Desconectar</button>
-                    )}
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>

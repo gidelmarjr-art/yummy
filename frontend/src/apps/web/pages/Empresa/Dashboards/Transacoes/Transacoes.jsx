@@ -21,11 +21,12 @@ import {
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { useRealtimeTransactions } from "./useRealtimeTransactions";
+import "../dashboards-shared.css";
 import "./Transacoes.css";
 
 export default function Transacoes() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { metrics, yearlyData, monthlyRevenueData, channelsData, recentTransactions } =
+  const { metrics, yearlyData, monthlyRevenueData, channelsData, recentTransactions, erro } =
     useRealtimeTransactions();
 
   const renderChannelIcon = (type) => {
@@ -79,6 +80,7 @@ export default function Transacoes() {
 
         {/* Dashboard Body */}
         <div className="transacoes-dashboard-body">
+          {erro && <p className="dashboard-error-msg">{erro}</p>}
           {/* Top Metrics Cards */}
           <div className="metrics-cards-row">
             <div className="metric-summary-card">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   FaSearch,
   FaCog,
@@ -12,140 +12,121 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import {
+  getPedidos,
+  criarPedido,
+  avancarPedido,
+  formatTimeAgo,
+  wsUrl,
+} from "../../../../services/api";
+import "../dashboards-shared.css";
 import "./Pedidos.css";
 
-const STATUS_TABS = [
-  "Novos",
-  "Em preparo",
-  "Prontos",
-  "Entregues",
-  "Concluídos",
-  "Todos"
-];
+const STATUS_TABS = ["Novos", "Em preparo", "Prontos", "Entregues", "Concluídos", "Todos"];
 
-// Pedidos Iniciais de Exemplo
-const INITIAL_ORDERS = [
-  {
-    id: "131.",
-    customer: "João Silva",
-    location: "Mesa 04",
-    itemsSummary: "1x Sorvete com Brownie, 2x Coca-Cola",
-    items: [
-      { name: "Sorvete com Brownie", qty: 1, price: 18.00 },
-      { name: "Coca-Cola Zero", qty: 2, price: 6.00 }
-    ],
-    status: "Em preparo",
-    timeAgo: "12 min",
-    total: 30.00
-  },
-  {
-    id: "132.",
-    customer: "Maria Oliveira",
-    location: "Entrega (Rua das Flores, 12)",
-    itemsSummary: "2x Codó Burguer, 1x Batata Frita",
-    items: [
-      { name: "Codó Burguer", qty: 2, price: 38.00 },
-      { name: "Batata Frita c/ Cheddar", qty: 1, price: 14.50 }
-    ],
-    status: "Novos",
-    timeAgo: "3 min",
-    total: 90.50
-  },
-  {
-    id: "133.",
-    customer: "Carlos Eduardo",
-    location: "Mesa 01",
-    itemsSummary: "1x Chopp Artesanal, 1x Porção de Pastéis",
-    items: [
-      { name: "Chopp Artesanal", qty: 1, price: 14.00 },
-      { name: "Porção de Pastéis", qty: 1, price: 24.00 }
-    ],
-    status: "Prontos",
-    timeAgo: "25 min",
-    total: 38.00
-  },
-  {
-    id: "134.",
-    customer: "Ana Paula",
-    location: "Entrega (Av. Central, 450)",
-    itemsSummary: "1x Sorvete com Brownie",
-    items: [
-      { name: "Sorvete com Brownie", qty: 1, price: 18.00 }
-    ],
-    status: "Entregues",
-    timeAgo: "40 min",
-    total: 25.50
-  }
-];
+const PROXIMO_STATUS = {
+  Novos: "Em preparo",
+  "Em preparo": "Prontos",
+  Prontos: "Entregues",
+  Entregues: "Concluídos",
+};
+
+function pedidoParaLinha(pedido) {
+  return {
+    dbId: pedido.id,
+    id: pedido.codigo,
+    customer: pedido.cliente_nome,
+    location: pedido.local,
+    itemsSummary: pedido.itens.map((i) => `${i.quantidade}x ${i.nome_produto}`).join(", ") || "—",
+    items: pedido.itens.map((i) => ({ name: i.nome_produto, qty: i.quantidade, price: Number(i.preco_unitario) })),
+    status: pedido.status,
+    timeAgo: formatTimeAgo(pedido.criado_em),
+    total: Number(pedido.total),
+  };
+}
 
 export default function Pedidos() {
-  const [orders, setOrders] = useState(INITIAL_ORDERS);
+  const [orders, setOrders] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
   const [activeTab, setActiveTab] = useState("Em preparo");
   const [searchTerm, setSearchTerm] = useState("");
   const [statusDropdownFilter, setStatusDropdownFilter] = useState("Todos");
 
-  // Modais
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
+  const [salvandoPedido, setSalvandoPedido] = useState(false);
 
-  // Formulário de Novo Pedido
   const [newOrderForm, setNewOrderForm] = useState({
     customer: "",
     location: "Mesa 01",
     itemName: "Sorvete com Brownie",
     quantity: 1,
-    price: 18.00
+    price: 18.0,
   });
 
-  // Próxima etapa do status
-  const getNextStatus = (currentStatus) => {
-    switch (currentStatus) {
-      case "Novos": return "Em preparo";
-      case "Em preparo": return "Prontos";
-      case "Prontos": return "Entregues";
-      case "Entregues": return "Concluídos";
-      default: return "Concluídos";
+  const carregarPedidos = useCallback(() => {
+    return getPedidos()
+      .then((data) => setOrders(data.map(pedidoParaLinha)))
+      .catch((err) => setErro(err.detail || err.message));
+  }, []);
+
+  useEffect(() => {
+    carregarPedidos().finally(() => setCarregando(false));
+  }, [carregarPedidos]);
+
+  // Tempo real: qualquer pedido criado/atualizado por qualquer tela recarrega a lista aqui.
+  useEffect(() => {
+    let socket;
+    let retry;
+    const conectar = () => {
+      socket = new WebSocket(wsUrl("/ws/dashboard"));
+      socket.onmessage = () => carregarPedidos().catch(() => {});
+      socket.onclose = () => {
+        retry = setTimeout(conectar, 3000);
+      };
+    };
+    conectar();
+    return () => {
+      clearTimeout(retry);
+      socket?.close();
+    };
+  }, [carregarPedidos]);
+
+  const handleAdvanceStatus = async (dbId) => {
+    try {
+      await avancarPedido(dbId);
+      await carregarPedidos();
+    } catch (err) {
+      alert(err.detail || "Não foi possível avançar o status do pedido.");
     }
   };
 
-  // Avançar Status
-  const handleAdvanceStatus = (id) => {
-    setOrders((prev) =>
-      prev.map((ord) => {
-        if (ord.id === id) {
-          return { ...ord, status: getNextStatus(ord.status) };
-        }
-        return ord;
-      })
-    );
-  };
-
-  // Cadastrar Novo Pedido
-  const handleCreateOrder = (e) => {
+  const handleCreateOrder = async (e) => {
     e.preventDefault();
     if (!newOrderForm.customer) return alert("Informe o nome do cliente.");
 
     const priceNum = Number(newOrderForm.price);
     const qtyNum = Number(newOrderForm.quantity);
-    const orderTotal = priceNum * qtyNum;
 
-    const newOrder = {
-      id: `${Math.floor(100 + Math.random() * 900)}.`,
-      customer: newOrderForm.customer,
-      location: newOrderForm.location,
-      itemsSummary: `${qtyNum}x ${newOrderForm.itemName}`,
-      items: [{ name: newOrderForm.itemName, qty: qtyNum, price: priceNum }],
-      status: "Novos",
-      timeAgo: "Agora",
-      total: orderTotal
-    };
-
-    setOrders([newOrder, ...orders]);
-    setIsNewOrderModalOpen(false);
-    setNewOrderForm({ customer: "", location: "Mesa 01", itemName: "Sorvete com Brownie", quantity: 1, price: 18.00 });
+    setSalvandoPedido(true);
+    try {
+      await criarPedido({
+        cliente_nome: newOrderForm.customer,
+        local: newOrderForm.location,
+        canal: "local",
+        itens: [{ nome_produto: newOrderForm.itemName, quantidade: qtyNum, preco_unitario: priceNum }],
+      });
+      await carregarPedidos();
+      setIsNewOrderModalOpen(false);
+      setNewOrderForm({ customer: "", location: "Mesa 01", itemName: "Sorvete com Brownie", quantity: 1, price: 18.0 });
+    } catch (err) {
+      alert(err.detail || "Não foi possível lançar o pedido.");
+    } finally {
+      setSalvandoPedido(false);
+    }
   };
 
-  // Filtragem dos Pedidos
   const filteredOrders = orders.filter((order) => {
     const matchesTab = activeTab === "Todos" || order.status === activeTab;
     const matchesDropdown = statusDropdownFilter === "Todos" || order.status === statusDropdownFilter;
@@ -153,7 +134,6 @@ export default function Pedidos() {
       order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.id.includes(searchTerm) ||
       order.itemsSummary.toLowerCase().includes(searchTerm.toLowerCase());
-
     return matchesTab && matchesDropdown && matchesSearch;
   });
 
@@ -162,7 +142,6 @@ export default function Pedidos() {
       <Sidebar />
 
       <main className="pedidos-main-content">
-        {/* Header Superior */}
         <header className="pedidos-top-bar">
           <h1 className="page-heading">Pedidos em Tempo Real</h1>
 
@@ -176,27 +155,18 @@ export default function Pedidos() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-
-            <button className="action-circle-btn" aria-label="Configurações">
-              <FaCog />
-            </button>
-            <button className="action-circle-btn" aria-label="Notificações">
-              <FaBell />
-            </button>
-
+            <button className="action-circle-btn" aria-label="Configurações"><FaCog /></button>
+            <button className="action-circle-btn" aria-label="Notificações"><FaBell /></button>
             <div className="user-profile-avatar">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-                alt="Avatar"
-              />
+              <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Avatar" />
             </div>
           </div>
         </header>
 
-        {/* Corpo Laranja */}
         <div className="pedidos-dashboard-body">
+          {erro && <p className="dashboard-error-msg">{erro}</p>}
+
           <div className="top-controls-row">
-            {/* Dropdown de Status Superior Esquerdo */}
             <div className="dropdown-filter-wrapper">
               <select
                 className="status-dropdown-select"
@@ -213,35 +183,23 @@ export default function Pedidos() {
               <FaChevronDown className="dropdown-icon" />
             </div>
 
-            {/* Card Novo Pedido no Canto Superior Direito */}
             <div className="novo-pedido-card-top">
               <span className="card-title">Novo Pedido</span>
               <div className="novo-pedido-buttons">
-                <button
-                  className="btn-orange-action"
-                  onClick={() => setIsNewOrderModalOpen(true)}
-                >
+                <button className="btn-orange-action" onClick={() => setIsNewOrderModalOpen(true)}>
                   <FaPlus /> Criar Pedido
                 </button>
-                <button
-                  className="btn-orange-action"
-                  onClick={() => alert("Imprimindo relatórios do turno...")}
-                >
+                <button className="btn-orange-action" onClick={() => window.print()}>
                   <FaPrint /> Relatório
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Tabela de Pedidos Principal */}
           <div className="pedidos-table-container">
-            {/* Abas de Navegação */}
             <div className="status-tab-bar">
               {STATUS_TABS.map((tab) => {
-                const count = tab === "Todos" 
-                  ? orders.length 
-                  : orders.filter((o) => o.status === tab).length;
-
+                const count = tab === "Todos" ? orders.length : orders.filter((o) => o.status === tab).length;
                 return (
                   <button
                     key={tab}
@@ -254,14 +212,13 @@ export default function Pedidos() {
               })}
             </div>
 
-            {/* Lista de Pedidos */}
             <div className="pedidos-items-list">
-              {filteredOrders.length > 0 ? (
+              {carregando ? (
+                <p className="dashboard-loading-msg">Carregando pedidos…</p>
+              ) : filteredOrders.length > 0 ? (
                 filteredOrders.map((order) => (
-                  <div key={order.id} className="pedido-row-item">
-                    <div className="order-receipt-icon">
-                      <FaReceipt />
-                    </div>
+                  <div key={order.dbId} className="pedido-row-item">
+                    <div className="order-receipt-icon"><FaReceipt /></div>
 
                     <div className="order-id-col">
                       <strong className="order-code">{order.id}</strong>
@@ -274,7 +231,7 @@ export default function Pedidos() {
                     </div>
 
                     <div className="order-status-badge-col">
-                      <span className={`status-pill status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                      <span className={`status-pill status-${order.status.toLowerCase().replace(/\s+/g, "-")}`}>
                         {order.status}
                       </span>
                     </div>
@@ -284,44 +241,32 @@ export default function Pedidos() {
                     </span>
 
                     <div className="order-actions-col">
-                      <button
-                        className="btn-view-details"
-                        onClick={() => setSelectedOrderDetails(order)}
-                        title="Ver Detalhes"
-                      >
+                      <button className="btn-view-details" onClick={() => setSelectedOrderDetails(order)} title="Ver Detalhes">
                         <FaEye /> Ver
                       </button>
 
                       {order.status !== "Concluídos" && (
-                        <button
-                          className="btn-advance-status"
-                          onClick={() => handleAdvanceStatus(order.id)}
-                        >
-                          Mudar p/ {getNextStatus(order.status)}
+                        <button className="btn-advance-status" onClick={() => handleAdvanceStatus(order.dbId)}>
+                          Mudar p/ {PROXIMO_STATUS[order.status] || "Concluídos"}
                         </button>
                       )}
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="empty-orders-msg">
-                  Nenhum pedido encontrado nesta seção.
-                </div>
+                <div className="empty-orders-msg">Nenhum pedido encontrado nesta seção.</div>
               )}
             </div>
           </div>
         </div>
       </main>
 
-      {/* Modal de Detalhes do Pedido */}
       {selectedOrderDetails && (
         <div className="pedidos-modal-overlay">
           <div className="pedidos-modal-card">
             <div className="modal-header">
               <h2>Detalhes do Pedido #{selectedOrderDetails.id}</h2>
-              <button className="btn-close-modal" onClick={() => setSelectedOrderDetails(null)}>
-                <FaTimes />
-              </button>
+              <button className="btn-close-modal" onClick={() => setSelectedOrderDetails(null)}><FaTimes /></button>
             </div>
 
             <div className="modal-body-details">
@@ -335,41 +280,30 @@ export default function Pedidos() {
                 {selectedOrderDetails.items.map((item, idx) => (
                   <li key={idx}>
                     <span>{item.qty}x {item.name}</span>
-                    <strong>
-                      {(item.qty * item.price).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                    </strong>
+                    <strong>{(item.qty * item.price).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
                   </li>
                 ))}
               </ul>
               <div className="modal-total-line">
                 <strong>Total:</strong>
-                <strong>
-                  {selectedOrderDetails.total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                </strong>
+                <strong>{selectedOrderDetails.total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
               </div>
             </div>
 
             <div className="modal-actions">
-              <button className="btn-print-ticket" onClick={() => alert("Imprimindo via impressora térmica...")}>
-                <FaPrint /> Imprimir Comanda
-              </button>
-              <button className="btn-cancel-modal" onClick={() => setSelectedOrderDetails(null)}>
-                Fechar
-              </button>
+              <button className="btn-print-ticket" onClick={() => window.print()}><FaPrint /> Imprimir Comanda</button>
+              <button className="btn-cancel-modal" onClick={() => setSelectedOrderDetails(null)}>Fechar</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Modal de Criar Novo Pedido Manual */}
       {isNewOrderModalOpen && (
         <div className="pedidos-modal-overlay">
           <div className="pedidos-modal-card">
             <div className="modal-header">
               <h2>Lançar Novo Pedido</h2>
-              <button className="btn-close-modal" onClick={() => setIsNewOrderModalOpen(false)}>
-                <FaTimes />
-              </button>
+              <button className="btn-close-modal" onClick={() => setIsNewOrderModalOpen(false)}><FaTimes /></button>
             </div>
 
             <form onSubmit={handleCreateOrder} className="modal-form">
@@ -393,9 +327,8 @@ export default function Pedidos() {
                     onChange={(e) => setNewOrderForm({ ...newOrderForm, location: e.target.value })}
                   />
                 </div>
-
                 <div className="form-group">
-                  <label>Item Principais</label>
+                  <label>Item Principal</label>
                   <input
                     type="text"
                     value={newOrderForm.itemName}
@@ -415,7 +348,6 @@ export default function Pedidos() {
                     onChange={(e) => setNewOrderForm({ ...newOrderForm, quantity: e.target.value })}
                   />
                 </div>
-
                 <div className="form-group">
                   <label>Preço Un. (R$)</label>
                   <input
@@ -428,14 +360,10 @@ export default function Pedidos() {
               </div>
 
               <div className="modal-actions">
-                <button type="submit" className="btn-save-modal">
-                  Confirmar Pedido
+                <button type="submit" className="btn-save-modal" disabled={salvandoPedido}>
+                  {salvandoPedido ? "Salvando…" : "Confirmar Pedido"}
                 </button>
-                <button
-                  type="button"
-                  className="btn-cancel-modal"
-                  onClick={() => setIsNewOrderModalOpen(false)}
-                >
+                <button type="button" className="btn-cancel-modal" onClick={() => setIsNewOrderModalOpen(false)}>
                   Cancelar
                 </button>
               </div>

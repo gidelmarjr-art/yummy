@@ -73,7 +73,13 @@ export default function LoginCliente() {
 
       const data = await response.json();
       localStorage.setItem("access_token", data.access_token);
-      navigate("/home");
+
+      const perfisEquipe = ["gerente", "admin", "cozinha", "caixa", "garcom"];
+      if (perfisEquipe.includes(data.perfil)) {
+        navigate("/dashboard");
+      } else {
+        navigate("/home");
+      }
     } catch (error) {
       setErro({
         codigo: "ERR_NETWORK",
