@@ -25,6 +25,7 @@ import CadastroPratos from './apps/web/pages/Empresa/Dashboards/Cadastro_Pratos/
 import RedefinirSenha from "./apps/web/pages/Cliente/RedefinirSenha/RedefinirSenha";
 import Privacidade from "./apps/web/pages/Privacidade/Privacidade";
 import MenuCaroussel from './apps/web/pages/Cliente/MenuCarrossel/MenuCarrossel';
+import MapaNavegacao from './apps/web/pages/Mapa/MapaNavegacao';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="/redefinir-senha" element={<RedefinirSenha />} />
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/menu-carousel" element={<MenuCaroussel />} />
+          <Route path="/mapa-navegacao" element={<MapaNavegacao />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>

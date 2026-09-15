@@ -265,6 +265,7 @@ export default function LandingPage() {
             <a href="#modulos">Módulos</a>
             <a href="#tempo-real">Tempo real</a>
             <Link to="/Sobre">Sobre nós</Link>
+            <Link to="/mapa-navegacao" style={{ color: "var(--ink)" }}>Mapa de navegação</Link>
           </nav>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
             <Link to="/login" className="btn btn--ghost">Entrar</Link>
