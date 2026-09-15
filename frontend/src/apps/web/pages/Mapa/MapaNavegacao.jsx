@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Heart, Map } from "lucide-react";
-import "./Landing.css"; // Reaproveita os estilos padrão da Landing Page
+import "../Landing.css"; // Reaproveita os estilos padrão da Landing Page
 
 export default function MapaNavegacao() {
   return (
