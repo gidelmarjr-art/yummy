@@ -1,15 +1,143 @@
-/* Importa o padrão de variáveis e fontes globais da landing page se necessário */
-@import "../Landing.css";
+/* Estilos padrão do tema Yummy (isolados para evitar erros de caminho) */
+.yummy-map-page {
+  --navy: #02143a;
+  --navy-2: #081d4e;
+  --orange: #ff9500;
+  --cream: #fff3e9;
+  --ink: #eef2fb;
+  --muted: #93a3c9;
+  --line: rgba(238, 242, 251, 0.12);
 
-.map-page {
-  min-height: 80vh;
+  --font-display: "Fraunces", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  background: var(--navy);
+  color: var(--ink);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+.yummy-map-page * {
+  box-sizing: border-box;
+}
+
+.yummy-map-page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Navbar */
+.map-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+  background: rgba(2, 20, 58, 0.7);
+  border-bottom: 1px solid var(--line);
+}
+
+.map-nav__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.1rem 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.map-nav__logo {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.map-nav__logo .dot {
+  color: var(--orange);
+}
+
+.map-nav__links {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.map-nav__links a:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  .map-nav__links {
+    display: none;
+  }
+}
+
+/* Botões */
+.map-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  background: transparent;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.map-btn:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+/* Seção do Conteúdo / Mapa */
+.map-section {
+  position: relative;
+  padding: 5rem 6vw;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.map-container {
+.map-section__head {
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+
+.map-section__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin: 0 0 0.9rem;
+}
+
+.map-section__head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-weight: 600;
+  margin: 0 0 1rem;
+  line-height: 1.15;
+}
+
+.map-section__lede {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.map-panel {
   width: 100%;
   max-width: 1100px;
   background: var(--navy-2);
@@ -20,9 +148,27 @@
   overflow: auto;
 }
 
-.map-image {
+.map-panel__image {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 8px;
+}
+
+/* Rodapé */
+.map-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 6vw;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 620px) {
+  .map-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
 }
