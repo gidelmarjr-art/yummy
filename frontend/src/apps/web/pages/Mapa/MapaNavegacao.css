@@ -1,0 +1,28 @@
+/* Importa o padrão de variáveis e fontes globais da landing page se necessário */
+@import "../Landing.css";
+
+.map-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-container {
+  width: 100%;
+  max-width: 1100px;
+  background: var(--navy-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow: auto;
+}
+
+.map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
