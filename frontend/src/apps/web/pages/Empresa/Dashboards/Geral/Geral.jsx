@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaSearch,
   FaCog,
@@ -9,27 +9,32 @@ import {
   FaDollarSign,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { getGeral } from "../../../../services/api";
+import "../dashboards-shared.css";
 import "./Geral.css";
 
 export default function Dashboard() {
-  const [metrics] = useState({
-    totalSales: "R$ 1.480,00",
-    activeOrders: 4,
-    lowStockItems: 2,
-    totalClients: 42
+  const [metrics, setMetrics] = useState({
+    totalSales: "R$ 0,00",
+    activeOrders: 0,
+    lowStockItems: 0,
+    totalClients: 0,
   });
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [stockAlerts, setStockAlerts] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
 
-  const [recentOrders] = useState([
-    { id: "131.", customer: "João Silva", summary: "1x Sorvete com Brownie", status: "Em preparo", total: "R$ 30,00" },
-    { id: "132.", customer: "Maria Oliveira", summary: "2x Codó Burguer", status: "Novos", total: "R$ 90,50" },
-    { id: "133.", customer: "Carlos Eduardo", summary: "1x Chopp Artesanal", status: "Prontos", total: "R$ 38,00" },
-    { id: "134.", customer: "Ana Paula", summary: "1x Sorvete com Brownie", status: "Entregues", total: "R$ 25,50" }
-  ]);
-
-  const [stockAlerts] = useState([
-    { name: "Queijo Cheddar Fatiado", qty: "4 kg", status: "Crítico" },
-    { name: "Pão de Hambúrguer Artesanal", qty: "15 un", status: "Baixo" }
-  ]);
+  useEffect(() => {
+    getGeral()
+      .then((data) => {
+        setMetrics(data.metrics);
+        setRecentOrders(data.recentOrders);
+        setStockAlerts(data.stockAlerts);
+      })
+      .catch((err) => setErro(err.detail || err.message))
+      .finally(() => setCarregando(false));
+  }, []);
 
   return (
     <div className="dashboard-page-layout">
@@ -64,6 +69,8 @@ export default function Dashboard() {
 
         {/* Corpo Laranja */}
         <div className="dashboard-body-content">
+          {erro && <p className="dashboard-error-msg">{erro}</p>}
+
           {/* Métricas Principais */}
           <div className="metrics-grid">
             <div className="metric-card">
@@ -71,8 +78,8 @@ export default function Dashboard() {
                 <span>Faturamento Hoje</span>
                 <span className="metric-icon-wrapper"><FaDollarSign /></span>
               </div>
-              <h2 className="metric-value">{metrics.totalSales}</h2>
-              <span className="metric-footer">+12% comparado a ontem</span>
+              <h2 className="metric-value">{carregando ? "…" : metrics.totalSales}</h2>
+              <span className="metric-footer">Concluído hoje</span>
             </div>
 
             <div className="metric-card">
@@ -80,7 +87,7 @@ export default function Dashboard() {
                 <span>Pedidos Ativos</span>
                 <span className="metric-icon-wrapper"><FaUtensils /></span>
               </div>
-              <h2 className="metric-value">{metrics.activeOrders}</h2>
+              <h2 className="metric-value">{carregando ? "…" : metrics.activeOrders}</h2>
               <span className="metric-footer" style={{ color: "#c2410c" }}>Em andamento na cozinha</span>
             </div>
 
@@ -89,7 +96,7 @@ export default function Dashboard() {
                 <span>Alertas de Estoque</span>
                 <span className="metric-icon-wrapper"><FaBoxes /></span>
               </div>
-              <h2 className="metric-value">{metrics.lowStockItems}</h2>
+              <h2 className="metric-value">{carregando ? "…" : metrics.lowStockItems}</h2>
               <span className="metric-footer" style={{ color: "#b91c1c" }}>Itens precisando de reposição</span>
             </div>
 
@@ -98,8 +105,8 @@ export default function Dashboard() {
                 <span>Total Clientes</span>
                 <span className="metric-icon-wrapper"><FaUsers /></span>
               </div>
-              <h2 className="metric-value">{metrics.totalClients}</h2>
-              <span className="metric-footer">+3 novos hoje</span>
+              <h2 className="metric-value">{carregando ? "…" : metrics.totalClients}</h2>
+              <span className="metric-footer">Cadastrados na plataforma</span>
             </div>
           </div>
 
@@ -109,6 +116,9 @@ export default function Dashboard() {
             <div className="dashboard-card-container">
               <h3 className="section-title">Últimos Pedidos em Tempo Real</h3>
               <div className="recent-orders-list">
+                {!carregando && recentOrders.length === 0 && (
+                  <p className="dashboard-empty-msg">Nenhum pedido ainda.</p>
+                )}
                 {recentOrders.map((order) => (
                   <div key={order.id} className="recent-order-item">
                     <div className="order-info-group">
@@ -130,6 +140,9 @@ export default function Dashboard() {
             <div className="dashboard-card-container">
               <h3 className="section-title">Insumos Críticos</h3>
               <div className="stock-alerts-list">
+                {!carregando && stockAlerts.length === 0 && (
+                  <p className="dashboard-empty-msg">Nenhum alerta — estoque saudável.</p>
+                )}
                 {stockAlerts.map((stock, idx) => (
                   <div key={idx} className="stock-alert-item">
                     <div className="order-info-group">

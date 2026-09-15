@@ -1,0 +1,68 @@
+/* Estados compartilhados (loading/vazio/erro) usados por todos os
+   dashboards da empresa agora que eles consomem a API de verdade. */
+
+.dashboard-error-msg {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-empty-msg {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.dashboard-loading-msg {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.form-error-msg {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+}
+
+.form-success-msg {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Pill de status genérico, usado por telas que não definem o próprio (ex: Cadastro de Pratos) */
+.status-pill {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.status-pill.status-em-estoque { background: #dcfce7; color: #15803d; }
+.status-pill.status-esgotado { background: #fee2e2; color: #b91c1c; }
+.status-pill.status-novos { background: #dbeafe; color: #1d4ed8; }
+.status-pill.status-em-preparo { background: #fef3c7; color: #b45309; }
+.status-pill.status-prontos { background: #dcfce7; color: #15803d; }
+.status-pill.status-entregues { background: #e0e7ff; color: #4338ca; }
+.status-pill.status-concluídos { background: #f3f4f6; color: #374151; }

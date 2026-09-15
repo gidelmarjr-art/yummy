@@ -61,3 +61,18 @@
   display: flex;
   align-items: center;
 }
+.sidebar-btn--logout {
+  margin-top: auto;
+  color: #ef4444;
+}
+
+.sidebar-btn--logout:hover {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

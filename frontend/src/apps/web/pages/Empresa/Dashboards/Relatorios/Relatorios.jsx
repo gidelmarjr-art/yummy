@@ -26,11 +26,12 @@ import {
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { useRealtimeDashboard } from "./useRealtimeDashboard";
+import "../dashboards-shared.css";
 import "./Relatorios.css";
 
 export default function Relatorios() {
   const [period, setPeriod] = useState("7d");
-  const { metrics, weeklyData, paymentData, monthlyData } = useRealtimeDashboard();
+  const { metrics, weeklyData, paymentData, monthlyData, erro } = useRealtimeDashboard();
 
   return (
     <div className="relatorios-page-layout">
@@ -65,6 +66,7 @@ export default function Relatorios() {
 
         {/* Dashboard Body */}
         <div className="relatorios-dashboard-body">
+          {erro && <p className="dashboard-error-msg">{erro}</p>}
           {/* Barra de Filtros */}
           <div className="relatorios-filter-bar">
             <div className="filter-period-selector">
