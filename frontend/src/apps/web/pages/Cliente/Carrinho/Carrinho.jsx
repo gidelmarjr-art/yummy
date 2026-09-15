@@ -12,7 +12,7 @@ export default function Cart() {
   const containerRef = useRef(null);
   const navigate = useNavigate();
   
-  const { cartItems, updateQuantity, removeFromCart, totalItemsCount } = useCart();
+  const { cartItems, updateQuantity, removeFromCart } = useCart();
   
   const [couponCode, setCouponCode] = useState("");
   const [discountPercent, setDiscountPercent] = useState(0);
