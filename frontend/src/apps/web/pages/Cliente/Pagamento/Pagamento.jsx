@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { 
   FaArrowLeft, 
@@ -21,6 +22,7 @@ import logoNome from "../../../../../imgs/LogoYummy_3.png";
 
 export default function Pagamento() {
   const containerRef = useRef(null);
+  const navigate = useNavigate();
 
   // Consumindo os dados reais do carrinho
   const { cartItems, clearCart } = useCart();
@@ -50,6 +52,9 @@ export default function Pagamento() {
   // Estados de Processamento e Modal
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  // "Foto" do pedido no momento da confirmação — precisa ser guardada antes
+  // do clearCart(), já que ele esvazia o cartItems do contexto.
+  const [confirmedOrder, setConfirmedOrder] = useState(null);
 
   const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0) * item.quantity, 0);
   const deliveryFee = 7.50;
@@ -125,6 +130,13 @@ export default function Pagamento() {
     setTimeout(() => {
       setIsProcessing(false);
       setIsSuccessModalOpen(true);
+      setConfirmedOrder({
+        items: cartItems,
+        total,
+        address,
+        method: selectedMethod,
+        cardLast4: currentCard?.last4,
+      });
       clearCart(); // Limpa o carrinho após o sucesso da compra
     }, 1800);
   };
@@ -424,7 +436,7 @@ export default function Pagamento() {
               className="btn-modal-close"
               onClick={() => {
                 setIsSuccessModalOpen(false);
-                window.location.href = "/";
+                navigate("/acompanhar-entrega", { state: { order: confirmedOrder } });
               }}
             >
               Acompanhar Pedido

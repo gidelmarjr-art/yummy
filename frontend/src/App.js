@@ -26,6 +26,7 @@ import RedefinirSenha from "./apps/web/pages/Cliente/RedefinirSenha/RedefinirSen
 import Privacidade from "./apps/web/pages/Privacidade/Privacidade";
 import MenuCaroussel from './apps/web/pages/Cliente/MenuCarrossel/MenuCarrossel';
 import MapaNavegacao from './apps/web/pages/Mapa/MapaNavegacao';
+import AcompanharEntrega from './apps/web/pages/Cliente/AcompanharEntrega/AcompanharEntrega';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/favoritos" element={<Home />} />  
 
           <Route path="/pagamento" element={<Pagamento />} />
+          <Route path="/acompanhar-entrega" element={<AcompanharEntrega />} />
           <Route path="/cardapio" element={<Cardapio />} />
           <Route path="/pedidos" element={<Pedidos />} />
           <Route path="/relatorios" element={<Relatorios />} />
