@@ -57,7 +57,7 @@ const SECOES = [
 export default function Privacidade() {
   return (
     <div className="privacy-page">
-      <Link to="/" className="privacy-page__back">
+      <Link to="/login" className="privacy-page__back">
         <ArrowLeft size={16} /> Início
       </Link>
 

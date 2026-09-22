@@ -216,7 +216,7 @@ export default function CadastroCliente() {
 
           <form className="cadastro-page__form" onSubmit={handleCadastro}>
             <div className="cadastro-page__field">
-              <label htmlFor="cad-nome">Nome completo</label>
+              <label htmlFor="cad-nome">*Nome completo</label>
               <input
                 id="cad-nome"
                 type="text"
@@ -229,7 +229,7 @@ export default function CadastroCliente() {
             </div>
 
             <div className="cadastro-page__field">
-              <label htmlFor="cad-email">E-mail</label>
+              <label htmlFor="cad-email">*E-mail</label>
               <input
                 id="cad-email"
                 type="email"
@@ -243,7 +243,7 @@ export default function CadastroCliente() {
 
             <div className="cadastro-page__row">
               <div className="cadastro-page__field">
-                <label htmlFor="cad-telefone">Telefone</label>
+                <label htmlFor="cad-telefone">*Telefone</label>
                 <input
                   id="cad-telefone"
                   type="tel"
@@ -256,7 +256,7 @@ export default function CadastroCliente() {
               </div>
 
               <div className="cadastro-page__field">
-                <label htmlFor="cad-cpf">CPF</label>
+                <label htmlFor="cad-cpf">*CPF</label>
                 <input
                   id="cad-cpf"
                   type="text"
@@ -270,7 +270,7 @@ export default function CadastroCliente() {
             </div>
 
             <div className="cadastro-page__field">
-              <label htmlFor="cad-endereco">Endereço</label>
+              <label htmlFor="cad-endereco">*Endereço</label>
               <input
                 id="cad-endereco"
                 type="text"
@@ -284,7 +284,7 @@ export default function CadastroCliente() {
 
             <div className="cadastro-page__row">
               <div className="cadastro-page__field">
-                <label htmlFor="cad-senha">Senha</label>
+                <label htmlFor="cad-senha">*Senha</label>
                 <div className="cadastro-page__password">
                   <input
                     id="cad-senha"
@@ -307,7 +307,7 @@ export default function CadastroCliente() {
               </div>
 
               <div className="cadastro-page__field">
-                <label htmlFor="cad-confirmar">Confirmar senha</label>
+                <label htmlFor="cad-confirmar">*Confirmar senha</label>
                 <div className="cadastro-page__password">
                   <input
                     id="cad-confirmar"
