@@ -350,7 +350,7 @@ export default function Home() {
             className="btn-see-more"
             onClick={() => setMostrarTudo((v) => !v)}
           >
-            {mostrarTudo ? "Ver menos" : "Ver mais"}
+            {mostrarTudo ? "Ver menos" : "Ver Cardápio Completo"}
           </button>
         </div>
 
