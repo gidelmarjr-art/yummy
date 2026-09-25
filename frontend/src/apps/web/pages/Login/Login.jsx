@@ -10,9 +10,9 @@ import {
   Heart,
   ShieldCheck,
 } from "lucide-react";
-import "./LoginCliente.css";
+import "./Login.css";
 
-import logoIcone from "../../../../../imgs/LogoYummy.png";
+import logoIcone from "../../../../imgs/LogoYummy.png";
 
 // Progressão de status de um pedido — reforça a proposta de "tempo real"
 // usando o mesmo vocabulário de eventos já usado na Landing.
@@ -36,7 +36,7 @@ const BENEFICIOS = [
   },
 ];
 
-export default function LoginCliente() {
+export default function Login() {
   const rootRef = useRef(null);
   const ticketRef = useRef(null);
   const navigate = useNavigate();

@@ -41,6 +41,8 @@ function produtoParaItem(produto) {
     category: produto.categoria,
     status: produto.status,
     price: Number(produto.preco),
+    image: produto.imagem_url || produto.foto || produto.imagem || null,
+    description: produto.descricao || produto.description || "",
   };
 }
 
@@ -61,6 +63,8 @@ export default function GestaoCardapio() {
     category: "Pratos principais",
     status: "Em estoque",
     price: "",
+    description: "",
+    image: "",
   });
 
   const carregarCardapio = () => {
@@ -121,10 +125,19 @@ export default function GestaoCardapio() {
         category: itemToEdit.category,
         status: itemToEdit.status,
         price: itemToEdit.price.toString(),
+        description: itemToEdit.description || "",
+        image: itemToEdit.image || "",
       });
     } else {
       setEditingItem(null);
-      setFormData({ name: "", category: activeCategory, status: "Em estoque", price: "" });
+      setFormData({
+        name: "",
+        category: activeCategory,
+        status: "Em estoque",
+        price: "",
+        description: "",
+        image: "",
+      });
     }
     setIsModalOpen(true);
   };
@@ -145,6 +158,8 @@ export default function GestaoCardapio() {
           categoria: formData.category,
           status: formData.status,
           preco: priceNum,
+          descricao: formData.description,
+          imagem_url: formData.image,
         });
         setItems((prev) => prev.map((item) => (item.id === editingItem.id ? produtoParaItem(atualizado) : item)));
       } else {
@@ -153,6 +168,8 @@ export default function GestaoCardapio() {
           categoria: formData.category,
           status: formData.status,
           preco: priceNum,
+          descricao: formData.description,
+          imagem_url: formData.image,
           ficha_tecnica: [],
         });
         setItems((prev) => [...prev, produtoParaItem(criado)]);
@@ -225,9 +242,20 @@ export default function GestaoCardapio() {
               ) : currentItems.length > 0 ? (
                 currentItems.map((item) => (
                   <div key={item.id} className="menu-item-row">
-                    <div className="item-camera-icon"><FaCamera /></div>
+                    <div className="item-photo">
+                      {item.image ? (
+                        <img src={item.image} alt={item.name} loading="lazy" />
+                      ) : (
+                        <FaCamera />
+                      )}
+                    </div>
                     <span className="item-code">{item.code}</span>
-                    <span className="item-title">{item.name}</span>
+                    <div className="item-title-col">
+                      <span className="item-title">{item.name}</span>
+                      {item.description && (
+                        <span className="item-desc">{item.description}</span>
+                      )}
+                    </div>
 
                     <div className="item-status-col">
                       <button
@@ -302,6 +330,29 @@ export default function GestaoCardapio() {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                 />
+              </div>
+
+              <div className="form-group">
+                <label>Descrição</label>
+                <textarea
+                  rows={2}
+                  placeholder="Ex: Blend artesanal, bacon crocante e molho barbecue da casa."
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Foto (URL da imagem)</label>
+                <input
+                  type="text"
+                  placeholder="https://..."
+                  value={formData.image}
+                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                />
+                {formData.image && (
+                  <img className="modal-image-preview" src={formData.image} alt="Prévia" />
+                )}
               </div>
 
               <div className="form-group-row">

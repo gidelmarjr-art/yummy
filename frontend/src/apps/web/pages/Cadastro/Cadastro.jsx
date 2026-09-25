@@ -10,9 +10,9 @@ import {
   MapPin,
   ShieldCheck,
 } from "lucide-react";
-import "./CadastroCliente.css";
+import "./Cadastro.css";
 
-import logoIcone from "../../../../../imgs/LogoYummy.png";
+import logoIcone from "../../../../imgs/LogoYummy.png";
 
 const SELOS_SEGURANCA = ["DADOS_CRIPTOGRAFADOS", "SENHA_COM_HASH", "LGPD_COMPLIANT"];
 

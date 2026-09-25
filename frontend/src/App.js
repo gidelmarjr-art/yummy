@@ -5,11 +5,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext'; 
 
 import LandingPage from './apps/web/pages/landing/Landing';
-import CadastroCliente from './apps/web/pages/Cliente/CadastroCliente/CadastroCliente';
-import LoginCliente from './apps/web/pages/Cliente/LoginCliente/LoginCliente';
+import Cadastro from './apps/web/pages/Cadastro/Cadastro';
+import Login from './apps/web/pages/Login/Login';
 import Home from './apps/web/pages/Cliente/Homepage/Homepage';
 import Cart from './apps/web/pages/Cliente/Carrinho/Carrinho';
 import Sobre from './apps/web/pages/Sobre/Sobre';
+import RedefinirSenha from "./apps/web/pages/RedefinirSenha/RedefinirSenha";
 
 import Pagamento from './apps/web/pages/Cliente/Pagamento/Pagamento';
 import Cardapio from './apps/web/pages/Empresa/Dashboards/Cardapio/Cardapio';
@@ -22,11 +23,18 @@ import Clientes from './apps/web/pages/Empresa/Dashboards/Clientes/Clientes';
 import Geral from './apps/web/pages/Empresa/Dashboards/Geral/Geral';
 import Configuracoes from './apps/web/pages/Empresa/Dashboards/Configuracoes/Configuracoes';
 import CadastroPratos from './apps/web/pages/Empresa/Dashboards/Cadastro_Pratos/Cadastro_Pratos';
-import RedefinirSenha from "./apps/web/pages/Cliente/RedefinirSenha/RedefinirSenha";
+
 import Privacidade from "./apps/web/pages/Privacidade/Privacidade";
 import MenuCaroussel from './apps/web/pages/Cliente/MenuCarrossel/MenuCarrossel';
 import MapaNavegacao from './apps/web/pages/Mapa/MapaNavegacao';
 import AcompanharEntrega from './apps/web/pages/Cliente/AcompanharEntrega/AcompanharEntrega';
+import PerfilResumo from './apps/web/pages/Cliente/Perfil/Resumo/Resumo';
+import DadosPessoais from './apps/web/pages/Cliente/Perfil/DadosPessoais/DadosPessoais';
+import Enderecos from './apps/web/pages/Cliente/Perfil/Enderecos/Enderecos';
+import MeusPedidos from './apps/web/pages/Cliente/Perfil/MeusPedidos/MeusPedidos';
+import Favoritos from './apps/web/pages/Cliente/Perfil/Favoritos/Favoritos';
+import PagamentosPerfil from './apps/web/pages/Cliente/Perfil/Pagamentos/Pagamentos';
+import SegurancaPerfil from './apps/web/pages/Cliente/Perfil/Seguranca/Seguranca';
 
 function App() {
   return (
@@ -34,17 +42,25 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/cadastro" element={<CadastroCliente />} />
-          <Route path="/login" element={<LoginCliente />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/carrinho" element={<Cart />} />
           <Route path="/Sobre" element={<Sobre />} />
+          <Route path="/redefinir-senha" element={<RedefinirSenha />} />
           
           <Route path="/restaurantes" element={<Home />} />
           <Route path="/favoritos" element={<Home />} />  
 
           <Route path="/pagamento" element={<Pagamento />} />
           <Route path="/acompanhar-entrega" element={<AcompanharEntrega />} />
+          <Route path="/perfil" element={<PerfilResumo />} />
+          <Route path="/perfil/dados-pessoais" element={<DadosPessoais />} />
+          <Route path="/perfil/enderecos" element={<Enderecos />} />
+          <Route path="/perfil/pedidos" element={<MeusPedidos />} />
+          <Route path="/perfil/favoritos" element={<Favoritos />} />
+          <Route path="/perfil/pagamentos" element={<PagamentosPerfil />} />
+          <Route path="/perfil/seguranca" element={<SegurancaPerfil />} />
           <Route path="/cardapio" element={<Cardapio />} />
           <Route path="/pedidos" element={<Pedidos />} />
           <Route path="/relatorios" element={<Relatorios />} />
@@ -55,7 +71,7 @@ function App() {
           <Route path="/dashboard" element={<Geral />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
           <Route path="/cadastro-pratos" element={<CadastroPratos />} />
-          <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+          
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/menu-carousel" element={<MenuCaroussel />} />
           <Route path="/mapa-navegacao" element={<MapaNavegacao />} />

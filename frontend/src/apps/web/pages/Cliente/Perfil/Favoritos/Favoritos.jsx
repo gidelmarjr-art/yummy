@@ -1,0 +1,6 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FaHeart, FaTrash } from "react-icons/fa";
+import PerfilLayout from "../PerfilLayout";
+import { getProfile, updateProfile } from "../profileStorage";
+export default function Favoritos() { const [profile, setProfile] = useState(getProfile()); const remove = (id) => setProfile(updateProfile({ favorites: profile.favorites.filter((item) => item.id !== id) })); return <PerfilLayout title="Favoritos" description="Seus restaurantes preferidos ficam reunidos aqui."><div className="profile-list">{profile.favorites.length ? profile.favorites.map((item) => <article className="profile-list-card" key={item.id}><FaHeart className="profile-list-card__icon profile-list-card__icon--heart" /><div><h3>{item.name}</h3><p>{item.description || "Restaurante favorito"}</p></div><button className="profile-icon-button is-danger" onClick={() => remove(item.id)} aria-label="Remover favorito"><FaTrash /></button></article>) : <div className="profile-empty profile-empty--large"><FaHeart /><h2>Nenhum favorito por enquanto</h2><p>Marque restaurantes como favoritos para encontrá-los com facilidade.</p><Link className="profile-primary-button" to="/home">Explorar restaurantes</Link></div>}</div></PerfilLayout>; }
