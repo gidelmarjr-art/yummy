@@ -431,7 +431,7 @@ export default function Pagamento() {
                   : selectedMethod.toUpperCase()}
               </strong></span>
               <span>Entrega em: <strong>{address}</strong></span>
-              <span>Número do Pedido: #1020</span>
+              <span>Número do Pedido: #10209890</span>
             </div>
             <button
               className="btn-modal-close"
