@@ -26,7 +26,7 @@ export default function Header({ cartCount }) {
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
 
-          <Link to="/dashboard" className="icon-btn" aria-label="Perfil">
+          <Link to="/perfil" className="icon-btn" aria-label="Perfil">
             <FaUser size={20} />
           </Link>
         </div>
