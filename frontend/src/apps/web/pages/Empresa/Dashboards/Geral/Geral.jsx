@@ -25,6 +25,9 @@ export default function Dashboard() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
 
+  // Estado para controlar se a sidebar está visível ou recolhida
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   useEffect(() => {
     getGeral()
       .then((data) => {
@@ -36,14 +39,21 @@ export default function Dashboard() {
       .finally(() => setCarregando(false));
   }, []);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
   return (
-    <div className="dashboard-page-layout">
-      <Sidebar />
+    <div className={`dashboard-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}>
+      {/* Passamos as props para a Sidebar renderizar o botão na sua borda */}
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="dashboard-main-content">
-        {/* Header Superior */}
+        {/* Header Superior Limpo */}
         <header className="dashboard-top-bar">
-          <h1 className="page-heading">Dashboard Geral</h1>
+          <div className="top-bar-left">
+            <h1 className="page-heading">Dashboard Geral</h1>
+          </div>
 
           <div className="top-bar-right">
             <div className="search-box">
@@ -67,11 +77,10 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Corpo Laranja */}
+        {/* Corpo do Dashboard mantido igual... */}
         <div className="dashboard-body-content">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          {/* Métricas Principais */}
           <div className="metrics-grid">
             <div className="metric-card">
               <div className="metric-header">
@@ -88,7 +97,7 @@ export default function Dashboard() {
                 <span className="metric-icon-wrapper"><FaUtensils /></span>
               </div>
               <h2 className="metric-value">{carregando ? "…" : metrics.activeOrders}</h2>
-              <span className="metric-footer" style={{ color: "#c2410c" }}>Em andamento na cozinha</span>
+              <span className="metric-footer" style={{ color: "#ea580c" }}>Em andamento na cozinha</span>
             </div>
 
             <div className="metric-card">
@@ -97,7 +106,7 @@ export default function Dashboard() {
                 <span className="metric-icon-wrapper"><FaBoxes /></span>
               </div>
               <h2 className="metric-value">{carregando ? "…" : metrics.lowStockItems}</h2>
-              <span className="metric-footer" style={{ color: "#b91c1c" }}>Itens precisando de reposição</span>
+              <span className="metric-footer" style={{ color: "#dc2626" }}>Itens precisando de reposição</span>
             </div>
 
             <div className="metric-card">
@@ -110,9 +119,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Seções Inferiores (Grids com Pedidos Recentes e Alertas) */}
           <div className="dashboard-sections-grid">
-            {/* Bloco de Pedidos Recentes */}
             <div className="dashboard-card-container">
               <h3 className="section-title">Últimos Pedidos em Tempo Real</h3>
               <div className="recent-orders-list">
@@ -136,7 +143,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Bloco de Alertas de Estoque */}
             <div className="dashboard-card-container">
               <h3 className="section-title">Insumos Críticos</h3>
               <div className="stock-alerts-list">

@@ -12,6 +12,8 @@ import {
   FaCog,
   FaPlusCircle,
   FaSignOutAlt,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 import "./Sidebar.css";
 
@@ -31,7 +33,7 @@ const NAV_ITEMS = [
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, toggleSidebar }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,39 +41,56 @@ export default function Sidebar() {
     try {
       await logout();
     } catch {
-      // mesmo que a chamada falhe, ainda limpamos o token localmente
+      // mesmo que falhe, limpa o token local
     }
     localStorage.removeItem("access_token");
     navigate("/login");
   };
 
   return (
-    <aside className="sidebar-container">
-      <div className="sidebar-logo">
-        <img src={logoImg} alt="Yummy Logo" className="logo-img" />
+    <aside className={`sidebar-container ${!isOpen ? "is-closed" : ""}`}>
+      {/* Botão suspenso de alternância */}
+      <button
+        className="sidebar-toggle-edge-btn"
+        onClick={toggleSidebar}
+        aria-label="Alternar Menu Lateral"
+        title={isOpen ? "Recolher Menu" : "Expandir Menu"}
+      >
+        {isOpen ? <FaChevronLeft /> : <FaChevronRight />}
+      </button>
+
+      <div className="sidebar-content-wrapper">
+        <div className="sidebar-logo">
+          <img src={logoImg} alt="Yummy Logo" className="logo-img" />
+        </div>
+
+        <nav className="sidebar-nav">
+          {NAV_ITEMS.map((item) => {
+            const isActive = location.pathname.toLowerCase() === item.path.toLowerCase();
+
+            return (
+              <button
+                key={item.name}
+                className={`sidebar-btn ${isActive ? "active" : ""}`}
+                onClick={() => navigate(item.path)}
+                title={!isOpen ? item.name : ""} /* Tooltip nativa no modo recolhido */
+              >
+                <span className="sidebar-icon">{item.icon}</span>
+                <span className="sidebar-label">{item.name}</span>
+              </button>
+            );
+          })}
+
+          <button
+            className="sidebar-btn sidebar-btn--logout"
+            onClick={handleLogout}
+            title={!isOpen ? "Sair" : ""}
+          >
+            <span className="sidebar-icon"><FaSignOutAlt /></span>
+            <span className="sidebar-label">Sair</span>
+          </button>
+        </nav>
       </div>
-
-      <nav className="sidebar-nav">
-        {NAV_ITEMS.map((item) => {
-          const isActive = location.pathname.toLowerCase() === item.path.toLowerCase();
-
-          return (
-            <button
-              key={item.name}
-              className={`sidebar-btn ${isActive ? "active" : ""}`}
-              onClick={() => navigate(item.path)}
-            >
-              <span className="sidebar-icon">{item.icon}</span>
-              <span className="sidebar-label">{item.name}</span>
-            </button>
-          );
-        })}
-
-        <button className="sidebar-btn sidebar-btn--logout" onClick={handleLogout}>
-          <span className="sidebar-icon"><FaSignOutAlt /></span>
-          <span className="sidebar-label">Sair</span>
-        </button>
-      </nav>
     </aside>
   );
 }

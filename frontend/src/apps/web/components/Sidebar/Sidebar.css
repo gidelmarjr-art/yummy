@@ -1,78 +1,163 @@
 /* Sidebar.css */
 .sidebar-container {
-  width: 230px;
+  width: 240px;
   min-height: 100vh;
-  background-color: #ffffff;
-  padding: 1.5rem 1rem;
+  background-color: #1e293b;
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
+  border-right: 1px solid #334155;
+  
+  /* Transição suave de largura e padding */
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: visible !important;
+  padding: 1.8rem 0.8rem;
 }
 
+/* Wrapper interno */
+.sidebar-content-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ==========================================
+   ESTADO RECOLHIDO (MINI SIDEBAR)
+   ========================================== */
+.sidebar-container.is-closed {
+  width: 72px; /* Largura suficiente apenas para os ícones */
+  padding: 1.8rem 0.5rem;
+}
+
+/* Esconde os textos quando recolhido */
+.sidebar-container.is-closed .sidebar-label {
+  opacity: 0;
+  display: none;
+}
+
+/* Reduz o tamanho da logo ou esconde */
+.sidebar-container.is-closed .sidebar-logo {
+  padding: 0.5rem 0 1.2rem 0;
+}
+
+.sidebar-container.is-closed .logo-img {
+  max-width: 38px; /* Mostra uma versão menor ou o ícone da logo */
+}
+
+/* Centraliza os botões no modo mini */
+.sidebar-container.is-closed .sidebar-btn {
+  justify-content: center;
+  padding: 0.85rem 0;
+}
+
+.sidebar-container.is-closed .sidebar-icon {
+  font-size: 1.15rem; /* Aumenta ligeiramente os ícones para melhor toque/clique */
+}
+
+/* ==========================================
+   BOTÃO FLUTUANTE NA BORDA
+   ========================================== */
+.sidebar-toggle-edge-btn {
+  position: absolute;
+  top: 50%;
+  right: -16px; /* Mantém a metade exata para fora da borda */
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ed5b22;
+  border: 2px solid #1e293b;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-toggle-edge-btn:hover {
+  background-color: #ff7a45;
+  transform: translateY(-50%) scale(1.15);
+}
+
+/* ==========================================
+   ESTILOS INTERNOS DA SIDEBAR
+   ========================================== */
 .sidebar-logo {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem 0 2rem 0;
+  border-bottom: 1px solid #334155;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
 }
 
 .logo-img {
   max-width: 130px;
   height: auto;
   object-fit: contain;
+  transition: all 0.3s ease;
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  height: 100%;
 }
 
 .sidebar-btn {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.9rem;
   background: transparent;
   border: none;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-  color: #b0b0b0;
-  font-size: 0.9rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 12px;
+  color: #94a3b8;
+  font-size: 0.92rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
   text-align: left;
   width: 100%;
 }
 
+.sidebar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .sidebar-btn:hover {
-  background-color: #fff5f0;
-  color: #ff5500;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }
 
 .sidebar-btn.active {
-  color: #ff5500;
+  background: linear-gradient(135deg, #ed5b22 0%, #ff7a45 100%);
+  color: #ffffff;
   font-weight: 700;
+  box-shadow: 0 4px 15px rgba(237, 91, 34, 0.35);
 }
 
-.sidebar-icon {
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-}
 .sidebar-btn--logout {
   margin-top: auto;
-  color: #ef4444;
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.2);
 }
 
 .sidebar-btn--logout:hover {
-  background-color: #fef2f2;
-  color: #dc2626;
-}
-
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  background-color: #450a0a;
+  color: #ef4444;
 }
