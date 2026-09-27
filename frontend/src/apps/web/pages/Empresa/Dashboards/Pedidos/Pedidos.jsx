@@ -53,6 +53,9 @@ export default function Pedidos() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusDropdownFilter, setStatusDropdownFilter] = useState("Todos");
 
+  // Estado para controlar a abertura/fechamento da Sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
   const [salvandoPedido, setSalvandoPedido] = useState(false);
@@ -75,7 +78,6 @@ export default function Pedidos() {
     carregarPedidos().finally(() => setCarregando(false));
   }, [carregarPedidos]);
 
-  // Tempo real: qualquer pedido criado/atualizado por qualquer tela recarrega a lista aqui.
   useEffect(() => {
     let socket;
     let retry;
@@ -139,7 +141,11 @@ export default function Pedidos() {
 
   return (
     <div className="pedidos-page-layout">
-      <Sidebar />
+      {/* Sidebar com estado configurado */}
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} 
+      />
 
       <main className="pedidos-main-content">
         <header className="pedidos-top-bar">

@@ -8,15 +8,12 @@
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
   border-right: 1px solid #334155;
-  
-  /* Transição suave de largura e padding */
   transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: visible !important;
   padding: 1.8rem 0.8rem;
 }
 
-/* Wrapper interno */
 .sidebar-content-wrapper {
   width: 100%;
   height: 100%;
@@ -26,46 +23,39 @@
   white-space: nowrap;
 }
 
-/* ==========================================
-   ESTADO RECOLHIDO (MINI SIDEBAR)
-   ========================================== */
+/* Estado Modo Mini (Apenas Ícones) */
 .sidebar-container.is-closed {
-  width: 72px; /* Largura suficiente apenas para os ícones */
+  width: 72px;
   padding: 1.8rem 0.5rem;
 }
 
-/* Esconde os textos quando recolhido */
 .sidebar-container.is-closed .sidebar-label {
   opacity: 0;
   display: none;
 }
 
-/* Reduz o tamanho da logo ou esconde */
 .sidebar-container.is-closed .sidebar-logo {
   padding: 0.5rem 0 1.2rem 0;
 }
 
 .sidebar-container.is-closed .logo-img {
-  max-width: 38px; /* Mostra uma versão menor ou o ícone da logo */
+  max-width: 38px;
 }
 
-/* Centraliza os botões no modo mini */
 .sidebar-container.is-closed .sidebar-btn {
   justify-content: center;
   padding: 0.85rem 0;
 }
 
 .sidebar-container.is-closed .sidebar-icon {
-  font-size: 1.15rem; /* Aumenta ligeiramente os ícones para melhor toque/clique */
+  font-size: 1.15rem;
 }
 
-/* ==========================================
-   BOTÃO FLUTUANTE NA BORDA
-   ========================================== */
+/* Botão Flutuante Centralizado */
 .sidebar-toggle-edge-btn {
   position: absolute;
   top: 50%;
-  right: -16px; /* Mantém a metade exata para fora da borda */
+  right: -16px;
   transform: translateY(-50%);
   width: 32px;
   height: 32px;
@@ -88,9 +78,7 @@
   transform: translateY(-50%) scale(1.15);
 }
 
-/* ==========================================
-   ESTILOS INTERNOS DA SIDEBAR
-   ========================================== */
+/* Estilos Padrão Internos */
 .sidebar-logo {
   display: flex;
   align-items: center;

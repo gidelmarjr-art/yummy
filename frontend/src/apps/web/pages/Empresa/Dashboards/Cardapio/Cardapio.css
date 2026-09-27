@@ -1,17 +1,22 @@
+/* Cardapio.css - Gestão de Cardápio Atualizado */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 .cardapio-page-layout {
   display: flex;
   min-height: 100vh;
-  background-color: #fcfcfc;
+  width: 100%;
+  background-color: #f8fafc;
   font-family: 'Inter', sans-serif;
-  color: #333333;
+  color: #1e293b;
+  overflow-x: hidden;
 }
 
 .cardapio-main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Header Superior */
@@ -21,12 +26,13 @@
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
   background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .page-heading {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #1a1a1a;
+  color: #0f172a;
   margin: 0;
 }
 
@@ -39,14 +45,21 @@
 .search-box {
   display: flex;
   align-items: center;
-  background-color: #f2f4f8;
+  background-color: #f1f5f9;
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  width: 240px;
+  width: 260px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: #ed5b22;
+  background-color: #ffffff;
 }
 
 .search-icon {
-  color: #a0aab8;
+  color: #94a3b8;
   font-size: 0.85rem;
   margin-right: 0.5rem;
 }
@@ -57,24 +70,27 @@
   outline: none;
   font-size: 0.85rem;
   width: 100%;
+  color: #334155;
 }
 
 .action-circle-btn {
-  background-color: #fff0f0;
-  border: none;
-  width: 36px;
-  height: 36px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ff8877;
+  color: #64748b;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s ease;
 }
 
 .action-circle-btn:hover {
-  transform: scale(1.05);
+  background-color: #ed5b22;
+  color: #ffffff;
+  border-color: #ed5b22;
 }
 
 .user-profile-avatar {
@@ -82,7 +98,7 @@
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #eee;
+  border: 2px solid #ed5b22;
 }
 
 .user-profile-avatar img {
@@ -91,9 +107,9 @@
   object-fit: cover;
 }
 
-/* Corpo Laranja */
+/* Corpo Principal do Cardápio */
 .cardapio-dashboard-body {
-  background-color: #ffc4ab;
+  background-color: #f1f5f9;
   flex: 1;
   padding: 2rem 2.5rem;
   display: flex;
@@ -101,52 +117,58 @@
   gap: 1.5rem;
 }
 
-/* Botões Superiores */
+/* Botões Superiores de Ação */
 .top-action-buttons {
   display: flex;
-  gap: 1.2rem;
+  gap: 1rem;
 }
 
 .btn-primary-orange {
-  background-color: #ff5500;
+  background-color: #ed5b22;
   color: #ffffff;
   border: none;
-  padding: 0.75rem 1.8rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 12px;
   font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(255, 85, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(237, 91, 34, 0.2);
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
 .btn-primary-orange:hover {
-  background-color: #e04b00;
+  background-color: #ff7a45;
   transform: translateY(-1px);
 }
 
 .btn-danger-action {
-  background-color: #ff5500;
+  background-color: #ef4444;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
 }
 
-/* Card da Tabela */
+.btn-danger-action:hover {
+  background-color: #dc2626;
+}
+
+/* Card da Tabela de Itens */
 .cardapio-table-container {
   background-color: #ffffff;
   border-radius: 20px;
   padding: 1.5rem 2rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
-  min-height: 360px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  min-height: 400px;
 }
 
-/* Abas */
+/* Abas de Categorias */
 .categories-tab-bar {
   display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 1.2rem;
+  border-bottom: 1px solid #e2e8f0;
   padding-bottom: 0.8rem;
   margin-bottom: 1rem;
   overflow-x: auto;
@@ -155,17 +177,22 @@
 .category-tab-item {
   background: none;
   border: none;
-  color: #ff8b66;
-  font-size: 0.85rem;
+  color: #64748b;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  padding: 0.4rem 0.2rem;
+  padding: 0.4rem 0.4rem;
   position: relative;
   white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.category-tab-item:hover {
+  color: #ed5b22;
 }
 
 .category-tab-item.active {
-  color: #ff5500;
+  color: #ed5b22;
   font-weight: 700;
 }
 
@@ -176,11 +203,11 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: #ff5500;
+  background-color: #ed5b22;
   border-radius: 2px;
 }
 
-/* Tabela de Produtos */
+/* Tabela e Linhas dos Produtos */
 .menu-items-table {
   display: flex;
   flex-direction: column;
@@ -188,12 +215,17 @@
 
 .menu-item-row {
   display: grid;
-  grid-template-columns: 56px 60px 2.4fr 1.6fr 1.2fr 140px;
+  grid-template-columns: 56px 70px 2.5fr 1.3fr 1fr 130px;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.65rem 0;
-  border-bottom: 1px solid #f7f7f7;
-  font-size: 0.85rem;
+  gap: 0.8rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.88rem;
+  transition: background-color 0.2s ease;
+}
+
+.menu-item-row:hover {
+  background-color: #f8fafc;
 }
 
 .menu-item-row:last-child {
@@ -201,17 +233,18 @@
 }
 
 .item-photo {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
   overflow: hidden;
-  background-color: #fff3ee;
-  color: #ff8b66;
+  background-color: #fff4f0;
+  color: #ed5b22;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
   flex-shrink: 0;
+  border: 1px solid #fed7aa;
 }
 
 .item-photo img {
@@ -221,8 +254,8 @@
 }
 
 .item-code {
-  font-weight: 700;
-  color: #2b2b2b;
+  font-weight: 800;
+  color: #0f172a;
 }
 
 .item-title-col {
@@ -233,25 +266,25 @@
 }
 
 .item-title {
-  font-weight: 600;
-  color: #2b2b2b;
+  font-weight: 700;
+  color: #1e293b;
 }
 
 .item-desc {
   font-size: 0.78rem;
-  color: #9a9a9a;
+  color: #64748b;
   font-weight: 400;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* Botão Rápido de Toggle de Estoque */
+/* Botão Alternar Estoque */
 .btn-toggle-stock {
   border: none;
   border-radius: 20px;
   padding: 0.4rem 0.8rem;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
@@ -261,28 +294,28 @@
 }
 
 .btn-toggle-stock.in-stock {
-  background-color: #e6f9ed;
-  color: #12b76a;
-  border: 1px solid #a6f4c5;
+  background-color: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
 }
 
 .btn-toggle-stock.in-stock:hover {
-  background-color: #d1fadf;
+  background-color: #dcfce7;
 }
 
 .btn-toggle-stock.out-stock {
-  background-color: #ffe4e4;
-  color: #d92d20;
-  border: 1px solid #fecdca;
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
 }
 
 .btn-toggle-stock.out-stock:hover {
-  background-color: #fecdca;
+  background-color: #fee2e2;
 }
 
 .item-cost {
-  font-weight: 700;
-  color: #2b2b2b;
+  font-weight: 800;
+  color: #0f172a;
 }
 
 .item-actions-col {
@@ -292,39 +325,39 @@
 }
 
 .btn-edit-item {
-  background-color: #ff5500;
+  background-color: #ed5b22;
   color: #ffffff;
   border: none;
-  padding: 0.4rem 1rem;
+  padding: 0.45rem 0.9rem;
   border-radius: 8px;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background-color 0.2s ease;
 }
 
 .btn-edit-item:hover {
-  opacity: 0.9;
+  background-color: #ff7a45;
 }
 
 .btn-delete-single {
   background: none;
   border: none;
-  color: #aaa;
+  color: #94a3b8;
   cursor: pointer;
   padding: 0.4rem;
-  font-size: 0.85rem;
-  transition: color 0.2s;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
 }
 
 .btn-delete-single:hover {
-  color: #d92d20;
+  color: #dc2626;
 }
 
 .empty-table-message {
-  padding: 2.5rem;
+  padding: 3rem;
   text-align: center;
-  color: #888;
+  color: #94a3b8;
   font-weight: 500;
 }
 
@@ -340,13 +373,18 @@
 .btn-page-step {
   background: none;
   border: none;
-  color: #333333;
+  color: #475569;
   font-weight: 700;
   font-size: 0.85rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.btn-page-step:hover:not(:disabled) {
+  color: #ed5b22;
 }
 
 .btn-page-step:disabled {
@@ -362,17 +400,22 @@
 .btn-page-number {
   background: none;
   border: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   font-weight: 700;
   font-size: 0.85rem;
-  color: #333333;
+  color: #475569;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-page-number:hover {
+  background-color: #e2e8f0;
 }
 
 .btn-page-number.active {
-  background-color: #ff5500;
+  background-color: #ed5b22;
   color: #ffffff;
 }
 
@@ -380,7 +423,8 @@
 .cardapio-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -389,11 +433,12 @@
 
 .cardapio-modal-card {
   background: #ffffff;
-  border-radius: 16px;
-  padding: 1.8rem;
+  border-radius: 20px;
+  padding: 2rem;
   width: 100%;
-  max-width: 450px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 480px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
 }
 
 .modal-header {
@@ -404,18 +449,23 @@
 }
 
 .modal-header h2 {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 800;
   margin: 0;
-  color: #1a1a1a;
+  color: #0f172a;
 }
 
 .btn-close-modal {
   background: none;
   border: none;
   font-size: 1.1rem;
-  color: #888;
+  color: #94a3b8;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  color: #0f172a;
 }
 
 .modal-form {
@@ -427,32 +477,34 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.38rem;
   flex: 1;
 }
 
 .form-group label {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: #555;
+  color: #475569;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #ddd;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   outline: none;
   font-family: inherit;
-  resize: vertical;
+  color: #1e293b;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #ff5500;
+  border-color: #ed5b22;
 }
 
 .modal-image-preview {
@@ -461,7 +513,7 @@
   max-height: 140px;
   object-fit: cover;
   border-radius: 10px;
-  border: 1px solid #eee;
+  border: 1px solid #e2e8f0;
 }
 
 .form-group-row {
@@ -472,25 +524,31 @@
 .modal-actions {
   display: flex;
   gap: 0.8rem;
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
 }
 
 .btn-save-modal {
   flex: 1;
-  background-color: #ff5500;
-  color: #fff;
+  background-color: #ed5b22;
+  color: #ffffff;
   border: none;
   padding: 0.75rem;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-save-modal:hover {
+  background-color: #ff7a45;
 }
 
 .btn-cancel-modal {
-  background-color: #eee;
-  color: #444;
-  border: none;
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
   padding: 0.75rem 1.2rem;
-  border-radius: 8px;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
 }

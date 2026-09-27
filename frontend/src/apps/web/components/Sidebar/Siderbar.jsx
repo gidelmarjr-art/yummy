@@ -41,7 +41,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     try {
       await logout();
     } catch {
-      // mesmo que falhe, limpa o token local
+      // Falha silenciosa
     }
     localStorage.removeItem("access_token");
     navigate("/login");
@@ -49,7 +49,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
   return (
     <aside className={`sidebar-container ${!isOpen ? "is-closed" : ""}`}>
-      {/* Botão suspenso de alternância */}
+      {/* Botão flutuante na borda */}
       <button
         className="sidebar-toggle-edge-btn"
         onClick={toggleSidebar}
@@ -73,7 +73,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                 key={item.name}
                 className={`sidebar-btn ${isActive ? "active" : ""}`}
                 onClick={() => navigate(item.path)}
-                title={!isOpen ? item.name : ""} /* Tooltip nativa no modo recolhido */
+                title={!isOpen ? item.name : ""}
               >
                 <span className="sidebar-icon">{item.icon}</span>
                 <span className="sidebar-label">{item.name}</span>
