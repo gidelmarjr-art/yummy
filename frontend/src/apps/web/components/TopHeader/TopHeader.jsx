@@ -1,7 +1,7 @@
 // TopHeader.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaSearch, FaCog, FaBell, FaExclamationTriangle, FaInfoCircle, FaCheckCircle } from "react-icons/fa";
+import { FaSearch, FaCog, FaBell, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
 import "./TopHeader.css";
 
 export default function TopHeader({ title = "Dashboard Geral" }) {

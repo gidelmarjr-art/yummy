@@ -1,8 +1,8 @@
 // PerfilLoja.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
-import { FaStore, FaClock, FaMapMarkerAlt, FaSave, FaCamera } from "react-icons/fa";
+import { FaStore, FaSave, FaCamera } from "react-icons/fa";
 import "./PerfilLoja.css";
 
 export default function PerfilLoja() {

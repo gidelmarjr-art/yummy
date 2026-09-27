@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
-import { FaSlidersH, FaBell, FaCreditCard, FaMotorcycle, FaSave } from "react-icons/fa";
+import { FaBell, FaMotorcycle, FaSave } from "react-icons/fa";
 import "./Configuracoes.css";
 
 export default function Configuracoes() {
