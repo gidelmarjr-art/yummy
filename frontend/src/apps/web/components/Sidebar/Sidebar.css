@@ -12,6 +12,7 @@
   position: relative;
   overflow: visible !important;
   padding: 1.8rem 0.8rem;
+  z-index: 100;
 }
 
 .sidebar-content-wrapper {
@@ -51,7 +52,7 @@
   font-size: 1.15rem;
 }
 
-/* Botão Flutuante Centralizado */
+/* Botão Flutuante Centralizado na Borda */
 .sidebar-toggle-edge-btn {
   position: absolute;
   top: 50%;

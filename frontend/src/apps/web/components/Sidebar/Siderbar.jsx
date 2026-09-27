@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   FaHome,
@@ -11,6 +11,7 @@ import {
   FaLock,
   FaCog,
   FaPlusCircle,
+  FaStore,
   FaSignOutAlt,
   FaChevronLeft,
   FaChevronRight,
@@ -22,6 +23,7 @@ import { logout } from "../../services/api";
 
 const NAV_ITEMS = [
   { name: "Geral", path: "/dashboard", icon: <FaHome /> },
+  { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
   { name: "Pedidos", path: "/pedidos", icon: <FaUtensils /> },
   { name: "Cardápio", path: "/cardapio", icon: <FaClipboardList /> },
   { name: "Cadastro de Pratos", path: "/cadastro-pratos", icon: <FaPlusCircle /> },
@@ -33,9 +35,27 @@ const NAV_ITEMS = [
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
 ];
 
-export default function Sidebar({ isOpen, toggleSidebar }) {
+export default function Sidebar({ toggleSidebar: externalToggle }) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Lê o estado do localStorage para manter o menu recolhido/aberto em todas as abas
+  const [internalIsOpen, setInternalIsOpen] = useState(() => {
+    const savedState = localStorage.getItem("sidebar_open");
+    return savedState !== null ? JSON.parse(savedState) : true;
+  });
+
+  const isOpen = internalIsOpen;
+
+  const handleToggle = () => {
+    const newState = !isOpen;
+    setInternalIsOpen(newState);
+    localStorage.setItem("sidebar_open", JSON.stringify(newState));
+
+    if (typeof externalToggle === "function") {
+      externalToggle();
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -52,7 +72,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       {/* Botão flutuante na borda */}
       <button
         className="sidebar-toggle-edge-btn"
-        onClick={toggleSidebar}
+        onClick={handleToggle}
         aria-label="Alternar Menu Lateral"
         title={isOpen ? "Recolher Menu" : "Expandir Menu"}
       >

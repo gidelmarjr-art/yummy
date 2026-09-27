@@ -35,6 +35,7 @@ import MeusPedidos from './apps/web/pages/Cliente/Perfil/MeusPedidos/MeusPedidos
 import Favoritos from './apps/web/pages/Cliente/Perfil/Favoritos/Favoritos';
 import PagamentosPerfil from './apps/web/pages/Cliente/Perfil/Pagamentos/Pagamentos';
 import SegurancaPerfil from './apps/web/pages/Cliente/Perfil/Seguranca/Seguranca';
+import PerfilLoja from './apps/web/pages/Empresa/Dashboards/PerfilLoja/PerfilLoja';
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
           <Route path="/dashboard" element={<Geral />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
           <Route path="/cadastro-pratos" element={<CadastroPratos />} />
+          <Route path="/perfil-loja" element={<PerfilLoja />} />
           
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/menu-carousel" element={<MenuCaroussel />} />
