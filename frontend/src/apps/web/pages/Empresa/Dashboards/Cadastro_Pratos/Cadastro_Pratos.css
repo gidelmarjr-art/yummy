@@ -1,29 +1,115 @@
+/* Cadastro_Pratos.css - Harmonizado */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 .cadastro-pratos-page-layout {
   display: flex;
   min-height: 100vh;
-  background-color: #fcfcfc;
+  width: 100%;
+  background-color: #f8fafc;
   font-family: 'Inter', sans-serif;
-  color: #333333;
+  color: #1e293b;
+  overflow-x: hidden;
 }
 
 .cadastro-pratos-main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Header Superior */
 .cadastro-pratos-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
   background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
 }
 
+.page-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  width: 260px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: #ed5b22;
+  background-color: #ffffff;
+}
+
+.search-icon {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+  color: #334155;
+}
+
+.action-circle-btn {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-circle-btn:hover {
+  background-color: #ed5b22;
+  color: #ffffff;
+  border-color: #ed5b22;
+}
+
+.user-profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ed5b22;
+}
+
+.user-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Corpo Principal do Formulário */
 .cadastro-pratos-body-content {
-  background-color: #ffc4ab;
+  background-color: #f1f5f9;
   flex: 1;
   padding: 2rem 2.5rem;
   display: flex;
@@ -37,22 +123,36 @@
   gap: 1.5rem;
 }
 
+/* Cards do Formulário */
 .cp-card {
   background-color: #ffffff;
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
 
-.cp-hint {
-  margin: -0.6rem 0 0;
-  font-size: 0.85rem;
-  color: #777;
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
+.cp-hint {
+  margin: -0.4rem 0 0.4rem;
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* Grid de Inputs */
 .cp-form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -70,29 +170,31 @@
 }
 
 .cp-input-group label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #555;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #475569;
 }
 
 .cp-input-group input,
 .cp-input-group select {
   padding: 0.75rem 1rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
-  font-size: 0.9rem;
-  background-color: #f8fafc;
+  font-size: 0.88rem;
+  background-color: #ffffff;
   outline: none;
-  transition: border-color 0.2s;
+  color: #1e293b;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
 .cp-input-group input:focus,
 .cp-input-group select:focus {
-  border-color: #ff5500;
-  background-color: #fff;
+  border-color: #ed5b22;
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
 }
 
-/* Ficha técnica */
+/* Ficha Técnica */
 .cp-ficha-list {
   display: flex;
   flex-direction: column;
@@ -101,7 +203,7 @@
 
 .cp-ficha-row {
   display: grid;
-  grid-template-columns: 1fr 180px 40px;
+  grid-template-columns: 1fr 200px 42px;
   gap: 0.8rem;
   align-items: center;
 }
@@ -109,12 +211,20 @@
 .cp-ficha-row select,
 .cp-ficha-row input {
   padding: 0.7rem 0.9rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
   font-size: 0.88rem;
-  background-color: #f8fafc;
+  background-color: #ffffff;
   outline: none;
   width: 100%;
+  color: #1e293b;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.cp-ficha-row select:focus,
+.cp-ficha-row input:focus {
+  border-color: #ed5b22;
 }
 
 .cp-ficha-qtd {
@@ -127,34 +237,42 @@
   position: absolute;
   right: 0.8rem;
   font-size: 0.78rem;
-  color: #999;
+  font-weight: 600;
+  color: #94a3b8;
   pointer-events: none;
 }
 
 .cp-btn-remove-row {
-  background: #fff0f0;
-  border: none;
-  color: #ff5555;
-  width: 38px;
-  height: 38px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #ef4444;
+  width: 42px;
+  height: 42px;
   border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.cp-btn-remove-row:hover:not(:disabled) {
+  background-color: #fee2e2;
+  color: #dc2626;
 }
 
 .cp-btn-remove-row:disabled {
-  opacity: 0.35;
+  opacity: 0.4;
   cursor: not-allowed;
+  border-color: #e2e8f0;
 }
 
 .cp-btn-add-row {
   align-self: flex-start;
-  background: #fff4ee;
-  border: 1px dashed #ff9966;
-  color: #ff5500;
-  padding: 0.6rem 1rem;
+  background: #fff4f0;
+  border: 1px dashed #fdba74;
+  color: #ed5b22;
+  padding: 0.65rem 1.2rem;
   border-radius: 10px;
   font-size: 0.85rem;
   font-weight: 700;
@@ -162,14 +280,47 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 0.4rem;
+  transition: all 0.2s ease;
 }
 
+.cp-btn-add-row:hover {
+  background-color: #ffedd5;
+  border-color: #ed5b22;
+}
+
+/* Botões de Ação Final */
 .cp-actions-wrapper {
   display: flex;
   justify-content: flex-end;
 }
 
-/* Recentes */
+.save-config-btn {
+  background-color: #ed5b22;
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(237, 91, 34, 0.25);
+  transition: all 0.2s ease;
+}
+
+.save-config-btn:hover:not(:disabled) {
+  background-color: #ff7a45;
+  transform: translateY(-1px);
+}
+
+.save-config-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Pratos Recentes */
 .cp-recentes-list {
   display: flex;
   flex-direction: column;
@@ -180,31 +331,67 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 1rem;
+  padding: 0.85rem 1.2rem;
   background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
 }
 
 .cp-recente-sub {
   display: block;
   font-size: 0.78rem;
-  color: #888;
+  color: #64748b;
   margin-top: 0.15rem;
+  font-weight: 500;
 }
 
 .cp-recente-right {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .cp-recente-ficha {
-  font-size: 0.78rem;
-  color: #777;
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
 }
 
+/* Mensagens de Alerta */
+.form-error-msg {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.form-success-msg {
+  background-color: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Responsividade */
 @media (max-width: 720px) {
-  .cp-form-grid { grid-template-columns: 1fr; }
-  .cp-input-group.full-width { grid-column: span 1; }
-  .cp-ficha-row { grid-template-columns: 1fr; }
+  .cp-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .cp-input-group.full-width {
+    grid-column: span 1;
+  }
+  .cp-ficha-row {
+    grid-template-columns: 1fr;
+  }
+  .cadastro-pratos-body-content {
+    padding: 1.5rem 1rem;
+  }
 }
