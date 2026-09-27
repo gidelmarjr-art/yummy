@@ -3,7 +3,7 @@
 .clientes-page-layout {
   display: flex;
   min-height: 100vh;
-  background-color: #fcfcfc;
+  background-color: #f8fafc;
   font-family: 'Inter', sans-serif;
   color: #333333;
 }
@@ -20,6 +20,7 @@
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
   background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .page-heading {
@@ -42,6 +43,13 @@
   padding: 0.5rem 1rem;
   border-radius: 20px;
   width: 240px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: #ed5b22;
+  background-color: #ffffff;
 }
 
 .search-icon {
@@ -69,6 +77,12 @@
   justify-content: center;
   color: #ff8877;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-circle-btn:hover {
+  background-color: #ed5b22;
+  color: #ffffff;
 }
 
 .user-profile-avatar {
@@ -77,6 +91,7 @@
   border-radius: 50%;
   overflow: hidden;
   background-color: #eee;
+  border: 2px solid #ed5b22;
 }
 
 .user-profile-avatar img {
@@ -85,9 +100,9 @@
   object-fit: cover;
 }
 
-/* Corpo Laranja */
+/* Corpo Neutro do Dashboard */
 .clientes-dashboard-body {
-  background-color: #ffc4ab;
+  background-color: #f1f5f9;
   flex: 1;
   padding: 2rem 2.5rem;
   display: flex;
@@ -99,7 +114,8 @@
   background-color: #ffffff;
   border-radius: 20px;
   padding: 1.5rem 2rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e2e8f0;
   min-height: 400px;
 }
 
@@ -112,8 +128,8 @@
   display: grid;
   grid-template-columns: 40px 2fr 1.5fr 1.2fr 120px;
   align-items: center;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #f7f7f7;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f1f5f9;
   font-size: 0.85rem;
 }
 
@@ -123,7 +139,14 @@
 
 .cliente-icon {
   font-size: 1.1rem;
-  color: #1a1a1a;
+  color: #ed5b22;
+  background-color: #ffedd5;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cliente-name-col {
@@ -133,43 +156,52 @@
 
 .cliente-name {
   font-weight: 800;
-  color: #1a1a1a;
+  color: #0f172a;
 }
 
 .cliente-email {
   font-size: 0.75rem;
-  color: #888;
+  color: #64748b;
 }
 
 .cliente-phone, .cliente-orders {
   font-weight: 600;
-  color: #555;
+  color: #475569;
 }
 
 .btn-view-details {
-  background-color: #eee;
-  color: #333;
-  border: none;
-  padding: 0.4rem 0.7rem;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  padding: 0.45rem 0.8rem;
   border-radius: 8px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.btn-view-details:hover {
+  background-color: #ed5b22;
+  color: #ffffff;
+  border-color: #ed5b22;
 }
 
 .empty-msg {
   padding: 3rem;
   text-align: center;
-  color: #888;
+  color: #64748b;
+  font-weight: 600;
 }
 
 /* Modais */
 .clientes-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,23 +210,24 @@
 
 .clientes-modal-card {
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 1.8rem;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 .modal-header h2 {
   font-size: 1.2rem;
   font-weight: 800;
+  color: #0f172a;
   margin: 0;
 }
 
@@ -202,8 +235,19 @@
   background: none;
   border: none;
   font-size: 1.1rem;
-  color: #888;
+  color: #94a3b8;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  color: #0f172a;
+}
+
+.clientes-modal-card p {
+  margin: 0.6rem 0;
+  color: #334155;
+  font-size: 0.9rem;
 }
 
 .modal-actions {
@@ -214,11 +258,16 @@
 
 .btn-cancel-modal {
   flex: 1;
-  background-color: #eee;
-  color: #444;
-  border: none;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
   padding: 0.75rem;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel-modal:hover {
+  background-color: #e2e8f0;
 }
