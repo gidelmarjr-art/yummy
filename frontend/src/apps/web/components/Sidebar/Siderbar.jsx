@@ -35,17 +35,16 @@ const NAV_ITEMS = [
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
 ];
 
-export default function Sidebar({ toggleSidebar: externalToggle }) {
+export default function Sidebar({ isOpen: externalIsOpen, toggleSidebar: externalToggle }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Lê o estado do localStorage para manter o menu recolhido/aberto em todas as abas
   const [internalIsOpen, setInternalIsOpen] = useState(() => {
     const savedState = localStorage.getItem("sidebar_open");
     return savedState !== null ? JSON.parse(savedState) : true;
   });
 
-  const isOpen = internalIsOpen;
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
 
   const handleToggle = () => {
     const newState = !isOpen;
@@ -54,6 +53,14 @@ export default function Sidebar({ toggleSidebar: externalToggle }) {
 
     if (typeof externalToggle === "function") {
       externalToggle();
+    }
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    // No mobile, fecha a sidebar automaticamente após escolher uma página
+    if (window.innerWidth <= 768 && isOpen) {
+      handleToggle();
     }
   };
 
@@ -68,49 +75,57 @@ export default function Sidebar({ toggleSidebar: externalToggle }) {
   };
 
   return (
-    <aside className={`sidebar-container ${!isOpen ? "is-closed" : ""}`}>
-      {/* Botão flutuante na borda */}
-      <button
-        className="sidebar-toggle-edge-btn"
+    <>
+      {/* Camada escura de fundo ao abrir no mobile */}
+      <div
+        className={`sidebar-overlay ${isOpen ? "active" : ""}`}
         onClick={handleToggle}
-        aria-label="Alternar Menu Lateral"
-        title={isOpen ? "Recolher Menu" : "Expandir Menu"}
-      >
-        {isOpen ? <FaChevronLeft /> : <FaChevronRight />}
-      </button>
+      />
 
-      <div className="sidebar-content-wrapper">
-        <div className="sidebar-logo">
-          <img src={logoImg} alt="Yummy Logo" className="logo-img" />
+      <aside className={`sidebar-container ${!isOpen ? "is-closed" : ""}`}>
+        {/* Botão flutuante na borda */}
+        <button
+          className="sidebar-toggle-edge-btn"
+          onClick={handleToggle}
+          aria-label="Alternar Menu Lateral"
+          title={isOpen ? "Recolher Menu" : "Expandir Menu"}
+        >
+          {isOpen ? <FaChevronLeft /> : <FaChevronRight />}
+        </button>
+
+        <div className="sidebar-content-wrapper">
+          <div className="sidebar-logo">
+            <img src={logoImg} alt="Yummy Logo" className="logo-img" />
+          </div>
+
+          <nav className="sidebar-nav">
+            {NAV_ITEMS.map((item) => {
+              const isActive = location.pathname.toLowerCase() === item.path.toLowerCase();
+
+              return (
+                <button
+                  key={item.name}
+                  className={`sidebar-btn ${isActive ? "active" : ""}`}
+                  onClick={() => handleNavigation(item.path)}
+                  title={!isOpen ? item.name : ""}
+                >
+                  <span className="sidebar-icon">{item.icon}</span>
+                  <span className="sidebar-label">{item.name}</span>
+                </button>
+              );
+            })}
+
+            <button
+              className="sidebar-btn sidebar-btn--logout"
+              onClick={handleLogout}
+              title={!isOpen ? "Sair" : ""}
+            >
+              <span className="sidebar-icon"><FaSignOutAlt /></span>
+              <span className="sidebar-label">Sair</span>
+            </button>
+          </nav>
         </div>
-
-        <nav className="sidebar-nav">
-          {NAV_ITEMS.map((item) => {
-            const isActive = location.pathname.toLowerCase() === item.path.toLowerCase();
-
-            return (
-              <button
-                key={item.name}
-                className={`sidebar-btn ${isActive ? "active" : ""}`}
-                onClick={() => navigate(item.path)}
-                title={!isOpen ? item.name : ""}
-              >
-                <span className="sidebar-icon">{item.icon}</span>
-                <span className="sidebar-label">{item.name}</span>
-              </button>
-            );
-          })}
-
-          <button
-            className="sidebar-btn sidebar-btn--logout"
-            onClick={handleLogout}
-            title={!isOpen ? "Sair" : ""}
-          >
-            <span className="sidebar-icon"><FaSignOutAlt /></span>
-            <span className="sidebar-label">Sair</span>
-          </button>
-        </nav>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }

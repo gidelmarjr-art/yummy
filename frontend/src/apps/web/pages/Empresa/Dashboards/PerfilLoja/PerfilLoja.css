@@ -147,3 +147,56 @@
   align-items: center;
   gap: 0.5rem;
 }
+/* ==========================================
+   RESPONSIVIDADE E MEDIA QUERIES
+   ========================================== */
+
+@media (max-width: 1024px) {
+  .page-body {
+    padding: 1.5rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .input-group.full-width {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-body {
+    padding: 1rem;
+  }
+
+  .profile-card {
+    padding: 1.4rem;
+  }
+
+  .store-banner {
+    height: 120px;
+  }
+
+  .store-avatar-wrapper {
+    width: 72px;
+    height: 72px;
+    left: 1.2rem;
+    bottom: -28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 1.1rem;
+  }
+
+  .actions-wrapper {
+    justify-content: stretch;
+  }
+
+  .save-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

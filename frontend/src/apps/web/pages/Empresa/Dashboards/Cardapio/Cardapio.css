@@ -552,3 +552,125 @@
   font-weight: 600;
   cursor: pointer;
 }
+/* ==========================================
+   RESPONSIVIDADE E MEDIA QUERIES
+   ========================================== */
+
+@media (max-width: 1024px) {
+  .cardapio-top-bar {
+    padding: 1rem 1.5rem;
+  }
+
+  .cardapio-dashboard-body {
+    padding: 1.5rem;
+  }
+
+  .cardapio-table-container {
+    padding: 1.2rem 1.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardapio-top-bar {
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .top-bar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .search-box {
+    flex: 1;
+    width: auto;
+  }
+
+  .page-heading {
+    font-size: 1.25rem;
+  }
+
+  .cardapio-dashboard-body {
+    padding: 1rem;
+    gap: 1.2rem;
+  }
+
+  .top-action-buttons {
+    flex-wrap: wrap;
+  }
+
+  /* Linha do item vira "cartão" empilhado em vez do grid de 6 colunas */
+  .menu-item-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 0.8rem;
+    padding: 1rem 0;
+  }
+
+  .item-title-col {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .item-status-col {
+    flex-basis: 100%;
+    order: 3;
+  }
+
+  .item-status-col .btn-toggle-stock {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .item-code {
+    order: 4;
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+
+  .item-cost {
+    order: 5;
+  }
+
+  .item-actions-col {
+    order: 6;
+    margin-left: auto;
+  }
+
+  .cardapio-modal-card {
+    padding: 1.4rem;
+    max-width: calc(100% - 2rem);
+  }
+
+  .form-group-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardapio-table-container {
+    padding: 1rem;
+  }
+
+  .top-action-buttons {
+    width: 100%;
+  }
+
+  .btn-primary-orange {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .pagination-numbers {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .action-circle-btn {
+    width: 34px;
+    height: 34px;
+  }
+}

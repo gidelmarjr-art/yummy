@@ -7,6 +7,7 @@ import {
   FaBoxes,
   FaUsers,
   FaDollarSign,
+  FaBars, // Adicionado para o menu mobile
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { getGeral } from "../../../../services/api";
@@ -25,7 +26,6 @@ export default function Dashboard() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
 
-  // Estado para controlar se a sidebar está visível ou recolhida
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
@@ -45,20 +45,28 @@ export default function Dashboard() {
 
   return (
     <div className={`dashboard-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}>
-      {/* Passamos as props para a Sidebar renderizar o botão na sua borda */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="dashboard-main-content">
-        {/* Header Superior Limpo */}
         <header className="dashboard-top-bar">
           <div className="top-bar-left">
+            {/* Botão para alternar a sidebar em telas menores caso esteja fechada */}
+            {!isSidebarOpen && (
+              <button 
+                className="toggle-sidebar-btn" 
+                onClick={toggleSidebar}
+                aria-label="Abrir menu"
+              >
+                <FaBars />
+              </button>
+            )}
             <h1 className="page-heading">Dashboard Geral</h1>
           </div>
 
           <div className="top-bar-right">
             <div className="search-box">
               <FaSearch className="search-icon" />
-              <input type="text" placeholder="Pesquisar no sistema..." />
+              <input type="text" placeholder="Pesquisar..." />
             </div>
 
             <button className="action-circle-btn" aria-label="Configurações">
@@ -77,7 +85,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Corpo do Dashboard mantido igual... */}
+        {/* Demais conteúdos da página permanecem iguais */}
         <div className="dashboard-body-content">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 

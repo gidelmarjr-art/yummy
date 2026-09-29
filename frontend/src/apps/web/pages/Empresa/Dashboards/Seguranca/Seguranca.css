@@ -263,3 +263,62 @@
   padding: 1rem 0;
   text-align: center;
 }
+/* ==========================================
+   RESPONSIVIDADE E MEDIA QUERIES
+   ========================================== */
+
+@media (max-width: 1024px) {
+  .seguranca-top-bar {
+    padding: 1rem 1.5rem;
+  }
+
+  .seguranca-dashboard-body {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .seguranca-top-bar {
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .top-bar-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .page-heading {
+    font-size: 1.25rem;
+  }
+
+  .seguranca-dashboard-body {
+    padding: 1rem;
+    gap: 1.2rem;
+  }
+
+  .security-card {
+    padding: 1.4rem;
+  }
+
+  .session-item {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .security-card {
+    padding: 1.1rem;
+  }
+
+  .btn-revoke {
+    width: 100%;
+  }
+
+  .action-circle-btn {
+    width: 34px;
+    height: 34px;
+  }
+}

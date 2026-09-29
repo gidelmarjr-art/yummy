@@ -1,4 +1,5 @@
 /* Sidebar.css */
+
 .sidebar-container {
   width: 240px;
   min-height: 100vh;
@@ -8,11 +9,11 @@
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
   border-right: 1px solid #334155;
-  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: visible !important;
   padding: 1.8rem 0.8rem;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .sidebar-content-wrapper {
@@ -24,7 +25,7 @@
   white-space: nowrap;
 }
 
-/* Estado Modo Mini (Apenas Ícones) */
+/* Estado Modo Mini (Desktop - Apenas Ícones) */
 .sidebar-container.is-closed {
   width: 72px;
   padding: 1.8rem 0.5rem;
@@ -102,6 +103,16 @@
   flex-direction: column;
   gap: 0.5rem;
   height: 100%;
+  overflow-y: auto; /* Permite scroll se o menu for grande em telas pequenas */
+}
+
+/* Scrollbar personalizada na navbar da sidebar */
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
 }
 
 .sidebar-btn {
@@ -149,4 +160,73 @@
 .sidebar-btn--logout:hover {
   background-color: #450a0a;
   color: #ef4444;
+}
+
+/* ==========================================
+   RESPONSIVIDADE MOBILE DA SIDEBAR
+   ========================================== */
+
+/* Overlay escuro para mobile */
+.sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    z-index: 10000;
+    transform: translateX(0);
+    width: 260px !important; /* Largura fixa quando aberto no mobile */
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Quando fechado no mobile: esconde totalmente fora da tela */
+  .sidebar-container.is-closed {
+    transform: translateX(-100%);
+    width: 260px !important;
+  }
+
+  /* Exibe o rótulo mesmo quando o estilo is-closed padrão do desktop oculta */
+  .sidebar-container.is-closed .sidebar-label {
+    opacity: 1;
+    display: inline;
+  }
+
+  .sidebar-container.is-closed .sidebar-btn {
+    justify-content: flex-start;
+    padding: 0.85rem 1.1rem;
+  }
+
+  .sidebar-container.is-closed .logo-img {
+    max-width: 130px;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Reposiciona o botão flutuante para facilitar a abertura/fechamento no toque */
+  .sidebar-toggle-edge-btn {
+    right: -16px;
+  }
 }
