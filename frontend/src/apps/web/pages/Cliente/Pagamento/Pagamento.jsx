@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import "./Pagamento.css";
 import { useCart } from "../../../../../context/CartContext";
+import { criarPedidoCliente } from "../../../services/api";
 
 import logoMascote from "../../../../../imgs/LogoYummy_2.png";
 import logoNome from "../../../../../imgs/LogoYummy_3.png";
@@ -57,7 +58,9 @@ export default function Pagamento() {
   const [confirmedOrder, setConfirmedOrder] = useState(null);
 
   const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0) * item.quantity, 0);
-  const deliveryFee = 7.50;
+  // A API ainda não possui um campo de frete; o total confirmado precisa
+  // coincidir exatamente com o pedido salvo no servidor.
+  const deliveryFee = 0;
   const total = subtotal > 0 ? subtotal + deliveryFee : 0;
 
   // Cartão atualmente ativo
@@ -121,24 +124,28 @@ export default function Pagamento() {
   };
 
   // Confirmar Pagamento
-  const handleConfirmPayment = () => {
+  const handleConfirmPayment = async () => {
     if (cartItems.length === 0) {
       alert("Seu carrinho está vazio!");
       return;
     }
     setIsProcessing(true);
-    setTimeout(() => {
+    try {
+      const paymentLabel = selectedMethod === "credit" ? `Cartão ••••${currentCard?.last4 || ""}` : selectedMethod === "cash" ? `Dinheiro${needChange && changeAmount ? ` - troco para ${changeAmount}` : ""}` : "Pix";
+      const pedido = await criarPedidoCliente({
+        local: `Entrega (${address})`, forma_pagamento: paymentLabel,
+        itens: cartItems.map((item) => ({ produto_id: Number(item.id), nome_produto: item.title || item.name, quantidade: item.quantity, preco_unitario: Number(item.price) || 0 })),
+      });
       setIsProcessing(false);
       setIsSuccessModalOpen(true);
       setConfirmedOrder({
-        items: cartItems,
-        total,
+        id: pedido.id, code: pedido.codigo, items: pedido.itens.map((item) => ({ id: item.id, title: item.nome_produto, quantity: item.quantidade, price: Number(item.preco_unitario) })), total: Number(pedido.total),
         address,
         method: selectedMethod,
         cardLast4: currentCard?.last4,
       });
       clearCart(); // Limpa o carrinho após o sucesso da compra
-    }, 1800);
+    } catch (error) { setIsProcessing(false); alert(error.detail || "Não foi possível enviar o pedido."); }
   };
 
   return (
@@ -431,7 +438,7 @@ export default function Pagamento() {
                   : selectedMethod.toUpperCase()}
               </strong></span>
               <span>Entrega em: <strong>{address}</strong></span>
-              <span>Número do Pedido: #10209890</span>
+              <span>Número do Pedido: {confirmedOrder?.code || ""}</span>
             </div>
             <button
               className="btn-modal-close"

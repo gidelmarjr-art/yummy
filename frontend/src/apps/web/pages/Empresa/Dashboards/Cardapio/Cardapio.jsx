@@ -20,18 +20,13 @@ import {
   alternarStatusProduto,
   excluirProduto,
   excluirProdutosPorCategoria,
+  getCategorias,
+  criarCategoria,
+  atualizarCategoria,
+  excluirCategoria,
 } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Cardapio.css";
-
-const CATEGORIES = [
-  "Entradas",
-  "Pratos principais",
-  "Sobremesas",
-  "Bebidas",
-  "Bebidas com Alcoól",
-  "Adicionais",
-];
 
 function produtoParaItem(produto) {
   return {
@@ -50,7 +45,10 @@ export default function GestaoCardapio() {
   const [items, setItems] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
-  const [activeCategory, setActiveCategory] = useState("Pratos principais");
+  const [categories, setCategories] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("");
+  const [showCategories, setShowCategories] = useState(false);
+  const [newCategory, setNewCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -68,8 +66,8 @@ export default function GestaoCardapio() {
   });
 
   const carregarCardapio = () => {
-    return getCardapio()
-      .then((data) => setItems(data.map(produtoParaItem)))
+    return Promise.all([getCardapio(), getCategorias(true)])
+      .then(([data, cats]) => { setItems(data.map(produtoParaItem)); setCategories(cats); setActiveCategory((current) => current || cats.find((cat) => cat.ativo)?.slug || ""); })
       .catch((err) => setErro(err.detail || err.message));
   };
 
@@ -115,6 +113,22 @@ export default function GestaoCardapio() {
     } catch (err) {
       alert(err.detail || "Não foi possível excluir o item.");
     }
+  };
+
+  const handleCreateCategory = async (event) => {
+    event.preventDefault();
+    if (!newCategory.trim()) return;
+    try { const category = await criarCategoria({ nome: newCategory }); setCategories((prev) => [...prev, category]); setActiveCategory(category.slug); setNewCategory(""); }
+    catch (err) { alert(err.detail || "Não foi possível criar a categoria."); }
+  };
+  const handleToggleCategory = async (category) => {
+    try { const updated = await atualizarCategoria(category.id, { ativo: !category.ativo }); setCategories((prev) => prev.map((item) => item.id === updated.id ? updated : item)); }
+    catch (err) { alert(err.detail || "Não foi possível atualizar a categoria."); }
+  };
+  const handleDeleteCategory = async (category) => {
+    if (!window.confirm(`Excluir a categoria "${category.nome}"?`)) return;
+    try { await excluirCategoria(category.id); setCategories((prev) => prev.filter((item) => item.id !== category.id)); }
+    catch (err) { alert(err.detail || "Não é possível excluir esta categoria."); }
   };
 
   const handleOpenModal = (itemToEdit = null) => {
@@ -215,6 +229,7 @@ export default function GestaoCardapio() {
             <button className="btn-primary-orange" onClick={() => handleOpenModal(null)}>
               <FaPlus /> ADICIONAR ITEM
             </button>
+            <button className="btn-primary-orange" onClick={() => setShowCategories(true)}>GERENCIAR CATEGORIAS</button>
             <button className="btn-primary-orange btn-danger-action" onClick={handleClearAllCategory}>
               <FaTrashAlt /> APAGAR TUDO
             </button>
@@ -222,16 +237,16 @@ export default function GestaoCardapio() {
 
           <div className="cardapio-table-container">
             <div className="categories-tab-bar">
-              {CATEGORIES.map((cat) => (
+              {categories.filter((cat) => cat.ativo).map((cat) => (
                 <button
-                  key={cat}
-                  className={`category-tab-item ${activeCategory === cat ? "active" : ""}`}
+                  key={cat.id}
+                  className={`category-tab-item ${activeCategory === cat.slug ? "active" : ""}`}
                   onClick={() => {
-                    setActiveCategory(cat);
+                    setActiveCategory(cat.slug);
                     setCurrentPage(1);
                   }}
                 >
-                  {cat}
+                  {cat.nome}
                 </button>
               ))}
             </div>
@@ -359,7 +374,7 @@ export default function GestaoCardapio() {
                 <div className="form-group">
                   <label>Categoria</label>
                   <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-                    {CATEGORIES.map((cat) => (<option key={cat} value={cat}>{cat}</option>))}
+                    {categories.filter((cat) => cat.ativo).map((cat) => (<option key={cat.id} value={cat.slug}>{cat.nome}</option>))}
                   </select>
                 </div>
                 <div className="form-group">
@@ -395,6 +410,7 @@ export default function GestaoCardapio() {
           </div>
         </div>
       )}
+      {showCategories && <div className="cardapio-modal-overlay"><div className="cardapio-modal-card"><div className="modal-header"><h2>Gerenciar categorias</h2><button className="btn-close-modal" onClick={() => setShowCategories(false)}><FaTimes /></button></div><form className="modal-form" onSubmit={handleCreateCategory}><div className="form-group"><label>Nova categoria</label><input value={newCategory} onChange={(e) => setNewCategory(e.target.value)} placeholder="Ex: Carne Assada" /></div><button className="btn-save-modal">Adicionar categoria</button></form><div className="menu-items-table">{categories.map((category) => <div className="menu-item-row" key={category.id}><span className="item-title">{category.nome}</span><span>{category.ativo ? "Ativa" : "Inativa"}</span><div className="item-actions-col"><button className="btn-edit-item" onClick={() => handleToggleCategory(category)}>{category.ativo ? "Desativar" : "Ativar"}</button><button className="btn-delete-single" onClick={() => handleDeleteCategory(category)}><FaTimes /></button></div></div>)}</div></div></div>}
     </div>
   );
 }

@@ -15,6 +15,7 @@ import {
 import "./AcompanharEntrega.css";
 import Header from "../../../components/Header/Header";
 import { useCart } from "../../../../../context/CartContext";
+import { getMeuPedido } from "../../../services/api";
 
 const STEPS = [
   { key: "confirmado", label: "Pedido confirmado", icon: <FaCheckCircle /> },
@@ -23,11 +24,7 @@ const STEPS = [
   { key: "entregue", label: "Entregue", icon: <FaHome /> },
 ];
 
-// Tempo (em ms) que cada etapa fica ativa antes de avançar pra próxima.
-// Por enquanto é uma simulação só visual — quando o pedido estiver ligado
-// ao status real do backend (tabela Pedido/rota /pedidos), essa progressão
-// pode vir de lá (ex: via polling ou websocket) em vez desse timer.
-const STEP_DURATION_MS = 7000;
+const STATUS_TO_STEP = { "Novos": 0, "Em preparo": 1, "Prontos": 2, "Entregues": 3, "Concluídos": 3 };
 
 function formatPaymentLabel(order) {
   if (!order) return "";
@@ -52,20 +49,18 @@ export default function AcompanharEntrega() {
   const order = location.state?.order || null;
 
   const [stepIndex, setStepIndex] = useState(0);
+  const [liveOrder, setLiveOrder] = useState(order);
   const [orderCode] = useState(
-    () => order?.code || `#YM-${Math.floor(100000 + Math.random() * 900000)}`,
+    () => order?.code || order?.codigo || `#YM-${Math.floor(100000 + Math.random() * 900000)}`,
   );
 
-  // Avança a "esteira" de status automaticamente até chegar em "Entregue"
   useEffect(() => {
-    if (!order || stepIndex >= STEPS.length - 1) return;
-
-    const timer = setTimeout(() => {
-      setStepIndex((prev) => Math.min(prev + 1, STEPS.length - 1));
-    }, STEP_DURATION_MS);
-
-    return () => clearTimeout(timer);
-  }, [stepIndex, order]);
+    if (!order?.id) return;
+    let ativo = true;
+    const atualizar = async () => { try { const pedido = await getMeuPedido(order.id); if (ativo) { setLiveOrder(pedido); setStepIndex(STATUS_TO_STEP[pedido.status] ?? 0); } } catch { /* mantém último estado disponível */ } };
+    atualizar(); const timer = setInterval(atualizar, 5000);
+    return () => { ativo = false; clearInterval(timer); };
+  }, [order?.id]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -96,6 +91,7 @@ export default function AcompanharEntrega() {
     );
   }
 
+  const exibicao = liveOrder || order;
   const isDelivered = stepIndex === STEPS.length - 1;
 
   return (
@@ -134,22 +130,22 @@ export default function AcompanharEntrega() {
           <div className="tracking-card stagger-tracking">
             <h2>Itens do pedido</h2>
             <div className="tracking-items">
-              {order.items.map((item) => (
+              {(exibicao.itens || exibicao.items).map((item) => (
                 <div className="tracking-item" key={item.id}>
-                  <img src={item.image || item.img} alt={item.title} />
+                  {(item.image || item.img) && <img src={item.image || item.img} alt={item.nome_produto || item.title} />}
                   <div className="tracking-item__info">
-                    <span className="tracking-item__title">{item.title}</span>
-                    <span className="tracking-item__qty">Qtd: {item.quantity}</span>
+                    <span className="tracking-item__title">{item.nome_produto || item.title}</span>
+                    <span className="tracking-item__qty">Qtd: {item.quantidade || item.quantity}</span>
                   </div>
                   <span className="tracking-item__price">
-                    R${(Number(item.price) * item.quantity).toFixed(2).replace(".", ",")}
+                    R${(Number(item.preco_unitario || item.price) * (item.quantidade || item.quantity)).toFixed(2).replace(".", ",")}
                   </span>
                 </div>
               ))}
             </div>
             <div className="tracking-total-row">
               <span>Total</span>
-              <strong>R${Number(order.total).toFixed(2).replace(".", ",")}</strong>
+              <strong>R${Number(exibicao.total).toFixed(2).replace(".", ",")}</strong>
             </div>
           </div>
 
@@ -159,16 +155,16 @@ export default function AcompanharEntrega() {
               <FaMapMarkerAlt className="tracking-detail__icon" />
               <div>
                 <span className="tracking-detail__label">Endereço</span>
-                <span className="tracking-detail__value">{order.address}</span>
+                <span className="tracking-detail__value">{exibicao.local || exibicao.address}</span>
               </div>
             </div>
             <div className="tracking-detail">
               <span className="tracking-detail__icon">
-                <PaymentIcon method={order.method} />
+                <PaymentIcon method={exibicao.method || exibicao.forma_pagamento} />
               </span>
               <div>
                 <span className="tracking-detail__label">Pagamento</span>
-                <span className="tracking-detail__value">{formatPaymentLabel(order)}</span>
+                <span className="tracking-detail__value">{exibicao.forma_pagamento || formatPaymentLabel(exibicao)}</span>
               </div>
             </div>
           </div>

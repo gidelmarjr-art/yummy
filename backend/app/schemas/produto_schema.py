@@ -24,6 +24,8 @@ class ProdutoCreate(BaseModel):
     categoria: str
     preco: float = Field(gt=0)
     status: str = "Em estoque"
+    imagem_url: Optional[str] = None
+    descricao: Optional[str] = None
     ficha_tecnica: List[FichaTecnicaItemInput] = []
 
 
@@ -32,6 +34,8 @@ class ProdutoUpdate(BaseModel):
     categoria: Optional[str] = None
     preco: Optional[float] = None
     status: Optional[str] = None
+    imagem_url: Optional[str] = None
+    descricao: Optional[str] = None
     ficha_tecnica: Optional[List[FichaTecnicaItemInput]] = None
 
 
@@ -42,6 +46,8 @@ class ProdutoResponse(BaseModel):
     categoria: str
     preco: float
     status: str
+    imagem_url: Optional[str] = None
+    descricao: Optional[str] = None
     criado_em: datetime
     ficha_tecnica: List[FichaTecnicaItem] = []
 

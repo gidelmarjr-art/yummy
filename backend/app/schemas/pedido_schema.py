@@ -22,6 +22,12 @@ class PedidoCreate(BaseModel):
     itens: List[ItemPedidoInput]
 
 
+class PedidoClienteCreate(BaseModel):
+    local: str
+    forma_pagamento: Optional[str] = None
+    itens: List[ItemPedidoInput] = Field(min_length=1)
+
+
 class PedidoStatusUpdate(BaseModel):
     status: str
 

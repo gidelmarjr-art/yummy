@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch, FaCog, FaBell, FaUtensils, FaPlus, FaTrashAlt, FaSave } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { getEstoque, criarProduto, getCardapio } from "../../../../services/api";
+import { getEstoque, criarProduto, getCardapio, getCategorias } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Cadastro_Pratos.css";
-
-const CATEGORIES = [
-  "Entradas",
-  "Pratos principais",
-  "Sobremesas",
-  "Bebidas",
-  "Bebidas com Alcoól",
-  "Adicionais",
-];
 
 export default function CadastroPratos() {
   const [dados, setDados] = useState({
     nome: "",
-    categoria: "Pratos principais",
+    categoria: "",
     preco: "",
     status: "Em estoque",
+    imagem_url: "",
+    descricao: "",
   });
 
   // Cada linha da ficha técnica: qual insumo e quanto ele gasta por unidade vendida.
   const [fichaTecnica, setFichaTecnica] = useState([{ insumo_id: "", quantidade_necessaria: "" }]);
 
   const [insumos, setInsumos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [carregandoInsumos, setCarregandoInsumos] = useState(true);
   const [recentes, setRecentes] = useState([]);
   const [salvando, setSalvando] = useState(false);
@@ -43,6 +37,7 @@ export default function CadastroPratos() {
       .catch((err) => setMensagem({ tipo: "erro", texto: "Não foi possível carregar os insumos: " + (err.detail || err.message) }))
       .finally(() => setCarregandoInsumos(false));
     carregarRecentes();
+    getCategorias().then((data) => { setCategorias(data); setDados((atual) => ({ ...atual, categoria: atual.categoria || data[0]?.slug || "" })); }).catch(() => setMensagem({ tipo: "erro", texto: "Não foi possível carregar as categorias." }));
   }, []);
 
   const handleFichaChange = (index, campo, valor) => {
@@ -81,13 +76,15 @@ export default function CadastroPratos() {
         categoria: dados.categoria,
         preco: parseFloat(String(dados.preco).replace(",", ".")),
         status: dados.status,
+        imagem_url: dados.imagem_url || null,
+        descricao: dados.descricao || null,
         ficha_tecnica: linhasValidas.map((l) => ({
           insumo_id: Number(l.insumo_id),
           quantidade_necessaria: parseFloat(String(l.quantidade_necessaria).replace(",", ".")),
         })),
       });
       setMensagem({ tipo: "sucesso", texto: `"${dados.nome}" foi cadastrado no cardápio!` });
-      setDados({ nome: "", categoria: dados.categoria, preco: "", status: "Em estoque" });
+      setDados({ nome: "", categoria: dados.categoria, preco: "", status: "Em estoque", imagem_url: "", descricao: "" });
       setFichaTecnica([{ insumo_id: "", quantidade_necessaria: "" }]);
       carregarRecentes();
     } catch (err) {
@@ -142,9 +139,12 @@ export default function CadastroPratos() {
                 <div className="cp-input-group">
                   <label>Categoria</label>
                   <select value={dados.categoria} onChange={(e) => setDados({ ...dados, categoria: e.target.value })}>
-                    {CATEGORIES.map((cat) => (<option key={cat} value={cat}>{cat}</option>))}
+                    {categorias.map((cat) => (<option key={cat.id} value={cat.slug}>{cat.nome}</option>))}
                   </select>
                 </div>
+
+                <div className="cp-input-group full-width"><label>URL da imagem (opcional)</label><input type="url" placeholder="https://..." value={dados.imagem_url} onChange={(e) => setDados({ ...dados, imagem_url: e.target.value })} /></div>
+                <div className="cp-input-group full-width"><label>Descrição (opcional)</label><textarea rows={3} value={dados.descricao} onChange={(e) => setDados({ ...dados, descricao: e.target.value })} /></div>
 
                 <div className="cp-input-group">
                   <label>Preço de Venda (R$)</label>

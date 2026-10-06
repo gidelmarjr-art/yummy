@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, Numeric, String
+from sqlalchemy import Column, DateTime, Integer, Numeric, String, Text
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -18,6 +18,8 @@ class Produto(Base):
     categoria = Column(String, nullable=False)
     preco = Column(Numeric(10, 2), nullable=False)
     status = Column(String, nullable=False, default="Em estoque")  # "Em estoque" | "Esgotado"
+    imagem_url = Column(String, nullable=True)
+    descricao = Column(Text, nullable=True)
     criado_em = Column(DateTime, default=datetime.utcnow)
 
     ficha_tecnica = relationship(

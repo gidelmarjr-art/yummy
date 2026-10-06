@@ -19,24 +19,20 @@ import "./Homepage.css";
 
 import Header from "../../../components/Header/Header";
 import MenuCarousel from '../MenuCarrossel/MenuCarrossel';
-import { PRODUCTS } from "./Productsdata";
+import { PRODUCTS as LOCAL_PRODUCTS } from "./Productsdata";
 import { useCart } from "../../../../../context/CartContext";
+import { getCardapio, getCategorias } from "../../../services/api";
 
 const BANNER_IMG =
   "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80";
 const RESTAURANT_AVATAR =
   "https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=150&q=80";
 
-const CATEGORIES = [
-  { id: "todos", label: "Tudo", icon: <FaUtensils /> },
-  { id: "lanches", label: "Lanches", icon: <FaHamburger /> },
-  { id: "pizzas", label: "Pizzas", icon: <FaPizzaSlice /> },
-  { id: "japonesa", label: "Japonesa", icon: <FaFish /> },
-  { id: "saudavel", label: "Saudável", icon: <FaLeaf /> },
-  { id: "doces", label: "Doces", icon: <FaCookieBite /> },
-  { id: "bebidas", label: "Bebidas", icon: <FaGlassMartiniAlt /> },
-  { id: "frango", label: "Frango", icon: <FaDrumstickBite /> },
-];
+const ICONS = { lanches: <FaHamburger />, pizzas: <FaPizzaSlice />, japonesa: <FaFish />, saudavel: <FaLeaf />, doces: <FaCookieBite />, bebidas: <FaGlassMartiniAlt />, frango: <FaDrumstickBite /> };
+const PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Crect width='100%25' height='100%25' fill='%23f3f3f3'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' fill='%23999' font-family='Arial' font-size='28'%3EImagem indisponível%3C/text%3E%3C/svg%3E";
+
+const normalizar = (texto = "") => texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+const localPara = (produto) => LOCAL_PRODUCTS.find((item) => item.category === produto.categoria && normalizar(item.title) === normalizar(produto.nome));
 
 // PRODUCTS agora vem de ./productsData.js, que monta a lista automaticamente
 // a partir das fotos em src/imgs/<Categoria>/. Basta adicionar uma nova
@@ -62,12 +58,32 @@ export default function Home() {
 
   const [activeCategory, setActiveCategory] = useState("todos");
   const [mostrarTudo, setMostrarTudo] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loadingMenu, setLoadingMenu] = useState(true);
+  const [menuError, setMenuError] = useState("");
   const { addToCart, totalItemsCount } = useCart();
 
-  const CATEGORIAS_REAIS = CATEGORIES.filter((c) => c.id !== "todos");
+  const loadMenu = async () => {
+    setLoadingMenu(true); setMenuError("");
+    try {
+      const [apiCategories, apiProducts] = await Promise.all([getCategorias(), getCardapio()]);
+      setCategories(apiCategories.map((cat) => ({ id: cat.slug, label: cat.nome, icon: ICONS[cat.icone || cat.slug] || <FaUtensils /> })));
+      setProducts(apiProducts.map((produto) => {
+        const local = localPara(produto);
+        return { id: produto.id, category: produto.categoria, title: produto.nome, desc: produto.descricao || local?.desc || "Produto preparado com ingredientes selecionados.", price: Number(produto.preco), img: produto.imagem_url || local?.img || PLACEHOLDER };
+      }));
+    } catch (error) { setMenuError(error.detail || "Não foi possível carregar o cardápio."); }
+    finally { setLoadingMenu(false); }
+  };
+
+  useEffect(() => { loadMenu(); }, []);
+
+  const CATEGORIES = [{ id: "todos", label: "Tudo", icon: <FaUtensils /> }, ...categories];
+  const CATEGORIAS_REAIS = categories;
 
   const highlightProducts = getHighlights(
-    PRODUCTS,
+    products,
     CATEGORIAS_REAIS.map((c) => c.id),
     HIGHLIGHTS_PER_CATEGORY,
   );
@@ -75,7 +91,7 @@ export default function Home() {
   const filteredProducts =
     activeCategory === "todos"
       ? highlightProducts
-      : PRODUCTS.filter((p) => p.category === activeCategory);
+      : products.filter((p) => p.category === activeCategory);
 
   const activeLabel =
     CATEGORIES.find((c) => c.id === activeCategory)?.label ?? "Tudo";
@@ -318,7 +334,10 @@ export default function Home() {
           </span>
         </div>
 
-        <div className="products-grid" key={activeCategory}>
+        {loadingMenu && <p className="dashboard-loading-msg">Carregando cardápio…</p>}
+        {menuError && <div className="dashboard-error-msg">{menuError} <button onClick={loadMenu}>Tentar novamente</button></div>}
+
+        {!loadingMenu && !menuError && <div className="products-grid" key={activeCategory}>
           {filteredProducts.map((prod) => (
             <div key={prod.id} className="product-card">
               <div className="product-img-wrapper">
@@ -330,7 +349,7 @@ export default function Home() {
 
                 <div className="product-footer">
                   <span className="product-price">
-                    {prod.price || "Consulte"}
+                    {Number(prod.price).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                   </span>
                   <button
                     className="add-btn"
@@ -343,7 +362,7 @@ export default function Home() {
               </div>
             </div>
           ))}
-        </div>
+        </div>}
 
         <div className="see-more-container stagger-item">
           <button
@@ -366,7 +385,7 @@ export default function Home() {
                 key={cat.id}
                 title={cat.label}
                 icon={cat.icon}
-                items={PRODUCTS.filter((p) => p.category === cat.id)}
+                items={products.filter((p) => p.category === cat.id)}
                 onAdd={handleAddToCart}
               />
             ))}

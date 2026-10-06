@@ -16,10 +16,12 @@ import app.models.pedido  # noqa: F401
 import app.models.item_pedido  # noqa: F401
 import app.models.transacao  # noqa: F401
 import app.models.configuracao_loja  # noqa: F401
+import app.models.categoria  # noqa: F401
 
 from app.routers import (
     auth_router,
     cardapio_router,
+    categorias_router,
     clientes_router,
     configuracoes_router,
     estoque_router,
@@ -61,6 +63,23 @@ def sincronizar_colunas_faltantes():
 
 sincronizar_colunas_faltantes()
 
+
+def semear_categorias():
+    from app.models.categoria import Categoria
+    categorias = [
+        ("Lanches", "lanches"), ("Pizzas", "pizzas"), ("Japonesa", "japonesa"),
+        ("Saudável", "saudavel"), ("Doces", "doces"), ("Bebidas", "bebidas"), ("Frango", "frango"),
+    ]
+    from sqlalchemy.orm import Session
+    with Session(engine) as db:
+        for ordem, (nome, slug) in enumerate(categorias):
+            if not db.query(Categoria).filter(Categoria.slug == slug).first():
+                db.add(Categoria(nome=nome, slug=slug, ordem=ordem, ativo=True))
+        db.commit()
+
+
+semear_categorias()
+
 app = FastAPI(
     title="API Yummy",
     version="1.0.0"
@@ -78,6 +97,7 @@ app.add_middleware(
 # Inclusão dos routers
 app.include_router(auth_router.router)
 app.include_router(cardapio_router.router)
+app.include_router(categorias_router.router)
 app.include_router(estoque_router.router)
 app.include_router(pedidos_router.router)
 app.include_router(clientes_router.router)

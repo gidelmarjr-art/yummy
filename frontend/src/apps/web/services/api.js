@@ -58,6 +58,9 @@ export const avancarPedido = (id) => authFetch(`/pedidos/${id}/avancar`, { metho
 export const definirStatusPedido = (id, status) =>
   authFetch(`/pedidos/${id}/status`, { method: "PATCH", body: { status } });
 export const excluirPedido = (id) => authFetch(`/pedidos/${id}`, { method: "DELETE" });
+export const criarPedidoCliente = (dados) => authFetch("/pedidos/meu", { method: "POST", body: dados });
+export const getMeusPedidos = () => authFetch("/pedidos/meu");
+export const getMeuPedido = (id) => authFetch(`/pedidos/meu/${id}`);
 
 // ---------- Cardápio ----------
 export const getCardapio = (categoria) =>
@@ -70,6 +73,13 @@ export const alternarStatusProduto = (id) =>
 export const excluirProduto = (id) => authFetch(`/cardapio/${id}`, { method: "DELETE" });
 export const excluirProdutosPorCategoria = (categoria) =>
   authFetch(`/cardapio?categoria=${encodeURIComponent(categoria)}`, { method: "DELETE" });
+
+// ---------- Categorias ----------
+export const getCategorias = (incluirInativas = false) =>
+  authFetch(`/categorias${incluirInativas ? "?incluir_inativas=true" : ""}`);
+export const criarCategoria = (dados) => authFetch("/categorias", { method: "POST", body: dados });
+export const atualizarCategoria = (id, dados) => authFetch(`/categorias/${id}`, { method: "PUT", body: dados });
+export const excluirCategoria = (id) => authFetch(`/categorias/${id}`, { method: "DELETE" });
 
 // ---------- Estoque ----------
 export const getEstoque = () => authFetch("/estoque");

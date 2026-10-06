@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.database import get_db
 from app.models.insumo import Insumo
+from app.models.categoria import Categoria
 from app.models.produto import Produto
 from app.models.produto_insumo import ProdutoInsumo
 from app.schemas.produto_schema import ProdutoCreate, ProdutoResponse, ProdutoUpdate
@@ -36,6 +37,12 @@ def _aplicar_ficha_tecnica(db: Session, produto: Produto, ficha_tecnica) -> None
         )
 
 
+def _validar_categoria(db: Session, slug: str) -> None:
+    categoria = db.query(Categoria).filter(Categoria.slug == slug, Categoria.ativo.is_(True)).first()
+    if not categoria:
+        raise HTTPException(status_code=422, detail="A categoria informada não existe ou está inativa.")
+
+
 # Leitura é pública: tanto o dashboard da empresa quanto o cardápio do
 # cliente final (self-checkout) precisam consultar os mesmos itens.
 @router.get("", response_model=List[ProdutoResponse])
@@ -57,12 +64,15 @@ def obter_produto(produto_id: int, db: Session = Depends(get_db)):
 # Escrita é restrita à gerência (usada pelas telas de Cardápio e Cadastro de Pratos).
 @router.post("", response_model=ProdutoResponse, status_code=201)
 def criar_produto(dados: ProdutoCreate, db: Session = Depends(get_db), _u=Depends(require_gerencia)):
+    _validar_categoria(db, dados.categoria)
     produto = Produto(
         codigo=gerar_codigo_sequencial(db, Produto),
         nome=dados.nome,
         categoria=dados.categoria,
         preco=dados.preco,
         status=dados.status,
+        imagem_url=dados.imagem_url,
+        descricao=dados.descricao,
     )
     db.add(produto)
     db.flush()
@@ -83,11 +93,16 @@ def atualizar_produto(
     if dados.nome is not None:
         produto.nome = dados.nome
     if dados.categoria is not None:
+        _validar_categoria(db, dados.categoria)
         produto.categoria = dados.categoria
     if dados.preco is not None:
         produto.preco = dados.preco
     if dados.status is not None:
         produto.status = dados.status
+    if dados.imagem_url is not None:
+        produto.imagem_url = dados.imagem_url
+    if dados.descricao is not None:
+        produto.descricao = dados.descricao
     if dados.ficha_tecnica is not None:
         _aplicar_ficha_tecnica(db, produto, dados.ficha_tecnica)
 
