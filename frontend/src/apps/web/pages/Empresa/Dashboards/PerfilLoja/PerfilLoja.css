@@ -3,6 +3,8 @@
   display: flex;
   min-height: 100vh;
   background-color: #f8fafc;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .main-content {
@@ -12,38 +14,11 @@
   min-width: 0;
 }
 
-/* Header Superior - Barra de pesquisa sem ícone */
-.search-box {
-  display: flex;
-  align-items: center;
-  background-color: #f1f5f9;
-  padding: 0.55rem 1rem;
-  border-radius: 20px;
-  width: 240px;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-}
-
-.search-box:focus-within {
-  border-color: #ed5b22;
-  background-color: #ffffff;
-}
-
-.search-box input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 0.85rem;
-  width: 100%;
-  color: #0f172a;
-  min-width: 0;
-  padding: 0;
-}
-
 .page-body {
   background-color: #f1f5f9;
   flex: 1;
   padding: 2rem 2.5rem;
+  min-width: 0;
 }
 
 .profile-container {
@@ -58,6 +33,7 @@
   padding: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   border: 1px solid #e2e8f0;
+  min-width: 0;
 }
 
 /* Card do Banner e Avatar */
@@ -244,7 +220,7 @@
 
 @media (max-width: 768px) {
   .page-body {
-    padding: 1.0rem;
+    padding: 1rem;
   }
 
   .profile-card {
