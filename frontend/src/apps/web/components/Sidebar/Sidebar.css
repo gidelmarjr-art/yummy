@@ -1,4 +1,4 @@
-/* Sidebar.css */
+/* Sidebar.css - Ajustado para visibilidade da seta no Mobile */
 
 .sidebar-container {
   width: 240px;
@@ -57,10 +57,10 @@
 .sidebar-toggle-edge-btn {
   position: absolute;
   top: 50%;
-  right: -16px;
+  right: -18px;
   transform: translateY(-50%);
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background-color: #ed5b22;
   border: 2px solid #1e293b;
@@ -68,16 +68,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  z-index: 9999;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 10001;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.2s ease, transform 0.2s ease, right 0.35s ease;
 }
 
 .sidebar-toggle-edge-btn:hover {
   background-color: #ff7a45;
-  transform: translateY(-50%) scale(1.15);
+  transform: translateY(-50%) scale(1.1);
 }
 
 /* Estilos Padrão Internos */
@@ -103,13 +103,14 @@
   flex-direction: column;
   gap: 0.5rem;
   height: 100%;
-  overflow-y: auto; /* Permite scroll se o menu for grande em telas pequenas */
+  overflow-y: auto;
 }
 
 /* Scrollbar personalizada na navbar da sidebar */
 .sidebar-nav::-webkit-scrollbar {
   width: 4px;
 }
+
 .sidebar-nav::-webkit-scrollbar-thumb {
   background: #334155;
   border-radius: 4px;
@@ -180,17 +181,34 @@
     height: 100vh;
     z-index: 10000;
     transform: translateX(0);
-    width: 260px !important; /* Largura fixa quando aberto no mobile */
+    width: 260px !important;
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
   }
 
-  /* Quando fechado no mobile: esconde totalmente fora da tela */
+  /* Quando fechado no mobile: recua o menu, mas ajusta a posição da seta para sobressair */
   .sidebar-container.is-closed {
     transform: translateX(-100%);
     width: 260px !important;
   }
 
-  /* Exibe o rótulo mesmo quando o estilo is-closed padrão do desktop oculta */
+  /* Faz a seta deslizar para fora da borda no mobile quando fechado para ficar totalmente visível */
+  .sidebar-container.is-closed .sidebar-toggle-edge-btn {
+    right: -32px;
+    /* Projeta o botão mais para fora da tela no mobile */
+    border-radius: 0 50% 50% 0;
+    /* Formato de aba perfeitamente visível na lateral */
+    width: 32px;
+    height: 42px;
+  }
+
+  .sidebar-container .sidebar-toggle-edge-btn {
+    right: -18px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Exibe o rótulo quando o menu abre no mobile */
   .sidebar-container.is-closed .sidebar-label {
     opacity: 1;
     display: inline;
@@ -223,10 +241,5 @@
   .sidebar-overlay.active {
     opacity: 1;
     pointer-events: auto;
-  }
-
-  /* Reposiciona o botão flutuante para facilitar a abertura/fechamento no toque */
-  .sidebar-toggle-edge-btn {
-    right: -16px;
   }
 }
