@@ -33,12 +33,14 @@
   border-bottom: 2px solid #eaebf0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
   gap: 1rem;
+  width: 100%;
 }
 
 .top-bar-left {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 0.8rem;
+  flex: 1;
   min-width: 0;
 }
 
@@ -49,42 +51,15 @@
   margin: 0;
   letter-spacing: -0.02em;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .top-bar-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  background-color: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  padding: 0.55rem 1rem;
-  border-radius: 24px;
-  width: 280px;
-  transition: all 0.2s ease;
-}
-
-.search-box:focus-within {
-  border-color: #ed5b22;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.15);
-}
-
-.search-box input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 0.88rem;
-  color: #1e293b;
-  width: 100%;
-  min-width: 0;
-  padding: 0;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .action-circle-btn {
@@ -439,32 +414,20 @@
 
 @media (max-width: 768px) {
   .dashboard-top-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.8rem;
-    padding: 1rem;
-  }
-
-  .top-bar-left {
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .top-bar-right {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr auto auto auto;
-    align-items: center;
+    padding: 0.8rem 1rem;
     gap: 0.5rem;
   }
 
-  .search-box {
-    width: 100%;
-    min-width: 0;
+  .top-bar-left {
+    gap: 0.6rem;
   }
 
   .page-heading {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
+  }
+
+  .top-bar-right {
+    gap: 0.4rem;
   }
 
   .dashboard-body-content {
@@ -491,8 +454,12 @@
     padding: 1.2rem;
   }
 
+  .page-heading {
+    font-size: 1.05rem;
+  }
+
   .top-bar-right {
-    gap: 0.4rem;
+    gap: 0.5rem;
   }
 
   .action-circle-btn {
@@ -503,9 +470,5 @@
   .user-profile-avatar {
     width: 36px;
     height: 36px;
-  }
-
-  .search-box {
-    padding: 0.45rem 0.8rem;
   }
 }

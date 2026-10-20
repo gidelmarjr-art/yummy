@@ -64,10 +64,6 @@ export default function Dashboard() {
           </div>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <input type="text" placeholder="Pesquisar..." />
-            </div>
-
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>
