@@ -1,5 +1,11 @@
-/* Relatorios.css - Atualizado e Harmonizado */
+/* Relatorios.css - Completo e Otimizado para Responsividade */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 .relatorios-page-layout {
   display: flex;
@@ -27,6 +33,7 @@
   padding: 1.2rem 2.5rem;
   background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
+  gap: 1rem;
 }
 
 .page-heading {
@@ -34,6 +41,9 @@
   font-weight: 800;
   color: #0f172a;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .top-bar-right {
@@ -62,6 +72,7 @@
   color: #94a3b8;
   font-size: 0.85rem;
   margin-right: 0.5rem;
+  flex-shrink: 0;
 }
 
 .search-box input {
@@ -71,6 +82,7 @@
   font-size: 0.85rem;
   width: 100%;
   color: #334155;
+  min-width: 0;
 }
 
 .action-circle-btn {
@@ -85,6 +97,7 @@
   color: #64748b;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .action-circle-btn:hover {
@@ -99,6 +112,7 @@
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #ed5b22;
+  flex-shrink: 0;
 }
 
 .user-profile-avatar img {
@@ -115,6 +129,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 /* Barra de Filtros */
@@ -140,6 +155,7 @@
 .calendar-icon {
   color: #ed5b22;
   font-size: 1rem;
+  flex-shrink: 0;
 }
 
 .filter-period-selector select {
@@ -166,6 +182,7 @@
   gap: 0.5rem;
   box-shadow: 0 4px 12px rgba(237, 91, 34, 0.2);
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-export-report:hover {
@@ -189,7 +206,7 @@
 
 .operational-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.2rem;
 }
 
@@ -201,9 +218,8 @@
   justify-content: space-between;
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  min-width: 0;
 }
-
-/* Ajuste de Legibilidade - Métricas Operacionais */
 
 .metric-card.orange-card {
   background-color: #ed5b22;
@@ -211,9 +227,8 @@
   border: none;
 }
 
-/* Título e textos do card laranja */
 .metric-card.orange-card .metric-header span {
-  color: rgba(255, 255, 255, 0.9) !important; /* Branco de alto contraste */
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.78rem;
@@ -221,33 +236,30 @@
 }
 
 .metric-card.orange-card .metric-value {
-  color: #ffffff !important; /* Valor central em branco legível */
+  color: #ffffff;
   font-size: 2.2rem;
   font-weight: 800;
 }
 
-/* Ícone no card laranja */
 .metric-card.orange-card .circle-white {
   background-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
-/* Badge de tendência no card laranja */
 .metric-card.orange-card .trend-badge.positive {
-  background-color: rgba(255, 255, 255, 0.25) !important;
-  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
   font-weight: 800;
   padding: 4px 8px;
   border-radius: 8px;
 }
 
 .metric-card.orange-card .trend-label {
-  color: rgba(255, 255, 255, 0.85) !important; /* Texto comparativo legível */
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
   font-size: 0.75rem;
 }
 
-/* Adjustes no Card Branco */
 .metric-card.white-card {
   background-color: #ffffff;
   color: #0f172a;
@@ -255,7 +267,7 @@
 }
 
 .metric-card.white-card .metric-header span {
-  color: #64748b !important;
+  color: #64748b;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.78rem;
@@ -263,37 +275,51 @@
 }
 
 .metric-card.white-card .metric-value {
-  color: #0f172a !important;
+  color: #0f172a;
   font-size: 2.2rem;
   font-weight: 800;
 }
 
 .metric-card.white-card .circle-orange {
   background-color: #ffedd5;
-  color: #ed5b22 !important;
+  color: #ed5b22;
 }
 
 .metric-card.white-card .trend-badge.negative {
-  background-color: #fee2e2 !important;
-  color: #dc2626 !important;
+  background-color: #fee2e2;
+  color: #dc2626;
   font-weight: 800;
   padding: 4px 8px;
   border-radius: 8px;
 }
 
 .metric-card.white-card .trend-label {
-  color: #64748b !important;
+  color: #64748b;
   font-weight: 500;
   font-size: 0.75rem;
 }
 
-.trend-badge.negative {
-  background-color: #fee2e2;
-  color: #dc2626;
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.trend-label {
-  opacity: 0.85;
+.metric-icon-wrapper {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.metric-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
 }
 
 /* Grid de Gráficos Duplos */
@@ -311,6 +337,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .chart-card h3 {
@@ -325,6 +352,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .chart-legend {
@@ -347,8 +376,13 @@
   border-radius: 50%;
 }
 
-.dot.deposit { background-color: #f59e0b; }
-.dot.withdraw { background-color: #ed5b22; }
+.dot.deposit {
+  background-color: #f59e0b;
+}
+
+.dot.withdraw {
+  background-color: #ed5b22;
+}
 
 /* Taxa de Cancelamento Card */
 .cancellation-rate-card {
@@ -408,7 +442,7 @@
   }
 
   .relatorios-dashboard-body {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem;
   }
 
   .relatorios-top-bar {
@@ -465,5 +499,9 @@
   .action-circle-btn {
     width: 34px;
     height: 34px;
+  }
+
+  .metric-value {
+    font-size: 1.8rem !important;
   }
 }
