@@ -1,5 +1,11 @@
-/* Pedidos.css - Correção do Dropdown de Filtro e Layout */
+/* Pedidos.css - Correção Completa e Responsiva */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 .pedidos-page-layout {
   display: flex;
@@ -27,6 +33,7 @@
   padding: 1.2rem 2.5rem;
   background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
+  gap: 1rem;
 }
 
 .page-heading {
@@ -34,6 +41,9 @@
   font-weight: 800;
   color: #0f172a;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .top-bar-right {
@@ -62,6 +72,7 @@
   color: #94a3b8;
   font-size: 0.85rem;
   margin-right: 0.5rem;
+  flex-shrink: 0;
 }
 
 .search-box input {
@@ -71,6 +82,7 @@
   font-size: 0.85rem;
   width: 100%;
   color: #334155;
+  min-width: 0;
 }
 
 .action-circle-btn {
@@ -85,6 +97,7 @@
   color: #64748b;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .action-circle-btn:hover {
@@ -99,6 +112,7 @@
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #ed5b22;
+  flex-shrink: 0;
 }
 
 .user-profile-avatar img {
@@ -115,6 +129,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 /* Controles Superiores */
@@ -125,7 +140,7 @@
   gap: 1rem;
 }
 
-/* CORREÇÃO DO DROPDOWN DE STATUS */
+/* Dropdown de Filtro */
 .dropdown-filter-wrapper {
   position: relative;
   display: inline-block;
@@ -152,7 +167,6 @@
   background-color: #ff7a45;
 }
 
-/* Estilização das opções do Select para evitar o vazamento e manter contraste */
 .status-dropdown-select option {
   background-color: #ffffff;
   color: #1e293b;
@@ -247,6 +261,7 @@
   align-items: center;
   gap: 0.4rem;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .status-tab-item:hover {
@@ -310,11 +325,13 @@
 .order-id-col {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .order-code {
   font-weight: 800;
   color: #0f172a;
+  white-space: nowrap;
 }
 
 .order-time {
@@ -323,22 +340,30 @@
   display: flex;
   align-items: center;
   gap: 0.2rem;
+  white-space: nowrap;
 }
 
 .order-info-col {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .customer-name {
   font-weight: 700;
   color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .order-summary {
   margin: 0;
   font-size: 0.8rem;
   color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Badges de Status */
@@ -348,17 +373,39 @@
   font-weight: 700;
   font-size: 0.75rem;
   display: inline-block;
+  white-space: nowrap;
 }
 
-.status-novos { background: #e0f2fe; color: #0369a1; }
-.status-em-preparo { background: #fff7ed; color: #c2410c; }
-.status-prontos { background: #fef9c3; color: #a16207; }
-.status-entregues { background: #f0fdf4; color: #15803d; }
-.status-concluídos { background: #f3f4f6; color: #4b5563; }
+.status-novos {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.status-em-preparo {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.status-prontos {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.status-entregues {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.status-concluídos,
+.status-concluidos {
+  background: #f3f4f6;
+  color: #4b5563;
+}
 
 .order-total-price {
   font-weight: 800;
   color: #0f172a;
+  white-space: nowrap;
 }
 
 .order-actions-col {
@@ -378,6 +425,7 @@
   align-items: center;
   gap: 0.3rem;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-view-details:hover {
@@ -395,6 +443,7 @@
   font-size: 0.78rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-advance-status:hover {
@@ -407,6 +456,166 @@
   color: #94a3b8;
   font-weight: 500;
 }
+
+/* Modais de Pedidos */
+.pedidos-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.pedidos-modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.8rem;
+}
+
+.modal-header h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.modal-body-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.modal-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.modal-items-list li {
+  display: flex;
+  justify-content: space-between;
+  background: #f8fafc;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+}
+
+.modal-total-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  color: #ed5b22;
+  margin-top: 0.5rem;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 0.8rem;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.form-group input {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  outline: none;
+  width: 100%;
+}
+
+.form-group input:focus {
+  border-color: #ed5b22;
+}
+
+.form-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.btn-save-modal,
+.btn-print-ticket {
+  flex: 1;
+  background-color: #ed5b22;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.btn-cancel-modal {
+  flex: 1;
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 /* ==========================================
    RESPONSIVIDADE E MEDIA QUERIES
    ========================================== */
@@ -466,38 +675,48 @@
     width: 100%;
   }
 
-  /* Linha do pedido vira "cartão" empilhado em vez do grid de 6 colunas */
+  /* Transforma cada linha da tabela em um layout flexível limpo no mobile */
   .pedido-row-item {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.6rem 0.8rem;
-    padding: 1rem 0;
+    gap: 0.8rem;
+    padding: 1.2rem 0;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .order-receipt-icon {
+    display: none;
+    /* Oculta ícone menor no mobile para ganhar espaço */
   }
 
   .order-id-col {
     order: 1;
   }
 
-  .order-info-col {
+  .order-status-badge-col {
     order: 2;
-    flex: 1;
-    min-width: 140px;
+    margin-left: auto;
   }
 
-  .order-status-badge-col {
+  .order-info-col {
     order: 3;
     flex-basis: 100%;
   }
 
   .order-total-price {
     order: 4;
+    font-size: 1.05rem;
   }
 
   .order-actions-col {
     order: 5;
     margin-left: auto;
-    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .form-group-row {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -509,16 +728,22 @@
   .order-actions-col {
     flex-basis: 100%;
     margin-left: 0;
+    width: 100%;
   }
 
   .order-actions-col .btn-view-details,
   .order-actions-col .btn-advance-status {
     flex: 1;
     justify-content: center;
+    padding: 0.6rem;
   }
 
   .action-circle-btn {
     width: 34px;
     height: 34px;
+  }
+
+  .pedidos-modal-card {
+    padding: 1.2rem;
   }
 }
