@@ -11,9 +11,11 @@ export default function PerfilLoja() {
     phone: "(61) 99876-5432",
     email: "contato@yummyburger.com.br",
     address: "Av. Principal, Quadra 10, Lote 05 - Centro",
-    description: "A melhor hamburgueria artesanal da cidade, focada em ingredientes selecionados e entrega rápida.",
+    description:
+      "A melhor hamburgueria artesanal da cidade, focada em ingredientes selecionados e entrega rápida.",
     openingHours: "18:00 - 23:30",
-    bannerUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1000",
+    bannerUrl:
+      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1000",
   });
 
   const [salvando, setSalvando] = useState(false);
@@ -45,13 +47,19 @@ export default function PerfilLoja() {
 
             {/* Banner e Foto da Loja */}
             <div className="profile-card banner-card">
-              <div className="store-banner" style={{ backgroundImage: `url(${storeProfile.bannerUrl})` }}>
+              <div
+                className="store-banner"
+                style={{ backgroundImage: `url(${storeProfile.bannerUrl})` }}
+              >
                 <button type="button" className="edit-banner-btn">
                   <FaCamera /> Alterar Capa
                 </button>
               </div>
               <div className="store-avatar-wrapper">
-                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Logo" />
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                  alt="Logo"
+                />
                 <button type="button" className="edit-avatar-btn">
                   <FaCamera />
                 </button>
@@ -67,32 +75,62 @@ export default function PerfilLoja() {
               <div className="form-grid">
                 <div className="input-group">
                   <label>Nome Comercial</label>
-                  <input type="text" name="storeName" value={storeProfile.storeName} onChange={handleChange} />
+                  <input
+                    type="text"
+                    name="storeName"
+                    value={storeProfile.storeName}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div className="input-group">
                   <label>Telefone / WhatsApp</label>
-                  <input type="text" name="phone" value={storeProfile.phone} onChange={handleChange} />
+                  <input
+                    type="text"
+                    name="phone"
+                    value={storeProfile.phone}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div className="input-group">
                   <label>E-mail da Loja</label>
-                  <input type="email" name="email" value={storeProfile.email} onChange={handleChange} />
+                  <input
+                    type="email"
+                    name="email"
+                    value={storeProfile.email}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div className="input-group">
                   <label>Horário de Funcionamento</label>
-                  <input type="text" name="openingHours" value={storeProfile.openingHours} onChange={handleChange} />
+                  <input
+                    type="text"
+                    name="openingHours"
+                    value={storeProfile.openingHours}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div className="input-group full-width">
                   <label>Endereço Físico</label>
-                  <input type="text" name="address" value={storeProfile.address} onChange={handleChange} />
+                  <input
+                    type="text"
+                    name="address"
+                    value={storeProfile.address}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div className="input-group full-width">
                   <label>Bio / Descrição do Estabelecimento</label>
-                  <textarea name="description" rows="3" value={storeProfile.description} onChange={handleChange} />
+                  <textarea
+                    name="description"
+                    rows="3"
+                    value={storeProfile.description}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
             </div>

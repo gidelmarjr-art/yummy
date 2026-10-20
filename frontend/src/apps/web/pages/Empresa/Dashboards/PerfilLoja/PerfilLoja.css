@@ -12,6 +12,34 @@
   min-width: 0;
 }
 
+/* Header Superior - Barra de pesquisa sem ícone */
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  padding: 0.55rem 1rem;
+  border-radius: 20px;
+  width: 240px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: #ed5b22;
+  background-color: #ffffff;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+  color: #0f172a;
+  min-width: 0;
+  padding: 0;
+}
+
 .page-body {
   background-color: #f1f5f9;
   flex: 1;

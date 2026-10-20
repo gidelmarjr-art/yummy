@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
-  FaSearch,
   FaCog,
   FaBell,
   FaUtensils,
   FaBoxes,
   FaUsers,
   FaDollarSign,
-  FaBars, // Adicionado para o menu mobile
+  FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { getGeral } from "../../../../services/api";
@@ -44,16 +43,17 @@ export default function Dashboard() {
   };
 
   return (
-    <div className={`dashboard-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}>
+    <div
+      className={`dashboard-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="dashboard-main-content">
         <header className="dashboard-top-bar">
           <div className="top-bar-left">
-            {/* Botão para alternar a sidebar em telas menores caso esteja fechada */}
             {!isSidebarOpen && (
-              <button 
-                className="toggle-sidebar-btn" 
+              <button
+                className="toggle-sidebar-btn"
                 onClick={toggleSidebar}
                 aria-label="Abrir menu"
               >
@@ -65,7 +65,6 @@ export default function Dashboard() {
 
           <div className="top-bar-right">
             <div className="search-box">
-              <FaSearch className="search-icon" />
               <input type="text" placeholder="Pesquisar..." />
             </div>
 
@@ -85,7 +84,6 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Demais conteúdos da página permanecem iguais */}
         <div className="dashboard-body-content">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
@@ -93,36 +91,56 @@ export default function Dashboard() {
             <div className="metric-card">
               <div className="metric-header">
                 <span>Faturamento Hoje</span>
-                <span className="metric-icon-wrapper"><FaDollarSign /></span>
+                <span className="metric-icon-wrapper">
+                  <FaDollarSign />
+                </span>
               </div>
-              <h2 className="metric-value">{carregando ? "…" : metrics.totalSales}</h2>
+              <h2 className="metric-value">
+                {carregando ? "…" : metrics.totalSales}
+              </h2>
               <span className="metric-footer">Concluído hoje</span>
             </div>
 
             <div className="metric-card">
               <div className="metric-header">
                 <span>Pedidos Ativos</span>
-                <span className="metric-icon-wrapper"><FaUtensils /></span>
+                <span className="metric-icon-wrapper">
+                  <FaUtensils />
+                </span>
               </div>
-              <h2 className="metric-value">{carregando ? "…" : metrics.activeOrders}</h2>
-              <span className="metric-footer" style={{ color: "#ea580c" }}>Em andamento na cozinha</span>
+              <h2 className="metric-value">
+                {carregando ? "…" : metrics.activeOrders}
+              </h2>
+              <span className="metric-footer" style={{ color: "#ea580c" }}>
+                Em andamento na cozinha
+              </span>
             </div>
 
             <div className="metric-card">
               <div className="metric-header">
                 <span>Alertas de Estoque</span>
-                <span className="metric-icon-wrapper"><FaBoxes /></span>
+                <span className="metric-icon-wrapper">
+                  <FaBoxes />
+                </span>
               </div>
-              <h2 className="metric-value">{carregando ? "…" : metrics.lowStockItems}</h2>
-              <span className="metric-footer" style={{ color: "#dc2626" }}>Itens precisando de reposição</span>
+              <h2 className="metric-value">
+                {carregando ? "…" : metrics.lowStockItems}
+              </h2>
+              <span className="metric-footer" style={{ color: "#dc2626" }}>
+                Itens precisando de reposição
+              </span>
             </div>
 
             <div className="metric-card">
               <div className="metric-header">
                 <span>Total Clientes</span>
-                <span className="metric-icon-wrapper"><FaUsers /></span>
+                <span className="metric-icon-wrapper">
+                  <FaUsers />
+                </span>
               </div>
-              <h2 className="metric-value">{carregando ? "…" : metrics.totalClients}</h2>
+              <h2 className="metric-value">
+                {carregando ? "…" : metrics.totalClients}
+              </h2>
               <span className="metric-footer">Cadastrados na plataforma</span>
             </div>
           </div>
@@ -137,11 +155,15 @@ export default function Dashboard() {
                 {recentOrders.map((order) => (
                   <div key={order.id} className="recent-order-item">
                     <div className="order-info-group">
-                      <strong className="order-client">#{order.id} - {order.customer}</strong>
+                      <strong className="order-client">
+                        #{order.id} - {order.customer}
+                      </strong>
                       <span className="order-detail-sub">{order.summary}</span>
                     </div>
 
-                    <span className={`status-pill status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                    <span
+                      className={`status-pill status-${order.status.toLowerCase().replace(/\s+/g, "-")}`}
+                    >
                       {order.status}
                     </span>
 
@@ -155,16 +177,26 @@ export default function Dashboard() {
               <h3 className="section-title">Insumos Críticos</h3>
               <div className="stock-alerts-list">
                 {!carregando && stockAlerts.length === 0 && (
-                  <p className="dashboard-empty-msg">Nenhum alerta — estoque saudável.</p>
+                  <p className="dashboard-empty-msg">
+                    Nenhum alerta — estoque saudável.
+                  </p>
                 )}
                 {stockAlerts.map((stock, idx) => (
                   <div key={idx} className="stock-alert-item">
                     <div className="order-info-group">
                       <strong className="stock-name">{stock.name}</strong>
-                      <span className="order-detail-sub">Qtd atual: {stock.qty}</span>
+                      <span className="order-detail-sub">
+                        Qtd atual: {stock.qty}
+                      </span>
                     </div>
 
-                    <span className={stock.status === "Crítico" ? "stock-badge-critical" : "stock-badge-low"}>
+                    <span
+                      className={
+                        stock.status === "Crítico"
+                          ? "stock-badge-critical"
+                          : "stock-badge-low"
+                      }
+                    >
                       {stock.status}
                     </span>
                   </div>
