@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-import { 
-  FaArrowLeft, 
-  FaCreditCard, 
-  FaQrcode, 
+import {
+  FaArrowLeft,
+  FaCreditCard,
+  FaQrcode,
   FaMoneyBillWave,
   FaCheckCircle,
   FaCopy,
@@ -12,14 +12,21 @@ import {
   FaCheck,
   FaMapMarkerAlt,
   FaPlus,
-  FaLock
+  FaLock,
 } from "react-icons/fa";
 import "./Pagamento.css";
 import { useCart } from "../../../../../context/CartContext";
-import { criarPedidoCliente } from "../../../services/api";
+import { criarMeuPedido } from "../../../services/api";
 
 import logoMascote from "../../../../../imgs/LogoYummy_2.png";
 import logoNome from "../../../../../imgs/LogoYummy_3.png";
+
+// Texto da forma de pagamento como aparece no painel da loja
+const FORMAS_PAGAMENTO = {
+  credit: "Cartão de crédito",
+  pix: "Pix",
+  cash: "Dinheiro",
+};
 
 export default function Pagamento() {
   const containerRef = useRef(null);
@@ -30,7 +37,7 @@ export default function Pagamento() {
 
   // Estados Gerais
   const [selectedMethod, setSelectedMethod] = useState("credit");
-  
+
   // Estado do Endereço
   const [address, setAddress] = useState("Setor Leste, Quadra 42, Lote 01");
   const [isEditingAddress, setIsEditingAddress] = useState(false);
@@ -39,11 +46,16 @@ export default function Pagamento() {
   // Estados de Cartão de Crédito
   const [savedCards, setSavedCards] = useState([
     { id: "1", brand: "Mastercard", last4: "4321", name: "João Silva" },
-    { id: "2", brand: "Visa", last4: "8899", name: "João Silva" }
+    { id: "2", brand: "Visa", last4: "8899", name: "João Silva" },
   ]);
   const [selectedCardId, setSelectedCardId] = useState("1");
   const [showAddCardForm, setShowAddCardForm] = useState(false);
-  const [newCard, setNewCard] = useState({ number: "", name: "", expiry: "", cvv: "" });
+  const [newCard, setNewCard] = useState({
+    number: "",
+    name: "",
+    expiry: "",
+    cvv: "",
+  });
 
   // Estados de Dinheiro / Pix
   const [needChange, setNeedChange] = useState(false);
@@ -57,27 +69,29 @@ export default function Pagamento() {
   // do clearCart(), já que ele esvazia o cartItems do contexto.
   const [confirmedOrder, setConfirmedOrder] = useState(null);
 
-  const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0) * item.quantity, 0);
-  // A API ainda não possui um campo de frete; o total confirmado precisa
-  // coincidir exatamente com o pedido salvo no servidor.
-  const deliveryFee = 0;
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
+    0,
+  );
+  const deliveryFee = 7.5;
   const total = subtotal > 0 ? subtotal + deliveryFee : 0;
 
   // Cartão atualmente ativo
-  const currentCard = savedCards.find((c) => c.id === selectedCardId) || savedCards[0];
+  const currentCard =
+    savedCards.find((c) => c.id === selectedCardId) || savedCards[0];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".stagger-pay",
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "power2.out" }
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "power2.out" },
       );
 
       gsap.fromTo(
         ".payment-brand-side",
         { opacity: 0, scale: 0.95 },
-        { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out", delay: 0.1 }
+        { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out", delay: 0.1 },
       );
     }, containerRef);
 
@@ -95,7 +109,8 @@ export default function Pagamento() {
 
   // Copiar Pix
   const handleCopyPix = () => {
-    const dummyPixKey = "00020126580014br.gov.bcb.pix0136yummy-pay-key-123456789520400005303986540560.005802BR";
+    const dummyPixKey =
+      "00020126580014br.gov.bcb.pix0136yummy-pay-key-123456789520400005303986540560.005802BR";
     navigator.clipboard.writeText(dummyPixKey);
     setPixCopied(true);
     setTimeout(() => setPixCopied(false), 2500);
@@ -114,7 +129,7 @@ export default function Pagamento() {
       id: Date.now().toString(),
       brand: "Cartão",
       last4,
-      name: newCard.name
+      name: newCard.name,
     };
 
     setSavedCards([...savedCards, createdCard]);
@@ -131,27 +146,48 @@ export default function Pagamento() {
     }
     setIsProcessing(true);
     try {
-      const paymentLabel = selectedMethod === "credit" ? `Cartão ••••${currentCard?.last4 || ""}` : selectedMethod === "cash" ? `Dinheiro${needChange && changeAmount ? ` - troco para ${changeAmount}` : ""}` : "Pix";
-      const pedido = await criarPedidoCliente({
-        local: `Entrega (${address})`, forma_pagamento: paymentLabel,
-        itens: cartItems.map((item) => ({ produto_id: Number(item.id), nome_produto: item.title || item.name, quantidade: item.quantity, preco_unitario: Number(item.price) || 0 })),
+      // Cria o pedido de verdade no backend. O cliente e os preços são
+      // definidos pelo servidor; aqui só vão o produto, a quantidade e o local.
+      const pedido = await criarMeuPedido({
+        local: `Entrega — ${address}`,
+        forma_pagamento: FORMAS_PAGAMENTO[selectedMethod] || selectedMethod,
+        itens: cartItems.map((item) => ({
+          produto_id: item.id,
+          nome_produto: item.title,
+          quantidade: item.quantity,
+          preco_unitario: Number(item.price),
+        })),
       });
-      setIsProcessing(false);
-      setIsSuccessModalOpen(true);
+
       setConfirmedOrder({
-        id: pedido.id, code: pedido.codigo, items: pedido.itens.map((item) => ({ id: item.id, title: item.nome_produto, quantity: item.quantidade, price: Number(item.preco_unitario) })), total: Number(pedido.total),
+        pedidoId: pedido.id,
+        code: pedido.codigo,
+        status: pedido.status,
+        items: cartItems,
+        total,
         address,
         method: selectedMethod,
         cardLast4: currentCard?.last4,
       });
-      clearCart(); // Limpa o carrinho após o sucesso da compra
-    } catch (error) { setIsProcessing(false); alert(error.detail || "Não foi possível enviar o pedido."); }
+      setIsSuccessModalOpen(true);
+      clearCart(); // Limpa o carrinho só depois do pedido ter sido criado
+    } catch (err) {
+      alert(
+        err.detail || "Não foi possível finalizar o pedido. Tente novamente.",
+      );
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
     <div className="payment-page-bg" ref={containerRef}>
       <header className="payment-header">
-        <button className="btn-back" onClick={() => window.history.back()} aria-label="Voltar">
+        <button
+          className="btn-back"
+          onClick={() => window.history.back()}
+          aria-label="Voltar"
+        >
           <FaArrowLeft />
         </button>
         <h1 className="payment-page-title">Pagamento</h1>
@@ -175,13 +211,22 @@ export default function Pagamento() {
             <h2 className="section-subtitle">RESUMO DO PEDIDO</h2>
             <div className="order-items-list">
               {cartItems.length === 0 ? (
-                <p className="item-title" style={{ color: "#a0a0a0" }}>Nenhum item no carrinho.</p>
+                <p className="item-title" style={{ color: "#a0a0a0" }}>
+                  Nenhum item no carrinho.
+                </p>
               ) : (
                 cartItems.map((item) => (
                   <div key={item.id} className="order-item-row">
-                    <span className="item-title">{item.quantity}x {item.title || item.name}</span>
+                    <span className="item-title">
+                      {item.quantity}x {item.title || item.name}
+                    </span>
                     <span className="item-price">
-                      {((Number(item.price) || 0) * item.quantity).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(
+                        (Number(item.price) || 0) * item.quantity
+                      ).toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
                     </span>
                   </div>
                 ))
@@ -191,15 +236,30 @@ export default function Pagamento() {
             <div className="financial-summary">
               <div className="summary-line">
                 <span>Subtotal</span>
-                <span>{subtotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+                <span>
+                  {subtotal.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </span>
               </div>
               <div className="summary-line">
                 <span>Taxa de entrega</span>
-                <span>{deliveryFee.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+                <span>
+                  {deliveryFee.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </span>
               </div>
               <div className="summary-line total">
                 <strong>Total</strong>
-                <strong>{total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
+                <strong>
+                  {total.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </strong>
               </div>
             </div>
           </section>
@@ -212,7 +272,10 @@ export default function Pagamento() {
                 <span className="address-text">
                   <FaMapMarkerAlt className="address-icon" /> {address}
                 </span>
-                <button className="btn-change-address" onClick={() => setIsEditingAddress(true)}>
+                <button
+                  className="btn-change-address"
+                  onClick={() => setIsEditingAddress(true)}
+                >
                   Alterar
                 </button>
               </div>
@@ -227,8 +290,14 @@ export default function Pagamento() {
                   autoFocus
                 />
                 <div className="address-form-actions">
-                  <button type="submit" className="btn-save-addr">Salvar</button>
-                  <button type="button" className="btn-cancel-addr" onClick={() => setIsEditingAddress(false)}>
+                  <button type="submit" className="btn-save-addr">
+                    Salvar
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-cancel-addr"
+                    onClick={() => setIsEditingAddress(false)}
+                  >
                     Cancelar
                   </button>
                 </div>
@@ -240,7 +309,6 @@ export default function Pagamento() {
           <section className="payment-section">
             <h2 className="section-subtitle">FORMA DE PAGAMENTO</h2>
             <div className="payment-methods-list">
-              
               {/* Opção Cartão de Crédito */}
               <button
                 type="button"
@@ -250,20 +318,28 @@ export default function Pagamento() {
                 <div className="method-info">
                   <FaCreditCard className="method-icon" />
                   <span>
-                    Cartão de crédito {currentCard ? `••••${currentCard.last4}` : ""}
+                    Cartão de crédito{" "}
+                    {currentCard ? `••••${currentCard.last4}` : ""}
                   </span>
                 </div>
-                {selectedMethod === "credit" && <FaCheckCircle className="check-icon" />}
+                {selectedMethod === "credit" && (
+                  <FaCheckCircle className="check-icon" />
+                )}
               </button>
 
               {/* Painel Expansível: Cartão de Crédito */}
               {selectedMethod === "credit" && (
                 <div className="method-extra-panel">
-                  <span className="panel-label">Selecione um cartão ou adicione um novo:</span>
-                  
+                  <span className="panel-label">
+                    Selecione um cartão ou adicione um novo:
+                  </span>
+
                   <div className="cards-selection-list">
                     {savedCards.map((card) => (
-                      <label key={card.id} className={`card-radio-item ${selectedCardId === card.id ? "selected" : ""}`}>
+                      <label
+                        key={card.id}
+                        className={`card-radio-item ${selectedCardId === card.id ? "selected" : ""}`}
+                      >
                         <input
                           type="radio"
                           name="selectedCard"
@@ -293,7 +369,9 @@ export default function Pagamento() {
                           placeholder="Número do cartão"
                           maxLength="19"
                           value={newCard.number}
-                          onChange={(e) => setNewCard({ ...newCard, number: e.target.value })}
+                          onChange={(e) =>
+                            setNewCard({ ...newCard, number: e.target.value })
+                          }
                           className="card-input"
                         />
                       </div>
@@ -302,7 +380,9 @@ export default function Pagamento() {
                           type="text"
                           placeholder="Nome impresso no cartão"
                           value={newCard.name}
-                          onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
+                          onChange={(e) =>
+                            setNewCard({ ...newCard, name: e.target.value })
+                          }
                           className="card-input"
                         />
                       </div>
@@ -312,7 +392,9 @@ export default function Pagamento() {
                           placeholder="MM/AA"
                           maxLength="5"
                           value={newCard.expiry}
-                          onChange={(e) => setNewCard({ ...newCard, expiry: e.target.value })}
+                          onChange={(e) =>
+                            setNewCard({ ...newCard, expiry: e.target.value })
+                          }
                           className="card-input"
                         />
                         <input
@@ -320,7 +402,9 @@ export default function Pagamento() {
                           placeholder="CVV"
                           maxLength="4"
                           value={newCard.cvv}
-                          onChange={(e) => setNewCard({ ...newCard, cvv: e.target.value })}
+                          onChange={(e) =>
+                            setNewCard({ ...newCard, cvv: e.target.value })
+                          }
                           className="card-input"
                         />
                       </div>
@@ -351,14 +435,30 @@ export default function Pagamento() {
                   <FaQrcode className="method-icon" />
                   <span>Pix</span>
                 </div>
-                {selectedMethod === "pix" && <FaCheckCircle className="check-icon" />}
+                {selectedMethod === "pix" && (
+                  <FaCheckCircle className="check-icon" />
+                )}
               </button>
 
               {selectedMethod === "pix" && (
                 <div className="method-extra-panel">
-                  <p className="pix-instruction">Copie o código abaixo e pague no app do seu banco:</p>
-                  <button type="button" className="btn-copy-pix" onClick={handleCopyPix}>
-                    {pixCopied ? <><FaCheck /> Código copiado!</> : <><FaCopy /> Copiar chave Pix</>}
+                  <p className="pix-instruction">
+                    Copie o código abaixo e pague no app do seu banco:
+                  </p>
+                  <button
+                    type="button"
+                    className="btn-copy-pix"
+                    onClick={handleCopyPix}
+                  >
+                    {pixCopied ? (
+                      <>
+                        <FaCheck /> Código copiado!
+                      </>
+                    ) : (
+                      <>
+                        <FaCopy /> Copiar chave Pix
+                      </>
+                    )}
                   </button>
                 </div>
               )}
@@ -373,7 +473,9 @@ export default function Pagamento() {
                   <FaMoneyBillWave className="method-icon" />
                   <span>Dinheiro na entrega</span>
                 </div>
-                {selectedMethod === "cash" && <FaCheckCircle className="check-icon" />}
+                {selectedMethod === "cash" && (
+                  <FaCheckCircle className="check-icon" />
+                )}
               </button>
 
               {selectedMethod === "cash" && (
@@ -401,7 +503,6 @@ export default function Pagamento() {
                   )}
                 </div>
               )}
-
             </div>
           </section>
 
@@ -432,19 +533,26 @@ export default function Pagamento() {
             <h2>Pedido Confirmado!</h2>
             <p>Seu pedido já foi enviado e está em preparação.</p>
             <div className="modal-details">
-              <span>Forma de pagamento: <strong>
-                {selectedMethod === "credit"
-                  ? `Cartão (••••${currentCard?.last4})`
-                  : selectedMethod.toUpperCase()}
-              </strong></span>
-              <span>Entrega em: <strong>{address}</strong></span>
-              <span>Número do Pedido: {confirmedOrder?.code || ""}</span>
+              <span>
+                Forma de pagamento:{" "}
+                <strong>
+                  {selectedMethod === "credit"
+                    ? `Cartão (••••${currentCard?.last4})`
+                    : selectedMethod.toUpperCase()}
+                </strong>
+              </span>
+              <span>
+                Entrega em: <strong>{address}</strong>
+              </span>
+              <span>Número do Pedido: #10209890</span>
             </div>
             <button
               className="btn-modal-close"
               onClick={() => {
                 setIsSuccessModalOpen(false);
-                navigate("/acompanhar-entrega", { state: { order: confirmedOrder } });
+                navigate("/acompanhar-entrega", {
+                  state: { order: confirmedOrder },
+                });
               }}
             >
               Acompanhar Pedido

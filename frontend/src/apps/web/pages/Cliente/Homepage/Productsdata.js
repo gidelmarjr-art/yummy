@@ -1,4 +1,4 @@
-const CATEGORY_DEFAULTS = {
+export const CATEGORY_DEFAULTS = {
   lanches: {
     desc: "Feito na hora, com ingredientes selecionados.",
     price: null,
@@ -87,7 +87,7 @@ const PRODUCT_DETAILS = {
     desc: "Frango desfiado temperado com catupiry cremoso.",
     price: "R$46,90",
   },
-  "Margherita": {
+  Margherita: {
     desc: "Molho de tomate, mussarela de búfala e manjericão fresco.",
     price: "R$42,90",
   },
@@ -99,7 +99,7 @@ const PRODUCT_DETAILS = {
     desc: "Pepperoni picante com um toque de mel para equilibrar.",
     price: "R$48,90",
   },
-  "Portuguesa": {
+  Portuguesa: {
     desc: "Presunto, ovos, cebola, azeitona e ervilha.",
     price: "R$45,90",
   },
@@ -186,13 +186,41 @@ function contextToProducts(context, categoryId) {
 // Um require.context por pasta de categoria em src/imgs.
 // `false` = não entra em subpastas. Ao adicionar uma nova imagem dentro de
 // uma dessas pastas, ela é automaticamente incluída no build seguinte.
-const lanchesCtx = require.context("../../../../../imgs/Lanches", false, /\.(png|jpe?g|webp|svg)$/i);
-const pizzasCtx = require.context("../../../../../imgs/Pizzas", false, /\.(png|jpe?g|webp|svg)$/i);
-const japonesaCtx = require.context("../../../../../imgs/Japonesa", false, /\.(png|jpe?g|webp|svg)$/i);
-const saudavelCtx = require.context("../../../../../imgs/Saudável", false, /\.(png|jpe?g|webp|svg)$/i);
-const docesCtx = require.context("../../../../../imgs/Doces", false, /\.(png|jpe?g|webp|svg)$/i);
-const bebidasCtx = require.context("../../../../../imgs/Bebidas", false, /\.(png|jpe?g|webp|svg)$/i);
-const frangoCtx = require.context("../../../../../imgs/Frango", false, /\.(png|jpe?g|webp|svg)$/i);
+const lanchesCtx = require.context(
+  "../../../../../imgs/Lanches",
+  false,
+  /\.(png|jpe?g|webp|svg)$/i,
+);
+const pizzasCtx = require.context(
+  "../../../../../imgs/Pizzas",
+  false,
+  /\.(png|jpe?g|webp|svg)$/i,
+);
+const japonesaCtx = require.context(
+  "../../../../../imgs/Japonesa",
+  false,
+  /\.(png|jpe?g|webp|svg)$/i,
+);
+const saudavelCtx = require.context(
+  "../../../../../imgs/Saudável",
+  false,
+  /\.(png|jpe?g|webp|svg)$/i,
+);
+const docesCtx = require.context(
+  "../../../../../imgs/Doces",
+  false,
+  /\.(png|jpe?g|webp|svg)$/i,
+);
+const bebidasCtx = require.context(
+  "../../../../../imgs/Bebidas",
+  false,
+  /\.(png|jpe?g|webp|svg)$/i,
+);
+const frangoCtx = require.context(
+  "../../../../../imgs/Frango",
+  false,
+  /\.(png|jpe?g|webp|svg)$/i,
+);
 
 export const PRODUCTS = [
   ...contextToProducts(lanchesCtx, "lanches"),
@@ -203,3 +231,18 @@ export const PRODUCTS = [
   ...contextToProducts(bebidasCtx, "bebidas"),
   ...contextToProducts(frangoCtx, "frango"),
 ];
+// Procura a foto local (src/imgs/<Categoria>/) pelo nome do prato, ignorando
+// maiúsculas e acentos. Usada como reserva quando o prato do banco não tem
+// imagem_url. Retorna null se não achar.
+const normalizar = (t) =>
+  String(t || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+const FOTOS_LOCAIS = new Map(PRODUCTS.map((p) => [normalizar(p.title), p.img]));
+
+export function findLocalImage(nome) {
+  return FOTOS_LOCAIS.get(normalizar(nome)) || null;
+}

@@ -24,7 +24,17 @@ const STEPS = [
   { key: "entregue", label: "Entregue", icon: <FaHome /> },
 ];
 
-const STATUS_TO_STEP = { "Novos": 0, "Em preparo": 1, "Prontos": 2, "Entregues": 3, "Concluídos": 3 };
+// De quanto em quanto tempo (ms) consulta o status do pedido no backend.
+const POLL_INTERVAL_MS = 5000;
+
+// Status do pedido no banco -> etapa mostrada na tela.
+const STATUS_PARA_ETAPA = {
+  Novos: 0,
+  "Em preparo": 1,
+  Prontos: 2,
+  Entregues: 3,
+  Concluídos: 3,
+};
 
 function formatPaymentLabel(order) {
   if (!order) return "";
@@ -48,19 +58,32 @@ export default function AcompanharEntrega() {
 
   const order = location.state?.order || null;
 
-  const [stepIndex, setStepIndex] = useState(0);
-  const [liveOrder, setLiveOrder] = useState(order);
-  const [orderCode] = useState(
-    () => order?.code || order?.codigo || `#YM-${Math.floor(100000 + Math.random() * 900000)}`,
+  const [stepIndex, setStepIndex] = useState(
+    STATUS_PARA_ETAPA[order?.status] ?? 0,
   );
+  const [cancelado, setCancelado] = useState(false);
+  const [orderCode] = useState(() => order?.code || "");
 
+  // Consulta o status real do pedido de tempos em tempos, até ser entregue.
   useEffect(() => {
-    if (!order?.id) return;
-    let ativo = true;
-    const atualizar = async () => { try { const pedido = await getMeuPedido(order.id); if (ativo) { setLiveOrder(pedido); setStepIndex(STATUS_TO_STEP[pedido.status] ?? 0); } } catch { /* mantém último estado disponível */ } };
-    atualizar(); const timer = setInterval(atualizar, 5000);
-    return () => { ativo = false; clearInterval(timer); };
-  }, [order?.id]);
+    if (!order?.pedidoId || cancelado || stepIndex >= STEPS.length - 1) return;
+
+    const timer = setInterval(async () => {
+      try {
+        const pedido = await getMeuPedido(order.pedidoId);
+        if (pedido.status === "Cancelado") {
+          setCancelado(true);
+          return;
+        }
+        const etapa = STATUS_PARA_ETAPA[pedido.status];
+        if (etapa !== undefined) setStepIndex(etapa);
+      } catch {
+        // falha de rede momentânea: tenta de novo no próximo ciclo
+      }
+    }, POLL_INTERVAL_MS);
+
+    return () => clearInterval(timer);
+  }, [order, stepIndex, cancelado]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -82,8 +105,14 @@ export default function AcompanharEntrega() {
         <main className="tracking-empty">
           <FaReceipt className="tracking-empty__icon" />
           <h1>Nenhum pedido em andamento</h1>
-          <p>Assim que você finalizar uma compra, o acompanhamento da entrega aparece aqui.</p>
-          <button className="btn-tracking-home" onClick={() => navigate("/home")}>
+          <p>
+            Assim que você finalizar uma compra, o acompanhamento da entrega
+            aparece aqui.
+          </p>
+          <button
+            className="btn-tracking-home"
+            onClick={() => navigate("/home")}
+          >
             Ver cardápio
           </button>
         </main>
@@ -91,7 +120,6 @@ export default function AcompanharEntrega() {
     );
   }
 
-  const exibicao = liveOrder || order;
   const isDelivered = stepIndex === STEPS.length - 1;
 
   return (
@@ -104,8 +132,10 @@ export default function AcompanharEntrega() {
             <h1>Acompanhando seu pedido</h1>
             <span className="tracking-code">Pedido {orderCode}</span>
           </div>
-          <span className={`tracking-status-pill ${isDelivered ? "is-delivered" : ""}`}>
-            {STEPS[stepIndex].label}
+          <span
+            className={`tracking-status-pill ${isDelivered ? "is-delivered" : ""}`}
+          >
+            {cancelado ? "Pedido cancelado" : STEPS[stepIndex].label}
           </span>
         </div>
 
@@ -120,7 +150,9 @@ export default function AcompanharEntrega() {
               <div className="tracking-step__icon">{step.icon}</div>
               <span className="tracking-step__label">{step.label}</span>
               {i < STEPS.length - 1 && (
-                <div className={`tracking-step__line ${i < stepIndex ? "is-filled" : ""}`} />
+                <div
+                  className={`tracking-step__line ${i < stepIndex ? "is-filled" : ""}`}
+                />
               )}
             </div>
           ))}
@@ -130,22 +162,29 @@ export default function AcompanharEntrega() {
           <div className="tracking-card stagger-tracking">
             <h2>Itens do pedido</h2>
             <div className="tracking-items">
-              {(exibicao.itens || exibicao.items).map((item) => (
+              {order.items.map((item) => (
                 <div className="tracking-item" key={item.id}>
-                  {(item.image || item.img) && <img src={item.image || item.img} alt={item.nome_produto || item.title} />}
+                  <img src={item.image || item.img} alt={item.title} />
                   <div className="tracking-item__info">
-                    <span className="tracking-item__title">{item.nome_produto || item.title}</span>
-                    <span className="tracking-item__qty">Qtd: {item.quantidade || item.quantity}</span>
+                    <span className="tracking-item__title">{item.title}</span>
+                    <span className="tracking-item__qty">
+                      Qtd: {item.quantity}
+                    </span>
                   </div>
                   <span className="tracking-item__price">
-                    R${(Number(item.preco_unitario || item.price) * (item.quantidade || item.quantity)).toFixed(2).replace(".", ",")}
+                    R$
+                    {(Number(item.price) * item.quantity)
+                      .toFixed(2)
+                      .replace(".", ",")}
                   </span>
                 </div>
               ))}
             </div>
             <div className="tracking-total-row">
               <span>Total</span>
-              <strong>R${Number(exibicao.total).toFixed(2).replace(".", ",")}</strong>
+              <strong>
+                R${Number(order.total).toFixed(2).replace(".", ",")}
+              </strong>
             </div>
           </div>
 
@@ -155,22 +194,27 @@ export default function AcompanharEntrega() {
               <FaMapMarkerAlt className="tracking-detail__icon" />
               <div>
                 <span className="tracking-detail__label">Endereço</span>
-                <span className="tracking-detail__value">{exibicao.local || exibicao.address}</span>
+                <span className="tracking-detail__value">{order.address}</span>
               </div>
             </div>
             <div className="tracking-detail">
               <span className="tracking-detail__icon">
-                <PaymentIcon method={exibicao.method || exibicao.forma_pagamento} />
+                <PaymentIcon method={order.method} />
               </span>
               <div>
                 <span className="tracking-detail__label">Pagamento</span>
-                <span className="tracking-detail__value">{exibicao.forma_pagamento || formatPaymentLabel(exibicao)}</span>
+                <span className="tracking-detail__value">
+                  {formatPaymentLabel(order)}
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        <button className="btn-tracking-home stagger-tracking" onClick={() => navigate("/home")}>
+        <button
+          className="btn-tracking-home stagger-tracking"
+          onClick={() => navigate("/home")}
+        >
           {isDelivered ? "Voltar para o início" : "Continuar navegando"}
         </button>
       </main>

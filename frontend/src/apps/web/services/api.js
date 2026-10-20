@@ -52,43 +52,58 @@ export const getGeral = () => authFetch("/geral");
 
 // ---------- Pedidos ----------
 export const getPedidos = (status) =>
-  authFetch(`/pedidos${status ? `?status_filtro=${encodeURIComponent(status)}` : ""}`);
-export const criarPedido = (dados) => authFetch("/pedidos", { method: "POST", body: dados });
-export const avancarPedido = (id) => authFetch(`/pedidos/${id}/avancar`, { method: "PATCH" });
+  authFetch(
+    `/pedidos${status ? `?status_filtro=${encodeURIComponent(status)}` : ""}`,
+  );
+export const criarPedido = (dados) =>
+  authFetch("/pedidos", { method: "POST", body: dados });
+export const avancarPedido = (id) =>
+  authFetch(`/pedidos/${id}/avancar`, { method: "PATCH" });
 export const definirStatusPedido = (id, status) =>
   authFetch(`/pedidos/${id}/status`, { method: "PATCH", body: { status } });
-export const excluirPedido = (id) => authFetch(`/pedidos/${id}`, { method: "DELETE" });
-export const criarPedidoCliente = (dados) => authFetch("/pedidos/meu", { method: "POST", body: dados });
+export const excluirPedido = (id) =>
+  authFetch(`/pedidos/${id}`, { method: "DELETE" });
+
+// ---------- Pedidos do cliente logado ----------
+export const criarMeuPedido = (dados) =>
+  authFetch("/pedidos/meu", { method: "POST", body: dados });
 export const getMeusPedidos = () => authFetch("/pedidos/meu");
 export const getMeuPedido = (id) => authFetch(`/pedidos/meu/${id}`);
 
+// ---------- Categorias ----------
+export const getCategorias = () => authFetch("/categorias");
+
 // ---------- Cardápio ----------
 export const getCardapio = (categoria) =>
-  authFetch(`/cardapio${categoria ? `?categoria=${encodeURIComponent(categoria)}` : ""}`);
-export const criarProduto = (dados) => authFetch("/cardapio", { method: "POST", body: dados });
+  authFetch(
+    `/cardapio${categoria ? `?categoria=${encodeURIComponent(categoria)}` : ""}`,
+  );
+export const criarProduto = (dados) =>
+  authFetch("/cardapio", { method: "POST", body: dados });
 export const atualizarProduto = (id, dados) =>
   authFetch(`/cardapio/${id}`, { method: "PUT", body: dados });
 export const alternarStatusProduto = (id) =>
   authFetch(`/cardapio/${id}/alternar-status`, { method: "PATCH" });
-export const excluirProduto = (id) => authFetch(`/cardapio/${id}`, { method: "DELETE" });
+export const excluirProduto = (id) =>
+  authFetch(`/cardapio/${id}`, { method: "DELETE" });
 export const excluirProdutosPorCategoria = (categoria) =>
-  authFetch(`/cardapio?categoria=${encodeURIComponent(categoria)}`, { method: "DELETE" });
-
-// ---------- Categorias ----------
-export const getCategorias = (incluirInativas = false) =>
-  authFetch(`/categorias${incluirInativas ? "?incluir_inativas=true" : ""}`);
-export const criarCategoria = (dados) => authFetch("/categorias", { method: "POST", body: dados });
-export const atualizarCategoria = (id, dados) => authFetch(`/categorias/${id}`, { method: "PUT", body: dados });
-export const excluirCategoria = (id) => authFetch(`/categorias/${id}`, { method: "DELETE" });
+  authFetch(`/cardapio?categoria=${encodeURIComponent(categoria)}`, {
+    method: "DELETE",
+  });
 
 // ---------- Estoque ----------
 export const getEstoque = () => authFetch("/estoque");
-export const criarInsumo = (dados) => authFetch("/estoque", { method: "POST", body: dados });
+export const criarInsumo = (dados) =>
+  authFetch("/estoque", { method: "POST", body: dados });
 export const atualizarInsumo = (id, dados) =>
   authFetch(`/estoque/${id}`, { method: "PUT", body: dados });
 export const reporInsumo = (id, quantidade_adicional = 20) =>
-  authFetch(`/estoque/${id}/repor`, { method: "PATCH", body: { quantidade_adicional } });
-export const excluirInsumo = (id) => authFetch(`/estoque/${id}`, { method: "DELETE" });
+  authFetch(`/estoque/${id}/repor`, {
+    method: "PATCH",
+    body: { quantidade_adicional },
+  });
+export const excluirInsumo = (id) =>
+  authFetch(`/estoque/${id}`, { method: "DELETE" });
 
 // ---------- Clientes ----------
 export const getClientes = () => authFetch("/clientes");
@@ -100,9 +115,13 @@ export const getRelatorios = () => authFetch("/relatorios");
 
 // ---------- Segurança ----------
 export const alterarSenha = (senha_atual, nova_senha) =>
-  authFetch("/seguranca/alterar-senha", { method: "POST", body: { senha_atual, nova_senha } });
+  authFetch("/seguranca/alterar-senha", {
+    method: "POST",
+    body: { senha_atual, nova_senha },
+  });
 export const getSessoes = () => authFetch("/seguranca/sessoes");
-export const revogarSessao = (id) => authFetch(`/seguranca/sessoes/${id}`, { method: "DELETE" });
+export const revogarSessao = (id) =>
+  authFetch(`/seguranca/sessoes/${id}`, { method: "DELETE" });
 
 // ---------- Configurações ----------
 export const getConfiguracoes = () => authFetch("/configuracoes");
@@ -112,7 +131,8 @@ export const atualizarConfiguracoes = (dados) =>
 // ---------- Auth ----------
 export const getMe = () => authFetch("/auth/me");
 export const logout = () => authFetch("/auth/logout", { method: "POST" });
-export const criarFuncionario = (dados) => authFetch("/auth/funcionarios", { method: "POST", body: dados });
+export const criarFuncionario = (dados) =>
+  authFetch("/auth/funcionarios", { method: "POST", body: dados });
 
 // ---------- Utilitários ----------
 export function formatTimeAgo(isoString) {
@@ -128,3 +148,14 @@ export function formatTimeAgo(isoString) {
 export function wsUrl(caminho) {
   return API_URL.replace(/^http/, "ws") + caminho;
 }
+
+// ---------- Categorias ----------
+
+export const criarCategoria = (dados) =>
+  authFetch("/categorias", { method: "POST", body: dados });
+
+export const atualizarCategoria = (id, dados) =>
+  authFetch(`/categorias/${id}`, { method: "PUT", body: dados });
+
+export const excluirCategoria = (id) =>
+  authFetch(`/categorias/${id}`, { method: "DELETE" });

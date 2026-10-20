@@ -8,9 +8,7 @@ import {
   FaUtensils,
   FaIceCream,
   FaFish,
-  FaLeaf,
   FaCookieBite,
-  FaGlassMartiniAlt,
   FaDrumstickBite,
   FaClock,
   FaMotorcycle,
@@ -18,25 +16,18 @@ import {
 import "./Homepage.css";
 
 import Header from "../../../components/Header/Header";
-import MenuCarousel from '../MenuCarrossel/MenuCarrossel';
-import { PRODUCTS as LOCAL_PRODUCTS } from "./Productsdata";
+import MenuCarousel from "../MenuCarrossel/MenuCarrossel";
+import useCardapio from "./useCardapio";
 import { useCart } from "../../../../../context/CartContext";
-import { getCardapio, getCategorias } from "../../../services/api";
 
 const BANNER_IMG =
   "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80";
 const RESTAURANT_AVATAR =
   "https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=150&q=80";
 
-const ICONS = { lanches: <FaHamburger />, pizzas: <FaPizzaSlice />, japonesa: <FaFish />, saudavel: <FaLeaf />, doces: <FaCookieBite />, bebidas: <FaGlassMartiniAlt />, frango: <FaDrumstickBite /> };
-const PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Crect width='100%25' height='100%25' fill='%23f3f3f3'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' fill='%23999' font-family='Arial' font-size='28'%3EImagem indisponível%3C/text%3E%3C/svg%3E";
-
-const normalizar = (texto = "") => texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
-const localPara = (produto) => LOCAL_PRODUCTS.find((item) => item.category === produto.categoria && normalizar(item.title) === normalizar(produto.nome));
-
-// PRODUCTS agora vem de ./productsData.js, que monta a lista automaticamente
-// a partir das fotos em src/imgs/<Categoria>/. Basta adicionar uma nova
-// imagem lá dentro que ela aparece aqui sem precisar editar este arquivo.
+// Os pratos e as categorias vêm do backend (useCardapio) — o mesmo cardápio
+// que a loja gerencia no painel de admin. As fotos em src/imgs/ só entram
+// como reserva quando o prato não tem imagem_url cadastrada.
 
 // Quantos produtos de cada categoria aparecem na aba "Tudo" (destaques)
 const HIGHLIGHTS_PER_CATEGORY = 2;
@@ -58,32 +49,23 @@ export default function Home() {
 
   const [activeCategory, setActiveCategory] = useState("todos");
   const [mostrarTudo, setMostrarTudo] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loadingMenu, setLoadingMenu] = useState(true);
-  const [menuError, setMenuError] = useState("");
   const { addToCart, totalItemsCount } = useCart();
+  const {
+    produtos: PRODUCTS,
+    categorias,
+    carregando,
+    erro,
+    recarregar,
+  } = useCardapio();
 
-  const loadMenu = async () => {
-    setLoadingMenu(true); setMenuError("");
-    try {
-      const [apiCategories, apiProducts] = await Promise.all([getCategorias(), getCardapio()]);
-      setCategories(apiCategories.map((cat) => ({ id: cat.slug, label: cat.nome, icon: ICONS[cat.icone || cat.slug] || <FaUtensils /> })));
-      setProducts(apiProducts.map((produto) => {
-        const local = localPara(produto);
-        return { id: produto.id, category: produto.categoria, title: produto.nome, desc: produto.descricao || local?.desc || "Produto preparado com ingredientes selecionados.", price: Number(produto.preco), img: produto.imagem_url || local?.img || PLACEHOLDER };
-      }));
-    } catch (error) { setMenuError(error.detail || "Não foi possível carregar o cardápio."); }
-    finally { setLoadingMenu(false); }
-  };
-
-  useEffect(() => { loadMenu(); }, []);
-
-  const CATEGORIES = [{ id: "todos", label: "Tudo", icon: <FaUtensils /> }, ...categories];
-  const CATEGORIAS_REAIS = categories;
+  const CATEGORIES = [
+    { id: "todos", label: "Tudo", icon: <FaUtensils /> },
+    ...categorias,
+  ];
+  const CATEGORIAS_REAIS = categorias;
 
   const highlightProducts = getHighlights(
-    products,
+    PRODUCTS,
     CATEGORIAS_REAIS.map((c) => c.id),
     HIGHLIGHTS_PER_CATEGORY,
   );
@@ -91,7 +73,7 @@ export default function Home() {
   const filteredProducts =
     activeCategory === "todos"
       ? highlightProducts
-      : products.filter((p) => p.category === activeCategory);
+      : PRODUCTS.filter((p) => p.category === activeCategory);
 
   const activeLabel =
     CATEGORIES.find((c) => c.id === activeCategory)?.label ?? "Tudo";
@@ -107,7 +89,13 @@ export default function Home() {
       gsap.fromTo(
         bannerRef.current,
         { opacity: 0, scale: 0.96 },
-        { opacity: 1, scale: 1, duration: 0.9, ease: "power3.out", delay: 0.35 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          delay: 0.35,
+        },
       );
 
       gsap.fromTo(
@@ -175,7 +163,7 @@ export default function Home() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [activeCategory]);
+  }, [activeCategory, carregando]);
 
   // Anima a seção "cardápio completo" quando o Ver mais é aberto
   useEffect(() => {
@@ -234,18 +222,31 @@ export default function Home() {
         gsap.fromTo(
           cartEl,
           { scale: 1 },
-          { scale: 1.28, duration: 0.14, yoyo: true, repeat: 1, ease: "power1.inOut" },
+          {
+            scale: 1.28,
+            duration: 0.14,
+            yoyo: true,
+            repeat: 1,
+            ease: "power1.inOut",
+          },
         );
       },
     });
   };
 
   const handleAddToCart = (product, e) => {
+    if (product.esgotado) return;
     flyToCart(e.currentTarget);
     gsap.fromTo(
       e.currentTarget,
       { scale: 1 },
-      { scale: 0.82, duration: 0.12, yoyo: true, repeat: 1, ease: "power1.inOut" },
+      {
+        scale: 0.82,
+        duration: 0.12,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut",
+      },
     );
     addToCart(product);
   };
@@ -271,12 +272,20 @@ export default function Home() {
       <div className="home-main-layout">
         <div className="restaurant-banner-card" ref={bannerRef}>
           <div className="banner-cover-wrapper">
-            <img src={BANNER_IMG} alt="Restaurante Banner" className="banner-cover" />
+            <img
+              src={BANNER_IMG}
+              alt="Restaurante Banner"
+              className="banner-cover"
+            />
           </div>
 
           <div className="restaurant-info-bar">
             <div className="restaurant-avatar-wrapper">
-              <img src={RESTAURANT_AVATAR} alt="Codó Burger" className="restaurant-avatar" />
+              <img
+                src={RESTAURANT_AVATAR}
+                alt="Codó Burger"
+                className="restaurant-avatar"
+              />
             </div>
 
             <div className="restaurant-details">
@@ -309,8 +318,8 @@ export default function Home() {
         <div className="promo-banner stagger-item">
           <span className="promo-banner__dot" />
           <span>
-            <strong>Oferta do dia:</strong> Pizza Margherita com 15% OFF até
-            as 22h
+            <strong>Oferta do dia:</strong> Pizza Margherita com 15% OFF até as
+            22h
           </span>
         </div>
 
@@ -334,10 +343,26 @@ export default function Home() {
           </span>
         </div>
 
-        {loadingMenu && <p className="dashboard-loading-msg">Carregando cardápio…</p>}
-        {menuError && <div className="dashboard-error-msg">{menuError} <button onClick={loadMenu}>Tentar novamente</button></div>}
+        {carregando && (
+          <p className="section-header__count">Carregando cardápio…</p>
+        )}
 
-        {!loadingMenu && !menuError && <div className="products-grid" key={activeCategory}>
+        {erro && (
+          <p className="section-header__count">
+            {erro}{" "}
+            <button className="btn-see-more" onClick={recarregar}>
+              Tentar de novo
+            </button>
+          </p>
+        )}
+
+        {!carregando && !erro && filteredProducts.length === 0 && (
+          <p className="section-header__count">
+            Nenhum prato disponível nesta categoria ainda.
+          </p>
+        )}
+
+        <div className="products-grid" key={activeCategory}>
           {filteredProducts.map((prod) => (
             <div key={prod.id} className="product-card">
               <div className="product-img-wrapper">
@@ -349,11 +374,12 @@ export default function Home() {
 
                 <div className="product-footer">
                   <span className="product-price">
-                    {Number(prod.price).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    {prod.price || "Consulte"}
                   </span>
                   <button
                     className="add-btn"
                     onClick={(e) => handleAddToCart(prod, e)}
+                    disabled={prod.esgotado}
                     aria-label="Adicionar item"
                   >
                     <FaPlus />
@@ -362,7 +388,7 @@ export default function Home() {
               </div>
             </div>
           ))}
-        </div>}
+        </div>
 
         <div className="see-more-container stagger-item">
           <button
@@ -385,7 +411,7 @@ export default function Home() {
                 key={cat.id}
                 title={cat.label}
                 icon={cat.icon}
-                items={products.filter((p) => p.category === cat.id)}
+                items={PRODUCTS.filter((p) => p.category === cat.id)}
                 onAdd={handleAddToCart}
               />
             ))}
