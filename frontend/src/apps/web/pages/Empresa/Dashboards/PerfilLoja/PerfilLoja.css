@@ -9,6 +9,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .page-body {
@@ -31,11 +32,12 @@
   border: 1px solid #e2e8f0;
 }
 
+/* Card do Banner e Avatar */
 .banner-card {
   padding: 0;
-  overflow: hidden;
+  overflow: visible !important;
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: 3.5rem;
 }
 
 .store-banner {
@@ -43,6 +45,8 @@
   background-size: cover;
   background-position: center;
   position: relative;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .edit-banner-btn {
@@ -59,11 +63,18 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  z-index: 5;
+  transition: background 0.2s ease;
 }
 
+.edit-banner-btn:hover {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+/* Avatar flutuante sobre o banner */
 .store-avatar-wrapper {
   position: absolute;
-  bottom: -35px;
+  bottom: -45px;
   left: 2rem;
   width: 90px;
   height: 90px;
@@ -71,7 +82,8 @@
   border: 4px solid #ffffff;
   background-color: #fff;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
 }
 
 .store-avatar-wrapper img {
@@ -83,16 +95,25 @@
 .edit-avatar-btn {
   position: absolute;
   bottom: 0;
+  left: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
   border: none;
-  padding: 0.2rem;
+  padding: 0.25rem;
   cursor: pointer;
   display: flex;
   justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  transition: background 0.2s ease;
 }
 
+.edit-avatar-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Formulário */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -104,6 +125,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  min-width: 0;
 }
 
 .input-group.full-width {
@@ -123,16 +145,22 @@
   border-radius: 10px;
   font-size: 0.9rem;
   outline: none;
+  width: 100%;
+  background-color: #ffffff;
+  color: #1e293b;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-group input:focus,
 .input-group textarea:focus {
   border-color: #ed5b22;
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
 }
 
 .actions-wrapper {
   display: flex;
   justify-content: flex-end;
+  margin-top: 1rem;
 }
 
 .save-btn {
@@ -145,8 +173,29 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
+
+.save-btn:hover {
+  background-color: #d94e1b;
+}
+
+.save-btn:active {
+  transform: scale(0.98);
+}
+
+.form-success-msg {
+  background-color: #f0fdf4;
+  border: 1px solid #dcfce7;
+  color: #16a34a;
+  padding: 0.9rem 1.25rem;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
 /* ==========================================
    RESPONSIVIDADE E MEDIA QUERIES
    ========================================== */
@@ -167,7 +216,7 @@
 
 @media (max-width: 768px) {
   .page-body {
-    padding: 1rem;
+    padding: 1.0rem;
   }
 
   .profile-card {
@@ -175,14 +224,18 @@
   }
 
   .store-banner {
-    height: 120px;
+    height: 130px;
   }
 
   .store-avatar-wrapper {
-    width: 72px;
-    height: 72px;
-    left: 1.2rem;
-    bottom: -28px;
+    width: 76px;
+    height: 76px;
+    left: 1.4rem;
+    bottom: -35px;
+  }
+
+  .banner-card {
+    margin-bottom: 3.2rem;
   }
 }
 
@@ -191,12 +244,39 @@
     padding: 1.1rem;
   }
 
+  .store-banner {
+    height: 110px;
+  }
+
+  .store-avatar-wrapper {
+    width: 68px;
+    height: 68px;
+    left: 1rem;
+    bottom: -30px;
+    border-width: 3px;
+  }
+
+  .banner-card {
+    margin-bottom: 3rem;
+  }
+
+  .edit-banner-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    top: 10px;
+    right: 10px;
+  }
+
   .actions-wrapper {
     justify-content: stretch;
   }
 
   .save-btn {
     width: 100%;
-    justify-content: center;
+  }
+
+  .input-group input,
+  .input-group textarea {
+    font-size: 1rem;
   }
 }
