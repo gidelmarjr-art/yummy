@@ -1,17 +1,27 @@
+/* Configuracoes.css - Completo e Responsivo */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 .config-page-layout {
   display: flex;
   min-height: 100vh;
+  width: 100%;
   background-color: #f8fafc;
   font-family: 'Inter', sans-serif;
   color: #1e293b;
+  overflow-x: hidden;
 }
 
 .config-main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 /* Header Superior */
@@ -22,6 +32,7 @@
   padding: 1.2rem 2.5rem;
   background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
+  gap: 1rem;
 }
 
 .page-heading {
@@ -29,6 +40,9 @@
   font-weight: 800;
   color: #0f172a;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .top-bar-right {
@@ -57,6 +71,7 @@
   color: #94a3b8;
   font-size: 0.85rem;
   margin-right: 0.5rem;
+  flex-shrink: 0;
 }
 
 .search-box input {
@@ -66,6 +81,7 @@
   font-size: 0.85rem;
   width: 100%;
   color: #0f172a;
+  min-width: 0;
 }
 
 .action-circle-btn {
@@ -80,6 +96,7 @@
   color: #64748b;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .action-circle-btn:hover {
@@ -95,6 +112,7 @@
   overflow: hidden;
   background-color: #eee;
   border: 2px solid #ed5b22;
+  flex-shrink: 0;
 }
 
 .user-profile-avatar img {
@@ -111,6 +129,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 /* Seções de Configurações */
@@ -123,6 +142,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 .section-title {
@@ -137,6 +157,7 @@
 
 .section-title svg {
   color: #ed5b22 !important;
+  flex-shrink: 0;
 }
 
 .config-form-grid {
@@ -149,6 +170,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  min-width: 0;
 }
 
 .config-input-group.full-width {
@@ -170,6 +192,7 @@
   background-color: #ffffff;
   color: #0f172a;
   outline: none;
+  width: 100%;
   transition: all 0.2s ease;
 }
 
@@ -192,10 +215,15 @@
   align-items: center;
   padding: 0.8rem 0;
   border-bottom: 1px solid #f1f5f9;
+  gap: 1rem;
 }
 
 .config-toggle-item:last-child {
   border-bottom: none;
+}
+
+.toggle-info {
+  min-width: 0;
 }
 
 .toggle-info h4 {
@@ -229,7 +257,10 @@
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #cbd5e1;
   transition: .3s;
   border-radius: 34px;
@@ -245,14 +276,14 @@
   background-color: white;
   transition: .3s;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #ed5b22;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(22px);
 }
 
@@ -274,6 +305,7 @@ input:checked + .slider:before {
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(237, 91, 34, 0.25);
@@ -319,6 +351,7 @@ input:checked + .slider:before {
   text-align: center;
   padding: 2rem 0;
 }
+
 /* ==========================================
    RESPONSIVIDADE E MEDIA QUERIES
    ========================================== */
@@ -372,13 +405,8 @@ input:checked + .slider:before {
   }
 
   .config-toggle-item {
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
-  }
-
-  .toggle-info {
-    flex: 1;
-    min-width: 0;
   }
 }
 
@@ -399,5 +427,11 @@ input:checked + .slider:before {
   .action-circle-btn {
     width: 34px;
     height: 34px;
+  }
+
+  .config-input-group input,
+  .config-input-group select {
+    font-size: 1rem;
+    /* Previne zoom automático indesejado no iOS */
   }
 }
