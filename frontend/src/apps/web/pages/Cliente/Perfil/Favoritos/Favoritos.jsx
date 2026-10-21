@@ -5,6 +5,7 @@ import PerfilLayout from "../PerfilLayout";
 import useFavoritos from "../useFavoritos";
 import useCardapio from "../../Homepage/useCardapio";
 import { useCart } from "../../../../../../context/CartContext";
+import "./Favoritos.css";
 
 export default function Favoritos() {
   const { favoritos, removerFavorito } = useFavoritos();
