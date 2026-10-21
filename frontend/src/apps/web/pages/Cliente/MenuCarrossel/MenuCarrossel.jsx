@@ -1,6 +1,12 @@
 import React, { useRef } from "react";
-import { FaChevronLeft, FaChevronRight, FaPlus } from "react-icons/fa";
-import './MenuCarrossel.css';
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaPlus,
+  FaHeart,
+  FaRegHeart,
+} from "react-icons/fa";
+import "./MenuCarrossel.css";
 
 /**
  * Carrossel de itens de uma categoria do cardápio.
@@ -9,7 +15,14 @@ import './MenuCarrossel.css';
  * usando CSS puro, para ficar consistente com o resto do projeto
  * (CRA + JSX + CSS — sem Tailwind/shadcn/TypeScript).
  */
-export default function MenuCarousel({ title, icon, items, onAdd }) {
+export default function MenuCarousel({
+  title,
+  icon,
+  items,
+  onAdd,
+  isFavorito,
+  onToggleFavorite,
+}) {
   const scrollRef = useRef(null);
 
   const scroll = (direction) => {
@@ -45,6 +58,20 @@ export default function MenuCarousel({ title, icon, items, onAdd }) {
             <div className="menu-carousel-card" key={item.id}>
               <div className="menu-carousel-card__img">
                 <img src={item.img} alt={item.title} loading="lazy" />
+                {onToggleFavorite && (
+                  <button
+                    className={`fav-btn ${isFavorito?.(item.id) ? "is-active" : ""}`}
+                    onClick={() => onToggleFavorite(item)}
+                    aria-pressed={!!isFavorito?.(item.id)}
+                    aria-label={
+                      isFavorito?.(item.id)
+                        ? `Remover ${item.title} dos favoritos`
+                        : `Favoritar ${item.title}`
+                    }
+                  >
+                    {isFavorito?.(item.id) ? <FaHeart /> : <FaRegHeart />}
+                  </button>
+                )}
               </div>
               <div className="menu-carousel-card__body">
                 <div className="menu-carousel-card__tag">
@@ -55,7 +82,9 @@ export default function MenuCarousel({ title, icon, items, onAdd }) {
                 <p>{item.desc}</p>
 
                 <div className="menu-carousel-card__footer">
-                  <span className="menu-carousel-card__price">{item.price}</span>
+                  <span className="menu-carousel-card__price">
+                    {item.price}
+                  </span>
                   <button
                     className="menu-carousel-card__add"
                     onClick={(e) => onAdd(item, e)}

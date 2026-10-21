@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import {
   FaStar,
+  FaHeart,
+  FaRegHeart,
   FaPlus,
   FaPizzaSlice,
   FaHamburger,
@@ -18,6 +20,7 @@ import "./Homepage.css";
 import Header from "../../../components/Header/Header";
 import MenuCarousel from "../MenuCarrossel/MenuCarrossel";
 import useCardapio from "./useCardapio";
+import useFavoritos from "../Perfil/useFavoritos";
 import { useCart } from "../../../../../context/CartContext";
 
 const BANNER_IMG =
@@ -57,6 +60,7 @@ export default function Home() {
     erro,
     recarregar,
   } = useCardapio();
+  const { isFavorito, alternarFavorito } = useFavoritos();
 
   const CATEGORIES = [
     { id: "todos", label: "Tudo", icon: <FaUtensils /> },
@@ -367,6 +371,18 @@ export default function Home() {
             <div key={prod.id} className="product-card">
               <div className="product-img-wrapper">
                 <img src={prod.img} alt={prod.title} loading="lazy" />
+                <button
+                  className={`fav-btn ${isFavorito(prod.id) ? "is-active" : ""}`}
+                  onClick={() => alternarFavorito(prod)}
+                  aria-pressed={isFavorito(prod.id)}
+                  aria-label={
+                    isFavorito(prod.id)
+                      ? `Remover ${prod.title} dos favoritos`
+                      : `Favoritar ${prod.title}`
+                  }
+                >
+                  {isFavorito(prod.id) ? <FaHeart /> : <FaRegHeart />}
+                </button>
               </div>
               <div className="product-info">
                 <h3 className="product-title">{prod.title}</h3>
@@ -413,6 +429,8 @@ export default function Home() {
                 icon={cat.icon}
                 items={PRODUCTS.filter((p) => p.category === cat.id)}
                 onAdd={handleAddToCart}
+                isFavorito={isFavorito}
+                onToggleFavorite={alternarFavorito}
               />
             ))}
           </div>
