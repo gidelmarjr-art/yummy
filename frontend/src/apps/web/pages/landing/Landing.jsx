@@ -2,47 +2,116 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { 
-  Smartphone, 
-  ChefHat, 
-  Package, 
-  Banknote, 
-  BarChart3, 
-  QrCode, 
-  ShoppingCart, 
-  Flame, 
-  Bike, 
-  Server, 
-  Utensils, 
-  Heart 
+import {
+  Smartphone,
+  ChefHat,
+  Package,
+  Banknote,
+  BarChart3,
+  QrCode,
+  ShoppingCart,
+  Flame,
+  Bike,
+  Server,
+  Utensils,
+  Heart,
 } from "lucide-react";
 import "./Landing.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const CANAIS = [
-  <><Smartphone size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Cliente</>, 
-  <><ChefHat size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Garçom</>, 
-  <><ChefHat size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> KDS</>, 
-  <><Package size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Estoque</>, 
-  <><Banknote size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Caixa</>, 
-  <><BarChart3 size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Administração</>
+  <>
+    <Smartphone
+      size={18}
+      style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }}
+    />{" "}
+    Cliente
+  </>,
+  <>
+    <ChefHat
+      size={18}
+      style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }}
+    />{" "}
+    Garçom
+  </>,
+  <>
+    <ChefHat
+      size={18}
+      style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }}
+    />{" "}
+    KDS
+  </>,
+  <>
+    <Package
+      size={18}
+      style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }}
+    />{" "}
+    Estoque
+  </>,
+  <>
+    <Banknote
+      size={18}
+      style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }}
+    />{" "}
+    Caixa
+  </>,
+  <>
+    <BarChart3
+      size={18}
+      style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }}
+    />{" "}
+    Administração
+  </>,
 ];
 
 const ERROS = [
   { code: "ERR_CART_EMPTY", msg: "A comanda se perde no meio do salão." },
-  { code: "ERR_STOCK_INSUFFICIENT", msg: "O prato foi vendido, o insumo já tinha acabado." },
-  { code: "ERR_CANCEL_DENIED", msg: "O cancelamento chega depois do pedido sair pra cozinha." },
-  { code: "ERR_UNAUTHORIZED_ROLE", msg: "Ninguém sabe quem autorizou aquele desconto." },
+  {
+    code: "ERR_STOCK_INSUFFICIENT",
+    msg: "O prato foi vendido, o insumo já tinha acabado.",
+  },
+  {
+    code: "ERR_CANCEL_DENIED",
+    msg: "O cancelamento chega depois do pedido sair pra cozinha.",
+  },
+  {
+    code: "ERR_UNAUTHORIZED_ROLE",
+    msg: "Ninguém sabe quem autorizou aquele desconto.",
+  },
 ];
 
 const FLUXO = [
-  { icon: <QrCode size={24} />, label: "QR Code", desc: "Cliente escaneia e abre o cardápio na mesa" },
-  { icon: <ShoppingCart size={24} />, label: "Pedido", desc: "O carrinho vira comanda em um toque" },
-  { icon: <ChefHat size={24} />, label: "KDS", desc: "Cozinha e bar recebem o pedido na hora" },
-  { icon: <Flame size={24} />, label: "Preparo", desc: "A ficha técnica dá baixa nos insumos" },
-  { icon: <ChefHat size={24} />, label: "Garçom", desc: "É avisado assim que o prato fica pronto" },
-  { icon: <Banknote size={24} />, label: "Caixa", desc: "Fecha a conta sem reconciliar nada" },
+  {
+    icon: <QrCode size={24} />,
+    label: "QR Code",
+    desc: "Cliente escaneia e abre o cardápio na mesa",
+  },
+  {
+    icon: <ShoppingCart size={24} />,
+    label: "Pedido",
+    desc: "O carrinho vira comanda em um toque",
+  },
+  {
+    icon: <ChefHat size={24} />,
+    label: "KDS",
+    desc: "Cozinha e bar recebem o pedido na hora",
+  },
+  {
+    icon: <Flame size={24} />,
+    label: "Preparo",
+    desc: "A ficha técnica dá baixa nos insumos",
+  },
+  {
+    icon: <ChefHat size={24} />,
+    label: "Garçom",
+    desc: "É avisado assim que o prato fica pronto",
+  },
+  {
+    icon: <Banknote size={24} />,
+    label: "Caixa",
+    desc: "Fecha a conta sem reconciliar nada",
+  },
 ];
 
 const MODULOS = [
@@ -50,43 +119,79 @@ const MODULOS = [
     icon: <Smartphone size={32} />,
     titulo: "Cliente",
     texto: "Cardápio digital por QR Code, sem app para instalar.",
-    itens: ["Busca e filtros", "Carrinho e adicionais", "Chamada do garçom", "Pedido em tempo real"],
+    itens: [
+      "Busca e filtros",
+      "Carrinho e adicionais",
+      "Chamada do garçom",
+      "Pedido em tempo real",
+    ],
   },
   {
     icon: <ChefHat size={32} />,
     titulo: "Garçom",
     texto: "Controle total do salão, até quando a conexão falha.",
-    itens: ["Abertura de mesas", "Transferência e fechamento", "Cache local offline", "Sync automático"],
+    itens: [
+      "Abertura de mesas",
+      "Transferência e fechamento",
+      "Cache local offline",
+      "Sync automático",
+    ],
   },
   {
     icon: <ChefHat size={32} />,
     titulo: "KDS",
     texto: "O centro operacional da cozinha, em uma tela.",
-    itens: ["Fila de produção", "Roteamento por praça", "Prioridade e tempo", "Status em um toque"],
+    itens: [
+      "Fila de produção",
+      "Roteamento por praça",
+      "Prioridade e tempo",
+      "Status em um toque",
+    ],
   },
   {
     icon: <Bike size={32} />,
     titulo: "Delivery",
     texto: "A operação digital do restaurante, sem intermediário.",
-    itens: ["Cardápio online", "Cálculo por CEP/raio", "Rastreamento do pedido", "Integração com o KDS"],
+    itens: [
+      "Cardápio online",
+      "Cálculo por CEP/raio",
+      "Rastreamento do pedido",
+      "Integração com o KDS",
+    ],
   },
   {
     icon: <Package size={32} />,
     titulo: "Estoque",
     texto: "Baixa automática pela composição real do prato.",
-    itens: ["Ficha técnica por produto", "Bloqueio automático", "Alerta de insumo baixo", "Zero planilha"],
+    itens: [
+      "Ficha técnica por produto",
+      "Bloqueio automático",
+      "Alerta de insumo baixo",
+      "Zero planilha",
+    ],
   },
   {
     icon: <BarChart3 size={32} />,
     titulo: "Administração",
     texto: "Produtos, permissões e relatórios, num só lugar.",
-    itens: ["Cadastro de produtos", "Usuários e permissões", "Relatórios gerenciais", "Configurações gerais"],
+    itens: [
+      "Cadastro de produtos",
+      "Usuários e permissões",
+      "Relatórios gerenciais",
+      "Configurações gerais",
+    ],
   },
 ];
 
 const EVENTOS = [
-  "ORDER_CREATED", "ORDER_UPDATED", "ORDER_READY", "ORDER_DELIVERED",
-  "WAITER_CALLED", "TABLE_OPENED", "STOCK_UPDATED", "PRODUCT_UNAVAILABLE",
+  "ORDER_CREATED",
+  "ORDER_UPDATED",
+  "ORDER_READY",
+  "ORDER_DELIVERED",
+  "WAITER_CALLED",
+  "TABLE_OPENED",
+  "STOCK_UPDATED",
+  "PRODUCT_UNAVAILABLE",
 ];
 
 const FICHA_TECNICA = [
@@ -114,12 +219,25 @@ export default function LandingPage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.timeline({ defaults: { ease: "power3.out" } })
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
         .from(".hero__eyebrow", { opacity: 0, y: 16, duration: 0.6 })
-        .from(".hero__title .line", { opacity: 0, y: 40, stagger: 0.12, duration: 0.9 }, "-=0.3")
+        .from(
+          ".hero__title .line",
+          { opacity: 0, y: 40, stagger: 0.12, duration: 0.9 },
+          "-=0.3",
+        )
         .from(".hero__sub", { opacity: 0, y: 20, duration: 0.7 }, "-=0.5")
-        .from(".hero__ctas > *", { opacity: 0, y: 16, stagger: 0.1, duration: 0.6 }, "-=0.4")
-        .from(ticketRef.current, { opacity: 0, x: 60, rotate: 10, duration: 1 }, "-=0.8");
+        .from(
+          ".hero__ctas > *",
+          { opacity: 0, y: 16, stagger: 0.1, duration: 0.6 },
+          "-=0.4",
+        )
+        .from(
+          ticketRef.current,
+          { opacity: 0, x: 60, rotate: 10, duration: 1 },
+          "-=0.8",
+        );
 
       gsap.to(ticketRef.current, {
         y: -14,
@@ -171,14 +289,19 @@ export default function LandingPage() {
         },
       });
 
-      flowTl.fromTo(flowLineRef.current, { scaleX: 0 }, { scaleX: 1, ease: "none" }, 0);
+      flowTl.fromTo(
+        flowLineRef.current,
+        { scaleX: 0 },
+        { scaleX: 1, ease: "none" },
+        0,
+      );
 
       flowNodesRef.current.forEach((node, i) => {
         flowTl.fromTo(
           node,
           { opacity: 0, y: 28, scale: 0.85 },
           { opacity: 1, y: 0, scale: 1, ease: "back.out(2)" },
-          i * 0.16
+          i * 0.16,
         );
       });
 
@@ -265,11 +388,17 @@ export default function LandingPage() {
             <a href="#modulos">Módulos</a>
             <a href="#tempo-real">Tempo real</a>
             <Link to="/Sobre">Sobre nós</Link>
-            <Link to="/mapa-navegacao" style={{ color: "var(--ink)" }}>Mapa de navegação</Link>
+            <Link to="/mapa-navegacao" style={{ color: "var(--ink)" }}>
+              Mapa de navegação
+            </Link>
           </nav>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <Link to="/login" className="btn btn--ghost">Entrar</Link>
-            <a href="#cta" className="btn btn--ghost">Falar com o time</a>
+            <Link to="/login" className="btn btn--ghost">
+              Entrar
+            </Link>
+            <a href="#cta" className="btn btn--ghost">
+              Falar com o time
+            </a>
           </div>
         </div>
       </header>
@@ -277,7 +406,9 @@ export default function LandingPage() {
       <section className="hero">
         <div className="hero__inner">
           <div className="hero__copy">
-            <p className="hero__eyebrow">Sistema omnichannel para restaurantes[cite: 9]</p>
+            <p className="hero__eyebrow">
+              Sistema omnichannel para restaurantes
+            </p>
             <h1 className="hero__title">
               <span className="line">O pedido entra</span>
               <span className="line em">uma única vez.</span>
@@ -289,8 +420,12 @@ export default function LandingPage() {
               restaurante conectado em tempo real, numa única operação.
             </p>
             <div className="hero__ctas">
-              <a href="#fluxo" className="btn btn--primary">Ver como funciona</a>
-              <a href="#cta" className="btn btn--outline">Falar com o time</a>
+              <a href="#fluxo" className="btn btn--primary">
+                Ver como funciona
+              </a>
+              <a href="#cta" className="btn btn--outline">
+                Falar com o time
+              </a>
             </div>
           </div>
 
@@ -300,9 +435,15 @@ export default function LandingPage() {
                 <span>PEDIDO #0842</span>
                 <span className="ticket__status">EM PREPARO</span>
               </div>
-              <div className="ticket__line"><span>1x</span> X-Burger</div>
-              <div className="ticket__line"><span>1x</span> Suco de laranja</div>
-              <div className="ticket__line ticket__line--muted"><span>obs.</span> sem cebola</div>
+              <div className="ticket__line">
+                <span>1x</span> X-Burger
+              </div>
+              <div className="ticket__line">
+                <span>1x</span> Suco de laranja
+              </div>
+              <div className="ticket__line ticket__line--muted">
+                <span>obs.</span> sem cebola
+              </div>
               <div className="ticket__foot">MESA 12 · QR CODE</div>
             </div>
           </div>
@@ -311,7 +452,9 @@ export default function LandingPage() {
         <div className="marquee">
           <div className="marquee__track">
             {[...CANAIS, ...CANAIS].map((c, i) => (
-              <span className="marquee__item" key={i}>{c}</span>
+              <span className="marquee__item" key={i}>
+                {c}
+              </span>
             ))}
           </div>
         </div>
@@ -322,8 +465,9 @@ export default function LandingPage() {
           <p className="eyebrow">Hoje, sem o Yummy</p>
           <h2>Cada setor grita sozinho.</h2>
           <p className="section__lede">
-            Comanda de papel, planilha de estoque, grupo de WhatsApp com a cozinha.
-            Quando os sistemas não conversam, o erro chega para o cliente.
+            Comanda de papel, planilha de estoque, grupo de WhatsApp com a
+            cozinha. Quando os sistemas não conversam, o erro chega para o
+            cliente.
           </p>
         </div>
 
@@ -337,8 +481,9 @@ export default function LandingPage() {
         </div>
 
         <p className="problem__resolve">
-          O Yummy troca esse ruído por <span className="accent">um único fluxo</span>, do
-          primeiro toque no cardápio até o fechamento da conta.
+          O Yummy troca esse ruído por{" "}
+          <span className="accent">um único fluxo</span>, do primeiro toque no
+          cardápio até o fechamento da conta.
         </p>
       </section>
 
@@ -358,7 +503,9 @@ export default function LandingPage() {
             {FLUXO.map((f, i) => (
               <div className="flow__node" ref={addFlowNode} key={f.label}>
                 <span className="flow__icon">{f.icon}</span>
-                <span className="flow__index">{String(i + 1).padStart(2, "0")}</span>
+                <span className="flow__index">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 <h3>{f.label}</h3>
                 <p>{f.desc}</p>
               </div>
@@ -400,7 +547,9 @@ export default function LandingPage() {
             </p>
             <div className="pulse__events">
               {EVENTOS.map((ev) => (
-                <code className="pulse__event" key={ev}>{ev}</code>
+                <code className="pulse__event" key={ev}>
+                  {ev}
+                </code>
               ))}
             </div>
           </div>
@@ -410,16 +559,48 @@ export default function LandingPage() {
             <div className="pulse__ring" />
             <div className="pulse__ring" />
             <div className="pulse__core">
-              <Server size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> API
+              <Server
+                size={18}
+                style={{
+                  display: "inline",
+                  verticalAlign: "middle",
+                  marginRight: 4,
+                }}
+              />{" "}
+              API
             </div>
             <div className="pulse__node pulse__node--1">
-              <ChefHat size={16} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Garçom
+              <ChefHat
+                size={16}
+                style={{
+                  display: "inline",
+                  verticalAlign: "middle",
+                  marginRight: 4,
+                }}
+              />{" "}
+              Garçom
             </div>
             <div className="pulse__node pulse__node--2">
-              <Smartphone size={16} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Cliente
+              <Smartphone
+                size={16}
+                style={{
+                  display: "inline",
+                  verticalAlign: "middle",
+                  marginRight: 4,
+                }}
+              />{" "}
+              Cliente
             </div>
             <div className="pulse__node pulse__node--3">
-              <BarChart3 size={16} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Dashboard
+              <BarChart3
+                size={16}
+                style={{
+                  display: "inline",
+                  verticalAlign: "middle",
+                  marginRight: 4,
+                }}
+              />{" "}
+              Dashboard
             </div>
           </div>
         </div>
@@ -437,7 +618,15 @@ export default function LandingPage() {
 
         <div className="stock__panel">
           <div className="stock__dish">
-            <Utensils size={20} style={{ display: "inline", verticalAlign: "middle", marginRight: 6 }} /> X-Burger
+            <Utensils
+              size={20}
+              style={{
+                display: "inline",
+                verticalAlign: "middle",
+                marginRight: 6,
+              }}
+            />{" "}
+            X-Burger
           </div>
           {FICHA_TECNICA.map((item, i) => (
             <div className="stock__row" key={item.nome}>
@@ -446,32 +635,53 @@ export default function LandingPage() {
                 <div className="stock__bar-fill" ref={addBar} />
               </div>
               <span className="stock__value">
-                {item.de}{item.unidade} → {item.para}{item.unidade}
+                {item.de}
+                {item.unidade} → {item.para}
+                {item.unidade}
               </span>
             </div>
           ))}
-          <p className="stock__note">Insumo insuficiente? O prato some do cardápio na hora.</p>
+          <p className="stock__note">
+            Insumo insuficiente? O prato some do cardápio na hora.
+          </p>
         </div>
       </section>
 
       <section className="final-cta" id="cta">
         <div className="final-cta__blob" />
         <div className="final-cta__content">
-          <p className="eyebrow eyebrow--light">Uma operação. Todos os canais.</p>
+          <p className="eyebrow eyebrow--light">
+            Uma operação. Todos os canais.
+          </p>
           <h2>Zero caos.</h2>
           <p className="final-cta__sub">
-            Leve o Yummy para o seu restaurante e conecte cliente, salão, cozinha
-            e caixa numa única fonte de verdade.
+            Leve o Yummy para o seu restaurante e conecte cliente, salão,
+            cozinha e caixa numa única fonte de verdade.
           </p>
-          <a href="mailto:contato@yummy.app" className="btn btn--primary btn--lg">
+          <a
+            href="mailto:contato@yummy.app"
+            className="btn btn--primary btn--lg"
+          >
             Quero o Yummy no meu restaurante
           </a>
         </div>
       </section>
 
       <footer className="footer">
-        <span>Yummy © 2026[cite: 10]</span>
-        <span>Feito com <Heart size={14} fill="currentColor" style={{ display: "inline", verticalAlign: "middle", margin: "0 2px" }} /> para a indústria de restaurantes.</span>
+        <span>Yummy © 2026</span>
+        <span>
+          Feito com{" "}
+          <Heart
+            size={14}
+            fill="currentColor"
+            style={{
+              display: "inline",
+              verticalAlign: "middle",
+              margin: "0 2px",
+            }}
+          />{" "}
+          para a indústria de restaurantes.
+        </span>
       </footer>
     </div>
   );
