@@ -1,21 +1,100 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-*,
-*::before,
-*::after {
+/* Tudo escopado em .meus-pedidos para não alterar as outras telas do Perfil */
+.meus-pedidos,
+.meus-pedidos *,
+.meus-pedidos *::before,
+.meus-pedidos *::after {
     box-sizing: border-box;
 }
 
-/* Lista de Pedidos */
-.profile-list {
+.meus-pedidos {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Mensagens (carregando, erro, filtro vazio) */
+.meus-pedidos-msg {
+    color: #64748b;
+    font-weight: 600;
+    text-align: center;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.meus-pedidos-msg p {
+    margin: 0;
+}
+
+/* Filtros por etapa */
+.meus-pedidos-filtros {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
+    scrollbar-width: none;
+}
+
+.meus-pedidos-filtros::-webkit-scrollbar {
+    display: none;
+}
+
+.meus-pedidos-filtro {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.meus-pedidos-filtro:hover {
+    border-color: #ed5b22;
+    color: #ed5b22;
+}
+
+.meus-pedidos-filtro.active {
+    background: #ed5b22;
+    border-color: #ed5b22;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(237, 91, 34, 0.25);
+}
+
+.meus-pedidos-filtro__count {
+    background: rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    min-width: 22px;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.meus-pedidos-filtro.active .meus-pedidos-filtro__count {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+/* Lista */
+.meus-pedidos-lista {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
     width: 100%;
 }
 
-/* Item Individual do Pedido */
-.profile-list-item {
+.meus-pedidos-item {
     background-color: #ffffff;
     border-radius: 16px;
     padding: 1.5rem 1.8rem;
@@ -28,60 +107,105 @@
     transition: all 0.2s ease;
 }
 
-.profile-list-item:hover {
+.meus-pedidos-item:hover {
     border-color: #ed5b22;
     box-shadow: 0 6px 16px rgba(237, 91, 34, 0.06);
 }
 
-/* Informações do lado esquerdo (Título e Data) */
-.profile-list-item>div:first-child {
+.meus-pedidos-item__info {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.35rem;
     min-width: 0;
+    flex: 1;
 }
 
-.profile-list-item strong {
+.meus-pedidos-item__topo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.meus-pedidos-item__topo strong {
     font-size: 1.05rem;
     font-weight: 800;
     color: #0f172a;
 }
 
-.profile-list-item p {
+.meus-pedidos-item__resumo {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
+    color: #334155;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.meus-pedidos-item__data {
+    margin: 0;
+    font-size: 0.8rem;
     color: #64748b;
 }
 
-/* Informações do lado direito (Status, Valor e Botão) */
-.profile-list-item>div:last-child {
+.meus-pedidos-item__acao {
     display: flex;
     align-items: center;
     gap: 1.8rem;
     flex-shrink: 0;
 }
 
-.profile-list-item>div:last-child strong {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #ed5b22;
-    text-transform: capitalize;
-}
-
-.profile-list-item>div:last-child p {
-    margin: 0;
+.meus-pedidos-item__total {
     font-size: 1.05rem;
     font-weight: 800;
     color: #0f172a;
+    white-space: nowrap;
 }
 
-/* Botão de Acompanhar / Ação */
-.profile-primary-button {
+/* Selo de status */
+.meus-pedidos-badge {
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.meus-pedidos-badge--novo {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.meus-pedidos-badge--preparo {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.meus-pedidos-badge--entrega {
+    background: #f5f3ff;
+    color: #6d28d9;
+}
+
+.meus-pedidos-badge--entregue {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.meus-pedidos-badge--cancelado {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+/* Botão e estado vazio — mesmo visual que você definiu, só nesta tela */
+.meus-pedidos .profile-primary-button {
     background-color: #ed5b22;
     color: #ffffff;
     border: none;
     padding: 0.65rem 1.25rem;
     border-radius: 12px;
+    font-family: inherit;
     font-size: 0.88rem;
     font-weight: 700;
     text-decoration: none;
@@ -94,14 +218,13 @@
     white-space: nowrap;
 }
 
-.profile-primary-button:hover {
+.meus-pedidos .profile-primary-button:hover {
     background-color: #ff7a45;
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(237, 91, 34, 0.3);
 }
 
-/* Estado Vazio (Nenhum pedido encontrado) */
-.profile-empty {
+.meus-pedidos .profile-empty {
     background-color: #ffffff;
     border-radius: 20px;
     padding: 3rem 2rem;
@@ -115,32 +238,24 @@
     width: 100%;
 }
 
-.profile-empty svg {
+.meus-pedidos .profile-empty svg {
     font-size: 2.8rem;
     color: #ed5b22;
     margin-bottom: 0.5rem;
 }
 
-.profile-empty h2 {
+.meus-pedidos .profile-empty h2 {
     font-size: 1.2rem;
     font-weight: 800;
     color: #0f172a;
     margin: 0;
 }
 
-.profile-empty p {
+.meus-pedidos .profile-empty p {
     font-size: 0.9rem;
     color: #64748b;
     margin: 0 0 1rem 0;
     max-width: 320px;
-}
-
-/* Mensagem de Carregamento */
-.profile-list p {
-    color: #64748b;
-    font-weight: 600;
-    text-align: center;
-    padding: 2rem;
 }
 
 /* ==========================================
@@ -148,22 +263,20 @@
    ========================================== */
 
 @media (max-width: 768px) {
-    .profile-list-item {
+    .meus-pedidos-item {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: 1.2rem;
         padding: 1.2rem;
     }
 
-    .profile-list-item>div:last-child {
-        width: 100%;
+    .meus-pedidos-item__acao {
         justify-content: space-between;
-        align-items: center;
         border-top: 1px solid #f1f5f9;
         padding-top: 1rem;
     }
 
-    .profile-primary-button {
+    .meus-pedidos .profile-primary-button {
         padding: 0.55rem 1rem;
     }
 }

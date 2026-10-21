@@ -38,7 +38,11 @@ const STATUS_PARA_ETAPA = {
 
 function formatPaymentLabel(order) {
   if (!order) return "";
-  if (order.method === "credit") return `Cartão •••• ${order.cardLast4 || ""}`;
+  if (order.method === "credit") {
+    return order.cardLast4
+      ? `Cartão •••• ${order.cardLast4}`
+      : "Cartão de crédito";
+  }
   if (order.method === "pix") return "Pix";
   if (order.method === "cash") return "Dinheiro";
   return order.method || "";
@@ -61,7 +65,7 @@ export default function AcompanharEntrega() {
   const [stepIndex, setStepIndex] = useState(
     STATUS_PARA_ETAPA[order?.status] ?? 0,
   );
-  const [cancelado, setCancelado] = useState(false);
+  const [cancelado, setCancelado] = useState(order?.status === "Cancelado");
   const [orderCode] = useState(() => order?.code || "");
 
   // Consulta o status real do pedido de tempos em tempos, até ser entregue.
@@ -130,7 +134,9 @@ export default function AcompanharEntrega() {
         <div className="tracking-title-row stagger-tracking">
           <div>
             <h1>Acompanhando seu pedido</h1>
-            <span className="tracking-code">Pedido {orderCode}</span>
+            <span className="tracking-code">
+              Pedido{orderCode ? ` #${orderCode.replace(/\.$/, "")}` : ""}
+            </span>
           </div>
           <span
             className={`tracking-status-pill ${isDelivered ? "is-delivered" : ""}`}
