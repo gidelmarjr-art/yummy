@@ -14,7 +14,6 @@ import {
   Bike,
   Server,
   Utensils,
-  Heart,
 } from "lucide-react";
 import "./Landing.css";
 
