@@ -273,8 +273,13 @@
   border-radius: 50%;
 }
 
-.ticket::before { top: -8px; }
-.ticket::after { bottom: -8px; }
+.ticket::before {
+  top: -8px;
+}
+
+.ticket::after {
+  bottom: -8px;
+}
 
 .ticket__head {
   display: flex;
@@ -608,9 +613,20 @@
   white-space: nowrap;
 }
 
-.pulse__node--1 { top: 6%; left: 4%; }
-.pulse__node--2 { bottom: 10%; left: 0%; }
-.pulse__node--3 { top: 12%; right: 2%; }
+.pulse__node--1 {
+  top: 6%;
+  left: 4%;
+}
+
+.pulse__node--2 {
+  bottom: 10%;
+  left: 0%;
+}
+
+.pulse__node--3 {
+  top: 12%;
+  right: 2%;
+}
 
 .stock__panel {
   max-width: 620px;
@@ -709,19 +725,143 @@
   margin: 0 0 2rem;
 }
 
-.footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 2rem 6vw;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 0.82rem;
+/* ==========================================================================
+   CoffeBook Footer Styling
+   ========================================================================== */
+
+.coffe-footer {
+  background-color: #1a110b;
+  /* Tom escuro de café */
+  color: #d1c7bd;
+  padding: 4rem 6vw 2rem;
+  font-family: var(--font-body);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-@media (max-width: 620px) {
-  .footer {
+.coffe-footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 2.5rem;
+  padding-bottom: 3rem;
+}
+
+/* Brand Section */
+.coffe-footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.coffe-footer__logo-icon {
+  font-size: 1.5rem;
+  background: #3d271d;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+}
+
+.coffe-footer__logo-text {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.coffe-footer__desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #a89c91;
+  margin-bottom: 1.5rem;
+}
+
+.coffe-footer__socials {
+  display: flex;
+  gap: 1rem;
+}
+
+.coffe-footer__socials a {
+  color: #d1c7bd;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.coffe-footer__socials a:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Footer Columns */
+.coffe-footer__col h4 {
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 1.2rem 0;
+}
+
+.coffe-footer__col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.coffe-footer__col li,
+.coffe-footer__col a {
+  font-size: 0.9rem;
+  color: #a89c91;
+  transition: color 0.2s ease;
+}
+
+.coffe-footer__col a:hover {
+  color: #ffffff;
+}
+
+.coffe-footer__hours p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #a89c91;
+}
+
+.coffe-footer__hours span {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Bottom Bar */
+.coffe-footer__bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 1.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #8c7e72;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .coffe-footer__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .coffe-footer__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .coffe-footer__bottom {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.8rem;
     text-align: center;
   }
 }

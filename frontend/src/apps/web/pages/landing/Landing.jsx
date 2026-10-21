@@ -667,21 +667,143 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="footer">
-        <span>Yummy © 2026</span>
-        <span>
-          Feito com{" "}
-          <Heart
-            size={14}
-            fill="currentColor"
-            style={{
-              display: "inline",
-              verticalAlign: "middle",
-              margin: "0 2px",
-            }}
-          />{" "}
-          para a indústria de restaurantes.
-        </span>
+      {/* Rodapé CoffeBook */}
+      <footer className="coffe-footer">
+        <div className="coffe-footer__inner">
+          {/* Brand & Sobre */}
+          <div className="coffe-footer__brand">
+            <div className="coffe-footer__logo">
+              <span className="coffe-footer__logo-icon">☕</span>
+              <span className="coffe-footer__logo-text">CoffeBook</span>
+            </div>
+            <p className="coffe-footer__desc">
+              Cafeteria e livraria fictícia, criada para portfólio.
+              <br />
+              Um café, um livro, uma pausa.
+            </p>
+            <div className="coffe-footer__socials">
+              <a href="#instagram" aria-label="Instagram">
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a href="#whatsapp" aria-label="WhatsApp">
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </a>
+              <a href="#location" aria-label="Localização">
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Coluna 1: Explorar */}
+          <div className="coffe-footer__col">
+            <h4>Explorar</h4>
+            <ul>
+              <li>
+                <a href="#a-casa">A casa</a>
+              </li>
+              <li>
+                <a href="#cardapio">Cardápio</a>
+              </li>
+              <li>
+                <a href="#alem-do-cafe">Além do café</a>
+              </li>
+              <li>
+                <a href="#duvidas">Dúvidas</a>
+              </li>
+              <li>
+                <a href="#localizacao">Localização</a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Coluna 2: Cardápio */}
+          <div className="coffe-footer__col">
+            <h4>Cardápio</h4>
+            <ul>
+              <li>
+                <a href="#cafes-brunch">Cafés e brunch</a>
+              </li>
+              <li>
+                <a href="#bebidas-quentes">Bebidas quentes</a>
+              </li>
+              <li>
+                <a href="#refrescantes">Refrescantes</a>
+              </li>
+              <li>
+                <a href="#lanches-leves">Lanches e leves</a>
+              </li>
+              <li>
+                <a href="#ovos-waffles">Ovos e waffles</a>
+              </li>
+              <li>
+                <a href="#cuscuz-doces">Cuscuz e doces</a>
+              </li>
+              <li>
+                <a href="#pratos-casa">Pratos da casa</a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Coluna 3: Contato & Horário */}
+          <div className="coffe-footer__col">
+            <h4>Contato</h4>
+            <ul className="coffe-footer__info-list">
+              <li>(00) 90000-0000</li>
+              <li>
+                <a href="mailto:contato@coffebook.example">
+                  contato@coffebook.example
+                </a>
+              </li>
+              <li>
+                <a href="#ifood">Pedir no iFood</a>
+              </li>
+            </ul>
+
+            <h4 style={{ marginTop: "1.8rem" }}>Horário</h4>
+            <div className="coffe-footer__hours">
+              <p>Segunda a Sexta</p>
+              <span>07h30 - 20h00</span>
+              <p style={{ marginTop: "0.6rem" }}>Sábado e Domingo</p>
+              <span>09h00 - 18h00</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Linha de Copyright */}
+        <div className="coffe-footer__bottom">
+          <span>© 2026 CoffeBook. Projeto fictício de portfólio.</span>
+          <span>@coffebook</span>
+        </div>
       </footer>
     </div>
   );
