@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Lista de Pedidos */
+.profile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+}
+
+/* Item Individual do Pedido */
+.profile-list-item {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 1.5rem 1.8rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.profile-list-item:hover {
+    border-color: #ed5b22;
+    box-shadow: 0 6px 16px rgba(237, 91, 34, 0.06);
+}
+
+/* Informações do lado esquerdo (Título e Data) */
+.profile-list-item>div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+}
+
+.profile-list-item strong {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.profile-list-item p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+/* Informações do lado direito (Status, Valor e Botão) */
+.profile-list-item>div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+    flex-shrink: 0;
+}
+
+.profile-list-item>div:last-child strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ed5b22;
+    text-transform: capitalize;
+}
+
+.profile-list-item>div:last-child p {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+/* Botão de Acompanhar / Ação */
+.profile-primary-button {
+    background-color: #ed5b22;
+    color: #ffffff;
+    border: none;
+    padding: 0.65rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(237, 91, 34, 0.2);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.profile-primary-button:hover {
+    background-color: #ff7a45;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(237, 91, 34, 0.3);
+}
+
+/* Estado Vazio (Nenhum pedido encontrado) */
+.profile-empty {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.8rem;
+    width: 100%;
+}
+
+.profile-empty svg {
+    font-size: 2.8rem;
+    color: #ed5b22;
+    margin-bottom: 0.5rem;
+}
+
+.profile-empty h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.profile-empty p {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0 0 1rem 0;
+    max-width: 320px;
+}
+
+/* Mensagem de Carregamento */
+.profile-list p {
+    color: #64748b;
+    font-weight: 600;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* ==========================================
+   RESPONSIVIDADE (MOBILE E TABLETS)
+   ========================================== */
+
+@media (max-width: 768px) {
+    .profile-list-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.2rem;
+        padding: 1.2rem;
+    }
+
+    .profile-list-item>div:last-child {
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 1rem;
+    }
+
+    .profile-primary-button {
+        padding: 0.55rem 1rem;
+    }
+}
