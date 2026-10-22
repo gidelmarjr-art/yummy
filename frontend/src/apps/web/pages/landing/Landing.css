@@ -137,12 +137,13 @@
   font-size: 1.05rem;
 }
 
+/* Header Yummy */
 .nav {
   position: sticky;
   top: 0;
   z-index: 50;
   backdrop-filter: blur(10px);
-  background: rgba(2, 20, 58, 0.7);
+  background: rgba(2, 20, 58, 0.85);
   border-bottom: 1px solid var(--line);
 }
 
@@ -159,6 +160,7 @@
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.4rem;
+  color: var(--ink);
 }
 
 .nav__logo .dot {
@@ -170,6 +172,10 @@
   gap: 2rem;
   font-size: 0.92rem;
   color: var(--muted);
+}
+
+.nav__links a {
+  transition: color 0.2s ease;
 }
 
 .nav__links a:hover {

@@ -377,6 +377,7 @@ export default function LandingPage() {
 
   return (
     <div className="yummy-lp" ref={root}>
+      {/* Header Estilo Yummy */}
       <header className="nav">
         <div className="nav__inner">
           <span className="nav__logo">
@@ -395,7 +396,7 @@ export default function LandingPage() {
             <Link to="/login" className="btn btn--ghost">
               Entrar
             </Link>
-            <a href="#cta" className="btn btn--ghost">
+            <a href="#cta" className="btn btn--primary">
               Falar com o time
             </a>
           </div>
