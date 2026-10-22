@@ -612,7 +612,7 @@ export default function LandingPage() {
           <h2>O estoque sabe o que está no prato.</h2>
           <p className="section__lede">
             Cada venda desconta os insumos reais da receita — sem planilha, sem
-            contagem manual no fim do dia.
+            contagem manual no fim do day.
           </p>
         </div>
 
@@ -667,21 +667,21 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Rodapé CoffeBook */}
-      <footer className="coffe-footer">
-        <div className="coffe-footer__inner">
-          {/* Brand & Sobre */}
-          <div className="coffe-footer__brand">
-            <div className="coffe-footer__logo">
-              <span className="coffe-footer__logo-icon">☕</span>
-              <span className="coffe-footer__logo-text">CoffeBook</span>
+      {/* Rodapé Yummy no Modelo da Imagem (CoffeBook) */}
+      <footer className="yummy-footer">
+        <div className="yummy-footer__inner">
+          {/* Coluna Brand & Descrição */}
+          <div className="yummy-footer__brand">
+            <div className="yummy-footer__logo">
+              Yummy<span className="dot">.</span>
             </div>
-            <p className="coffe-footer__desc">
-              Cafeteria e livraria fictícia, criada para portfólio.
+            <p className="yummy-footer__desc">
+              Sistema de gestão omnichannel completo para restaurantes e food
+              service.
               <br />
-              Um café, um livro, uma pausa.
+              Um pedido, uma operação, zero ruído.
             </p>
-            <div className="coffe-footer__socials">
+            <div className="yummy-footer__socials">
               <a href="#instagram" aria-label="Instagram">
                 <svg
                   width="20"
@@ -725,84 +725,82 @@ export default function LandingPage() {
           </div>
 
           {/* Coluna 1: Explorar */}
-          <div className="coffe-footer__col">
+          <div className="yummy-footer__col">
             <h4>Explorar</h4>
             <ul>
               <li>
-                <a href="#a-casa">A casa</a>
+                <a href="#fluxo">O fluxo</a>
               </li>
               <li>
-                <a href="#cardapio">Cardápio</a>
+                <a href="#modulos">Módulos</a>
               </li>
               <li>
-                <a href="#alem-do-cafe">Além do café</a>
+                <a href="#tempo-real">Tempo real</a>
               </li>
               <li>
-                <a href="#duvidas">Dúvidas</a>
+                <Link to="/Sobre">Sobre nós</Link>
               </li>
               <li>
-                <a href="#localizacao">Localização</a>
+                <Link to="/mapa-navegacao">Mapa de navegação</Link>
               </li>
             </ul>
           </div>
 
-          {/* Coluna 2: Cardápio */}
-          <div className="coffe-footer__col">
-            <h4>Cardápio</h4>
+          {/* Coluna 2: Módulos */}
+          <div className="yummy-footer__col">
+            <h4>Módulos</h4>
             <ul>
               <li>
-                <a href="#cafes-brunch">Cafés e brunch</a>
+                <a href="#modulos">Cliente & QR Code</a>
               </li>
               <li>
-                <a href="#bebidas-quentes">Bebidas quentes</a>
+                <a href="#modulos">Garçom & Salão</a>
               </li>
               <li>
-                <a href="#refrescantes">Refrescantes</a>
+                <a href="#modulos">KDS Cozinha</a>
               </li>
               <li>
-                <a href="#lanches-leves">Lanches e leves</a>
+                <a href="#modulos">Delivery</a>
               </li>
               <li>
-                <a href="#ovos-waffles">Ovos e waffles</a>
+                <a href="#modulos">Estoque & Ficha</a>
               </li>
               <li>
-                <a href="#cuscuz-doces">Cuscuz e doces</a>
+                <a href="#modulos">Caixa & Finanças</a>
               </li>
               <li>
-                <a href="#pratos-casa">Pratos da casa</a>
+                <a href="#modulos">Administração</a>
               </li>
             </ul>
           </div>
 
-          {/* Coluna 3: Contato & Horário */}
-          <div className="coffe-footer__col">
+          {/* Coluna 3: Contato & Atendimento */}
+          <div className="yummy-footer__col">
             <h4>Contato</h4>
-            <ul className="coffe-footer__info-list">
+            <ul className="yummy-footer__info-list">
               <li>(00) 90000-0000</li>
               <li>
-                <a href="mailto:contato@coffebook.example">
-                  contato@coffebook.example
-                </a>
+                <a href="mailto:contato@yummy.app">contato@yummy.app</a>
               </li>
               <li>
-                <a href="#ifood">Pedir no iFood</a>
+                <a href="#cta">Agendar Demonstração</a>
               </li>
             </ul>
 
-            <h4 style={{ marginTop: "1.8rem" }}>Horário</h4>
-            <div className="coffe-footer__hours">
+            <h4 style={{ marginTop: "1.8rem" }}>Atendimento</h4>
+            <div className="yummy-footer__hours">
               <p>Segunda a Sexta</p>
-              <span>07h30 - 20h00</span>
-              <p style={{ marginTop: "0.6rem" }}>Sábado e Domingo</p>
-              <span>09h00 - 18h00</span>
+              <span>08h00 - 20h00</span>
+              <p style={{ marginTop: "0.6rem" }}>Suporte Emergencial</p>
+              <span>24h / 7 dias</span>
             </div>
           </div>
         </div>
 
-        {/* Linha de Copyright */}
-        <div className="coffe-footer__bottom">
-          <span>© 2026 CoffeBook. Projeto fictício de portfólio.</span>
-          <span>@coffebook</span>
+        {/* Linha de Copyright do modelo */}
+        <div className="yummy-footer__bottom">
+          <span>© 2026 Yummy. Todos os direitos reservados.</span>
+          <span>@yummy.app</span>
         </div>
       </footer>
     </div>

@@ -732,19 +732,19 @@
 }
 
 /* ==========================================================================
-   CoffeBook Footer Styling
+   Yummy Footer (Modelo da imagem)
    ========================================================================== */
 
-.coffe-footer {
-  background-color: #1a110b;
-  /* Tom escuro de café */
-  color: #d1c7bd;
+.yummy-footer {
+  background-color: #010d26;
+  /* Marrom/Azul escuro Yummy */
+  color: var(--ink);
   padding: 4rem 6vw 2rem;
   font-family: var(--font-body);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--line);
 }
 
-.coffe-footer__inner {
+.yummy-footer__inner {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -754,59 +754,50 @@
 }
 
 /* Brand Section */
-.coffe-footer__logo {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 1.2rem;
-}
-
-.coffe-footer__logo-icon {
-  font-size: 1.5rem;
-  background: #3d271d;
-  padding: 0.4rem 0.6rem;
-  border-radius: 8px;
-}
-
-.coffe-footer__logo-text {
+.yummy-footer__logo {
   font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--ink);
+  margin-bottom: 1rem;
 }
 
-.coffe-footer__desc {
+.yummy-footer__logo .dot {
+  color: var(--orange);
+}
+
+.yummy-footer__desc {
   font-size: 0.9rem;
   line-height: 1.6;
-  color: #a89c91;
+  color: var(--muted);
   margin-bottom: 1.5rem;
 }
 
-.coffe-footer__socials {
+.yummy-footer__socials {
   display: flex;
   gap: 1rem;
 }
 
-.coffe-footer__socials a {
-  color: #d1c7bd;
+.yummy-footer__socials a {
+  color: var(--muted);
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.coffe-footer__socials a:hover {
-  color: #ffffff;
+.yummy-footer__socials a:hover {
+  color: var(--orange);
   transform: translateY(-2px);
 }
 
 /* Footer Columns */
-.coffe-footer__col h4 {
-  color: #ffffff;
+.yummy-footer__col h4 {
+  color: var(--ink);
   font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 700;
   margin: 0 0 1.2rem 0;
 }
 
-.coffe-footer__col ul {
+.yummy-footer__col ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -815,57 +806,57 @@
   gap: 0.6rem;
 }
 
-.coffe-footer__col li,
-.coffe-footer__col a {
+.yummy-footer__col li,
+.yummy-footer__col a {
   font-size: 0.9rem;
-  color: #a89c91;
+  color: var(--muted);
   transition: color 0.2s ease;
 }
 
-.coffe-footer__col a:hover {
-  color: #ffffff;
+.yummy-footer__col a:hover {
+  color: var(--ink);
 }
 
-.coffe-footer__hours p {
+.yummy-footer__hours p {
   margin: 0;
   font-size: 0.9rem;
-  color: #a89c91;
+  color: var(--muted);
 }
 
-.coffe-footer__hours span {
+.yummy-footer__hours span {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: #ffffff;
+  color: var(--ink);
   font-weight: 600;
 }
 
 /* Bottom Bar */
-.coffe-footer__bottom {
+.yummy-footer__bottom {
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 1.8rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.82rem;
-  color: #8c7e72;
+  color: var(--muted);
 }
 
 /* Responsividade */
 @media (max-width: 900px) {
-  .coffe-footer__inner {
+  .yummy-footer__inner {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
   }
 }
 
 @media (max-width: 580px) {
-  .coffe-footer__inner {
+  .yummy-footer__inner {
     grid-template-columns: 1fr;
   }
 
-  .coffe-footer__bottom {
+  .yummy-footer__bottom {
     flex-direction: column;
     gap: 0.8rem;
     text-align: center;
