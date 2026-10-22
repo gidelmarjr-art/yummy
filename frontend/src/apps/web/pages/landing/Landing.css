@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
 
+/* Habilita o scroll suave em toda a página quando clicar em links internos */
+html {
+  scroll-behavior: smooth;
+}
+
 .yummy-lp {
   --navy: #02143a;
   --navy-2: #081d4e;
@@ -94,7 +99,7 @@
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.95rem;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.25s ease;
   border: 1.5px solid transparent;
   white-space: nowrap;
 }
@@ -106,7 +111,7 @@
 }
 
 .btn--primary:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.02);
   box-shadow: 0 14px 34px -6px rgba(253, 75, 4, 0.75);
 }
 
@@ -118,6 +123,7 @@
 .btn--outline:hover {
   border-color: var(--orange);
   color: var(--orange);
+  transform: translateY(-2px);
 }
 
 .btn--ghost {
@@ -125,11 +131,13 @@
   font-size: 0.9rem;
   padding: 0.6rem 1.2rem;
   border: 1.5px solid var(--line);
+  transition: all 0.25s ease;
 }
 
 .btn--ghost:hover {
   border-color: var(--orange);
   color: var(--orange);
+  transform: translateY(-2px);
 }
 
 .btn--lg {
@@ -137,14 +145,15 @@
   font-size: 1.05rem;
 }
 
-/* Header Yummy */
+/* Header Yummy com transição suave */
 .nav {
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   background: rgba(2, 20, 58, 0.85);
   border-bottom: 1px solid var(--line);
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .nav__inner {
@@ -161,6 +170,11 @@
   font-weight: 600;
   font-size: 1.4rem;
   color: var(--ink);
+  transition: transform 0.2s ease;
+}
+
+.nav__logo:hover {
+  transform: scale(1.03);
 }
 
 .nav__logo .dot {
@@ -175,11 +189,12 @@
 }
 
 .nav__links a {
-  transition: color 0.2s ease;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .nav__links a:hover {
   color: var(--ink);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 720px) {
@@ -490,7 +505,7 @@
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 1.8rem 1.6rem;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
 
 .module-card:hover {
@@ -732,12 +747,11 @@
 }
 
 /* ==========================================================================
-   Yummy Footer (Modelo da imagem)
+   Yummy Footer (Modelo da imagem com micro-interações fluidas)
    ========================================================================== */
 
 .yummy-footer {
   background-color: #010d26;
-  /* Marrom/Azul escuro Yummy */
   color: var(--ink);
   padding: 4rem 6vw 2rem;
   font-family: var(--font-body);
@@ -753,13 +767,17 @@
   padding-bottom: 3rem;
 }
 
-/* Brand Section */
 .yummy-footer__logo {
   font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--ink);
   margin-bottom: 1rem;
+  transition: transform 0.25s ease;
+}
+
+.yummy-footer__logo:hover {
+  transform: scale(1.03);
 }
 
 .yummy-footer__logo .dot {
@@ -780,15 +798,21 @@
 
 .yummy-footer__socials a {
   color: var(--muted);
-  transition: color 0.2s ease, transform 0.2s ease;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .yummy-footer__socials a:hover {
   color: var(--orange);
-  transform: translateY(-2px);
+  background: rgba(253, 75, 4, 0.1);
+  transform: translateY(-4px) scale(1.1);
 }
 
-/* Footer Columns */
 .yummy-footer__col h4 {
   color: var(--ink);
   font-family: var(--font-body);
@@ -810,11 +834,13 @@
 .yummy-footer__col a {
   font-size: 0.9rem;
   color: var(--muted);
-  transition: color 0.2s ease;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .yummy-footer__col a:hover {
-  color: var(--ink);
+  color: var(--orange);
+  transform: translateX(4px);
+  /* Efeito sutil de deslocamento lateral ao passar o mouse */
 }
 
 .yummy-footer__hours p {
@@ -830,7 +856,6 @@
   font-weight: 600;
 }
 
-/* Bottom Bar */
 .yummy-footer__bottom {
   max-width: 1200px;
   margin: 0 auto;
@@ -843,7 +868,6 @@
   color: var(--muted);
 }
 
-/* Responsividade */
 @media (max-width: 900px) {
   .yummy-footer__inner {
     grid-template-columns: 1fr 1fr;

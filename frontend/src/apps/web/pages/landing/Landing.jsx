@@ -224,18 +224,18 @@ export default function LandingPage() {
         .from(
           ".hero__title .line",
           { opacity: 0, y: 40, stagger: 0.12, duration: 0.9 },
-          "-=0.3",
+          "-=0.3"
         )
         .from(".hero__sub", { opacity: 0, y: 20, duration: 0.7 }, "-=0.5")
         .from(
           ".hero__ctas > *",
           { opacity: 0, y: 16, stagger: 0.1, duration: 0.6 },
-          "-=0.4",
+          "-=0.4"
         )
         .from(
           ticketRef.current,
           { opacity: 0, x: 60, rotate: 10, duration: 1 },
-          "-=0.8",
+          "-=0.8"
         );
 
       gsap.to(ticketRef.current, {
@@ -292,7 +292,7 @@ export default function LandingPage() {
         flowLineRef.current,
         { scaleX: 0 },
         { scaleX: 1, ease: "none" },
-        0,
+        0
       );
 
       flowNodesRef.current.forEach((node, i) => {
@@ -300,7 +300,7 @@ export default function LandingPage() {
           node,
           { opacity: 0, y: 28, scale: 0.85 },
           { opacity: 1, y: 0, scale: 1, ease: "back.out(2)" },
-          i * 0.16,
+          i * 0.16
         );
       });
 
@@ -612,7 +612,7 @@ export default function LandingPage() {
           <h2>O estoque sabe o que está no prato.</h2>
           <p className="section__lede">
             Cada venda desconta os insumos reais da receita — sem planilha, sem
-            contagem manual no fim do day.
+            contagem manual no fim do dia.
           </p>
         </div>
 
@@ -667,56 +667,32 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Rodapé Yummy no Modelo da Imagem (CoffeBook) */}
+      {/* Rodapé Yummy com animação e transições refinadas */}
       <footer className="yummy-footer">
         <div className="yummy-footer__inner">
-          {/* Coluna Brand & Descrição */}
           <div className="yummy-footer__brand">
             <div className="yummy-footer__logo">
               Yummy<span className="dot">.</span>
             </div>
             <p className="yummy-footer__desc">
-              Sistema de gestão omnichannel completo para restaurantes e food
-              service.
-              <br />
+              Sistema de gestão omnichannel completo para restaurantes e food service.<br />
               Um pedido, uma operação, zero ruído.
             </p>
             <div className="yummy-footer__socials">
               <a href="#instagram" aria-label="Instagram">
-                <svg
-                  width="20"
-                  height="20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
+                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                 </svg>
               </a>
               <a href="#whatsapp" aria-label="WhatsApp">
-                <svg
-                  width="20"
-                  height="20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
+                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                 </svg>
               </a>
               <a href="#location" aria-label="Localização">
-                <svg
-                  width="20"
-                  height="20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
+                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                   <circle cx="12" cy="10" r="3"></circle>
                 </svg>
@@ -724,67 +700,36 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Coluna 1: Explorar */}
           <div className="yummy-footer__col">
             <h4>Explorar</h4>
             <ul>
-              <li>
-                <a href="#fluxo">O fluxo</a>
-              </li>
-              <li>
-                <a href="#modulos">Módulos</a>
-              </li>
-              <li>
-                <a href="#tempo-real">Tempo real</a>
-              </li>
-              <li>
-                <Link to="/Sobre">Sobre nós</Link>
-              </li>
-              <li>
-                <Link to="/mapa-navegacao">Mapa de navegação</Link>
-              </li>
+              <li><a href="#fluxo">O fluxo</a></li>
+              <li><a href="#modulos">Módulos</a></li>
+              <li><a href="#tempo-real">Tempo real</a></li>
+              <li><Link to="/Sobre">Sobre nós</Link></li>
+              <li><Link to="/mapa-navegacao">Mapa de navegação</Link></li>
             </ul>
           </div>
 
-          {/* Coluna 2: Módulos */}
           <div className="yummy-footer__col">
             <h4>Módulos</h4>
             <ul>
-              <li>
-                <a href="#modulos">Cliente & QR Code</a>
-              </li>
-              <li>
-                <a href="#modulos">Garçom & Salão</a>
-              </li>
-              <li>
-                <a href="#modulos">KDS Cozinha</a>
-              </li>
-              <li>
-                <a href="#modulos">Delivery</a>
-              </li>
-              <li>
-                <a href="#modulos">Estoque & Ficha</a>
-              </li>
-              <li>
-                <a href="#modulos">Caixa & Finanças</a>
-              </li>
-              <li>
-                <a href="#modulos">Administração</a>
-              </li>
+              <li><a href="#modulos">Cliente & QR Code</a></li>
+              <li><a href="#modulos">Garçom & Salão</a></li>
+              <li><a href="#modulos">KDS Cozinha</a></li>
+              <li><a href="#modulos">Delivery</a></li>
+              <li><a href="#modulos">Estoque & Ficha</a></li>
+              <li><a href="#modulos">Caixa & Finanças</a></li>
+              <li><a href="#modulos">Administração</a></li>
             </ul>
           </div>
 
-          {/* Coluna 3: Contato & Atendimento */}
           <div className="yummy-footer__col">
             <h4>Contato</h4>
             <ul className="yummy-footer__info-list">
               <li>(00) 90000-0000</li>
-              <li>
-                <a href="mailto:contato@yummy.app">contato@yummy.app</a>
-              </li>
-              <li>
-                <a href="#cta">Agendar Demonstração</a>
-              </li>
+              <li><a href="mailto:contato@yummy.app">contato@yummy.app</a></li>
+              <li><a href="#cta">Agendar Demonstração</a></li>
             </ul>
 
             <h4 style={{ marginTop: "1.8rem" }}>Atendimento</h4>
@@ -797,7 +742,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Linha de Copyright do modelo */}
         <div className="yummy-footer__bottom">
           <span>© 2026 Yummy. Todos os direitos reservados.</span>
           <span>@yummy.app</span>
