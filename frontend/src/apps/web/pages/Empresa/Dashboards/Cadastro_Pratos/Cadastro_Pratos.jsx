@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { FaSearch, FaCog, FaBell, FaUtensils, FaPlus, FaTrashAlt, FaSave } from "react-icons/fa";
+import {
+  FaSearch,
+  FaCog,
+  FaBell,
+  FaUtensils,
+  FaPlus,
+  FaTrashAlt,
+  FaSave,
+} from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { getEstoque, criarProduto, getCardapio, getCategorias } from "../../../../services/api";
+import {
+  getEstoque,
+  criarProduto,
+  getCardapio,
+  getCategorias,
+} from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Cadastro_Pratos.css";
 
@@ -16,7 +29,9 @@ export default function CadastroPratos() {
   });
 
   // Cada linha da ficha técnica: qual insumo e quanto ele gasta por unidade vendida.
-  const [fichaTecnica, setFichaTecnica] = useState([{ insumo_id: "", quantidade_necessaria: "" }]);
+  const [fichaTecnica, setFichaTecnica] = useState([
+    { insumo_id: "", quantidade_necessaria: "" },
+  ]);
 
   const [insumos, setInsumos] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -24,6 +39,7 @@ export default function CadastroPratos() {
   const [recentes, setRecentes] = useState([]);
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const carregarRecentes = () => {
     getCardapio()
@@ -34,38 +50,84 @@ export default function CadastroPratos() {
   useEffect(() => {
     getEstoque()
       .then(setInsumos)
-      .catch((err) => setMensagem({ tipo: "erro", texto: "Não foi possível carregar os insumos: " + (err.detail || err.message) }))
+      .catch((err) =>
+        setMensagem({
+          tipo: "erro",
+          texto:
+            "Não foi possível carregar os insumos: " +
+            (err.detail || err.message),
+        }),
+      )
       .finally(() => setCarregandoInsumos(false));
     carregarRecentes();
-    getCategorias().then((data) => { setCategorias(data); setDados((atual) => ({ ...atual, categoria: atual.categoria || data[0]?.slug || "" })); }).catch(() => setMensagem({ tipo: "erro", texto: "Não foi possível carregar as categorias." }));
+    getCategorias()
+      .then((data) => {
+        setCategorias(data);
+        setDados((atual) => ({
+          ...atual,
+          categoria: atual.categoria || data[0]?.slug || "",
+        }));
+      })
+      .catch(() =>
+        setMensagem({
+          tipo: "erro",
+          texto: "Não foi possível carregar as categorias.",
+        }),
+      );
   }, []);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
   const handleFichaChange = (index, campo, valor) => {
-    setFichaTecnica((prev) => prev.map((linha, i) => (i === index ? { ...linha, [campo]: valor } : linha)));
+    setFichaTecnica((prev) =>
+      prev.map((linha, i) =>
+        i === index ? { ...linha, [campo]: valor } : linha,
+      ),
+    );
   };
 
   const adicionarLinhaFicha = () => {
-    setFichaTecnica((prev) => [...prev, { insumo_id: "", quantidade_necessaria: "" }]);
+    setFichaTecnica((prev) => [
+      ...prev,
+      { insumo_id: "", quantidade_necessaria: "" },
+    ]);
   };
 
   const removerLinhaFicha = (index) => {
     setFichaTecnica((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const insumoUnidade = (insumoId) => insumos.find((i) => i.id === Number(insumoId))?.unidade || "";
+  const insumoUnidade = (insumoId) =>
+    insumos.find((i) => i.id === Number(insumoId))?.unidade || "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensagem(null);
 
     if (!dados.nome || !dados.preco) {
-      setMensagem({ tipo: "erro", texto: "Preencha ao menos o nome e o preço do prato." });
+      setMensagem({
+        tipo: "erro",
+        texto: "Preencha ao menos o nome e o preço do prato.",
+      });
       return;
     }
 
-    const linhasValidas = fichaTecnica.filter((l) => l.insumo_id && l.quantidade_necessaria);
-    if (fichaTecnica.some((l) => (l.insumo_id && !l.quantidade_necessaria) || (!l.insumo_id && l.quantidade_necessaria))) {
-      setMensagem({ tipo: "erro", texto: "Complete ou remova as linhas de ficha técnica em branco." });
+    const linhasValidas = fichaTecnica.filter(
+      (l) => l.insumo_id && l.quantidade_necessaria,
+    );
+    if (
+      fichaTecnica.some(
+        (l) =>
+          (l.insumo_id && !l.quantidade_necessaria) ||
+          (!l.insumo_id && l.quantidade_necessaria),
+      )
+    ) {
+      setMensagem({
+        tipo: "erro",
+        texto: "Complete ou remova as linhas de ficha técnica em branco.",
+      });
       return;
     }
 
@@ -80,23 +142,40 @@ export default function CadastroPratos() {
         descricao: dados.descricao || null,
         ficha_tecnica: linhasValidas.map((l) => ({
           insumo_id: Number(l.insumo_id),
-          quantidade_necessaria: parseFloat(String(l.quantidade_necessaria).replace(",", ".")),
+          quantidade_necessaria: parseFloat(
+            String(l.quantidade_necessaria).replace(",", "."),
+          ),
         })),
       });
-      setMensagem({ tipo: "sucesso", texto: `"${dados.nome}" foi cadastrado no cardápio!` });
-      setDados({ nome: "", categoria: dados.categoria, preco: "", status: "Em estoque", imagem_url: "", descricao: "" });
+      setMensagem({
+        tipo: "sucesso",
+        texto: `"${dados.nome}" foi cadastrado no cardápio!`,
+      });
+      setDados({
+        nome: "",
+        categoria: dados.categoria,
+        preco: "",
+        status: "Em estoque",
+        imagem_url: "",
+        descricao: "",
+      });
       setFichaTecnica([{ insumo_id: "", quantidade_necessaria: "" }]);
       carregarRecentes();
     } catch (err) {
-      setMensagem({ tipo: "erro", texto: err.detail || "Não foi possível cadastrar o prato." });
+      setMensagem({
+        tipo: "erro",
+        texto: err.detail || "Não foi possível cadastrar o prato.",
+      });
     } finally {
       setSalvando(false);
     }
   };
 
   return (
-    <div className="cadastro-pratos-page-layout">
-      <Sidebar />
+    <div
+      className={`cadastro-pratos-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="cadastro-pratos-main-content">
         <header className="cadastro-pratos-top-bar">
@@ -107,22 +186,42 @@ export default function CadastroPratos() {
               <FaSearch className="search-icon" />
               <input type="text" placeholder="Pesquisar..." />
             </div>
-            <button className="action-circle-btn" aria-label="Configurações"><FaCog /></button>
-            <button className="action-circle-btn" aria-label="Notificações"><FaBell /></button>
+            <button className="action-circle-btn" aria-label="Configurações">
+              <FaCog />
+            </button>
+            <button className="action-circle-btn" aria-label="Notificações">
+              <FaBell />
+            </button>
             <div className="user-profile-avatar">
-              <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Avatar" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                alt="Avatar"
+              />
             </div>
           </div>
         </header>
 
         <div className="cadastro-pratos-body-content">
-          <form onSubmit={handleSubmit} className="cadastro-pratos-form-wrapper">
+          <form
+            onSubmit={handleSubmit}
+            className="cadastro-pratos-form-wrapper"
+          >
             {mensagem && (
-              <p className={mensagem.tipo === "erro" ? "form-error-msg" : "form-success-msg"}>{mensagem.texto}</p>
+              <p
+                className={
+                  mensagem.tipo === "erro"
+                    ? "form-error-msg"
+                    : "form-success-msg"
+                }
+              >
+                {mensagem.texto}
+              </p>
             )}
 
             <div className="cp-card">
-              <h3 className="section-title"><FaUtensils style={{ color: "#ff5500" }} /> Dados do Prato</h3>
+              <h3 className="section-title">
+                <FaUtensils style={{ color: "#ff5500" }} /> Dados do Prato
+              </h3>
 
               <div className="cp-form-grid">
                 <div className="cp-input-group full-width">
@@ -131,20 +230,50 @@ export default function CadastroPratos() {
                     type="text"
                     placeholder="Ex: X-Burger Artesanal"
                     value={dados.nome}
-                    onChange={(e) => setDados({ ...dados, nome: e.target.value })}
+                    onChange={(e) =>
+                      setDados({ ...dados, nome: e.target.value })
+                    }
                     required
                   />
                 </div>
 
                 <div className="cp-input-group">
                   <label>Categoria</label>
-                  <select value={dados.categoria} onChange={(e) => setDados({ ...dados, categoria: e.target.value })}>
-                    {categorias.map((cat) => (<option key={cat.id} value={cat.slug}>{cat.nome}</option>))}
+                  <select
+                    value={dados.categoria}
+                    onChange={(e) =>
+                      setDados({ ...dados, categoria: e.target.value })
+                    }
+                  >
+                    {categorias.map((cat) => (
+                      <option key={cat.id} value={cat.slug}>
+                        {cat.nome}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
-                <div className="cp-input-group full-width"><label>URL da imagem (opcional)</label><input type="url" placeholder="https://..." value={dados.imagem_url} onChange={(e) => setDados({ ...dados, imagem_url: e.target.value })} /></div>
-                <div className="cp-input-group full-width"><label>Descrição (opcional)</label><textarea rows={3} value={dados.descricao} onChange={(e) => setDados({ ...dados, descricao: e.target.value })} /></div>
+                <div className="cp-input-group full-width">
+                  <label>URL da imagem (opcional)</label>
+                  <input
+                    type="url"
+                    placeholder="https://..."
+                    value={dados.imagem_url}
+                    onChange={(e) =>
+                      setDados({ ...dados, imagem_url: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="cp-input-group full-width">
+                  <label>Descrição (opcional)</label>
+                  <textarea
+                    rows={3}
+                    value={dados.descricao}
+                    onChange={(e) =>
+                      setDados({ ...dados, descricao: e.target.value })
+                    }
+                  />
+                </div>
 
                 <div className="cp-input-group">
                   <label>Preço de Venda (R$)</label>
@@ -153,14 +282,21 @@ export default function CadastroPratos() {
                     step="0.01"
                     placeholder="28.50"
                     value={dados.preco}
-                    onChange={(e) => setDados({ ...dados, preco: e.target.value })}
+                    onChange={(e) =>
+                      setDados({ ...dados, preco: e.target.value })
+                    }
                     required
                   />
                 </div>
 
                 <div className="cp-input-group">
                   <label>Status Inicial</label>
-                  <select value={dados.status} onChange={(e) => setDados({ ...dados, status: e.target.value })}>
+                  <select
+                    value={dados.status}
+                    onChange={(e) =>
+                      setDados({ ...dados, status: e.target.value })
+                    }
+                  >
                     <option value="Em estoque">Em estoque</option>
                     <option value="Esgotado">Esgotado</option>
                   </select>
@@ -169,18 +305,22 @@ export default function CadastroPratos() {
             </div>
 
             <div className="cp-card">
-              <h3 className="section-title">📋 Ficha Técnica (composição de insumos)</h3>
+              <h3 className="section-title">
+                📋 Ficha Técnica (composição de insumos)
+              </h3>
               <p className="cp-hint">
-                Diga o que esse prato consome do estoque. A cada venda, o sistema desconta
-                automaticamente essa quantidade dos insumos — e bloqueia o prato sozinho se algum faltar.
+                Diga o que esse prato consome do estoque. A cada venda, o
+                sistema desconta automaticamente essa quantidade dos insumos — e
+                bloqueia o prato sozinho se algum faltar.
               </p>
 
               {carregandoInsumos ? (
                 <p className="dashboard-loading-msg">Carregando insumos…</p>
               ) : insumos.length === 0 ? (
                 <p className="dashboard-empty-msg">
-                  Nenhum insumo cadastrado ainda. Cadastre insumos na tela de Estoque antes de montar a ficha técnica
-                  (ou salve o prato sem ficha técnica por enquanto).
+                  Nenhum insumo cadastrado ainda. Cadastre insumos na tela de
+                  Estoque antes de montar a ficha técnica (ou salve o prato sem
+                  ficha técnica por enquanto).
                 </p>
               ) : (
                 <div className="cp-ficha-list">
@@ -188,7 +328,9 @@ export default function CadastroPratos() {
                     <div className="cp-ficha-row" key={index}>
                       <select
                         value={linha.insumo_id}
-                        onChange={(e) => handleFichaChange(index, "insumo_id", e.target.value)}
+                        onChange={(e) =>
+                          handleFichaChange(index, "insumo_id", e.target.value)
+                        }
                       >
                         <option value="">Selecione um insumo…</option>
                         {insumos.map((insumo) => (
@@ -205,9 +347,17 @@ export default function CadastroPratos() {
                           min="0"
                           placeholder="Qtd. por unidade"
                           value={linha.quantidade_necessaria}
-                          onChange={(e) => handleFichaChange(index, "quantidade_necessaria", e.target.value)}
+                          onChange={(e) =>
+                            handleFichaChange(
+                              index,
+                              "quantidade_necessaria",
+                              e.target.value,
+                            )
+                          }
                         />
-                        <span className="cp-unidade">{insumoUnidade(linha.insumo_id)}</span>
+                        <span className="cp-unidade">
+                          {insumoUnidade(linha.insumo_id)}
+                        </span>
                       </div>
 
                       <button
@@ -222,7 +372,11 @@ export default function CadastroPratos() {
                     </div>
                   ))}
 
-                  <button type="button" className="cp-btn-add-row" onClick={adicionarLinhaFicha}>
+                  <button
+                    type="button"
+                    className="cp-btn-add-row"
+                    onClick={adicionarLinhaFicha}
+                  >
                     <FaPlus /> Adicionar insumo à ficha técnica
                   </button>
                 </div>
@@ -230,8 +384,13 @@ export default function CadastroPratos() {
             </div>
 
             <div className="cp-actions-wrapper">
-              <button type="submit" className="save-config-btn" disabled={salvando}>
-                <FaSave style={{ marginRight: "8px" }} /> {salvando ? "Salvando…" : "Cadastrar Prato"}
+              <button
+                type="submit"
+                className="save-config-btn"
+                disabled={salvando}
+              >
+                <FaSave style={{ marginRight: "8px" }} />{" "}
+                {salvando ? "Salvando…" : "Cadastrar Prato"}
               </button>
             </div>
           </form>
@@ -244,7 +403,9 @@ export default function CadastroPratos() {
                   <div key={p.id} className="cp-recente-item">
                     <div>
                       <strong>{p.nome}</strong>
-                      <span className="cp-recente-sub">{p.categoria} • {p.codigo}</span>
+                      <span className="cp-recente-sub">
+                        {p.categoria} • {p.codigo}
+                      </span>
                     </div>
                     <div className="cp-recente-right">
                       <span className="cp-recente-ficha">
@@ -252,7 +413,9 @@ export default function CadastroPratos() {
                           ? `${p.ficha_tecnica.length} insumo(s) na ficha técnica`
                           : "Sem ficha técnica"}
                       </span>
-                      <span className={`status-pill status-${p.status.toLowerCase().replace(/\s+/g, "-")}`}>
+                      <span
+                        className={`status-pill status-${p.status.toLowerCase().replace(/\s+/g, "-")}`}
+                      >
                         {p.status}
                       </span>
                     </div>
