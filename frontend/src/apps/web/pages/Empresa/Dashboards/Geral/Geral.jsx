@@ -232,7 +232,7 @@ export default function Dashboard() {
               </h2>
               <div className="status-live-indicator">
                 <span className="pulse-ring" />
-                <span className="status-text" style={{ color: "#ea580c" }}>
+                <span className="status-text" style={{ color: "#ed5b22" }}>
                   Em andamento na cozinha
                 </span>
               </div>
@@ -269,7 +269,7 @@ export default function Dashboard() {
 
           {/* 2. SEÇÃO DO MEIO: GRÁFICO À ESQUERDA + INSUMOS CRÍTICOS À DIREITA */}
           <div className="middle-section-grid">
-            {/* Gráfico de Vendas Semanal (Lado Esquerdo - 2.2fr) */}
+            {/* Gráfico de Vendas Semanal */}
             <div
               className="dashboard-card-container bento-chart-box"
               style={{ "--i": 4 }}
@@ -358,7 +358,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Insumos Críticos (Lado Direito - 1fr) */}
+            {/* Insumos Críticos */}
             <div
               className="dashboard-card-container stock-alerts-container"
               style={{ "--i": 5 }}
@@ -403,7 +403,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* 3. SEÇÃO INFERIOR: ÚLTIMOS PEDIDOS (OCUPANDO 100% DA LARGURA) */}
+          {/* 3. SEÇÃO INFERIOR: ÚLTIMOS PEDIDOS (LARGURA TOTAL 100%) */}
           <div
             className="dashboard-card-container full-width-orders-card"
             style={{ "--i": 6 }}

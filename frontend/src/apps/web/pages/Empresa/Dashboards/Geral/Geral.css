@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap');
 
 /* ==========================================================================
-   TEMA CLARO PERMANENTE (Fundo Greige #e8e7e0 e Cartões Brancos #ffffff)
+   TEMA CLARO PERMANENTE - PALETA LARANJA BRAND (#ed5b22)
    ========================================================================== */
 :root,
 html[data-tema="escuro"],
@@ -15,10 +15,11 @@ html[data-tema="claro"] {
   --cartao: #ffffff !important;
   --texto: #17181a !important;
   --apoio: #868883 !important;
-  --salvia: #6c8b75 !important;
+  --laranja: #ed5b22 !important;
+  --laranja-suave: #fff0e8 !important;
   --circulo-ativo: #17181a !important;
   --borda: rgba(0, 0, 0, 0.08) !important;
-  --gradiente-destaque: linear-gradient(135deg, #e3ebe5 0%, #ffffff 100%) !important;
+  --gradiente-destaque: linear-gradient(135deg, #fff0e8 0%, #ffffff 100%) !important;
   --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05) !important;
 }
 
@@ -64,7 +65,7 @@ html[data-tema="claro"] {
   gap: 1.8rem;
 }
 
-/* Grid de 4 Colunas Bento Superior */
+/* Grid Bento Superior */
 .bento-metrics-grid {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
@@ -93,10 +94,10 @@ html[data-tema="claro"] {
 
 .card-featured {
   background: var(--gradiente-destaque) !important;
-  border-color: var(--salvia) !important;
+  border-color: var(--laranja) !important;
 }
 
-/* Animação suave controlada */
+/* Animações suaves */
 .bento-metrics-grid>.bento-card,
 .middle-section-grid>*,
 .full-width-orders-card {
@@ -147,24 +148,24 @@ html[data-tema="claro"] {
 
 .metric-icon-wrapper {
   color: #ffffff;
-  background: linear-gradient(135deg, var(--salvia) 0%, #4e6855 100%);
+  background: linear-gradient(135deg, var(--laranja) 0%, #ff7a45 100%);
   width: 38px;
   height: 38px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(108, 139, 117, 0.3);
+  box-shadow: 0 4px 10px rgba(237, 91, 34, 0.25);
 }
 
 .metric-footer {
   font-size: 0.78rem;
-  color: var(--salvia);
+  color: var(--laranja);
   font-weight: 700;
 }
 
 /* ==========================================================================
-   NOVA SEÇÃO DO MEIO (Gráfico 2.2fr + Insumos Críticos 1fr)
+   SEÇÃO DO MEIO (Gráfico 2.2fr + Insumos Críticos 1fr)
    ========================================================================== */
 .middle-section-grid {
   display: grid !important;
@@ -173,7 +174,6 @@ html[data-tema="claro"] {
   width: 100% !important;
 }
 
-/* ESTILOS DO POINTS CHART */
 .section-title-clean {
   font-family: var(--fonte-titulo) !important;
   color: var(--texto) !important;
@@ -225,7 +225,7 @@ html[data-tema="claro"] {
 
 .chart-line-smooth {
   fill: none;
-  stroke: var(--salvia) !important;
+  stroke: var(--laranja) !important;
   stroke-width: 3.5;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -245,13 +245,13 @@ html[data-tema="claro"] {
 
 .points-chart-node {
   fill: #ffffff !important;
-  stroke: var(--salvia) !important;
+  stroke: var(--laranja) !important;
   stroke-width: 3;
   transition: transform 0.2s var(--mola), r 0.2s var(--mola);
 }
 
 .points-chart-node.active {
-  fill: var(--salvia) !important;
+  fill: var(--laranja) !important;
   stroke: var(--texto) !important;
 }
 
@@ -271,7 +271,7 @@ html[data-tema="claro"] {
 }
 
 .chart-x-axis span.active {
-  color: var(--salvia);
+  color: var(--laranja);
   font-weight: 700;
 }
 
@@ -293,7 +293,7 @@ html[data-tema="claro"] {
 }
 
 /* ==========================================================================
-   NOVA SEÇÃO INFERIOR: ÚLTIMOS PEDIDOS (LARGURA TOTAL 100%)
+   SEÇÃO INFERIOR: ÚLTIMOS PEDIDOS (LARGURA TOTAL 100%)
    ========================================================================== */
 .full-width-orders-card {
   width: 100% !important;
@@ -343,7 +343,7 @@ html[data-tema="claro"] {
 }
 
 .order-price {
-  color: var(--salvia) !important;
+  color: var(--laranja) !important;
   font-weight: 800;
   white-space: nowrap;
   justify-self: flex-end;
@@ -410,7 +410,34 @@ html[data-tema="claro"] {
   white-space: nowrap;
 }
 
-/* Responsividade */
+.pulse-ring {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--laranja);
+  box-shadow: 0 0 0 rgba(237, 91, 34, 0.4);
+  animation: pulsa 1.8s infinite cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes pulsa {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+    box-shadow: 0 0 0 0 rgba(237, 91, 34, 0.5);
+  }
+
+  70% {
+    transform: scale(2.2);
+    opacity: 0;
+    box-shadow: 0 0 0 10px rgba(237, 91, 34, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 1200px) {
   .bento-metrics-grid {
     grid-template-columns: repeat(2, 1fr) !important;
