@@ -21,6 +21,7 @@ import {
   FaSun,
   FaMoon,
   FaBars,
+  FaChartLine,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { useRealtimeTransactions } from "./useRealtimeTransactions";
@@ -82,7 +83,7 @@ export default function Transacoes() {
       />
 
       <main className="transacoes-main-content">
-        {/* Header Superior Alinhado */}
+        {/* Header Superior */}
         <header className="transacoes-top-bar">
           <div className="top-bar-left">
             {!isSidebarOpen && (
@@ -131,11 +132,11 @@ export default function Transacoes() {
           </div>
         </header>
 
-        {/* Corpo com Bento Grid Padronizado */}
+        {/* Corpo com Bento Grid Padronizado (4 Colunas no topo) */}
         <div className="transacoes-dashboard-body bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          {/* 1. MÉTIRICAS DO TOPO */}
+          {/* 1. MÉTRICAS DO TOPO (4 CARDS PREENCHENDO 100% DA LARGURA) */}
           <div className="metrics-cards-row bento-metrics-grid">
             <div
               className="metric-summary-card bento-card card-featured"
@@ -158,7 +159,7 @@ export default function Transacoes() {
               style={{ "--i": 1 }}
             >
               <div className="metric-header-clean">
-                <span>Total de Transações</span>
+                <span>Total Transações</span>
                 <div className="metric-icon-circle pink-bg">
                   <FaReceipt className="icon-pink" />
                 </div>
@@ -180,10 +181,29 @@ export default function Transacoes() {
               <h2 className="metric-value">{metrics.averageTicket}</h2>
               <span className="metric-footer-clean">Média por pedido</span>
             </div>
+
+            <div
+              className="metric-summary-card bento-card"
+              style={{ "--i": 3 }}
+            >
+              <div className="metric-header-clean">
+                <span>Margem Estimada</span>
+                <div className="metric-icon-circle green-bg">
+                  <FaChartLine className="icon-green" />
+                </div>
+              </div>
+              <h2 className="metric-value">78.5%</h2>
+              <span
+                className="metric-footer-clean"
+                style={{ color: "#16a34a" }}
+              >
+                Rendimento saudável
+              </span>
+            </div>
           </div>
 
-          {/* 2. GRÁFICOS DO MEIO (Margens Corrigidas para não cortar o texto do Eixo Y) */}
-          <div className="charts-two-columns" style={{ "--i": 3 }}>
+          {/* 2. GRÁFICOS DO MEIO */}
+          <div className="charts-two-columns" style={{ "--i": 4 }}>
             {/* Faturamento Anual */}
             <div className="transacoes-chart-card dashboard-card-container">
               <h3 className="section-title">Faturamento Anual</h3>
@@ -294,7 +314,7 @@ export default function Transacoes() {
           </div>
 
           {/* 3. SEÇÃO INFERIOR */}
-          <div className="bottom-two-columns" style={{ "--i": 4 }}>
+          <div className="bottom-two-columns" style={{ "--i": 5 }}>
             {/* Receita por Canal */}
             <div className="investments-list-section dashboard-card-container">
               <h3 className="section-title">Receita por Canal</h3>
