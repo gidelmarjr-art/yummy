@@ -13,7 +13,6 @@ import {
   FaReceipt,
   FaBan,
   FaExclamationTriangle,
-  FaTimes,
 } from "react-icons/fa";
 import "./AcompanharEntrega.css";
 import Header from "../../../components/Header/Header";
@@ -106,7 +105,6 @@ export default function AcompanharEntrega() {
     if (!order?.pedidoId) return;
     setLoadingCancel(true);
     try {
-      // Utiliza a função importada do api.js para garantir a URL e o token corretos
       await cancelarMeuPedido(order.pedidoId);
       setCancelado(true);
       setShowConfirmModal(false);
@@ -267,7 +265,6 @@ export default function AcompanharEntrega() {
           </div>
         </div>
 
-        {/* Botão de cancelamento para o cliente (só aparece se estiver na etapa "Novos" e não cancelado) */}
         {!cancelado && stepIndex === 0 && (
           <button
             className="stagger-tracking"
@@ -301,7 +298,6 @@ export default function AcompanharEntrega() {
         </button>
       </main>
 
-      {/* Modal Personalizado de Confirmação para o Cliente */}
       {showConfirmModal && (
         <div
           style={{
