@@ -38,10 +38,17 @@ export default function Estoque() {
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownFilter, setDropdownFilter] = useState("Todos");
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedItemDetails, setSelectedItemDetails] = useState(null);
   const [isNewItemModalOpen, setIsNewItemModalOpen] = useState(false);
   const [salvando, setSalvando] = useState(false);
-  const [newItemForm, setNewItemForm] = useState({ name: "", category: "Carnes", quantity: 10, unit: "kg", cost: 10.0 });
+  const [newItemForm, setNewItemForm] = useState({
+    name: "",
+    category: "Carnes",
+    quantity: 10,
+    unit: "kg",
+    cost: 10.0,
+  });
 
   const carregarEstoque = () => {
     return getEstoque()
@@ -52,6 +59,10 @@ export default function Estoque() {
   useEffect(() => {
     carregarEstoque().finally(() => setCarregando(false));
   }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   const handleCreateItem = async (e) => {
     e.preventDefault();
@@ -68,7 +79,13 @@ export default function Estoque() {
       });
       setEstoque((prev) => [insumoParaItem(criado), ...prev]);
       setIsNewItemModalOpen(false);
-      setNewItemForm({ name: "", category: "Carnes", quantity: 10, unit: "kg", cost: 10.0 });
+      setNewItemForm({
+        name: "",
+        category: "Carnes",
+        quantity: 10,
+        unit: "kg",
+        cost: 10.0,
+      });
     } catch (err) {
       alert(err.detail || "Não foi possível cadastrar o insumo.");
     } finally {
@@ -79,7 +96,11 @@ export default function Estoque() {
   const handleRestock = async (dbId) => {
     try {
       const atualizado = await reporInsumo(dbId, 20);
-      setEstoque((prev) => prev.map((item) => (item.dbId === dbId ? insumoParaItem(atualizado) : item)));
+      setEstoque((prev) =>
+        prev.map((item) =>
+          item.dbId === dbId ? insumoParaItem(atualizado) : item,
+        ),
+      );
     } catch (err) {
       alert(err.detail || "Não foi possível repor o estoque.");
     }
@@ -87,15 +108,19 @@ export default function Estoque() {
 
   const filteredEstoque = estoque.filter((item) => {
     const matchesTab = activeTab === "Todos" || item.status === activeTab;
-    const matchesDropdown = dropdownFilter === "Todos" || item.status === dropdownFilter;
+    const matchesDropdown =
+      dropdownFilter === "Todos" || item.status === dropdownFilter;
     const matchesSearch =
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.id.toLowerCase().includes(searchTerm.toLowerCase());
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.id.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesTab && matchesDropdown && matchesSearch;
   });
 
   return (
-    <div className="estoque-page-layout">
-      <Sidebar />
+    <div
+      className={`estoque-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="estoque-main-content">
         <header className="estoque-top-bar">
@@ -111,10 +136,17 @@ export default function Estoque() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <button className="action-circle-btn"><FaCog /></button>
-            <button className="action-circle-btn"><FaBell /></button>
+            <button className="action-circle-btn">
+              <FaCog />
+            </button>
+            <button className="action-circle-btn">
+              <FaBell />
+            </button>
             <div className="user-profile-avatar">
-              <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Avatar" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                alt="Avatar"
+              />
             </div>
           </div>
         </header>
@@ -124,7 +156,11 @@ export default function Estoque() {
 
           <div className="top-controls-row">
             <div className="dropdown-filter-wrapper">
-              <select className="status-dropdown-select" value={dropdownFilter} onChange={(e) => setDropdownFilter(e.target.value)}>
+              <select
+                className="status-dropdown-select"
+                value={dropdownFilter}
+                onChange={(e) => setDropdownFilter(e.target.value)}
+              >
                 <option value="Todos">Filtrar: Todos os níveis</option>
                 <option value="Estável">Estável</option>
                 <option value="Baixo">Baixo</option>
@@ -136,10 +172,16 @@ export default function Estoque() {
             <div className="novo-pedido-card-top">
               <span className="card-title">Gestão de Insumos</span>
               <div className="novo-pedido-buttons">
-                <button className="btn-orange-action" onClick={() => setIsNewItemModalOpen(true)}>
+                <button
+                  className="btn-orange-action"
+                  onClick={() => setIsNewItemModalOpen(true)}
+                >
                   <FaPlus /> Novo Insumo
                 </button>
-                <button className="btn-orange-action" onClick={() => window.print()}>
+                <button
+                  className="btn-orange-action"
+                  onClick={() => window.print()}
+                >
                   <FaPrint /> Relatório
                 </button>
               </div>
@@ -149,10 +191,18 @@ export default function Estoque() {
           <div className="estoque-table-container">
             <div className="status-tab-bar">
               {STATUS_TABS.map((tab) => {
-                const count = tab === "Todos" ? estoque.length : estoque.filter((i) => i.status === tab).length;
+                const count =
+                  tab === "Todos"
+                    ? estoque.length
+                    : estoque.filter((i) => i.status === tab).length;
                 return (
-                  <button key={tab} className={`status-tab-item ${activeTab === tab ? "active" : ""}`} onClick={() => setActiveTab(tab)}>
-                    {tab} {count > 0 && <span className="tab-badge">{count}</span>}
+                  <button
+                    key={tab}
+                    className={`status-tab-item ${activeTab === tab ? "active" : ""}`}
+                    onClick={() => setActiveTab(tab)}
+                  >
+                    {tab}{" "}
+                    {count > 0 && <span className="tab-badge">{count}</span>}
                   </button>
                 );
               })}
@@ -164,34 +214,55 @@ export default function Estoque() {
               ) : filteredEstoque.length > 0 ? (
                 filteredEstoque.map((item) => (
                   <div key={item.dbId} className="estoque-row-item">
-                    <div className="estoque-icon"><FaBoxes /></div>
+                    <div className="estoque-icon">
+                      <FaBoxes />
+                    </div>
                     <div className="item-name-col">
                       <strong className="item-name">{item.name}</strong>
-                      <span className="item-category">{item.category} • {item.id}</span>
+                      <span className="item-category">
+                        {item.category} • {item.id}
+                      </span>
                     </div>
 
-                    <span className="item-qty">{item.quantity} {item.unit}</span>
+                    <span className="item-qty">
+                      {item.quantity} {item.unit}
+                    </span>
 
                     <div>
-                      <span className={`status-pill status-${item.status.toLowerCase()}`}>{item.status}</span>
+                      <span
+                        className={`status-pill status-${item.status.toLowerCase()}`}
+                      >
+                        {item.status}
+                      </span>
                     </div>
 
                     <span className="item-cost">
-                      {item.cost.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {item.cost.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
                     </span>
 
                     <div className="estoque-actions-col">
-                      <button className="btn-view-details" onClick={() => setSelectedItemDetails(item)}>
+                      <button
+                        className="btn-view-details"
+                        onClick={() => setSelectedItemDetails(item)}
+                      >
                         <FaEye /> Ver
                       </button>
-                      <button className="btn-repor-stock" onClick={() => handleRestock(item.dbId)}>
+                      <button
+                        className="btn-repor-stock"
+                        onClick={() => handleRestock(item.dbId)}
+                      >
                         +20 Repor
                       </button>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="empty-msg">Nenhum insumo encontrado nesta categoria.</div>
+                <div className="empty-msg">
+                  Nenhum insumo encontrado nesta categoria.
+                </div>
               )}
             </div>
           </div>
@@ -203,15 +274,41 @@ export default function Estoque() {
           <div className="estoque-modal-card">
             <div className="modal-header">
               <h2>Detalhes do Insumo</h2>
-              <button className="btn-close-modal" onClick={() => setSelectedItemDetails(null)}><FaTimes /></button>
+              <button
+                className="btn-close-modal"
+                onClick={() => setSelectedItemDetails(null)}
+              >
+                <FaTimes />
+              </button>
             </div>
-            <p><strong>Código:</strong> {selectedItemDetails.id}</p>
-            <p><strong>Nome:</strong> {selectedItemDetails.name}</p>
-            <p><strong>Categoria:</strong> {selectedItemDetails.category}</p>
-            <p><strong>Quantidade Atual:</strong> {selectedItemDetails.quantity} {selectedItemDetails.unit}</p>
-            <p><strong>Custo Unitário:</strong> {selectedItemDetails.cost.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</p>
+            <p>
+              <strong>Código:</strong> {selectedItemDetails.id}
+            </p>
+            <p>
+              <strong>Nome:</strong> {selectedItemDetails.name}
+            </p>
+            <p>
+              <strong>Categoria:</strong> {selectedItemDetails.category}
+            </p>
+            <p>
+              <strong>Quantidade Atual:</strong> {selectedItemDetails.quantity}{" "}
+              {selectedItemDetails.unit}
+            </p>
+            <p>
+              <strong>Custo Unitário:</strong>{" "}
+              {selectedItemDetails.cost.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
+            </p>
             <div className="modal-actions" style={{ marginTop: "1.5rem" }}>
-              <button className="btn-cancel-modal" onClick={() => setSelectedItemDetails(null)} style={{ width: "100%" }}>Fechar</button>
+              <button
+                className="btn-cancel-modal"
+                onClick={() => setSelectedItemDetails(null)}
+                style={{ width: "100%" }}
+              >
+                Fechar
+              </button>
             </div>
           </div>
         </div>
@@ -222,21 +319,47 @@ export default function Estoque() {
           <div className="estoque-modal-card">
             <div className="modal-header">
               <h2>Cadastrar Novo Insumo</h2>
-              <button className="btn-close-modal" onClick={() => setIsNewItemModalOpen(false)}><FaTimes /></button>
+              <button
+                className="btn-close-modal"
+                onClick={() => setIsNewItemModalOpen(false)}
+              >
+                <FaTimes />
+              </button>
             </div>
             <form onSubmit={handleCreateItem} className="modal-form">
               <div className="form-group">
                 <label>Nome do Insumo</label>
-                <input type="text" value={newItemForm.name} onChange={(e) => setNewItemForm({ ...newItemForm, name: e.target.value })} required />
+                <input
+                  type="text"
+                  value={newItemForm.name}
+                  onChange={(e) =>
+                    setNewItemForm({ ...newItemForm, name: e.target.value })
+                  }
+                  required
+                />
               </div>
               <div className="form-group-row">
                 <div className="form-group">
                   <label>Categoria</label>
-                  <input type="text" value={newItemForm.category} onChange={(e) => setNewItemForm({ ...newItemForm, category: e.target.value })} />
+                  <input
+                    type="text"
+                    value={newItemForm.category}
+                    onChange={(e) =>
+                      setNewItemForm({
+                        ...newItemForm,
+                        category: e.target.value,
+                      })
+                    }
+                  />
                 </div>
                 <div className="form-group">
                   <label>Unidade</label>
-                  <select value={newItemForm.unit} onChange={(e) => setNewItemForm({ ...newItemForm, unit: e.target.value })}>
+                  <select
+                    value={newItemForm.unit}
+                    onChange={(e) =>
+                      setNewItemForm({ ...newItemForm, unit: e.target.value })
+                    }
+                  >
                     <option value="kg">kg</option>
                     <option value="un">un</option>
                     <option value="L">L</option>
@@ -246,16 +369,44 @@ export default function Estoque() {
               <div className="form-group-row">
                 <div className="form-group">
                   <label>Qtd Inicial</label>
-                  <input type="number" value={newItemForm.quantity} onChange={(e) => setNewItemForm({ ...newItemForm, quantity: e.target.value })} />
+                  <input
+                    type="number"
+                    value={newItemForm.quantity}
+                    onChange={(e) =>
+                      setNewItemForm({
+                        ...newItemForm,
+                        quantity: e.target.value,
+                      })
+                    }
+                  />
                 </div>
                 <div className="form-group">
                   <label>Custo Unitário (R$)</label>
-                  <input type="number" step="0.01" value={newItemForm.cost} onChange={(e) => setNewItemForm({ ...newItemForm, cost: e.target.value })} />
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={newItemForm.cost}
+                    onChange={(e) =>
+                      setNewItemForm({ ...newItemForm, cost: e.target.value })
+                    }
+                  />
                 </div>
               </div>
               <div className="modal-actions">
-                <button type="submit" className="btn-save-modal" disabled={salvando}>{salvando ? "Salvando…" : "Salvar Insumo"}</button>
-                <button type="button" className="btn-cancel-modal" onClick={() => setIsNewItemModalOpen(false)}>Cancelar</button>
+                <button
+                  type="submit"
+                  className="btn-save-modal"
+                  disabled={salvando}
+                >
+                  {salvando ? "Salvando…" : "Salvar Insumo"}
+                </button>
+                <button
+                  type="button"
+                  className="btn-cancel-modal"
+                  onClick={() => setIsNewItemModalOpen(false)}
+                >
+                  Cancelar
+                </button>
               </div>
             </form>
           </div>
