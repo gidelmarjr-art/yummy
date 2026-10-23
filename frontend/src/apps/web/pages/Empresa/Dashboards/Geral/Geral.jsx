@@ -10,7 +10,6 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa";
-import { FiRefreshCw, FiCheckCircle } from "react-icons/fi";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { getGeral } from "../../../../services/api";
 import "../dashboards-shared.css";
@@ -59,7 +58,7 @@ export default function Dashboard() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [tema, setTema] = useState("escuro");
+  const [tema, setTema] = useState("claro");
   const [pontoAtivoChart, setPontoAtivoChart] = useState(null);
 
   // Extrair valor numérico puro do faturamento (ex: "R$ 102,60" -> 102.60)
@@ -145,11 +144,11 @@ export default function Dashboard() {
     <div
       className={`dashboard-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
     >
-      {/* Sua Sidebar Original mantida intacta */}
+      {/* Sidebar Original */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="dashboard-main-content">
-        {/* Header Superior original */}
+        {/* Header Superior */}
         <header className="dashboard-top-bar">
           <div className="top-bar-left">
             {!isSidebarOpen && (
@@ -188,13 +187,13 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Corpo com visual Bento Grid e animações do brief */}
+        {/* Corpo Bento Grid */}
         <div className="dashboard-body-content bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          {/* Grid de 4 Cards Superiores (Bento) */}
+          {/* Cartões Superiores Bento */}
           <div className="metrics-grid bento-metrics-grid">
-            {/* Cartão 1: Faturamento (Destaque com gradiente sálvia) */}
+            {/* Cartão 1: Faturamento */}
             <div
               className="metric-card bento-card card-featured"
               style={{ "--i": 0 }}
@@ -263,7 +262,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Gráfico de Vendas SVG Interativo */}
+          {/* Gráfico SVG */}
           <div
             className="dashboard-card-container bento-chart-box"
             style={{ "--i": 4 }}
@@ -278,12 +277,12 @@ export default function Dashboard() {
                   <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop
                       offset="0%"
-                      stopColor="var(--salvia, #8fb39a)"
+                      stopColor="var(--salvia, #6c8b75)"
                       stopOpacity="0.35"
                     />
                     <stop
                       offset="100%"
-                      stopColor="var(--salvia, #8fb39a)"
+                      stopColor="var(--salvia, #6c8b75)"
                       stopOpacity="0.0"
                     />
                   </linearGradient>
@@ -343,7 +342,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Seções Inferiores: Últimos Pedidos & Insumos Críticos */}
+          {/* Últimos Pedidos & Insumos Críticos Ordenados */}
           <div className="dashboard-sections-grid">
             <div className="dashboard-card-container" style={{ "--i": 5 }}>
               <h3 className="section-title">Últimos Pedidos em Tempo Real</h3>
@@ -380,26 +379,33 @@ export default function Dashboard() {
                     Nenhum alerta — estoque saudável.
                   </p>
                 )}
-                {stockAlerts.map((stock, idx) => (
-                  <div key={idx} className="stock-alert-item">
-                    <div className="order-info-group">
-                      <strong className="stock-name">{stock.name}</strong>
-                      <span className="order-detail-sub">
-                        Qtd atual: {stock.qty}
+                {stockAlerts
+                  .slice()
+                  .sort((a, b) => {
+                    if (a.status === "Crítico" && b.status !== "Crítico") return -1;
+                    if (b.status === "Crítico" && a.status !== "Crítico") return 1;
+                    return 0;
+                  })
+                  .map((stock, idx) => (
+                    <div key={idx} className="stock-alert-item">
+                      <div className="order-info-group">
+                        <strong className="stock-name">{stock.name}</strong>
+                        <span className="order-detail-sub">
+                          Qtd atual: {stock.qty}
+                        </span>
+                      </div>
+
+                      <span
+                        className={
+                          stock.status === "Crítico"
+                            ? "stock-badge-critical"
+                            : "stock-badge-low"
+                        }
+                      >
+                        {stock.status}
                       </span>
                     </div>
-
-                    <span
-                      className={
-                        stock.status === "Crítico"
-                          ? "stock-badge-critical"
-                          : "stock-badge-low"
-                      }
-                    >
-                      {stock.status}
-                    </span>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
