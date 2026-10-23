@@ -357,8 +357,15 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .btn-copy-pix {
@@ -414,7 +421,9 @@
 }
 
 @keyframes spin {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Modal de Sucesso */
@@ -440,7 +449,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .modal-success-icon {
@@ -611,4 +620,20 @@
   border-radius: 6px;
   font-size: 0.8rem;
   cursor: pointer;
+}
+
+/* Estilos para o Modal de Erro */
+.modal-error-icon {
+  font-size: 3.5rem;
+  color: #ff4d4f;
+  margin-bottom: 0.8rem;
+}
+
+.btn-modal-error {
+  background: #f26624;
+  color: #fff;
+}
+
+.btn-modal-error:hover {
+  background: #e05312;
 }

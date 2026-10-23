@@ -7,6 +7,7 @@ import {
   FaQrcode,
   FaMoneyBillWave,
   FaCheckCircle,
+  FaExclamationCircle,
   FaCopy,
   FaSpinner,
   FaCheck,
@@ -21,7 +22,6 @@ import { criarMeuPedido } from "../../../services/api";
 import logoMascote from "../../../../../imgs/LogoYummy_2.png";
 import logoNome from "../../../../../imgs/LogoYummy_3.png";
 
-// Texto da forma de pagamento como aparece no painel da loja
 const FORMAS_PAGAMENTO = {
   credit: "Cartão de crédito",
   pix: "Pix",
@@ -32,10 +32,8 @@ export default function Pagamento() {
   const containerRef = useRef(null);
   const navigate = useNavigate();
 
-  // Consumindo os dados reais do carrinho
   const { cartItems, clearCart } = useCart();
 
-  // Estados Gerais
   const [selectedMethod, setSelectedMethod] = useState("credit");
 
   // Estado do Endereço
@@ -62,11 +60,14 @@ export default function Pagamento() {
   const [changeAmount, setChangeAmount] = useState("");
   const [pixCopied, setPixCopied] = useState(false);
 
-  // Estados de Processamento e Modal
+  // Estados de Processamento e Modais (Sucesso e Erro)
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  // "Foto" do pedido no momento da confirmação — precisa ser guardada antes
-  // do clearCart(), já que ele esvazia o cartItems do contexto.
+
+  // Novos estados para controlar o modal de Erro visual
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const [confirmedOrder, setConfirmedOrder] = useState(null);
 
   const subtotal = cartItems.reduce(
@@ -76,7 +77,6 @@ export default function Pagamento() {
   const deliveryFee = 7.5;
   const total = subtotal > 0 ? subtotal + deliveryFee : 0;
 
-  // Cartão atualmente ativo
   const currentCard =
     savedCards.find((c) => c.id === selectedCardId) || savedCards[0];
 
@@ -98,7 +98,6 @@ export default function Pagamento() {
     return () => ctx.revert();
   }, []);
 
-  // Salvar Endereço
   const handleSaveAddress = (e) => {
     e.preventDefault();
     if (tempAddress.trim()) {
@@ -107,7 +106,6 @@ export default function Pagamento() {
     }
   };
 
-  // Copiar Pix
   const handleCopyPix = () => {
     const dummyPixKey =
       "00020126580014br.gov.bcb.pix0136yummy-pay-key-123456789520400005303986540560.005802BR";
@@ -116,11 +114,11 @@ export default function Pagamento() {
     setTimeout(() => setPixCopied(false), 2500);
   };
 
-  // Adicionar Novo Cartão
   const handleAddNewCard = (e) => {
     e.preventDefault();
     if (!newCard.number || !newCard.name || !newCard.expiry || !newCard.cvv) {
-      alert("Por favor, preencha todos os campos do cartão.");
+      setErrorMessage("Por favor, preencha todos os campos do cartão.");
+      setIsErrorModalOpen(true);
       return;
     }
 
@@ -138,16 +136,14 @@ export default function Pagamento() {
     setNewCard({ number: "", name: "", expiry: "", cvv: "" });
   };
 
-  // Confirmar Pagamento
   const handleConfirmPayment = async () => {
     if (cartItems.length === 0) {
-      alert("Seu carrinho está vazio!");
+      setErrorMessage("Seu carrinho está vazio!");
+      setIsErrorModalOpen(true);
       return;
     }
     setIsProcessing(true);
     try {
-      // Cria o pedido de verdade no backend. O cliente e os preços são
-      // definidos pelo servidor; aqui só vão o produto, a quantidade e o local.
       const pedido = await criarMeuPedido({
         local: `Entrega — ${address}`,
         forma_pagamento: FORMAS_PAGAMENTO[selectedMethod] || selectedMethod,
@@ -170,11 +166,13 @@ export default function Pagamento() {
         cardLast4: currentCard?.last4,
       });
       setIsSuccessModalOpen(true);
-      clearCart(); // Limpa o carrinho só depois do pedido ter sido criado
+      clearCart();
     } catch (err) {
-      alert(
+      // Substitui o alert nativo pelo Modal de Erro visual agradável
+      setErrorMessage(
         err.detail || "Não foi possível finalizar o pedido. Tente novamente.",
       );
+      setIsErrorModalOpen(true);
     } finally {
       setIsProcessing(false);
     }
@@ -194,7 +192,6 @@ export default function Pagamento() {
       </header>
 
       <main className="payment-main-container">
-        {/* Branding */}
         <div className="payment-brand-side">
           <div className="brand-logo-wrapper">
             <img src={logoNome} alt="Yummy" className="brand-logo-img" />
@@ -204,7 +201,6 @@ export default function Pagamento() {
           </div>
         </div>
 
-        {/* Card do Checkout */}
         <div className="payment-card-side stagger-pay">
           {/* Resumo do Pedido */}
           <section className="payment-section">
@@ -309,7 +305,6 @@ export default function Pagamento() {
           <section className="payment-section">
             <h2 className="section-subtitle">FORMA DE PAGAMENTO</h2>
             <div className="payment-methods-list">
-              {/* Opção Cartão de Crédito */}
               <button
                 type="button"
                 className={`method-option ${selectedMethod === "credit" ? "active" : ""}`}
@@ -327,7 +322,6 @@ export default function Pagamento() {
                 )}
               </button>
 
-              {/* Painel Expansível: Cartão de Crédito */}
               {selectedMethod === "credit" && (
                 <div className="method-extra-panel">
                   <span className="panel-label">
@@ -425,7 +419,6 @@ export default function Pagamento() {
                 </div>
               )}
 
-              {/* Opção Pix */}
               <button
                 type="button"
                 className={`method-option ${selectedMethod === "pix" ? "active" : ""}`}
@@ -463,7 +456,6 @@ export default function Pagamento() {
                 </div>
               )}
 
-              {/* Opção Dinheiro */}
               <button
                 type="button"
                 className={`method-option ${selectedMethod === "cash" ? "active" : ""}`}
@@ -556,6 +548,23 @@ export default function Pagamento() {
               }}
             >
               Acompanhar Pedido
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* NOVO: Modal de Erro Visual Agradável */}
+      {isErrorModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <FaExclamationCircle className="modal-error-icon" />
+            <h2>Ops, algo deu errado</h2>
+            <p>{errorMessage}</p>
+            <button
+              className="btn-modal-close btn-modal-error"
+              onClick={() => setIsErrorModalOpen(false)}
+            >
+              Tentar Novamente
             </button>
           </div>
         </div>
