@@ -53,6 +53,7 @@ export default function GestaoCardapio() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [salvando, setSalvando] = useState(false);
@@ -67,7 +68,13 @@ export default function GestaoCardapio() {
 
   const carregarCardapio = () => {
     return Promise.all([getCardapio(), getCategorias(true)])
-      .then(([data, cats]) => { setItems(data.map(produtoParaItem)); setCategories(cats); setActiveCategory((current) => current || cats.find((cat) => cat.ativo)?.slug || ""); })
+      .then(([data, cats]) => {
+        setItems(data.map(produtoParaItem));
+        setCategories(cats);
+        setActiveCategory(
+          (current) => current || cats.find((cat) => cat.ativo)?.slug || "",
+        );
+      })
       .catch((err) => setErro(err.detail || err.message));
   };
 
@@ -75,10 +82,18 @@ export default function GestaoCardapio() {
     carregarCardapio().finally(() => setCarregando(false));
   }, []);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
   const handleToggleStatus = async (id) => {
     try {
       const atualizado = await alternarStatusProduto(id);
-      setItems((prev) => prev.map((item) => (item.id === id ? produtoParaItem(atualizado) : item)));
+      setItems((prev) =>
+        prev.map((item) =>
+          item.id === id ? produtoParaItem(atualizado) : item,
+        ),
+      );
     } catch (err) {
       alert(err.detail || "Não foi possível alternar o status.");
     }
@@ -87,26 +102,38 @@ export default function GestaoCardapio() {
   const filteredItems = items.filter((item) => {
     const matchesCategory = item.category === activeCategory;
     const matchesSearch =
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.code.includes(searchTerm);
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.code.includes(searchTerm);
     return matchesCategory && matchesSearch;
   });
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage) || 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+  const currentItems = filteredItems.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
   const handleClearAllCategory = async () => {
-    if (!window.confirm(`Tem certeza que deseja apagar todos os itens da categoria "${activeCategory}"?`)) return;
+    if (
+      !window.confirm(
+        `Tem certeza que deseja apagar todos os itens da categoria "${activeCategory}"?`,
+      )
+    )
+      return;
     try {
       await excluirProdutosPorCategoria(activeCategory);
-      setItems((prev) => prev.filter((item) => item.category !== activeCategory));
+      setItems((prev) =>
+        prev.filter((item) => item.category !== activeCategory),
+      );
     } catch (err) {
       alert(err.detail || "Não foi possível apagar a categoria.");
     }
   };
 
   const handleDeleteItem = async (id) => {
-    if (!window.confirm("Deseja realmente remover este item do cardápio?")) return;
+    if (!window.confirm("Deseja realmente remover este item do cardápio?"))
+      return;
     try {
       await excluirProduto(id);
       setItems((prev) => prev.filter((item) => item.id !== id));
@@ -118,17 +145,37 @@ export default function GestaoCardapio() {
   const handleCreateCategory = async (event) => {
     event.preventDefault();
     if (!newCategory.trim()) return;
-    try { const category = await criarCategoria({ nome: newCategory }); setCategories((prev) => [...prev, category]); setActiveCategory(category.slug); setNewCategory(""); }
-    catch (err) { alert(err.detail || "Não foi possível criar a categoria."); }
+    try {
+      const category = await criarCategoria({ nome: newCategory });
+      setCategories((prev) => [...prev, category]);
+      setActiveCategory(category.slug);
+      setNewCategory("");
+    } catch (err) {
+      alert(err.detail || "Não foi possível criar a categoria.");
+    }
   };
+
   const handleToggleCategory = async (category) => {
-    try { const updated = await atualizarCategoria(category.id, { ativo: !category.ativo }); setCategories((prev) => prev.map((item) => item.id === updated.id ? updated : item)); }
-    catch (err) { alert(err.detail || "Não foi possível atualizar a categoria."); }
+    try {
+      const updated = await atualizarCategoria(category.id, {
+        ativo: !category.ativo,
+      });
+      setCategories((prev) =>
+        prev.map((item) => (item.id === updated.id ? updated : item)),
+      );
+    } catch (err) {
+      alert(err.detail || "Não foi possível atualizar a categoria.");
+    }
   };
+
   const handleDeleteCategory = async (category) => {
     if (!window.confirm(`Excluir a categoria "${category.nome}"?`)) return;
-    try { await excluirCategoria(category.id); setCategories((prev) => prev.filter((item) => item.id !== category.id)); }
-    catch (err) { alert(err.detail || "Não é possível excluir esta categoria."); }
+    try {
+      await excluirCategoria(category.id);
+      setCategories((prev) => prev.filter((item) => item.id !== category.id));
+    } catch (err) {
+      alert(err.detail || "Não é possível excluir esta categoria.");
+    }
   };
 
   const handleOpenModal = (itemToEdit = null) => {
@@ -175,7 +222,11 @@ export default function GestaoCardapio() {
           descricao: formData.description,
           imagem_url: formData.image,
         });
-        setItems((prev) => prev.map((item) => (item.id === editingItem.id ? produtoParaItem(atualizado) : item)));
+        setItems((prev) =>
+          prev.map((item) =>
+            item.id === editingItem.id ? produtoParaItem(atualizado) : item,
+          ),
+        );
       } else {
         const criado = await criarProduto({
           nome: formData.name,
@@ -197,8 +248,10 @@ export default function GestaoCardapio() {
   };
 
   return (
-    <div className="cardapio-page-layout">
-      <Sidebar />
+    <div
+      className={`cardapio-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="cardapio-main-content">
         <header className="cardapio-top-bar">
@@ -214,10 +267,17 @@ export default function GestaoCardapio() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <button className="action-circle-btn" aria-label="Configurações"><FaCog /></button>
-            <button className="action-circle-btn" aria-label="Notificações"><FaBell /></button>
+            <button className="action-circle-btn" aria-label="Configurações">
+              <FaCog />
+            </button>
+            <button className="action-circle-btn" aria-label="Notificações">
+              <FaBell />
+            </button>
             <div className="user-profile-avatar">
-              <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Avatar Hamburguer" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                alt="Avatar Hamburguer"
+              />
             </div>
           </div>
         </header>
@@ -226,29 +286,42 @@ export default function GestaoCardapio() {
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
           <div className="top-action-buttons">
-            <button className="btn-primary-orange" onClick={() => handleOpenModal(null)}>
+            <button
+              className="btn-primary-orange"
+              onClick={() => handleOpenModal(null)}
+            >
               <FaPlus /> ADICIONAR ITEM
             </button>
-            <button className="btn-primary-orange" onClick={() => setShowCategories(true)}>GERENCIAR CATEGORIAS</button>
-            <button className="btn-primary-orange btn-danger-action" onClick={handleClearAllCategory}>
+            <button
+              className="btn-primary-orange"
+              onClick={() => setShowCategories(true)}
+            >
+              GERENCIAR CATEGORIAS
+            </button>
+            <button
+              className="btn-primary-orange btn-danger-action"
+              onClick={handleClearAllCategory}
+            >
               <FaTrashAlt /> APAGAR TUDO
             </button>
           </div>
 
           <div className="cardapio-table-container">
             <div className="categories-tab-bar">
-              {categories.filter((cat) => cat.ativo).map((cat) => (
-                <button
-                  key={cat.id}
-                  className={`category-tab-item ${activeCategory === cat.slug ? "active" : ""}`}
-                  onClick={() => {
-                    setActiveCategory(cat.slug);
-                    setCurrentPage(1);
-                  }}
-                >
-                  {cat.nome}
-                </button>
-              ))}
+              {categories
+                .filter((cat) => cat.ativo)
+                .map((cat) => (
+                  <button
+                    key={cat.id}
+                    className={`category-tab-item ${activeCategory === cat.slug ? "active" : ""}`}
+                    onClick={() => {
+                      setActiveCategory(cat.slug);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    {cat.nome}
+                  </button>
+                ))}
             </div>
 
             <div className="menu-items-table">
@@ -280,47 +353,75 @@ export default function GestaoCardapio() {
                         title="Clique para alternar disponibilidade"
                       >
                         {item.status === "Em estoque" ? (
-                          <><FaCheck className="status-icon" /> Em estoque</>
+                          <>
+                            <FaCheck className="status-icon" /> Em estoque
+                          </>
                         ) : (
-                          <><FaBan className="status-icon" /> Esgotado</>
+                          <>
+                            <FaBan className="status-icon" /> Esgotado
+                          </>
                         )}
                       </button>
                     </div>
 
                     <span className="item-cost">
-                      {item.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {item.price.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
                     </span>
 
                     <div className="item-actions-col">
-                      <button className="btn-edit-item" onClick={() => handleOpenModal(item)}>Editar</button>
-                      <button className="btn-delete-single" onClick={() => handleDeleteItem(item.id)} title="Excluir item">
+                      <button
+                        className="btn-edit-item"
+                        onClick={() => handleOpenModal(item)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="btn-delete-single"
+                        onClick={() => handleDeleteItem(item.id)}
+                        title="Excluir item"
+                      >
                         <FaTimes />
                       </button>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="empty-table-message">Nenhum item encontrado nesta categoria.</div>
+                <div className="empty-table-message">
+                  Nenhum item encontrado nesta categoria.
+                </div>
               )}
             </div>
           </div>
 
           <footer className="cardapio-pagination">
-            <button className="btn-page-step" disabled={currentPage === 1} onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}>
+            <button
+              className="btn-page-step"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            >
               <FaChevronLeft /> Previous
             </button>
             <div className="pagination-numbers">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  className={`btn-page-number ${currentPage === page ? "active" : ""}`}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </button>
-              ))}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    className={`btn-page-number ${currentPage === page ? "active" : ""}`}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </button>
+                ),
+              )}
             </div>
-            <button className="btn-page-step" disabled={currentPage === totalPages} onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}>
+            <button
+              className="btn-page-step"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+            >
               Next <FaChevronRight />
             </button>
           </footer>
@@ -332,7 +433,12 @@ export default function GestaoCardapio() {
           <div className="cardapio-modal-card">
             <div className="modal-header">
               <h2>{editingItem ? "Editar Item" : "Novo Item do Cardápio"}</h2>
-              <button className="btn-close-modal" onClick={() => setIsModalOpen(false)}><FaTimes /></button>
+              <button
+                className="btn-close-modal"
+                onClick={() => setIsModalOpen(false)}
+              >
+                <FaTimes />
+              </button>
             </div>
 
             <form onSubmit={handleSaveItem} className="modal-form">
@@ -342,7 +448,9 @@ export default function GestaoCardapio() {
                   type="text"
                   placeholder="Ex: Sorvete com Brownie"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -353,7 +461,9 @@ export default function GestaoCardapio() {
                   rows={2}
                   placeholder="Ex: Blend artesanal, bacon crocante e molho barbecue da casa."
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                 />
               </div>
 
@@ -363,18 +473,35 @@ export default function GestaoCardapio() {
                   type="text"
                   placeholder="https://..."
                   value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, image: e.target.value })
+                  }
                 />
                 {formData.image && (
-                  <img className="modal-image-preview" src={formData.image} alt="Prévia" />
+                  <img
+                    className="modal-image-preview"
+                    src={formData.image}
+                    alt="Prévia"
+                  />
                 )}
               </div>
 
               <div className="form-group-row">
                 <div className="form-group">
                   <label>Categoria</label>
-                  <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-                    {categories.filter((cat) => cat.ativo).map((cat) => (<option key={cat.id} value={cat.slug}>{cat.nome}</option>))}
+                  <select
+                    value={formData.category}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
+                  >
+                    {categories
+                      .filter((cat) => cat.ativo)
+                      .map((cat) => (
+                        <option key={cat.id} value={cat.slug}>
+                          {cat.nome}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <div className="form-group">
@@ -384,7 +511,9 @@ export default function GestaoCardapio() {
                     step="0.01"
                     placeholder="18.00"
                     value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -392,17 +521,34 @@ export default function GestaoCardapio() {
 
               <div className="form-group">
                 <label>Status de Estoque Inicial</label>
-                <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
+                <select
+                  value={formData.status}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
+                >
                   <option value="Em estoque">Em estoque</option>
                   <option value="Esgotado">Esgotado</option>
                 </select>
               </div>
 
               <div className="modal-actions">
-                <button type="submit" className="btn-save-modal" disabled={salvando}>
-                  {salvando ? "Salvando…" : editingItem ? "Salvar Alterações" : "Adicionar Item"}
+                <button
+                  type="submit"
+                  className="btn-save-modal"
+                  disabled={salvando}
+                >
+                  {salvando
+                    ? "Salvando…"
+                    : editingItem
+                      ? "Salvar Alterações"
+                      : "Adicionar Item"}
                 </button>
-                <button type="button" className="btn-cancel-modal" onClick={() => setIsModalOpen(false)}>
+                <button
+                  type="button"
+                  className="btn-cancel-modal"
+                  onClick={() => setIsModalOpen(false)}
+                >
                   Cancelar
                 </button>
               </div>
@@ -410,7 +556,56 @@ export default function GestaoCardapio() {
           </div>
         </div>
       )}
-      {showCategories && <div className="cardapio-modal-overlay"><div className="cardapio-modal-card"><div className="modal-header"><h2>Gerenciar categorias</h2><button className="btn-close-modal" onClick={() => setShowCategories(false)}><FaTimes /></button></div><form className="modal-form" onSubmit={handleCreateCategory}><div className="form-group"><label>Nova categoria</label><input value={newCategory} onChange={(e) => setNewCategory(e.target.value)} placeholder="Ex: Carne Assada" /></div><button className="btn-save-modal">Adicionar categoria</button></form><div className="menu-items-table">{categories.map((category) => <div className="menu-item-row" key={category.id}><span className="item-title">{category.nome}</span><span>{category.ativo ? "Ativa" : "Inativa"}</span><div className="item-actions-col"><button className="btn-edit-item" onClick={() => handleToggleCategory(category)}>{category.ativo ? "Desativar" : "Ativar"}</button><button className="btn-delete-single" onClick={() => handleDeleteCategory(category)}><FaTimes /></button></div></div>)}</div></div></div>}
+      {showCategories && (
+        <div className="cardapio-modal-overlay">
+          <div className="cardapio-modal-card">
+            <div className="modal-header">
+              <h2>Gerenciar categorias</h2>
+              <button
+                className="btn-close-modal"
+                onClick={() => setShowCategories(false)}
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <form className="modal-form" onSubmit={handleCreateCategory}>
+              <div className="form-group">
+                <label>Nova categoria</label>
+                <input
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  placeholder="Ex: Carne Assada"
+                />
+              </div>
+              <button className="btn-save-modal">Adicionar categoria</button>
+            </form>
+            <div className="menu-items-table" style={{ marginTop: "1rem" }}>
+              {categories.map((category) => (
+                <div className="menu-item-row" key={category.id}>
+                  <span className="item-title">{category.nome}</span>
+                  <span>{category.ativo ? "Ativa" : "Inativa"}</span>
+                  <div className="item-actions-col">
+                    <button
+                      className="btn-edit-item"
+                      type="button"
+                      onClick={() => handleToggleCategory(category)}
+                    >
+                      {category.ativo ? "Desativar" : "Ativar"}
+                    </button>
+                    <button
+                      className="btn-delete-single"
+                      type="button"
+                      onClick={() => handleDeleteCategory(category)}
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

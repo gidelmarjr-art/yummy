@@ -6,6 +6,7 @@ import { FaStore, FaSave, FaCamera } from "react-icons/fa";
 import "./PerfilLoja.css";
 
 export default function PerfilLoja() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [storeProfile, setStoreProfile] = useState({
     storeName: "Codó Burger",
     phone: "(61) 99876-5432",
@@ -20,6 +21,10 @@ export default function PerfilLoja() {
 
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,8 +41,8 @@ export default function PerfilLoja() {
   };
 
   return (
-    <div className="page-layout">
-      <Sidebar />
+    <div className={`page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}>
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <main className="main-content">
         <TopHeader title="Perfil da Loja" />
 
