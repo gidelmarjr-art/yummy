@@ -18,6 +18,11 @@ export default function Configuracoes() {
 
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   const handleToggle = (key) => {
     setConfig((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -38,13 +43,18 @@ export default function Configuracoes() {
   };
 
   return (
-    <div className="config-page-layout">
-      <Sidebar />
+    <div
+      className={`config-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <main className="config-main-content">
         <TopHeader title="Configurações do Sistema" />
 
         <div className="config-body-content">
-          <form onSubmit={handleSave} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+          <form
+            onSubmit={handleSave}
+            style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+          >
             {mensagem && <div className="form-success-msg">{mensagem}</div>}
 
             {/* Bloco 1: Parâmetros Operacionais */}
@@ -84,7 +94,10 @@ export default function Configuracoes() {
                 <div className="config-toggle-item">
                   <div className="toggle-info">
                     <h4>Alerta de Estoque Mínimo</h4>
-                    <p>Notificar no painel superior quando um insumo estiver acabando.</p>
+                    <p>
+                      Notificar no painel superior quando um insumo estiver
+                      acabando.
+                    </p>
                   </div>
                   <label className="switch">
                     <input
@@ -99,7 +112,10 @@ export default function Configuracoes() {
                 <div className="config-toggle-item">
                   <div className="toggle-info">
                     <h4>Som de Alerta para Novos Pedidos</h4>
-                    <p>Tocar um aviso sonoro quando um pedido for recebido no sistema.</p>
+                    <p>
+                      Tocar um aviso sonoro quando um pedido for recebido no
+                      sistema.
+                    </p>
                   </div>
                   <label className="switch">
                     <input
@@ -114,7 +130,10 @@ export default function Configuracoes() {
                 <div className="config-toggle-item">
                   <div className="toggle-info">
                     <h4>Impressão Automática na Cozinha</h4>
-                    <p>Enviar comanda direto para a impressora assim que aceitar o pedido.</p>
+                    <p>
+                      Enviar comanda direto para a impressora assim que aceitar
+                      o pedido.
+                    </p>
                   </div>
                   <label className="switch">
                     <input
@@ -129,7 +148,11 @@ export default function Configuracoes() {
             </div>
 
             <div className="config-actions-wrapper">
-              <button type="submit" className="save-config-btn" disabled={salvando}>
+              <button
+                type="submit"
+                className="save-config-btn"
+                disabled={salvando}
+              >
                 <FaSave /> {salvando ? "Salvando..." : "Salvar Configurações"}
               </button>
             </div>
