@@ -1,42 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap');
 
 /* ==========================================================================
-   1. TOKENS E TEMA CLARO COMO PADRÃO ABSOLUTO
+   FORÇANDO O TEMA CLARO PERMANENTE (Sem cores pretas/escuras)
    ========================================================================== */
-:root {
+:root,
+html[data-tema="escuro"],
+html[data-tema="claro"] {
   --mola: cubic-bezier(.34, 1.56, .64, 1);
   --suave: cubic-bezier(.22, 1, .36, 1);
   --fonte-titulo: 'Bricolage Grotesque', sans-serif;
   --fonte-corpo: 'Figtree', sans-serif;
 
-  /* Tema Claro (Padrão) */
-  --fundo: #e8e7e0;
-  --cartao: #ffffff;
-  --texto: #17181a;
-  --apoio: #868883;
-  --salvia: #6c8b75;
-  --circulo-ativo: #17181a;
-  --borda: rgba(0, 0, 0, 0.08);
-  --gradiente-destaque: linear-gradient(135deg, #e3ebe5 0%, #ffffff 100%);
-  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05);
+  /* Cores Claras Fixas */
+  --fundo: #e8e7e0 !important;
+  --cartao: #ffffff !important;
+  --texto: #17181a !important;
+  --apoio: #868883 !important;
+  --salvia: #6c8b75 !important;
+  --circulo-ativo: #17181a !important;
+  --borda: rgba(0, 0, 0, 0.08) !important;
+  --gradiente-destaque: linear-gradient(135deg, #e3ebe5 0%, #ffffff 100%) !important;
+  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Caso alternado para escuro */
-html[data-tema="escuro"] {
-  --fundo: #0b0b0c;
-  --cartao: #151517;
-  --texto: #ececee;
-  --apoio: #9a9aa2;
-  --salvia: #8fb39a;
-  --circulo-ativo: #f1f1f2;
-  --borda: rgba(255, 255, 255, 0.08);
-  --gradiente-destaque: linear-gradient(135deg, #1c2b22 0%, #151517 100%);
-  --sombra-cartao: 0 12px 32px rgba(0, 0, 0, 0.45);
-}
-
-/* ==========================================================================
-   2. CORREÇÃO DE LAYOUT E ESTRUTURA (BENTO GRID)
-   ========================================================================== */
+/* Estrutura Principal */
 .bento-wrapper-root {
   background-color: var(--fundo) !important;
   color: var(--texto) !important;
@@ -51,7 +38,7 @@ html[data-tema="escuro"] {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background-color: var(--fundo);
+  background-color: var(--fundo) !important;
 }
 
 .bento-wrapper-root .dashboard-top-bar {
@@ -79,9 +66,7 @@ html[data-tema="escuro"] {
   gap: 1.8rem;
 }
 
-/* ==========================================================================
-   3. GRID DE 4 COLUNAS (BENTO CARDS)
-   ========================================================================== */
+/* Grid de 4 Colunas (Bento Cards Brancos) */
 .bento-metrics-grid {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
@@ -132,7 +117,7 @@ html[data-tema="escuro"] {
   }
 }
 
-/* Tipografia dos Números (Bricolage Grotesque) */
+/* Tipografia */
 .metric-value {
   font-family: var(--fonte-titulo) !important;
   font-size: 2.2rem !important;
@@ -180,7 +165,7 @@ html[data-tema="escuro"] {
   font-weight: 700;
 }
 
-/* Grids Inferiores (Últimos Pedidos e Insumos) */
+/* Grids Inferiores */
 .dashboard-sections-grid {
   display: grid !important;
   grid-template-columns: 1.8fr 1.2fr !important;
@@ -194,7 +179,7 @@ html[data-tema="escuro"] {
   align-items: center;
   padding: 0.9rem 1rem;
   border-radius: 14px;
-  background-color: rgba(0, 0, 0, 0.015);
+  background-color: #f8fafc !important;
   border: 1px solid var(--borda);
   margin-bottom: 0.6rem;
 }
@@ -215,9 +200,102 @@ html[data-tema="escuro"] {
   font-weight: 800;
 }
 
-/* ==========================================================================
-   4. RESPONSIVIDADE
-   ========================================================================== */
+/* Gráfico SVG */
+.svg-chart-container {
+  position: relative;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.bento-svg-chart {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.chart-line-smooth {
+  fill: none;
+  stroke: var(--salvia);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  animation: desenha 1.3s var(--suave) both;
+}
+
+@keyframes desenha {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.chart-bar-item {
+  fill: var(--salvia);
+  opacity: 0.25;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: cresce 0.7s var(--mola) both;
+  animation-delay: calc(var(--i) * 60ms);
+  cursor: pointer;
+  transition: opacity 0.2s var(--suave);
+}
+
+.chart-bar-item:hover {
+  opacity: 0.6;
+}
+
+@keyframes cresce {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+.chart-point-dot {
+  fill: var(--fundo);
+  stroke: var(--salvia);
+  stroke-width: 2.5;
+  transition: transform 0.2s var(--mola);
+}
+
+.chart-point-dot.active {
+  fill: var(--salvia);
+  stroke: var(--texto);
+}
+
+.chart-tooltip-floating {
+  position: absolute;
+  top: -25px;
+  transform: translateX(-50%);
+  background-color: var(--circulo-ativo);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.chart-x-axis {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: var(--apoio);
+}
+
+.chart-x-axis span.active {
+  color: var(--salvia);
+  font-weight: 700;
+}
+
+/* Responsividade */
 @media (max-width: 1200px) {
   .bento-metrics-grid {
     grid-template-columns: repeat(2, 1fr) !important;
