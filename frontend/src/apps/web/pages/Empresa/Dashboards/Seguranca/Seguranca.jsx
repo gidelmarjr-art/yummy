@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { FaCog, FaBell, FaLock, FaShieldAlt } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { alterarSenha, getSessoes, revogarSessao } from "../../../../services/api";
+import {
+  alterarSenha,
+  getSessoes,
+  revogarSessao,
+} from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Seguranca.css";
 
 export default function Seguranca() {
-  const [passData, setPassData] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
+  const [passData, setPassData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const [salvandoSenha, setSalvandoSenha] = useState(false);
   const [mensagemSenha, setMensagemSenha] = useState(null);
 
   const [sessions, setSessions] = useState([]);
   const [carregandoSessoes, setCarregandoSessoes] = useState(true);
   const [erroSessoes, setErroSessoes] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     getSessoes()
@@ -20,6 +29,10 @@ export default function Seguranca() {
       .catch((err) => setErroSessoes(err.detail || err.message))
       .finally(() => setCarregandoSessoes(false));
   }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
@@ -31,10 +44,20 @@ export default function Seguranca() {
     setSalvandoSenha(true);
     try {
       await alterarSenha(passData.currentPassword, passData.newPassword);
-      setMensagemSenha({ tipo: "sucesso", texto: "Senha alterada com sucesso!" });
-      setPassData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      setMensagemSenha({
+        tipo: "sucesso",
+        texto: "Senha alterada com sucesso!",
+      });
+      setPassData({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
     } catch (err) {
-      setMensagemSenha({ tipo: "erro", texto: err.detail || "Não foi possível alterar a senha." });
+      setMensagemSenha({
+        tipo: "erro",
+        texto: err.detail || "Não foi possível alterar a senha.",
+      });
     } finally {
       setSalvandoSenha(false);
     }
@@ -50,18 +73,27 @@ export default function Seguranca() {
   };
 
   return (
-    <div className="seguranca-page-layout">
-      <Sidebar />
+    <div
+      className={`seguranca-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="seguranca-main-content">
         <header className="seguranca-top-bar">
           <h1 className="page-heading">Segurança e Acessos</h1>
 
           <div className="top-bar-right">
-            <button className="action-circle-btn"><FaCog /></button>
-            <button className="action-circle-btn"><FaBell /></button>
+            <button className="action-circle-btn">
+              <FaCog />
+            </button>
+            <button className="action-circle-btn">
+              <FaBell />
+            </button>
             <div className="user-profile-avatar">
-              <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Avatar" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                alt="Avatar"
+              />
             </div>
           </div>
         </header>
@@ -69,10 +101,18 @@ export default function Seguranca() {
         <div className="seguranca-dashboard-body">
           <div className="security-grid">
             <div className="security-card">
-              <h3><FaLock /> Alterar Senha de Acesso</h3>
+              <h3>
+                <FaLock /> Alterar Senha de Acesso
+              </h3>
 
               {mensagemSenha && (
-                <p className={mensagemSenha.tipo === "erro" ? "form-error-msg" : "form-success-msg"}>
+                <p
+                  className={
+                    mensagemSenha.tipo === "erro"
+                      ? "form-error-msg"
+                      : "form-success-msg"
+                  }
+                >
                   {mensagemSenha.texto}
                 </p>
               )}
@@ -83,7 +123,12 @@ export default function Seguranca() {
                   <input
                     type="password"
                     value={passData.currentPassword}
-                    onChange={(e) => setPassData({ ...passData, currentPassword: e.target.value })}
+                    onChange={(e) =>
+                      setPassData({
+                        ...passData,
+                        currentPassword: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -92,7 +137,9 @@ export default function Seguranca() {
                   <input
                     type="password"
                     value={passData.newPassword}
-                    onChange={(e) => setPassData({ ...passData, newPassword: e.target.value })}
+                    onChange={(e) =>
+                      setPassData({ ...passData, newPassword: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -101,19 +148,32 @@ export default function Seguranca() {
                   <input
                     type="password"
                     value={passData.confirmPassword}
-                    onChange={(e) => setPassData({ ...passData, confirmPassword: e.target.value })}
+                    onChange={(e) =>
+                      setPassData({
+                        ...passData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
-                <button type="submit" className="btn-save-security" disabled={salvandoSenha}>
+                <button
+                  type="submit"
+                  className="btn-save-security"
+                  disabled={salvandoSenha}
+                >
                   {salvandoSenha ? "Atualizando…" : "Atualizar Senha"}
                 </button>
               </form>
             </div>
 
             <div className="security-card">
-              <h3><FaShieldAlt /> Sessões Ativas</h3>
-              {erroSessoes && <p className="dashboard-error-msg">{erroSessoes}</p>}
+              <h3>
+                <FaShieldAlt /> Sessões Ativas
+              </h3>
+              {erroSessoes && (
+                <p className="dashboard-error-msg">{erroSessoes}</p>
+              )}
               <div className="sessions-list">
                 {carregandoSessoes ? (
                   <p className="dashboard-loading-msg">Carregando sessões…</p>
@@ -124,12 +184,19 @@ export default function Seguranca() {
                     <div key={session.id} className="session-item">
                       <div className="session-info">
                         <span className="session-device">{session.device}</span>
-                        <span className="session-location">{session.location}</span>
+                        <span className="session-location">
+                          {session.location}
+                        </span>
                       </div>
                       {session.active ? (
                         <span className="status-pill status-ativa">Ativa</span>
                       ) : (
-                        <button className="btn-revoke" onClick={() => handleRevoke(session.id)}>Desconectar</button>
+                        <button
+                          className="btn-revoke"
+                          onClick={() => handleRevoke(session.id)}
+                        >
+                          Desconectar
+                        </button>
                       )}
                     </div>
                   ))
