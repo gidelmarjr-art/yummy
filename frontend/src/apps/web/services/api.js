@@ -1,7 +1,3 @@
-// Cliente HTTP compartilhado por todos os dashboards da empresa.
-// Centraliza a URL base, o header de autenticação e o tratamento de
-// erros/401 num único lugar.
-
 export const API_URL =
   process.env.REACT_APP_API_URL || "https://yummy-ms7e.onrender.com";
 
@@ -69,6 +65,8 @@ export const criarMeuPedido = (dados) =>
   authFetch("/pedidos/meu", { method: "POST", body: dados });
 export const getMeusPedidos = () => authFetch("/pedidos/meu");
 export const getMeuPedido = (id) => authFetch(`/pedidos/meu/${id}`);
+export const cancelarMeuPedido = (pedidoId) =>
+  authFetch(`/pedidos/meu/${pedidoId}/cancelar`, { method: "PATCH" });
 
 // ---------- Categorias ----------
 export const getCategorias = () => authFetch("/categorias");
@@ -159,9 +157,3 @@ export const atualizarCategoria = (id, dados) =>
 
 export const excluirCategoria = (id) =>
   authFetch(`/categorias/${id}`, { method: "DELETE" });
-
-export async function cancelarMeuPedido(pedidoId) {
-  return request(`/pedidos/meu/${pedidoId}/cancelar`, {
-    method: "PATCH",
-  });
-}
