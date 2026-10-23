@@ -11,6 +11,7 @@ import {
   FaEye,
   FaTimes,
   FaBan,
+  FaExclamationTriangle,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import {
@@ -72,6 +73,7 @@ export default function Pedidos() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
+  const [orderParaCancelar, setOrderParaCancelar] = useState(null);
   const [salvandoPedido, setSalvandoPedido] = useState(false);
 
   const [newOrderForm, setNewOrderForm] = useState({
@@ -118,17 +120,12 @@ export default function Pedidos() {
     }
   };
 
-  const handleCancelarPedidoAdmin = async (dbId) => {
-    if (
-      !window.confirm(
-        "Tem certeza que deseja cancelar este pedido? O estoque será estornado se aplicável.",
-      )
-    )
-      return;
+  const confirmarCancelamentoAdmin = async () => {
+    if (!orderParaCancelar) return;
     try {
-      const token = localStorage.getItem("token"); // ou a forma como você recupera o token de autenticação
+      const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8000/pedidos/${dbId}/cancelar`,
+        `http://localhost:8000/pedidos/${orderParaCancelar}/cancelar`,
         {
           method: "PATCH",
           headers: {
@@ -141,6 +138,7 @@ export default function Pedidos() {
         const errorData = await response.json();
         throw new Error(errorData.detail || "Erro ao cancelar pedido.");
       }
+      setOrderParaCancelar(null);
       setSelectedOrderDetails(null);
       await carregarPedidos();
     } catch (err) {
@@ -352,20 +350,8 @@ export default function Pedidos() {
                             </button>
                             <button
                               className="btn-cancel-admin"
-                              onClick={() =>
-                                handleCancelarPedidoAdmin(order.dbId)
-                              }
+                              onClick={() => setOrderParaCancelar(order.dbId)}
                               title="Cancelar Pedido"
-                              style={{
-                                backgroundColor: "#ef4444",
-                                color: "#fff",
-                                border: "none",
-                                padding: "0.45rem 0.6rem",
-                                borderRadius: "8px",
-                                cursor: "pointer",
-                                fontWeight: "600",
-                                fontSize: "0.78rem",
-                              }}
                             >
                               <FaBan />
                             </button>
@@ -384,6 +370,7 @@ export default function Pedidos() {
         </div>
       </main>
 
+      {/* Modal de Detalhes do Pedido */}
       {selectedOrderDetails && (
         <div className="pedidos-modal-overlay">
           <div className="pedidos-modal-card">
@@ -450,7 +437,7 @@ export default function Pedidos() {
                 selectedOrderDetails.status !== "Cancelado" && (
                   <button
                     onClick={() =>
-                      handleCancelarPedidoAdmin(selectedOrderDetails.dbId)
+                      setOrderParaCancelar(selectedOrderDetails.dbId)
                     }
                     style={{
                       backgroundColor: "#ef4444",
@@ -477,6 +464,72 @@ export default function Pedidos() {
         </div>
       )}
 
+      {/* Modal de Confirmação de Cancelamento Personalizado (Substitui o Pop-up nativo) */}
+      {orderParaCancelar && (
+        <div className="pedidos-modal-overlay">
+          <div
+            className="pedidos-modal-card"
+            style={{ maxWidth: "400px", textAlign: "center", padding: "2rem" }}
+          >
+            <div
+              style={{
+                fontSize: "2.5rem",
+                color: "#ef4444",
+                marginBottom: "0.5rem",
+              }}
+            >
+              <FaExclamationTriangle />
+            </div>
+            <h2 style={{ marginBottom: "0.8rem", color: "#0f172a" }}>
+              Cancelar Pedido?
+            </h2>
+            <p
+              style={{
+                color: "#64748b",
+                fontSize: "0.9rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              Tem certeza que deseja cancelar este pedido? Se aplicável, os
+              itens serão retornados ao estoque automaticamente.
+            </p>
+            <div style={{ display: "flex", gap: "0.8rem" }}>
+              <button
+                onClick={confirmarCancelamentoAdmin}
+                style={{
+                  flex: 1,
+                  backgroundColor: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  padding: "0.75rem",
+                  borderRadius: "10px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                }}
+              >
+                Sim, Cancelar
+              </button>
+              <button
+                onClick={() => setOrderParaCancelar(null)}
+                style={{
+                  flex: 1,
+                  backgroundColor: "#f1f5f9",
+                  color: "#475569",
+                  border: "1px solid #cbd5e1",
+                  padding: "0.75rem",
+                  borderRadius: "10px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                }}
+              >
+                Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Novo Pedido */}
       {isNewOrderModalOpen && (
         <div className="pedidos-modal-overlay">
           <div className="pedidos-modal-card">
