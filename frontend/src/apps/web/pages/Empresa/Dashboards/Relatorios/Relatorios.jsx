@@ -31,8 +31,13 @@ import "./Relatorios.css";
 
 export default function Relatorios() {
   const [period, setPeriod] = useState("7d");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { metrics, weeklyData, paymentData, monthlyData, loading, erro } =
     useRealtimeDashboard();
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   const safeMetrics = metrics || {
     tempoAceitacao: 0,
@@ -42,8 +47,10 @@ export default function Relatorios() {
   };
 
   return (
-    <div className="relatorios-page-layout">
-      <Sidebar activePage="Relatórios" />
+    <div
+      className={`relatorios-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="relatorios-main-content">
         {/* Header */}
@@ -162,11 +169,27 @@ export default function Relatorios() {
                   <div style={{ width: "100%", height: 200 }}>
                     <ResponsiveContainer>
                       <BarChart data={weeklyData || []} barGap={6}>
-                        <XAxis dataKey="day" axisLine={false} tickLine={false} />
-                        <YAxis axisLine={false} tickLine={false} domain={[0, 500]} />
+                        <XAxis
+                          dataKey="day"
+                          axisLine={false}
+                          tickLine={false}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          domain={[0, 500]}
+                        />
                         <Tooltip cursor={{ fill: "rgba(0,0,0,0.03)" }} />
-                        <Bar dataKey="deposit" fill="#f59e0b" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="withdraw" fill="#ed5b22" radius={[4, 4, 0, 0]} />
+                        <Bar
+                          dataKey="deposit"
+                          fill="#f59e0b"
+                          radius={[4, 4, 0, 0]}
+                        />
+                        <Bar
+                          dataKey="withdraw"
+                          fill="#ed5b22"
+                          radius={[4, 4, 0, 0]}
+                        />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -188,7 +211,10 @@ export default function Relatorios() {
                           label={({ name, value }) => `${value}% ${name}`}
                         >
                           {(paymentData || []).map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color || "#ed5b22"} />
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={entry.color || "#ed5b22"}
+                            />
                           ))}
                         </Pie>
                         <Tooltip />
@@ -206,13 +232,35 @@ export default function Relatorios() {
                     <ResponsiveContainer>
                       <AreaChart data={monthlyData || []}>
                         <defs>
-                          <linearGradient id="colorFaturamento" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#ed5b22" stopOpacity={0.4} />
-                            <stop offset="95%" stopColor="#ed5b22" stopOpacity={0.0} />
+                          <linearGradient
+                            id="colorFaturamento"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="#ed5b22"
+                              stopOpacity={0.4}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="#ed5b22"
+                              stopOpacity={0.0}
+                            />
                           </linearGradient>
                         </defs>
-                        <XAxis dataKey="month" axisLine={false} tickLine={false} />
-                        <YAxis axisLine={false} tickLine={false} domain={[0, 800]} />
+                        <XAxis
+                          dataKey="month"
+                          axisLine={false}
+                          tickLine={false}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          domain={[0, 800]}
+                        />
                         <Tooltip />
                         <Area
                           type="monotone"
