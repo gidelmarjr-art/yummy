@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaSearch, FaCog, FaBell, FaUser, FaEye, FaTimes } from "react-icons/fa";
+import {
+  FaSearch,
+  FaCog,
+  FaBell,
+  FaUser,
+  FaEye,
+  FaTimes,
+} from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { getClientes } from "../../../../services/api";
 import "../dashboards-shared.css";
@@ -11,6 +18,7 @@ export default function Clientes() {
   const [erro, setErro] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedClient, setSelectedClient] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     getClientes()
@@ -19,15 +27,22 @@ export default function Clientes() {
       .finally(() => setCarregando(false));
   }, []);
 
-  const filteredClientes = clientes.filter((c) =>
-    c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    c.phone.includes(searchTerm) ||
-    c.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
+  const filteredClientes = clientes.filter(
+    (c) =>
+      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.phone.includes(searchTerm) ||
+      c.email.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
-    <div className="clientes-page-layout">
-      <Sidebar />
+    <div
+      className={`clientes-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="clientes-main-content">
         <header className="clientes-top-bar">
@@ -43,10 +58,17 @@ export default function Clientes() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <button className="action-circle-btn"><FaCog /></button>
-            <button className="action-circle-btn"><FaBell /></button>
+            <button className="action-circle-btn">
+              <FaCog />
+            </button>
+            <button className="action-circle-btn">
+              <FaBell />
+            </button>
             <div className="user-profile-avatar">
-              <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Avatar" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                alt="Avatar"
+              />
             </div>
           </div>
         </header>
@@ -60,17 +82,24 @@ export default function Clientes() {
               ) : filteredClientes.length > 0 ? (
                 filteredClientes.map((cliente) => (
                   <div key={cliente.id} className="cliente-row-item">
-                    <div className="cliente-icon"><FaUser /></div>
+                    <div className="cliente-icon">
+                      <FaUser />
+                    </div>
                     <div className="cliente-name-col">
                       <strong className="cliente-name">{cliente.name}</strong>
                       <span className="cliente-email">{cliente.email}</span>
                     </div>
 
                     <span className="cliente-phone">{cliente.phone}</span>
-                    <span className="cliente-orders">{cliente.ordersCount} Pedidos Realizados</span>
+                    <span className="cliente-orders">
+                      {cliente.ordersCount} Pedidos Realizados
+                    </span>
 
                     <div>
-                      <button className="btn-view-details" onClick={() => setSelectedClient(cliente)}>
+                      <button
+                        className="btn-view-details"
+                        onClick={() => setSelectedClient(cliente)}
+                      >
                         <FaEye /> Perfil
                       </button>
                     </div>
@@ -89,14 +118,33 @@ export default function Clientes() {
           <div className="clientes-modal-card">
             <div className="modal-header">
               <h2>Detalhes do Cliente</h2>
-              <button className="btn-close-modal" onClick={() => setSelectedClient(null)}><FaTimes /></button>
+              <button
+                className="btn-close-modal"
+                onClick={() => setSelectedClient(null)}
+              >
+                <FaTimes />
+              </button>
             </div>
-            <p><strong>Nome:</strong> {selectedClient.name}</p>
-            <p><strong>E-mail:</strong> {selectedClient.email}</p>
-            <p><strong>Telefone:</strong> {selectedClient.phone}</p>
-            <p><strong>Histórico:</strong> {selectedClient.ordersCount} pedidos cadastrados no sistema.</p>
+            <p>
+              <strong>Nome:</strong> {selectedClient.name}
+            </p>
+            <p>
+              <strong>E-mail:</strong> {selectedClient.email}
+            </p>
+            <p>
+              <strong>Telefone:</strong> {selectedClient.phone}
+            </p>
+            <p>
+              <strong>Histórico:</strong> {selectedClient.ordersCount} pedidos
+              cadastrados no sistema.
+            </p>
             <div className="modal-actions">
-              <button className="btn-cancel-modal" onClick={() => setSelectedClient(null)}>Fechar</button>
+              <button
+                className="btn-cancel-modal"
+                onClick={() => setSelectedClient(null)}
+              >
+                Fechar
+              </button>
             </div>
           </div>
         </div>
