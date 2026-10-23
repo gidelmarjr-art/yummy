@@ -1,13 +1,33 @@
-/* Transacoes.css - Harmonizado e Atualizado */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap');
+
+/* ==========================================================================
+   TOKENS E ESTILO BENTO (Fundo Greige #e8e7e0 e Cartões Brancos #ffffff)
+   ========================================================================== */
+:root {
+  --mola: cubic-bezier(.34, 1.56, .64, 1);
+  --suave: cubic-bezier(.22, 1, .36, 1);
+  --fonte-titulo: 'Bricolage Grotesque', sans-serif;
+  --fonte-corpo: 'Figtree', sans-serif;
+
+  --fundo: #e8e7e0 !important;
+  --cartao: #ffffff !important;
+  --texto: #17181a !important;
+  --apoio: #868883 !important;
+  --laranja: #ed5b22 !important;
+  --laranja-suave: #fff0e8 !important;
+  --circulo-ativo: #17181a !important;
+  --borda: rgba(0, 0, 0, 0.08) !important;
+  --gradiente-destaque: linear-gradient(135deg, #fff0e8 0%, #ffffff 100%) !important;
+  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05) !important;
+}
 
 .transacoes-page-layout {
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background-color: #f8fafc;
-  font-family: 'Inter', sans-serif;
-  color: #1e293b;
+  background-color: var(--fundo) !important;
+  font-family: var(--fonte-corpo) !important;
+  color: var(--texto) !important;
   overflow-x: hidden;
 }
 
@@ -16,50 +36,51 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--fundo) !important;
 }
 
-/* Header Superior */
+/* Header Superior Harmonizado */
 .transacoes-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--cartao) !important;
+  border-bottom: 1px solid var(--borda) !important;
 }
 
 .page-heading {
+  font-family: var(--fonte-titulo) !important;
   font-size: 1.5rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto) !important;
   margin: 0;
 }
 
 .top-bar-right {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1rem;
 }
 
 .search-box {
   display: flex;
   align-items: center;
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   width: 260px;
-  border: 1px solid transparent;
+  border: 1px solid var(--borda);
   transition: border-color 0.2s ease;
 }
 
 .search-box:focus-within {
-  border-color: #ed5b22;
+  border-color: var(--laranja);
   background-color: #ffffff;
 }
 
 .search-icon {
-  color: #94a3b8;
+  color: var(--apoio);
   font-size: 0.85rem;
   margin-right: 0.5rem;
 }
@@ -70,27 +91,28 @@
   outline: none;
   font-size: 0.85rem;
   width: 100%;
-  color: #334155;
+  color: var(--texto);
+  font-family: var(--fonte-corpo);
 }
 
 .action-circle-btn {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background-color: var(--cartao);
+  border: 1px solid var(--borda);
   width: 38px;
   height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #64748b;
+  color: var(--apoio);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .action-circle-btn:hover {
-  background-color: #ed5b22;
+  background-color: var(--laranja);
   color: #ffffff;
-  border-color: #ed5b22;
+  border-color: var(--laranja);
 }
 
 .user-profile-avatar {
@@ -98,7 +120,7 @@
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #ed5b22;
+  border: 2px solid var(--laranja);
 }
 
 .user-profile-avatar img {
@@ -107,9 +129,9 @@
   object-fit: cover;
 }
 
-/* Corpo Principal das Transações */
+/* Corpo Principal */
 .transacoes-dashboard-body {
-  background-color: #f1f5f9;
+  background-color: var(--fundo) !important;
   flex: 1;
   padding: 2rem 2.5rem;
   display: flex;
@@ -117,22 +139,56 @@
   gap: 1.5rem;
 }
 
-/* Cards Métricos do Topo */
+/* Animações fluidas de entrada */
+.metrics-cards-row>*,
+.charts-two-columns>*,
+.bottom-two-columns>* {
+  animation: surge 0.6s var(--suave) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+@keyframes surge {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cards de Métricas (Bento style) */
 .metrics-cards-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
-.metric-summary-card {
-  background-color: #ffffff;
-  border-radius: 20px;
-  padding: 1.25rem 1.5rem;
+.metric-summary-card,
+.transacoes-chart-card,
+.investments-list-section,
+.trending-stock-section {
+  background-color: var(--cartao) !important;
+  border-radius: 24px !important;
+  border: 1px solid var(--borda) !important;
+  box-shadow: var(--sombra-cartao) !important;
+  padding: 1.5rem !important;
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08) !important;
+}
+
+.card-featured {
+  background: var(--gradiente-destaque) !important;
+  border-color: var(--laranja) !important;
 }
 
 .metric-icon-circle {
@@ -146,14 +202,29 @@
   flex-shrink: 0;
 }
 
-.cyan-bg { background-color: #ccfbf1; }
-.icon-cyan { color: #0d9488; }
+.orange-bg {
+  background-color: var(--laranja-suave);
+}
 
-.pink-bg { background-color: #ffe4e6; }
-.icon-pink { color: #e11d48; }
+.icon-orange {
+  color: var(--laranja);
+}
 
-.blue-bg { background-color: #dbeafe; }
-.icon-blue { color: #2563eb; }
+.pink-bg {
+  background-color: #ffe4e6;
+}
+
+.icon-pink {
+  color: #e11d48;
+}
+
+.blue-bg {
+  background-color: #dbeafe;
+}
+
+.icon-blue {
+  color: #2563eb;
+}
 
 .metric-info {
   display: flex;
@@ -162,18 +233,20 @@
 
 .metric-label {
   font-size: 0.8rem;
-  color: #64748b;
+  color: var(--apoio);
   font-weight: 600;
+  text-transform: uppercase;
 }
 
 .metric-value {
-  font-size: 1.45rem;
-  font-weight: 800;
-  color: #0f172a;
+  font-family: var(--fonte-titulo) !important;
+  font-size: 1.75rem !important;
+  font-weight: 800 !important;
+  color: var(--texto) !important;
   margin-top: 2px;
 }
 
-/* Seção do Meio: Gráficos */
+/* Gráficos */
 .charts-two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -181,22 +254,24 @@
 }
 
 .transacoes-chart-card {
-  background-color: #ffffff;
-  border-radius: 20px;
-  padding: 1.5rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .transacoes-chart-card.highlight-border {
-  border: 2px solid #ed5b22;
+  border: 2px solid var(--laranja) !important;
 }
 
-.transacoes-chart-card h3 {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #0f172a;
+.section-title-clean,
+.investments-list-section h3,
+.trending-stock-section h3 {
+  font-family: var(--fonte-titulo) !important;
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  color: var(--texto) !important;
   margin: 0 0 1.2rem 0;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid var(--borda);
 }
 
 /* Seção Inferior */
@@ -206,12 +281,10 @@
   gap: 1.5rem;
 }
 
-.investments-list-section h3,
-.trending-stock-section h3 {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 1rem 0;
+.investments-list-section,
+.trending-stock-section {
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .investments-list {
@@ -221,19 +294,19 @@
 }
 
 .investment-item-card {
-  background-color: #ffffff;
+  background-color: #f8fafc;
   border-radius: 16px;
   padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-  transition: transform 0.2s ease;
+  border: 1px solid var(--borda);
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .investment-item-card:hover {
   transform: translateY(-2px);
+  border-color: var(--laranja);
 }
 
 .investment-left {
@@ -260,13 +333,13 @@
 
 .investment-names strong {
   font-size: 0.9rem;
-  color: #0f172a;
+  color: var(--texto);
   font-weight: 700;
 }
 
 .investment-names span {
   font-size: 0.78rem;
-  color: #64748b;
+  color: var(--apoio);
   font-weight: 500;
 }
 
@@ -286,13 +359,13 @@
 .investment-return-group strong {
   font-size: 0.9rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto);
 }
 
 .investment-val-group span,
 .investment-return-group span {
   font-size: 0.72rem;
-  color: #64748b;
+  color: var(--apoio);
   font-weight: 600;
 }
 
@@ -303,11 +376,11 @@
 }
 
 .trending-table-wrapper {
-  background-color: #ffffff;
-  border-radius: 20px;
-  padding: 1.2rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  background-color: #f8fafc;
+  border-radius: 16px;
+  padding: 1rem;
+  border: 1px solid var(--borda);
+  overflow-x: auto;
   flex: 1;
 }
 
@@ -315,20 +388,21 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 0.85rem;
+  min-width: 480px;
 }
 
 .trending-table th {
   text-align: left;
-  color: #64748b;
+  color: var(--apoio);
   font-weight: 700;
   padding-bottom: 0.8rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--borda);
 }
 
 .trending-table td {
   padding: 0.75rem 0;
-  color: #334155;
-  border-bottom: 1px solid #f1f5f9;
+  color: var(--texto);
+  border-bottom: 1px solid var(--borda);
 }
 
 .trending-table tr:last-child td {
@@ -336,18 +410,18 @@
 }
 
 .sl-col {
-  color: #64748b;
+  color: var(--apoio);
   font-weight: 700;
 }
 
 .name-col {
   font-weight: 700;
-  color: #0f172a;
+  color: var(--texto);
 }
 
 .price-col {
   font-weight: 800;
-  color: #0f172a;
+  color: var(--laranja);
 }
 
 .return-col {
@@ -366,15 +440,6 @@
 
 .text-negative {
   color: #dc2626;
-}
-
-/* Tabela de transações rola na horizontal em vez de espremer as colunas */
-.trending-table-wrapper {
-  overflow-x: auto;
-}
-
-.trending-table {
-  min-width: 480px;
 }
 
 /* Responsividade */
