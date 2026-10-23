@@ -1,68 +1,111 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap');
 
-/* Tokens e Cores Dinâmicas */
+/* ==========================================================================
+   1. TOKENS E TEMA CLARO COMO PADRÃO ABSOLUTO
+   ========================================================================== */
 :root {
   --mola: cubic-bezier(.34, 1.56, .64, 1);
   --suave: cubic-bezier(.22, 1, .36, 1);
   --fonte-titulo: 'Bricolage Grotesque', sans-serif;
   --fonte-corpo: 'Figtree', sans-serif;
-}
 
-html[data-tema="escuro"],
-:root {
-  --fundo: #0b0b0c;
-  --cartao: #151517;
-  --texto: #ececee;
-  --apoio: #9a9aa2;
-  --salvia: #8fb39a;
-  --circulo-ativo: #f1f1f2;
-  --borda: rgba(255, 255, 255, 0.07);
-  --gradiente-destaque: linear-gradient(135deg, #1c2b22 0%, #151517 100%);
-  --sombra-cartao: 0 12px 32px rgba(0, 0, 0, 0.45);
-}
-
-html[data-tema="claro"] {
+  /* Tema Claro (Padrão) */
   --fundo: #e8e7e0;
   --cartao: #ffffff;
   --texto: #17181a;
   --apoio: #868883;
   --salvia: #6c8b75;
   --circulo-ativo: #17181a;
-  --borda: rgba(0, 0, 0, 0.06);
+  --borda: rgba(0, 0, 0, 0.08);
   --gradiente-destaque: linear-gradient(135deg, #e3ebe5 0%, #ffffff 100%);
   --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05);
 }
 
-/* Sobrescrever layout geral com os tokens sênior do brief */
+/* Caso alternado para escuro */
+html[data-tema="escuro"] {
+  --fundo: #0b0b0c;
+  --cartao: #151517;
+  --texto: #ececee;
+  --apoio: #9a9aa2;
+  --salvia: #8fb39a;
+  --circulo-ativo: #f1f1f2;
+  --borda: rgba(255, 255, 255, 0.08);
+  --gradiente-destaque: linear-gradient(135deg, #1c2b22 0%, #151517 100%);
+  --sombra-cartao: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   2. CORREÇÃO DE LAYOUT E ESTRUTURA (BENTO GRID)
+   ========================================================================== */
 .bento-wrapper-root {
   background-color: var(--fundo) !important;
   color: var(--texto) !important;
   font-family: var(--fonte-corpo) !important;
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+}
+
+.bento-wrapper-root .dashboard-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--fundo);
 }
 
 .bento-wrapper-root .dashboard-top-bar {
   background-color: var(--cartao) !important;
   border-bottom: 1px solid var(--borda) !important;
   color: var(--texto) !important;
+  padding: 1.2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .bento-wrapper-root .page-heading {
   font-family: var(--fonte-titulo) !important;
   color: var(--texto) !important;
+  font-size: 1.5rem;
+  font-weight: 800;
 }
 
-.bento-wrapper-root .dashboard-body-content {
+.bento-body-container {
+  padding: 2rem 2.5rem !important;
   background-color: var(--fundo) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
 }
 
-/* Cartões estilo Bento arredondados (~24px) */
+/* ==========================================================================
+   3. GRID DE 4 COLUNAS (BENTO CARDS)
+   ========================================================================== */
+.bento-metrics-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 1.25rem !important;
+  width: 100% !important;
+}
+
 .bento-card,
 .dashboard-card-container {
   background-color: var(--cartao) !important;
   border-radius: 24px !important;
   border: 1px solid var(--borda) !important;
   box-shadow: var(--sombra-cartao) !important;
+  padding: 1.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 0 !important;
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08) !important;
 }
 
 .card-featured {
@@ -70,7 +113,7 @@ html[data-tema="claro"] {
   border-color: var(--salvia) !important;
 }
 
-/* Animação de entrada em cascata (Stagger) exigida no brief */
+/* Animação de Entrada em Cascata (Stagger) */
 .bento-metrics-grid>*,
 .bento-body-container>* {
   animation: surge 0.8s var(--suave) both;
@@ -89,188 +132,108 @@ html[data-tema="claro"] {
   }
 }
 
-/* Tipografia de Título em Bricolage Grotesque para os números grandes */
+/* Tipografia dos Números (Bricolage Grotesque) */
 .metric-value {
   font-family: var(--fonte-titulo) !important;
   font-size: 2.2rem !important;
   font-weight: 800 !important;
   color: var(--texto) !important;
   letter-spacing: -0.03em !important;
+  margin: 0.4rem 0 !important;
 }
 
 .section-title {
   font-family: var(--fonte-titulo) !important;
   color: var(--texto) !important;
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  padding-bottom: 0.8rem !important;
   border-bottom: 2px solid var(--borda) !important;
+  margin-bottom: 1rem;
 }
 
-/* Itens de lista e tabelas harmonizados */
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--apoio);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.metric-icon-wrapper {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--salvia) 0%, #4e6855 100%);
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(108, 139, 117, 0.3);
+}
+
+.metric-footer {
+  font-size: 0.78rem;
+  color: var(--salvia);
+  font-weight: 700;
+}
+
+/* Grids Inferiores (Últimos Pedidos e Insumos) */
+.dashboard-sections-grid {
+  display: grid !important;
+  grid-template-columns: 1.8fr 1.2fr !important;
+  gap: 1.5rem !important;
+}
+
 .recent-order-item,
 .stock-alert-item {
-  background-color: rgba(255, 255, 255, 0.02) !important;
-  border: 1px solid var(--borda) !important;
-  border-radius: 14px !important;
-}
-
-.recent-order-item:hover,
-.stock-alert-item:hover {
-  border-color: var(--salvia) !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background-color: rgba(0, 0, 0, 0.015);
+  border: 1px solid var(--borda);
+  margin-bottom: 0.6rem;
 }
 
 .order-client,
 .stock-name {
   color: var(--texto) !important;
+  font-weight: 700;
 }
 
 .order-detail-sub {
   color: var(--apoio) !important;
-}
-
-/* Indicador de pulso vivo */
-.status-live-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8rem;
-  margin-top: 4px;
-}
-
-.pulse-ring {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #ea580c;
-  box-shadow: 0 0 0 rgba(234, 88, 12, 0.4);
-  animation: pulsa 1.8s infinite cubic-bezier(0, 0, 0.2, 1);
-}
-
-@keyframes pulsa {
-  0% {
-    transform: scale(1);
-    opacity: 0.9;
-    box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.5);
-  }
-
-  70% {
-    transform: scale(2.2);
-    opacity: 0;
-    box-shadow: 0 0 0 10px rgba(234, 88, 12, 0);
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 0;
-  }
-}
-
-/* Gráfico SVG Estilizado */
-.svg-chart-container {
-  position: relative;
-  width: 100%;
-  margin-top: 0.5rem;
-}
-
-.bento-svg-chart {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-
-.chart-line-smooth {
-  fill: none;
-  stroke: var(--salvia);
-  stroke-width: 3.5;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  animation: desenha 1.3s var(--suave) both;
-}
-
-@keyframes desenha {
-  from {
-    stroke-dashoffset: 1;
-  }
-
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.chart-bar-item {
-  fill: var(--salvia);
-  opacity: 0.25;
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-  animation: cresce 0.7s var(--mola) both;
-  animation-delay: calc(var(--i) * 60ms);
-  cursor: pointer;
-  transition: opacity 0.2s var(--suave);
-}
-
-.chart-bar-item:hover {
-  opacity: 0.6;
-}
-
-@keyframes cresce {
-  from {
-    transform: scaleY(0);
-  }
-}
-
-.chart-point-dot {
-  fill: var(--fundo);
-  stroke: var(--salvia);
-  stroke-width: 2.5;
-  transition: transform 0.2s var(--mola);
-}
-
-.chart-point-dot.active {
-  fill: var(--salvia);
-  stroke: var(--texto);
-}
-
-.chart-tooltip-floating {
-  position: absolute;
-  top: -25px;
-  transform: translateX(-50%);
-  background-color: var(--circulo-ativo);
-  color: var(--fundo);
-  padding: 4px 10px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  font-size: 0.75rem;
-  pointer-events: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  z-index: 10;
-}
-
-.chart-x-axis {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px;
-  margin-top: 8px;
   font-size: 0.78rem;
-  color: var(--apoio);
 }
 
-.chart-x-axis span.active {
-  color: var(--salvia);
-  font-weight: 700;
+.order-price {
+  color: var(--salvia) !important;
+  font-weight: 800;
 }
 
-/* Transições de view */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+/* ==========================================================================
+   4. RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .bento-metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 768px) {
+  .bento-metrics-grid {
+    grid-template-columns: 1fr !important;
+  }
 
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  .dashboard-sections-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .bento-body-container {
+    padding: 1rem !important;
   }
 }
