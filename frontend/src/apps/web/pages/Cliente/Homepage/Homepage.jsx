@@ -293,9 +293,11 @@ export default function Home() {
             </div>
 
             <div className="restaurant-details">
-              <h1 className="restaurant-name">Codó burger</h1>
+              <h1 className="restaurant-name">Codó Burger</h1>
               <div className="restaurant-meta">
-                <span className="address">Setor leste, quadra 42, lote 01</span>
+                <span className="address">
+                  Setor leste, quadra 42, lote 01, Codó - MA
+                </span>
                 <span className="status-tag">Aberto Agora</span>
               </div>
               <div className="restaurant-chips">
