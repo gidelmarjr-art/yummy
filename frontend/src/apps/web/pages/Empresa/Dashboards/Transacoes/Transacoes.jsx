@@ -23,7 +23,7 @@ import {
   FaBars,
   FaChartLine,
 } from "react-icons/fa";
-import SidebarDashboard from "../SidebarDashboard";
+import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { useRealtimeTransactions } from "./useRealtimeTransactions";
 import "../../dashboards-shared.css";
 import "./Transacoes.css";
@@ -76,11 +76,7 @@ export default function Transacoes() {
     <div
       className={`transacoes-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
     >
-      <SidebarDashboard
-        isOpen={isSidebarOpen}
-        toggleSidebar={toggleSidebar}
-        activePage="Transactions"
-      />
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="transacoes-main-content">
         <header className="transacoes-top-bar">
