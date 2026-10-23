@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap');
 
-/* ==========================================================================
-   TEMA CLARO PERMANENTE (Fundo Greige e Cartões Brancos)
-   ========================================================================== */
 :root,
 html[data-tema="escuro"],
 html[data-tema="claro"] {
@@ -64,7 +61,6 @@ html[data-tema="claro"] {
   gap: 1.8rem;
 }
 
-/* Grid de 4 Colunas (Bento Cards) */
 .bento-metrics-grid {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
@@ -96,22 +92,21 @@ html[data-tema="claro"] {
   border-color: var(--salvia) !important;
 }
 
-/* Animação de Entrada em Cascata */
-.bento-metrics-grid>*,
-.bento-body-container>* {
-  animation: surge 0.8s var(--suave) both;
-  animation-delay: calc(var(--i) * 90ms);
+/* Animação suave controlada */
+.bento-metrics-grid>.bento-card {
+  animation: surge 0.6s var(--suave) both;
+  animation-delay: calc(var(--i) * 70ms);
 }
 
 @keyframes surge {
   from {
     opacity: 0;
-    transform: translateY(22px) scale(0.97);
+    transform: translateY(16px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -162,6 +157,125 @@ html[data-tema="claro"] {
   font-weight: 700;
 }
 
+/* ESTILOS DO POINTS CHART */
+.section-title-clean {
+  font-family: var(--fonte-titulo) !important;
+  color: var(--texto) !important;
+  font-size: 1.1rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 1.2rem;
+}
+
+.points-chart-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+}
+
+.chart-y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 120px;
+  font-size: 0.75rem;
+  color: var(--apoio);
+  font-weight: 500;
+  text-align: right;
+  padding-right: 0.4rem;
+  user-select: none;
+  line-height: 1;
+}
+
+.svg-chart-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-svg-chart {
+  width: 100%;
+  height: 120px;
+  overflow: visible;
+}
+
+.chart-grid-lines line {
+  stroke: var(--borda);
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+}
+
+.chart-line-smooth {
+  fill: none;
+  stroke: var(--salvia) !important;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  animation: desenha 1.2s var(--suave) both;
+}
+
+@keyframes desenha {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.points-chart-node {
+  fill: #ffffff !important;
+  stroke: var(--salvia) !important;
+  stroke-width: 3;
+  transition: transform 0.2s var(--mola), r 0.2s var(--mola);
+}
+
+.points-chart-node.active {
+  fill: var(--salvia) !important;
+  stroke: var(--texto) !important;
+}
+
+.chart-x-axis {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--apoio);
+}
+
+.chart-x-axis span {
+  position: absolute;
+  transform: translateX(-50%);
+  transition: color 0.2s ease;
+}
+
+.chart-x-axis span.active {
+  color: var(--salvia);
+  font-weight: 700;
+}
+
+.chart-tooltip-floating {
+  position: absolute;
+  transform: translate(-50%, -120%);
+  background-color: var(--circulo-ativo);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+  pointer-events: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+  white-space: nowrap;
+}
+
 /* Grids Inferiores */
 .dashboard-sections-grid {
   display: grid !important;
@@ -169,9 +283,6 @@ html[data-tema="claro"] {
   gap: 1.5rem !important;
 }
 
-/* ==========================================================================
-   CORREÇÃO DE ALINHAMENTO E TRUNCAMENTO DOS ÚLTIMOS PEDIDOS
-   ========================================================================== */
 .recent-orders-list,
 .stock-alerts-list {
   display: flex;
@@ -196,7 +307,6 @@ html[data-tema="claro"] {
   flex-direction: column;
   gap: 0.15rem;
   min-width: 0;
-  /* Essencial para o ellipsis funcionar em flex/grid */
 }
 
 .order-client,
@@ -214,7 +324,6 @@ html[data-tema="claro"] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Corta textos longos de pratos com "..." mantendo o alinhamento */
 }
 
 .order-price {
@@ -224,7 +333,6 @@ html[data-tema="claro"] {
   justify-self: flex-end;
 }
 
-/* Badges e Status */
 .status-pill {
   padding: 0.3rem 0.75rem;
   border-radius: 12px;
@@ -258,7 +366,8 @@ html[data-tema="claro"] {
   color: #16a34a;
 }
 
-.status-cancelado {
+.status-cancelado,
+.status-cancelados {
   background: #fef2f2;
   color: #dc2626;
 }
@@ -285,102 +394,6 @@ html[data-tema="claro"] {
   white-space: nowrap;
 }
 
-/* Gráfico SVG */
-.svg-chart-container {
-  position: relative;
-  width: 100%;
-  margin-top: 0.5rem;
-}
-
-.bento-svg-chart {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-
-.chart-line-smooth {
-  fill: none;
-  stroke: var(--salvia);
-  stroke-width: 3.5;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  animation: desenha 1.3s var(--suave) both;
-}
-
-@keyframes desenha {
-  from {
-    stroke-dashoffset: 1;
-  }
-
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.chart-bar-item {
-  fill: var(--salvia);
-  opacity: 0.25;
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-  animation: cresce 0.7s var(--mola) both;
-  animation-delay: calc(var(--i) * 60ms);
-  cursor: pointer;
-  transition: opacity 0.2s var(--suave);
-}
-
-.chart-bar-item:hover {
-  opacity: 0.6;
-}
-
-@keyframes cresce {
-  from {
-    transform: scaleY(0);
-  }
-}
-
-.chart-point-dot {
-  fill: var(--fundo);
-  stroke: var(--salvia);
-  stroke-width: 2.5;
-  transition: transform 0.2s var(--mola);
-}
-
-.chart-point-dot.active {
-  fill: var(--salvia);
-  stroke: var(--texto);
-}
-
-.chart-tooltip-floating {
-  position: absolute;
-  top: -25px;
-  transform: translateX(-50%);
-  background-color: var(--circulo-ativo);
-  color: #ffffff;
-  padding: 4px 10px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  font-size: 0.75rem;
-  pointer-events: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-}
-
-.chart-x-axis {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px;
-  margin-top: 8px;
-  font-size: 0.78rem;
-  color: var(--apoio);
-}
-
-.chart-x-axis span.active {
-  color: var(--salvia);
-  font-weight: 700;
-}
-
-/* Responsividade */
 @media (max-width: 1200px) {
   .bento-metrics-grid {
     grid-template-columns: repeat(2, 1fr) !important;

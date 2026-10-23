@@ -15,7 +15,6 @@ import { getGeral } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Geral.css";
 
-// Hook de contagem animada numérica
 function useContagem(alvoNum, duracao = 1100) {
   const reduzido =
     typeof window !== "undefined"
@@ -61,7 +60,6 @@ export default function Dashboard() {
   const [tema, setTema] = useState("claro");
   const [pontoAtivoChart, setPontoAtivoChart] = useState(null);
 
-  // Extrair valor numérico puro do faturamento (ex: "R$ 102,60" -> 102.60)
   const numFaturamento =
     parseFloat(metrics.totalSales.replace(/[^\d,]/g, "").replace(",", ".")) ||
     0;
@@ -130,25 +128,39 @@ export default function Dashboard() {
     });
   };
 
+  // Coordenadas perfeitamente mapeadas para o viewBox 0 0 400 120
+  // Y: 1232 = 10px, 1050 = 32.5px, 700 = 55px, 350 = 77.5px, 0 = 100px
   const dadosGrafico = [
-    { dia: "Seg", valor: 2100, x: 20, y: 80 },
-    { dia: "Ter", valor: 2850, x: 80, y: 62 },
-    { dia: "Qua", valor: 3400, x: 140, y: 48 },
-    { dia: "Qui", valor: 3100, x: 200, y: 55 },
-    { dia: "Sex", valor: 4900, x: 260, y: 15 },
-    { dia: "Sáb", valor: 5600, x: 320, y: 5 },
-    { dia: "Dom", valor: numFaturamento || 4280, x: 380, y: 28 },
+    { dia: "Seg", valor: 350, x: 25, y: 77.5 },
+    { dia: "Ter", valor: 520, x: 80, y: 66.8 },
+    { dia: "Qua", valor: 700, x: 135, y: 55.0 },
+    { dia: "Qui", valor: 610, x: 190, y: 60.8 },
+    { dia: "Sex", valor: 980, x: 245, y: 37.0 },
+    { dia: "Sáb", valor: 1232, x: 300, y: 10.0 },
+    { dia: "Dom", valor: numFaturamento || 1050, x: 355, y: 32.5 },
   ];
+
+  const pathD =
+    `M ${dadosGrafico[0].x},${dadosGrafico[0].y} ` +
+    dadosGrafico
+      .slice(1)
+      .map((p, i) => {
+        const prev = dadosGrafico[i];
+        const cx1 = prev.x + (p.x - prev.x) / 2;
+        const cy1 = prev.y;
+        const cx2 = prev.x + (p.x - prev.x) / 2;
+        const cy2 = p.y;
+        return `C ${cx1},${cy1} ${cx2},${cy2} ${p.x},${p.y}`;
+      })
+      .join(" ");
 
   return (
     <div
       className={`dashboard-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
     >
-      {/* Sidebar Original */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="dashboard-main-content">
-        {/* Header Superior */}
         <header className="dashboard-top-bar">
           <div className="top-bar-left">
             {!isSidebarOpen && (
@@ -187,13 +199,10 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Corpo Bento Grid */}
         <div className="dashboard-body-content bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          {/* Cartões Superiores Bento */}
           <div className="metrics-grid bento-metrics-grid">
-            {/* Cartão 1: Faturamento */}
             <div
               className="metric-card bento-card card-featured"
               style={{ "--i": 0 }}
@@ -212,7 +221,6 @@ export default function Dashboard() {
               <span className="metric-footer">Concluído hoje</span>
             </div>
 
-            {/* Cartão 2: Pedidos Ativos */}
             <div className="metric-card bento-card" style={{ "--i": 1 }}>
               <div className="metric-header">
                 <span>Pedidos Ativos</span>
@@ -231,7 +239,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Cartão 3: Alertas de Estoque */}
             <div className="metric-card bento-card" style={{ "--i": 2 }}>
               <div className="metric-header">
                 <span>Alertas de Estoque</span>
@@ -247,7 +254,6 @@ export default function Dashboard() {
               </span>
             </div>
 
-            {/* Cartão 4: Total Clientes */}
             <div className="metric-card bento-card" style={{ "--i": 3 }}>
               <div className="metric-header">
                 <span>Total Clientes</span>
@@ -262,87 +268,94 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Gráfico SVG */}
           <div
             className="dashboard-card-container bento-chart-box"
             style={{ "--i": 4 }}
           >
-            <h3 className="section-title">Fluxo de Vendas Semanal</h3>
-            <div
-              className="svg-chart-container"
-              onMouseLeave={() => setPontoAtivoChart(null)}
-            >
-              <svg viewBox="0 0 400 120" className="bento-svg-chart">
-                <defs>
-                  <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="0%"
-                      stopColor="var(--salvia, #6c8b75)"
-                      stopOpacity="0.35"
-                    />
-                    <stop
-                      offset="100%"
-                      stopColor="var(--salvia, #6c8b75)"
-                      stopOpacity="0.0"
-                    />
-                  </linearGradient>
-                </defs>
-                <polygon
-                  points="20,100 20,80 80,62 140,48 200,55 260,15 320,5 380,28 380,100"
-                  fill="url(#chartGrad)"
-                  className="area-fade"
-                />
-                <path
-                  d="M 20,80 C 50,70 50,62 80,62 C 110,62 110,48 140,48 C 170,48 170,55 200,55 C 230,55 230,15 260,15 C 290,15 290,5 320,5 C 350,5 350,28 380,28"
-                  pathLength="1"
-                  className="chart-line-smooth"
-                />
-                {dadosGrafico.map((d, idx) => (
-                  <g key={idx} onMouseEnter={() => setPontoAtivoChart(idx)}>
-                    <rect
-                      x={d.x - 12}
-                      y={d.y}
-                      width="24"
-                      height={100 - d.y}
-                      className="chart-bar-item"
-                      style={{ "--i": idx }}
-                    />
-                    <circle
-                      cx={d.x}
-                      cy={d.y}
-                      r={pontoAtivoChart === idx ? 5 : 3.5}
-                      className={`chart-point-dot ${pontoAtivoChart === idx ? "active" : ""}`}
-                    />
-                  </g>
-                ))}
-              </svg>
-              {pontoAtivoChart !== null && (
-                <div
-                  className="chart-tooltip-floating"
-                  style={{
-                    left: `${(dadosGrafico[pontoAtivoChart].x / 400) * 100}%`,
-                  }}
-                >
-                  <strong>{dadosGrafico[pontoAtivoChart].dia}</strong>
-                  <span>
-                    R${" "}
-                    {dadosGrafico[pontoAtivoChart].valor.toLocaleString(
-                      "pt-BR",
-                    )}
-                  </span>
-                </div>
-              )}
+            <div className="chart-header-title">
+              <h3 className="section-title-clean">Fluxo de Vendas Semanal</h3>
             </div>
-            <div className="chart-x-axis">
-              {dadosGrafico.map((d, i) => (
-                <span key={i} className={pontoAtivoChart === i ? "active" : ""}>
-                  {d.dia}
-                </span>
-              ))}
+
+            <div className="points-chart-wrapper">
+              <div className="chart-y-axis">
+                <span>1.232</span>
+                <span>1.050</span>
+                <span>700</span>
+                <span>350</span>
+                <span>0</span>
+              </div>
+
+              <div
+                className="svg-chart-container"
+                onMouseLeave={() => setPontoAtivoChart(null)}
+              >
+                <svg viewBox="0 0 400 120" className="bento-svg-chart">
+                  <g className="chart-grid-lines">
+                    <line x1="0" y1="10" x2="400" y2="10" />
+                    <line x1="0" y1="32.5" x2="400" y2="32.5" />
+                    <line x1="0" y1="55" x2="400" y2="55" />
+                    <line x1="0" y1="77.5" x2="400" y2="77.5" />
+                    <line x1="0" y1="100" x2="400" y2="100" />
+                  </g>
+
+                  <path
+                    d={pathD}
+                    pathLength="1"
+                    className="chart-line-smooth"
+                  />
+
+                  {dadosGrafico.map((d, idx) => (
+                    <g key={idx} onMouseEnter={() => setPontoAtivoChart(idx)}>
+                      <circle
+                        cx={d.x}
+                        cy={d.y}
+                        r="14"
+                        fill="transparent"
+                        style={{ cursor: "pointer" }}
+                      />
+                      <circle
+                        cx={d.x}
+                        cy={d.y}
+                        r={pontoAtivoChart === idx ? 6 : 4.5}
+                        className={`points-chart-node ${pontoAtivoChart === idx ? "active" : ""}`}
+                      />
+                    </g>
+                  ))}
+                </svg>
+
+                {pontoAtivoChart !== null && (
+                  <div
+                    className="chart-tooltip-floating"
+                    style={{
+                      left: `${(dadosGrafico[pontoAtivoChart].x / 400) * 100}%`,
+                      top: `${(dadosGrafico[pontoAtivoChart].y / 120) * 100}%`,
+                    }}
+                  >
+                    <strong>{dadosGrafico[pontoAtivoChart].dia}</strong>
+                    <span>
+                      R${" "}
+                      {dadosGrafico[pontoAtivoChart].valor.toLocaleString(
+                        "pt-BR",
+                      )}
+                    </span>
+                  </div>
+                )}
+
+                <div className="chart-x-axis">
+                  {dadosGrafico.map((d, i) => (
+                    <span
+                      key={i}
+                      className={pontoAtivoChart === i ? "active" : ""}
+                      style={{ left: `${(d.x / 400) * 100}%` }}
+                    >
+                      {d.dia}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Últimos Pedidos & Insumos Críticos Ordenados */}
           <div className="dashboard-sections-grid">
             <div className="dashboard-card-container" style={{ "--i": 5 }}>
               <h3 className="section-title">Últimos Pedidos em Tempo Real</h3>
@@ -382,8 +395,10 @@ export default function Dashboard() {
                 {stockAlerts
                   .slice()
                   .sort((a, b) => {
-                    if (a.status === "Crítico" && b.status !== "Crítico") return -1;
-                    if (b.status === "Crítico" && a.status !== "Crítico") return 1;
+                    if (a.status === "Crítico" && b.status !== "Crítico")
+                      return -1;
+                    if (b.status === "Crítico" && a.status !== "Crítico")
+                      return 1;
                     return 0;
                   })
                   .map((stock, idx) => (
