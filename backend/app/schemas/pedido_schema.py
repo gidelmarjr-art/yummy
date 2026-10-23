@@ -32,6 +32,10 @@ class PedidoStatusUpdate(BaseModel):
     status: str
 
 
+class PedidoCancelamentoInput(BaseModel):
+    motivo: Optional[str] = Field(None, max_length=255)
+
+
 class ItemPedidoResponse(BaseModel):
     id: int
     produto_id: Optional[int]

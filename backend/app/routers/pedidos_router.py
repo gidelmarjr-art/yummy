@@ -9,12 +9,19 @@ from app.models.pedido import Pedido
 from app.models.produto import Produto
 from app.models.usuario import Usuario
 from app.realtime import manager
-from app.schemas.pedido_schema import PedidoClienteCreate, PedidoCreate, PedidoResponse, PedidoStatusUpdate
+from app.schemas.pedido_schema import (
+    PedidoCancelamentoInput,
+    PedidoClienteCreate,
+    PedidoCreate,
+    PedidoResponse,
+    PedidoStatusUpdate,
+)
 from app.security.dependencies import get_current_usuario, require_equipe_operacional, require_gerencia
 from app.services.estoque_service import baixar_estoque_por_produto, gerar_codigo_sequencial
 from app.services.pedido_service import (
     STATUS_QUE_BAIXA_ESTOQUE,
     calcular_total,
+    cancelar_pedido_service,
     criar_transacao_se_necessario,
     pedido_para_payload_realtime,
     proximo_status,
@@ -93,6 +100,25 @@ async def criar_meu_pedido(dados: PedidoClienteCreate, db: Session = Depends(get
     return await _criar_pedido(db, usuario.id, usuario.nome_completo or usuario.usuario, dados.local, "app", dados.forma_pagamento, itens_validados)
 
 
+@router.patch("/meu/{pedido_id}/cancelar", response_model=PedidoResponse)
+async def cancelar_meu_pedido(
+    pedido_id: int,
+    dados: PedidoCancelamentoInput = None,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(get_current_usuario),
+):
+    """Permite que o cliente cancele o seu próprio pedido (apenas se estiver em 'Novos')."""
+    pedido = _carregar(db.query(Pedido)).filter(Pedido.id == pedido_id, Pedido.cliente_id == usuario.id).first()
+    if not pedido:
+        raise HTTPException(status_code=404, detail="Pedido não encontrado.")
+
+    motivo = dados.motivo if dados else None
+    pedido_cancelado = cancelar_pedido_service(db, pedido, usuario, motivo)
+
+    await manager.broadcast("dashboard", {"pedidoAtualizado": pedido_para_payload_realtime(pedido_cancelado)})
+    return pedido_cancelado
+
+
 @router.get("/{pedido_id}", response_model=PedidoResponse)
 def obter_pedido(
     pedido_id: int, db: Session = Depends(get_db), _u: Usuario = Depends(require_equipe_operacional)
@@ -109,9 +135,27 @@ async def criar_pedido(
     db: Session = Depends(get_db),
     _u: Usuario = Depends(require_equipe_operacional),
 ):
-    """Lançamento manual de pedido (balcão/garçom). O checkout do cliente
-    final via QR Code/app usa este mesmo endpoint mais adiante."""
+    """Lançamento manual de pedido (balcão/garçom)."""
     return await _criar_pedido(db, dados.cliente_id, dados.cliente_nome, dados.local, dados.canal, dados.forma_pagamento, dados.itens)
+
+
+@router.patch("/{pedido_id}/cancelar", response_model=PedidoResponse)
+async def cancelar_pedido_empresa(
+    pedido_id: int,
+    dados: PedidoCancelamentoInput = None,
+    db: Session = Depends(get_db),
+    _u: Usuario = Depends(require_equipe_operacional),
+):
+    """Permite que a equipe/empresa cancele qualquer pedido, estornando o estoque se necessário."""
+    pedido = _carregar(db.query(Pedido)).filter(Pedido.id == pedido_id).first()
+    if not pedido:
+        raise HTTPException(status_code=404, detail="Pedido não encontrado.")
+
+    motivo = dados.motivo if dados else None
+    pedido_cancelado = cancelar_pedido_service(db, pedido, _u, motivo)
+
+    await manager.broadcast("dashboard", {"pedidoAtualizado": pedido_para_payload_realtime(pedido_cancelado)})
+    return pedido_cancelado
 
 
 @router.patch("/{pedido_id}/avancar", response_model=PedidoResponse)
@@ -120,9 +164,7 @@ async def avancar_status(
     db: Session = Depends(get_db),
     _u: Usuario = Depends(require_equipe_operacional),
 ):
-    """Move o pedido pro próximo status do fluxo (Novos -> Em preparo ->
-    Prontos -> Entregues -> Concluídos), dando baixa no estoque e
-    gerando a transação financeira nos momentos certos."""
+    """Move o pedido pro próximo status do fluxo."""
     pedido = _carregar(db.query(Pedido)).filter(Pedido.id == pedido_id).first()
     if not pedido:
         raise HTTPException(status_code=404, detail="Pedido não encontrado.")
@@ -152,7 +194,7 @@ async def definir_status(
     db: Session = Depends(get_db),
     _u: Usuario = Depends(require_equipe_operacional),
 ):
-    """Define um status específico diretamente (ex: 'Cancelado')."""
+    """Define um status específico diretamente."""
     pedido = _carregar(db.query(Pedido)).filter(Pedido.id == pedido_id).first()
     if not pedido:
         raise HTTPException(status_code=404, detail="Pedido não encontrado.")
