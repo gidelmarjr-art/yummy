@@ -11,6 +11,7 @@ import {
   FaMoneyBillWave,
   FaQrcode,
   FaReceipt,
+  FaBan,
 } from "react-icons/fa";
 import "./AcompanharEntrega.css";
 import Header from "../../../components/Header/Header";
@@ -24,10 +25,8 @@ const STEPS = [
   { key: "entregue", label: "Entregue", icon: <FaHome /> },
 ];
 
-// De quanto em quanto tempo (ms) consulta o status do pedido no backend.
 const POLL_INTERVAL_MS = 5000;
 
-// Status do pedido no banco -> etapa mostrada na tela.
 const STATUS_PARA_ETAPA = {
   Novos: 0,
   "Em preparo": 1,
@@ -67,8 +66,8 @@ export default function AcompanharEntrega() {
   );
   const [cancelado, setCancelado] = useState(order?.status === "Cancelado");
   const [orderCode] = useState(() => order?.code || "");
+  const [loadingCancel, setLoadingCancel] = useState(false);
 
-  // Consulta o status real do pedido de tempos em tempos, até ser entregue.
   useEffect(() => {
     if (!order?.pedidoId || cancelado || stepIndex >= STEPS.length - 1) return;
 
@@ -82,7 +81,7 @@ export default function AcompanharEntrega() {
         const etapa = STATUS_PARA_ETAPA[pedido.status];
         if (etapa !== undefined) setStepIndex(etapa);
       } catch {
-        // falha de rede momentânea: tenta de novo no próximo ciclo
+        // falha momentânea
       }
     }, POLL_INTERVAL_MS);
 
@@ -100,8 +99,35 @@ export default function AcompanharEntrega() {
     return () => ctx.revert();
   }, []);
 
-  // Acesso direto à rota (sem vir do fluxo de pagamento) — não temos pedido
-  // pra mostrar, então oferece um estado vazio em vez de quebrar a tela.
+  const handleCancelarCliente = async () => {
+    if (!window.confirm("Deseja realmente cancelar este pedido?")) return;
+    setLoadingCancel(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `http://localhost:8000/pedidos/meu/${order.pedidoId}/cancelar`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(
+          errData.detail || "Não foi possível cancelar o pedido.",
+        );
+      }
+      setCancelado(true);
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setLoadingCancel(false);
+    }
+  };
+
   if (!order) {
     return (
       <div className="tracking-page-bg" ref={containerRef}>
@@ -139,30 +165,65 @@ export default function AcompanharEntrega() {
             </span>
           </div>
           <span
-            className={`tracking-status-pill ${isDelivered ? "is-delivered" : ""}`}
+            className={`tracking-status-pill ${isDelivered && !cancelado ? "is-delivered" : ""}`}
+            style={
+              cancelado
+                ? {
+                    backgroundColor: "rgba(239, 68, 68, 0.12)",
+                    color: "#ef4444",
+                  }
+                : {}
+            }
           >
             {cancelado ? "Pedido cancelado" : STEPS[stepIndex].label}
           </span>
         </div>
 
-        <div className="tracking-stepper stagger-tracking">
-          {STEPS.map((step, i) => (
-            <div
-              key={step.key}
-              className={`tracking-step ${i <= stepIndex ? "is-done" : ""} ${
-                i === stepIndex ? "is-current" : ""
-              }`}
-            >
-              <div className="tracking-step__icon">{step.icon}</div>
-              <span className="tracking-step__label">{step.label}</span>
-              {i < STEPS.length - 1 && (
-                <div
-                  className={`tracking-step__line ${i < stepIndex ? "is-filled" : ""}`}
-                />
-              )}
-            </div>
-          ))}
-        </div>
+        {!cancelado && (
+          <div className="tracking-stepper stagger-tracking">
+            {STEPS.map((step, i) => (
+              <div
+                key={step.key}
+                className={`tracking-step ${i <= stepIndex ? "is-done" : ""} ${
+                  i === stepIndex ? "is-current" : ""
+                }`}
+              >
+                <div className="tracking-step__icon">{step.icon}</div>
+                <span className="tracking-step__label">{step.label}</span>
+                {i < STEPS.length - 1 && (
+                  <div
+                    className={`tracking-step__line ${i < stepIndex ? "is-filled" : ""}`}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {cancelado && (
+          <div
+            className="tracking-card stagger-tracking"
+            style={{
+              textAlign: "center",
+              padding: "2rem",
+              marginBottom: "1.4rem",
+            }}
+          >
+            <FaBan
+              style={{
+                fontSize: "2.5rem",
+                color: "#ef4444",
+                marginBottom: "0.5rem",
+              }}
+            />
+            <h2 style={{ color: "#ef4444", marginBottom: "0.5rem" }}>
+              Este pedido foi cancelado
+            </h2>
+            <p style={{ color: "#64748b", fontSize: "0.9rem" }}>
+              O pedido não será mais preparado nem entregue.
+            </p>
+          </div>
+        )}
 
         <div className="tracking-grid">
           <div className="tracking-card stagger-tracking">
@@ -217,11 +278,37 @@ export default function AcompanharEntrega() {
           </div>
         </div>
 
+        {/* Botão de cancelamento para o cliente (só aparece se estiver na etapa "Novos" e não cancelado) */}
+        {!cancelado && stepIndex === 0 && (
+          <button
+            className="stagger-tracking"
+            onClick={handleCancelarCliente}
+            disabled={loadingCancel}
+            style={{
+              width: "100%",
+              backgroundColor: "#fef2f2",
+              color: "#ef4444",
+              border: "1px solid #fecaca",
+              padding: "0.8rem",
+              borderRadius: "12px",
+              fontWeight: "700",
+              fontSize: "0.95rem",
+              cursor: "pointer",
+              marginBottom: "1rem",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {loadingCancel ? "Cancelando..." : "Cancelar meu pedido"}
+          </button>
+        )}
+
         <button
           className="btn-tracking-home stagger-tracking"
           onClick={() => navigate("/home")}
         >
-          {isDelivered ? "Voltar para o início" : "Continuar navegando"}
+          {isDelivered || cancelado
+            ? "Voltar para o início"
+            : "Continuar navegando"}
         </button>
       </main>
     </div>

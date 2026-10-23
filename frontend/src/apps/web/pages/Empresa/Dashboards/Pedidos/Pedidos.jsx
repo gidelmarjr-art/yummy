@@ -10,6 +10,7 @@ import {
   FaClock,
   FaEye,
   FaTimes,
+  FaBan,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import {
@@ -22,7 +23,15 @@ import {
 import "../dashboards-shared.css";
 import "./Pedidos.css";
 
-const STATUS_TABS = ["Novos", "Em preparo", "Prontos", "Entregues", "Concluídos", "Todos"];
+const STATUS_TABS = [
+  "Novos",
+  "Em preparo",
+  "Prontos",
+  "Entregues",
+  "Concluídos",
+  "Cancelado",
+  "Todos",
+];
 
 const PROXIMO_STATUS = {
   Novos: "Em preparo",
@@ -37,8 +46,15 @@ function pedidoParaLinha(pedido) {
     id: pedido.codigo,
     customer: pedido.cliente_nome,
     location: pedido.local,
-    itemsSummary: pedido.itens.map((i) => `${i.quantidade}x ${i.nome_produto}`).join(", ") || "—",
-    items: pedido.itens.map((i) => ({ name: i.nome_produto, qty: i.quantidade, price: Number(i.preco_unitario) })),
+    itemsSummary:
+      pedido.itens
+        .map((i) => `${i.quantidade}x ${i.nome_produto}`)
+        .join(", ") || "—",
+    items: pedido.itens.map((i) => ({
+      name: i.nome_produto,
+      qty: i.quantidade,
+      price: Number(i.preco_unitario),
+    })),
     status: pedido.status,
     timeAgo: formatTimeAgo(pedido.criado_em),
     total: Number(pedido.total),
@@ -53,9 +69,7 @@ export default function Pedidos() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusDropdownFilter, setStatusDropdownFilter] = useState("Todos");
 
-  // Estado para controlar a abertura/fechamento da Sidebar
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
   const [salvandoPedido, setSalvandoPedido] = useState(false);
@@ -104,6 +118,36 @@ export default function Pedidos() {
     }
   };
 
+  const handleCancelarPedidoAdmin = async (dbId) => {
+    if (
+      !window.confirm(
+        "Tem certeza que deseja cancelar este pedido? O estoque será estornado se aplicável.",
+      )
+    )
+      return;
+    try {
+      const token = localStorage.getItem("token"); // ou a forma como você recupera o token de autenticação
+      const response = await fetch(
+        `http://localhost:8000/pedidos/${dbId}/cancelar`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Erro ao cancelar pedido.");
+      }
+      setSelectedOrderDetails(null);
+      await carregarPedidos();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   const handleCreateOrder = async (e) => {
     e.preventDefault();
     if (!newOrderForm.customer) return alert("Informe o nome do cliente.");
@@ -117,11 +161,23 @@ export default function Pedidos() {
         cliente_nome: newOrderForm.customer,
         local: newOrderForm.location,
         canal: "local",
-        itens: [{ nome_produto: newOrderForm.itemName, quantidade: qtyNum, preco_unitario: priceNum }],
+        itens: [
+          {
+            nome_produto: newOrderForm.itemName,
+            quantidade: qtyNum,
+            preco_unitario: priceNum,
+          },
+        ],
       });
       await carregarPedidos();
       setIsNewOrderModalOpen(false);
-      setNewOrderForm({ customer: "", location: "Mesa 01", itemName: "Sorvete com Brownie", quantity: 1, price: 18.0 });
+      setNewOrderForm({
+        customer: "",
+        location: "Mesa 01",
+        itemName: "Sorvete com Brownie",
+        quantity: 1,
+        price: 18.0,
+      });
     } catch (err) {
       alert(err.detail || "Não foi possível lançar o pedido.");
     } finally {
@@ -131,7 +187,8 @@ export default function Pedidos() {
 
   const filteredOrders = orders.filter((order) => {
     const matchesTab = activeTab === "Todos" || order.status === activeTab;
-    const matchesDropdown = statusDropdownFilter === "Todos" || order.status === statusDropdownFilter;
+    const matchesDropdown =
+      statusDropdownFilter === "Todos" || order.status === statusDropdownFilter;
     const matchesSearch =
       order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.id.includes(searchTerm) ||
@@ -141,10 +198,9 @@ export default function Pedidos() {
 
   return (
     <div className="pedidos-page-layout">
-      {/* Sidebar com estado configurado */}
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} 
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
       />
 
       <main className="pedidos-main-content">
@@ -161,10 +217,17 @@ export default function Pedidos() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <button className="action-circle-btn" aria-label="Configurações"><FaCog /></button>
-            <button className="action-circle-btn" aria-label="Notificações"><FaBell /></button>
+            <button className="action-circle-btn" aria-label="Configurações">
+              <FaCog />
+            </button>
+            <button className="action-circle-btn" aria-label="Notificações">
+              <FaBell />
+            </button>
             <div className="user-profile-avatar">
-              <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Avatar" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                alt="Avatar"
+              />
             </div>
           </div>
         </header>
@@ -185,6 +248,7 @@ export default function Pedidos() {
                 <option value="Prontos">Prontos</option>
                 <option value="Entregues">Entregues</option>
                 <option value="Concluídos">Concluídos</option>
+                <option value="Cancelado">Cancelado</option>
               </select>
               <FaChevronDown className="dropdown-icon" />
             </div>
@@ -192,10 +256,16 @@ export default function Pedidos() {
             <div className="novo-pedido-card-top">
               <span className="card-title">Novo Pedido</span>
               <div className="novo-pedido-buttons">
-                <button className="btn-orange-action" onClick={() => setIsNewOrderModalOpen(true)}>
+                <button
+                  className="btn-orange-action"
+                  onClick={() => setIsNewOrderModalOpen(true)}
+                >
                   <FaPlus /> Criar Pedido
                 </button>
-                <button className="btn-orange-action" onClick={() => window.print()}>
+                <button
+                  className="btn-orange-action"
+                  onClick={() => window.print()}
+                >
                   <FaPrint /> Relatório
                 </button>
               </div>
@@ -205,14 +275,18 @@ export default function Pedidos() {
           <div className="pedidos-table-container">
             <div className="status-tab-bar">
               {STATUS_TABS.map((tab) => {
-                const count = tab === "Todos" ? orders.length : orders.filter((o) => o.status === tab).length;
+                const count =
+                  tab === "Todos"
+                    ? orders.length
+                    : orders.filter((o) => o.status === tab).length;
                 return (
                   <button
                     key={tab}
                     className={`status-tab-item ${activeTab === tab ? "active" : ""}`}
                     onClick={() => setActiveTab(tab)}
                   >
-                    {tab} {count > 0 && <span className="tab-badge">{count}</span>}
+                    {tab}{" "}
+                    {count > 0 && <span className="tab-badge">{count}</span>}
                   </button>
                 );
               })}
@@ -224,43 +298,86 @@ export default function Pedidos() {
               ) : filteredOrders.length > 0 ? (
                 filteredOrders.map((order) => (
                   <div key={order.dbId} className="pedido-row-item">
-                    <div className="order-receipt-icon"><FaReceipt /></div>
+                    <div className="order-receipt-icon">
+                      <FaReceipt />
+                    </div>
 
                     <div className="order-id-col">
                       <strong className="order-code">{order.id}</strong>
-                      <span className="order-time"><FaClock /> {order.timeAgo}</span>
+                      <span className="order-time">
+                        <FaClock /> {order.timeAgo}
+                      </span>
                     </div>
 
                     <div className="order-info-col">
-                      <strong className="customer-name">{order.customer} ({order.location})</strong>
+                      <strong className="customer-name">
+                        {order.customer} ({order.location})
+                      </strong>
                       <p className="order-summary">{order.itemsSummary}</p>
                     </div>
 
                     <div className="order-status-badge-col">
-                      <span className={`status-pill status-${order.status.toLowerCase().replace(/\s+/g, "-")}`}>
+                      <span
+                        className={`status-pill status-${order.status.toLowerCase().replace(/\s+/g, "-")}`}
+                      >
                         {order.status}
                       </span>
                     </div>
 
                     <span className="order-total-price">
-                      {order.total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {order.total.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
                     </span>
 
                     <div className="order-actions-col">
-                      <button className="btn-view-details" onClick={() => setSelectedOrderDetails(order)} title="Ver Detalhes">
+                      <button
+                        className="btn-view-details"
+                        onClick={() => setSelectedOrderDetails(order)}
+                        title="Ver Detalhes"
+                      >
                         <FaEye /> Ver
                       </button>
 
-                      {order.status !== "Concluídos" && (
-                        <button className="btn-advance-status" onClick={() => handleAdvanceStatus(order.dbId)}>
-                          Mudar p/ {PROXIMO_STATUS[order.status] || "Concluídos"}
-                        </button>
-                      )}
+                      {order.status !== "Concluídos" &&
+                        order.status !== "Cancelado" && (
+                          <>
+                            <button
+                              className="btn-advance-status"
+                              onClick={() => handleAdvanceStatus(order.dbId)}
+                            >
+                              Mudar p/{" "}
+                              {PROXIMO_STATUS[order.status] || "Concluídos"}
+                            </button>
+                            <button
+                              className="btn-cancel-admin"
+                              onClick={() =>
+                                handleCancelarPedidoAdmin(order.dbId)
+                              }
+                              title="Cancelar Pedido"
+                              style={{
+                                backgroundColor: "#ef4444",
+                                color: "#fff",
+                                border: "none",
+                                padding: "0.45rem 0.6rem",
+                                borderRadius: "8px",
+                                cursor: "pointer",
+                                fontWeight: "600",
+                                fontSize: "0.78rem",
+                              }}
+                            >
+                              <FaBan />
+                            </button>
+                          </>
+                        )}
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="empty-orders-msg">Nenhum pedido encontrado nesta seção.</div>
+                <div className="empty-orders-msg">
+                  Nenhum pedido encontrado nesta seção.
+                </div>
               )}
             </div>
           </div>
@@ -272,33 +389,89 @@ export default function Pedidos() {
           <div className="pedidos-modal-card">
             <div className="modal-header">
               <h2>Detalhes do Pedido #{selectedOrderDetails.id}</h2>
-              <button className="btn-close-modal" onClick={() => setSelectedOrderDetails(null)}><FaTimes /></button>
+              <button
+                className="btn-close-modal"
+                onClick={() => setSelectedOrderDetails(null)}
+              >
+                <FaTimes />
+              </button>
             </div>
 
             <div className="modal-body-details">
-              <p><strong>Cliente:</strong> {selectedOrderDetails.customer}</p>
-              <p><strong>Local:</strong> {selectedOrderDetails.location}</p>
-              <p><strong>Status Atual:</strong> {selectedOrderDetails.status}</p>
+              <p>
+                <strong>Cliente:</strong> {selectedOrderDetails.customer}
+              </p>
+              <p>
+                <strong>Local:</strong> {selectedOrderDetails.location}
+              </p>
+              <p>
+                <strong>Status Atual:</strong> {selectedOrderDetails.status}
+              </p>
 
               <hr />
               <h3>Itens Solicitados:</h3>
               <ul className="modal-items-list">
                 {selectedOrderDetails.items.map((item, idx) => (
                   <li key={idx}>
-                    <span>{item.qty}x {item.name}</span>
-                    <strong>{(item.qty * item.price).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
+                    <span>
+                      {item.qty}x {item.name}
+                    </span>
+                    <strong>
+                      {(item.qty * item.price).toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </strong>
                   </li>
                 ))}
               </ul>
               <div className="modal-total-line">
                 <strong>Total:</strong>
-                <strong>{selectedOrderDetails.total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
+                <strong>
+                  {selectedOrderDetails.total.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </strong>
               </div>
             </div>
 
-            <div className="modal-actions">
-              <button className="btn-print-ticket" onClick={() => window.print()}><FaPrint /> Imprimir Comanda</button>
-              <button className="btn-cancel-modal" onClick={() => setSelectedOrderDetails(null)}>Fechar</button>
+            <div
+              className="modal-actions"
+              style={{ display: "flex", gap: "0.5rem" }}
+            >
+              <button
+                className="btn-print-ticket"
+                onClick={() => window.print()}
+              >
+                <FaPrint /> Comanda
+              </button>
+              {selectedOrderDetails.status !== "Concluídos" &&
+                selectedOrderDetails.status !== "Cancelado" && (
+                  <button
+                    onClick={() =>
+                      handleCancelarPedidoAdmin(selectedOrderDetails.dbId)
+                    }
+                    style={{
+                      backgroundColor: "#ef4444",
+                      color: "#fff",
+                      border: "none",
+                      padding: "0.75rem",
+                      borderRadius: "10px",
+                      fontWeight: "700",
+                      cursor: "pointer",
+                      flex: 1,
+                    }}
+                  >
+                    Cancelar Pedido
+                  </button>
+                )}
+              <button
+                className="btn-cancel-modal"
+                onClick={() => setSelectedOrderDetails(null)}
+              >
+                Fechar
+              </button>
             </div>
           </div>
         </div>
@@ -309,7 +482,12 @@ export default function Pedidos() {
           <div className="pedidos-modal-card">
             <div className="modal-header">
               <h2>Lançar Novo Pedido</h2>
-              <button className="btn-close-modal" onClick={() => setIsNewOrderModalOpen(false)}><FaTimes /></button>
+              <button
+                className="btn-close-modal"
+                onClick={() => setIsNewOrderModalOpen(false)}
+              >
+                <FaTimes />
+              </button>
             </div>
 
             <form onSubmit={handleCreateOrder} className="modal-form">
@@ -319,7 +497,12 @@ export default function Pedidos() {
                   type="text"
                   placeholder="Ex: Roberto Ramos"
                   value={newOrderForm.customer}
-                  onChange={(e) => setNewOrderForm({ ...newOrderForm, customer: e.target.value })}
+                  onChange={(e) =>
+                    setNewOrderForm({
+                      ...newOrderForm,
+                      customer: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
@@ -330,7 +513,12 @@ export default function Pedidos() {
                   <input
                     type="text"
                     value={newOrderForm.location}
-                    onChange={(e) => setNewOrderForm({ ...newOrderForm, location: e.target.value })}
+                    onChange={(e) =>
+                      setNewOrderForm({
+                        ...newOrderForm,
+                        location: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="form-group">
@@ -338,7 +526,12 @@ export default function Pedidos() {
                   <input
                     type="text"
                     value={newOrderForm.itemName}
-                    onChange={(e) => setNewOrderForm({ ...newOrderForm, itemName: e.target.value })}
+                    onChange={(e) =>
+                      setNewOrderForm({
+                        ...newOrderForm,
+                        itemName: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -351,7 +544,12 @@ export default function Pedidos() {
                     type="number"
                     min="1"
                     value={newOrderForm.quantity}
-                    onChange={(e) => setNewOrderForm({ ...newOrderForm, quantity: e.target.value })}
+                    onChange={(e) =>
+                      setNewOrderForm({
+                        ...newOrderForm,
+                        quantity: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="form-group">
@@ -360,16 +558,29 @@ export default function Pedidos() {
                     type="number"
                     step="0.01"
                     value={newOrderForm.price}
-                    onChange={(e) => setNewOrderForm({ ...newOrderForm, price: e.target.value })}
+                    onChange={(e) =>
+                      setNewOrderForm({
+                        ...newOrderForm,
+                        price: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </div>
 
               <div className="modal-actions">
-                <button type="submit" className="btn-save-modal" disabled={salvandoPedido}>
+                <button
+                  type="submit"
+                  className="btn-save-modal"
+                  disabled={salvandoPedido}
+                >
                   {salvandoPedido ? "Salvando…" : "Confirmar Pedido"}
                 </button>
-                <button type="button" className="btn-cancel-modal" onClick={() => setIsNewOrderModalOpen(false)}>
+                <button
+                  type="button"
+                  className="btn-cancel-modal"
+                  onClick={() => setIsNewOrderModalOpen(false)}
+                >
                   Cancelar
                 </button>
               </div>
