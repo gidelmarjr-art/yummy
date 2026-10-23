@@ -12,11 +12,13 @@ import {
   FaQrcode,
   FaReceipt,
   FaBan,
+  FaExclamationTriangle,
+  FaTimes,
 } from "react-icons/fa";
 import "./AcompanharEntrega.css";
 import Header from "../../../components/Header/Header";
 import { useCart } from "../../../../../context/CartContext";
-import { getMeuPedido } from "../../../services/api";
+import { getMeuPedido, cancelarMeuPedido } from "../../../services/api";
 
 const STEPS = [
   { key: "confirmado", label: "Pedido confirmado", icon: <FaCheckCircle /> },
@@ -67,6 +69,7 @@ export default function AcompanharEntrega() {
   const [cancelado, setCancelado] = useState(order?.status === "Cancelado");
   const [orderCode] = useState(() => order?.code || "");
   const [loadingCancel, setLoadingCancel] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     if (!order?.pedidoId || cancelado || stepIndex >= STEPS.length - 1) return;
@@ -100,29 +103,15 @@ export default function AcompanharEntrega() {
   }, []);
 
   const handleCancelarCliente = async () => {
-    if (!window.confirm("Deseja realmente cancelar este pedido?")) return;
+    if (!order?.pedidoId) return;
     setLoadingCancel(true);
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `http://localhost:8000/pedidos/meu/${order.pedidoId}/cancelar`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(
-          errData.detail || "Não foi possível cancelar o pedido.",
-        );
-      }
+      // Utiliza a função importada do api.js para garantir a URL e o token corretos
+      await cancelarMeuPedido(order.pedidoId);
       setCancelado(true);
+      setShowConfirmModal(false);
     } catch (err) {
-      alert(err.message);
+      alert(err.detail || err.message || "Não foi possível cancelar o pedido.");
     } finally {
       setLoadingCancel(false);
     }
@@ -282,7 +271,7 @@ export default function AcompanharEntrega() {
         {!cancelado && stepIndex === 0 && (
           <button
             className="stagger-tracking"
-            onClick={handleCancelarCliente}
+            onClick={() => setShowConfirmModal(true)}
             disabled={loadingCancel}
             style={{
               width: "100%",
@@ -298,7 +287,7 @@ export default function AcompanharEntrega() {
               transition: "all 0.2s ease",
             }}
           >
-            {loadingCancel ? "Cancelando..." : "Cancelar meu pedido"}
+            Cancelar meu pedido
           </button>
         )}
 
@@ -311,6 +300,100 @@ export default function AcompanharEntrega() {
             : "Continuar navegando"}
         </button>
       </main>
+
+      {/* Modal Personalizado de Confirmação para o Cliente */}
+      {showConfirmModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(15, 23, 42, 0.6)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+            padding: "1rem",
+          }}
+        >
+          <div
+            style={{
+              background: "#ffffff",
+              borderRadius: "20px",
+              width: "100%",
+              maxWidth: "400px",
+              padding: "2rem",
+              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "2.5rem",
+                color: "#ef4444",
+                marginBottom: "0.5rem",
+              }}
+            >
+              <FaExclamationTriangle />
+            </div>
+            <h2
+              style={{
+                marginBottom: "0.8rem",
+                color: "#0f172a",
+                fontSize: "1.2rem",
+              }}
+            >
+              Cancelar seu pedido?
+            </h2>
+            <p
+              style={{
+                color: "#64748b",
+                fontSize: "0.9rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              Tem certeza que deseja cancelar este pedido? Esta ação não poderá
+              ser desfeita.
+            </p>
+            <div style={{ display: "flex", gap: "0.8rem" }}>
+              <button
+                onClick={handleCancelarCliente}
+                disabled={loadingCancel}
+                style={{
+                  flex: 1,
+                  backgroundColor: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  padding: "0.75rem",
+                  borderRadius: "10px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                }}
+              >
+                {loadingCancel ? "Cancelando..." : "Sim, Cancelar"}
+              </button>
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                disabled={loadingCancel}
+                style={{
+                  flex: 1,
+                  backgroundColor: "#f1f5f9",
+                  color: "#475569",
+                  border: "1px solid #cbd5e1",
+                  padding: "0.75rem",
+                  borderRadius: "10px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                }}
+              >
+                Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

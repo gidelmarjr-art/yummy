@@ -159,3 +159,9 @@ export const atualizarCategoria = (id, dados) =>
 
 export const excluirCategoria = (id) =>
   authFetch(`/categorias/${id}`, { method: "DELETE" });
+
+export async function cancelarMeuPedido(pedidoId) {
+  return request(`/pedidos/meu/${pedidoId}/cancelar`, {
+    method: "PATCH",
+  });
+}
