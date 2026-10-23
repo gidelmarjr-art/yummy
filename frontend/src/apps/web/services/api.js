@@ -59,6 +59,8 @@ export const definirStatusPedido = (id, status) =>
   authFetch(`/pedidos/${id}/status`, { method: "PATCH", body: { status } });
 export const excluirPedido = (id) =>
   authFetch(`/pedidos/${id}`, { method: "DELETE" });
+export const cancelarPedidoAdmin = (id) =>
+  authFetch(`/pedidos/${id}/cancelar`, { method: "PATCH" });
 
 // ---------- Pedidos do cliente logado ----------
 export const criarMeuPedido = (dados) =>

@@ -18,6 +18,7 @@ import {
   getPedidos,
   criarPedido,
   avancarPedido,
+  cancelarPedidoAdmin,
   formatTimeAgo,
   wsUrl,
 } from "../../../../services/api";
@@ -75,6 +76,7 @@ export default function Pedidos() {
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
   const [orderParaCancelar, setOrderParaCancelar] = useState(null);
   const [salvandoPedido, setSalvandoPedido] = useState(false);
+  const [loadingCancelAdmin, setLoadingCancelAdmin] = useState(false);
 
   const [newOrderForm, setNewOrderForm] = useState({
     customer: "",
@@ -122,27 +124,16 @@ export default function Pedidos() {
 
   const confirmarCancelamentoAdmin = async () => {
     if (!orderParaCancelar) return;
+    setLoadingCancelAdmin(true);
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `http://localhost:8000/pedidos/${orderParaCancelar}/cancelar`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Erro ao cancelar pedido.");
-      }
+      await cancelarPedidoAdmin(orderParaCancelar);
       setOrderParaCancelar(null);
       setSelectedOrderDetails(null);
       await carregarPedidos();
     } catch (err) {
-      alert(err.message);
+      alert(err.detail || err.message || "Erro ao cancelar pedido.");
+    } finally {
+      setLoadingCancelAdmin(false);
     }
   };
 
@@ -464,7 +455,7 @@ export default function Pedidos() {
         </div>
       )}
 
-      {/* Modal de Confirmação de Cancelamento Personalizado (Substitui o Pop-up nativo) */}
+      {/* Modal de Confirmação de Cancelamento do Admin */}
       {orderParaCancelar && (
         <div className="pedidos-modal-overlay">
           <div
@@ -496,6 +487,7 @@ export default function Pedidos() {
             <div style={{ display: "flex", gap: "0.8rem" }}>
               <button
                 onClick={confirmarCancelamentoAdmin}
+                disabled={loadingCancelAdmin}
                 style={{
                   flex: 1,
                   backgroundColor: "#ef4444",
@@ -507,10 +499,11 @@ export default function Pedidos() {
                   cursor: "pointer",
                 }}
               >
-                Sim, Cancelar
+                {loadingCancelAdmin ? "Cancelando..." : "Sim, Cancelar"}
               </button>
               <button
                 onClick={() => setOrderParaCancelar(null)}
+                disabled={loadingCancelAdmin}
                 style={{
                   flex: 1,
                   backgroundColor: "#f1f5f9",
