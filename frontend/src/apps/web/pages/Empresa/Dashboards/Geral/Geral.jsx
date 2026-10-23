@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaCog,
   FaBell,
@@ -11,39 +11,10 @@ import {
   FaMoon,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { getGeral } from "../../../../services/api";
-import "../dashboards-shared.css";
+import { useContagem } from "./useContagem";
+import { getGeral } from "../../../../../services/api";
+import "../../dashboards-shared.css";
 import "./Geral.css";
-
-function useContagem(alvoNum, duracao = 1100) {
-  const reduzido =
-    typeof window !== "undefined"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false;
-
-  const [valor, setValor] = useState(reduzido ? alvoNum : 0);
-  const atual = useRef(valor);
-
-  useEffect(() => {
-    if (reduzido) {
-      setValor(alvoNum);
-      return;
-    }
-    const de = atual.current;
-    const inicio = performance.now();
-    let q;
-    const passo = (t) => {
-      const p = Math.min((t - inicio) / duracao, 1);
-      atual.current = de + (alvoNum - de) * (1 - (1 - p) ** 4);
-      setValor(atual.current);
-      if (p < 1) q = requestAnimationFrame(passo);
-    };
-    q = requestAnimationFrame(passo);
-    return () => cancelAnimationFrame(q);
-  }, [alvoNum, duracao, reduzido]);
-
-  return valor;
-}
 
 export default function Dashboard() {
   const [metrics, setMetrics] = useState({
@@ -200,7 +171,6 @@ export default function Dashboard() {
         <div className="dashboard-body-content bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          {/* 1. MÉTICAS SUPERIORES (4 CARDS) */}
           <div className="metrics-grid bento-metrics-grid">
             <div
               className="metric-card bento-card card-featured"
@@ -267,9 +237,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* 2. SEÇÃO DO MEIO: GRÁFICO À ESQUERDA + INSUMOS CRÍTICOS À DIREITA */}
           <div className="middle-section-grid">
-            {/* Gráfico de Vendas Semanal */}
             <div
               className="dashboard-card-container bento-chart-box"
               style={{ "--i": 4 }}
@@ -358,7 +326,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Insumos Críticos */}
             <div
               className="dashboard-card-container stock-alerts-container"
               style={{ "--i": 5 }}
@@ -403,7 +370,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* 3. SEÇÃO INFERIOR: ÚLTIMOS PEDIDOS (LARGURA TOTAL 100%) */}
           <div
             className="dashboard-card-container full-width-orders-card"
             style={{ "--i": 6 }}

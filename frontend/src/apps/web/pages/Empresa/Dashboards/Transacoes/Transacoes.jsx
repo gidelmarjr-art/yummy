@@ -23,9 +23,9 @@ import {
   FaBars,
   FaChartLine,
 } from "react-icons/fa";
-import Sidebar from "../../../../components/Sidebar/Siderbar";
+import SidebarDashboard from "../SidebarDashboard";
 import { useRealtimeTransactions } from "./useRealtimeTransactions";
-import "../dashboards-shared.css";
+import "../../dashboards-shared.css";
 import "./Transacoes.css";
 
 export default function Transacoes() {
@@ -76,14 +76,13 @@ export default function Transacoes() {
     <div
       className={`transacoes-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
     >
-      <Sidebar
+      <SidebarDashboard
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
         activePage="Transactions"
       />
 
       <main className="transacoes-main-content">
-        {/* Header Superior */}
         <header className="transacoes-top-bar">
           <div className="top-bar-left">
             {!isSidebarOpen && (
@@ -132,11 +131,9 @@ export default function Transacoes() {
           </div>
         </header>
 
-        {/* Corpo com Bento Grid Padronizado (4 Colunas no topo) */}
         <div className="transacoes-dashboard-body bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          {/* 1. MÉTRICAS DO TOPO (4 CARDS PREENCHENDO 100% DA LARGURA) */}
           <div className="metrics-cards-row bento-metrics-grid">
             <div
               className="metric-summary-card bento-card card-featured"
@@ -202,9 +199,7 @@ export default function Transacoes() {
             </div>
           </div>
 
-          {/* 2. GRÁFICOS DO MEIO */}
           <div className="charts-two-columns" style={{ "--i": 4 }}>
-            {/* Faturamento Anual */}
             <div className="transacoes-chart-card dashboard-card-container">
               <h3 className="section-title">Faturamento Anual</h3>
               <div className="chart-container-wrapper">
@@ -258,7 +253,6 @@ export default function Transacoes() {
               </div>
             </div>
 
-            {/* Receita Mensal */}
             <div className="transacoes-chart-card dashboard-card-container card-featured-border">
               <h3 className="section-title">Receita Mensal</h3>
               <div className="chart-container-wrapper">
@@ -313,9 +307,7 @@ export default function Transacoes() {
             </div>
           </div>
 
-          {/* 3. SEÇÃO INFERIOR */}
           <div className="bottom-two-columns" style={{ "--i": 5 }}>
-            {/* Receita por Canal */}
             <div className="investments-list-section dashboard-card-container">
               <h3 className="section-title">Receita por Canal</h3>
               <div className="investments-list">
@@ -358,7 +350,6 @@ export default function Transacoes() {
               </div>
             </div>
 
-            {/* Transações Recentes */}
             <div className="trending-stock-section dashboard-card-container">
               <h3 className="section-title">Transações Recentes</h3>
               <div className="trending-table-wrapper">
