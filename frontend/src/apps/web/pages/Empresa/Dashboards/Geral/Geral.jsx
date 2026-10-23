@@ -128,8 +128,6 @@ export default function Dashboard() {
     });
   };
 
-  // Coordenadas perfeitamente mapeadas para o viewBox 0 0 400 120
-  // Y: 1232 = 10px, 1050 = 32.5px, 700 = 55px, 350 = 77.5px, 0 = 100px
   const dadosGrafico = [
     { dia: "Seg", valor: 350, x: 25, y: 77.5 },
     { dia: "Ter", valor: 520, x: 80, y: 66.8 },
@@ -202,6 +200,7 @@ export default function Dashboard() {
         <div className="dashboard-body-content bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
+          {/* 1. MÉTICAS SUPERIORES (4 CARDS) */}
           <div className="metrics-grid bento-metrics-grid">
             <div
               className="metric-card bento-card card-featured"
@@ -268,123 +267,102 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div
-            className="dashboard-card-container bento-chart-box"
-            style={{ "--i": 4 }}
-          >
-            <div className="chart-header-title">
-              <h3 className="section-title-clean">Fluxo de Vendas Semanal</h3>
-            </div>
-
-            <div className="points-chart-wrapper">
-              <div className="chart-y-axis">
-                <span>1.232</span>
-                <span>1.050</span>
-                <span>700</span>
-                <span>350</span>
-                <span>0</span>
+          {/* 2. SEÇÃO DO MEIO: GRÁFICO À ESQUERDA + INSUMOS CRÍTICOS À DIREITA */}
+          <div className="middle-section-grid">
+            {/* Gráfico de Vendas Semanal (Lado Esquerdo - 2.2fr) */}
+            <div
+              className="dashboard-card-container bento-chart-box"
+              style={{ "--i": 4 }}
+            >
+              <div className="chart-header-title">
+                <h3 className="section-title-clean">Fluxo de Vendas Semanal</h3>
               </div>
 
-              <div
-                className="svg-chart-container"
-                onMouseLeave={() => setPontoAtivoChart(null)}
-              >
-                <svg viewBox="0 0 400 120" className="bento-svg-chart">
-                  <g className="chart-grid-lines">
-                    <line x1="0" y1="10" x2="400" y2="10" />
-                    <line x1="0" y1="32.5" x2="400" y2="32.5" />
-                    <line x1="0" y1="55" x2="400" y2="55" />
-                    <line x1="0" y1="77.5" x2="400" y2="77.5" />
-                    <line x1="0" y1="100" x2="400" y2="100" />
-                  </g>
+              <div className="points-chart-wrapper">
+                <div className="chart-y-axis">
+                  <span>1.232</span>
+                  <span>1.050</span>
+                  <span>700</span>
+                  <span>350</span>
+                  <span>0</span>
+                </div>
 
-                  <path
-                    d={pathD}
-                    pathLength="1"
-                    className="chart-line-smooth"
-                  />
-
-                  {dadosGrafico.map((d, idx) => (
-                    <g key={idx} onMouseEnter={() => setPontoAtivoChart(idx)}>
-                      <circle
-                        cx={d.x}
-                        cy={d.y}
-                        r="14"
-                        fill="transparent"
-                        style={{ cursor: "pointer" }}
-                      />
-                      <circle
-                        cx={d.x}
-                        cy={d.y}
-                        r={pontoAtivoChart === idx ? 6 : 4.5}
-                        className={`points-chart-node ${pontoAtivoChart === idx ? "active" : ""}`}
-                      />
+                <div
+                  className="svg-chart-container"
+                  onMouseLeave={() => setPontoAtivoChart(null)}
+                >
+                  <svg viewBox="0 0 400 120" className="bento-svg-chart">
+                    <g className="chart-grid-lines">
+                      <line x1="0" y1="10" x2="400" y2="10" />
+                      <line x1="0" y1="32.5" x2="400" y2="32.5" />
+                      <line x1="0" y1="55" x2="400" y2="55" />
+                      <line x1="0" y1="77.5" x2="400" y2="77.5" />
+                      <line x1="0" y1="100" x2="400" y2="100" />
                     </g>
-                  ))}
-                </svg>
 
-                {pontoAtivoChart !== null && (
-                  <div
-                    className="chart-tooltip-floating"
-                    style={{
-                      left: `${(dadosGrafico[pontoAtivoChart].x / 400) * 100}%`,
-                      top: `${(dadosGrafico[pontoAtivoChart].y / 120) * 100}%`,
-                    }}
-                  >
-                    <strong>{dadosGrafico[pontoAtivoChart].dia}</strong>
-                    <span>
-                      R${" "}
-                      {dadosGrafico[pontoAtivoChart].valor.toLocaleString(
-                        "pt-BR",
-                      )}
-                    </span>
-                  </div>
-                )}
+                    <path
+                      d={pathD}
+                      pathLength="1"
+                      className="chart-line-smooth"
+                    />
 
-                <div className="chart-x-axis">
-                  {dadosGrafico.map((d, i) => (
-                    <span
-                      key={i}
-                      className={pontoAtivoChart === i ? "active" : ""}
-                      style={{ left: `${(d.x / 400) * 100}%` }}
+                    {dadosGrafico.map((d, idx) => (
+                      <g key={idx} onMouseEnter={() => setPontoAtivoChart(idx)}>
+                        <circle
+                          cx={d.x}
+                          cy={d.y}
+                          r="14"
+                          fill="transparent"
+                          style={{ cursor: "pointer" }}
+                        />
+                        <circle
+                          cx={d.x}
+                          cy={d.y}
+                          r={pontoAtivoChart === idx ? 6 : 4.5}
+                          className={`points-chart-node ${pontoAtivoChart === idx ? "active" : ""}`}
+                        />
+                      </g>
+                    ))}
+                  </svg>
+
+                  {pontoAtivoChart !== null && (
+                    <div
+                      className="chart-tooltip-floating"
+                      style={{
+                        left: `${(dadosGrafico[pontoAtivoChart].x / 400) * 100}%`,
+                        top: `${(dadosGrafico[pontoAtivoChart].y / 120) * 100}%`,
+                      }}
                     >
-                      {d.dia}
-                    </span>
-                  ))}
+                      <strong>{dadosGrafico[pontoAtivoChart].dia}</strong>
+                      <span>
+                        R${" "}
+                        {dadosGrafico[pontoAtivoChart].valor.toLocaleString(
+                          "pt-BR",
+                        )}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="chart-x-axis">
+                    {dadosGrafico.map((d, i) => (
+                      <span
+                        key={i}
+                        className={pontoAtivoChart === i ? "active" : ""}
+                        style={{ left: `${(d.x / 400) * 100}%` }}
+                      >
+                        {d.dia}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="dashboard-sections-grid">
-            <div className="dashboard-card-container" style={{ "--i": 5 }}>
-              <h3 className="section-title">Últimos Pedidos em Tempo Real</h3>
-              <div className="recent-orders-list">
-                {!carregando && recentOrders.length === 0 && (
-                  <p className="dashboard-empty-msg">Nenhum pedido ainda.</p>
-                )}
-                {recentOrders.map((order) => (
-                  <div key={order.id} className="recent-order-item">
-                    <div className="order-info-group">
-                      <strong className="order-client">
-                        #{order.id} - {order.customer}
-                      </strong>
-                      <span className="order-detail-sub">{order.summary}</span>
-                    </div>
-
-                    <span
-                      className={`status-pill status-${order.status.toLowerCase().replace(/\s+/g, "-")}`}
-                    >
-                      {order.status}
-                    </span>
-
-                    <span className="order-price">{order.total}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="dashboard-card-container" style={{ "--i": 6 }}>
+            {/* Insumos Críticos (Lado Direito - 1fr) */}
+            <div
+              className="dashboard-card-container stock-alerts-container"
+              style={{ "--i": 5 }}
+            >
               <h3 className="section-title">Insumos Críticos</h3>
               <div className="stock-alerts-list">
                 {!carregando && stockAlerts.length === 0 && (
@@ -422,6 +400,37 @@ export default function Dashboard() {
                     </div>
                   ))}
               </div>
+            </div>
+          </div>
+
+          {/* 3. SEÇÃO INFERIOR: ÚLTIMOS PEDIDOS (OCUPANDO 100% DA LARGURA) */}
+          <div
+            className="dashboard-card-container full-width-orders-card"
+            style={{ "--i": 6 }}
+          >
+            <h3 className="section-title">Últimos Pedidos em Tempo Real</h3>
+            <div className="recent-orders-list">
+              {!carregando && recentOrders.length === 0 && (
+                <p className="dashboard-empty-msg">Nenhum pedido ainda.</p>
+              )}
+              {recentOrders.map((order) => (
+                <div key={order.id} className="recent-order-item">
+                  <div className="order-info-group">
+                    <strong className="order-client">
+                      #{order.id} - {order.customer}
+                    </strong>
+                    <span className="order-detail-sub">{order.summary}</span>
+                  </div>
+
+                  <span
+                    className={`status-pill status-${order.status.toLowerCase().replace(/\s+/g, "-")}`}
+                  >
+                    {order.status}
+                  </span>
+
+                  <span className="order-price">{order.total}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
