@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   LineChart,
   Line,
@@ -20,6 +20,7 @@ import {
   FaShoppingBag,
   FaSun,
   FaMoon,
+  FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { useRealtimeTransactions } from "./useRealtimeTransactions";
@@ -29,6 +30,7 @@ import "./Transacoes.css";
 export default function Transacoes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [tema, setTema] = useState("claro");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const {
     metrics,
     yearlyData,
@@ -38,14 +40,16 @@ export default function Transacoes() {
     erro,
   } = useRealtimeTransactions();
 
-  // Sincronizar data-tema no <html> se necessário
-  React.useEffect(() => {
+  useEffect(() => {
     document.documentElement.setAttribute("data-tema", tema);
   }, [tema]);
 
-  const alternarTema = (e) => {
-    const novoTema = tema === "escuro" ? "claro" : "escuro";
-    setTema(novoTema);
+  const alternarTema = () => {
+    setTema((prev) => (prev === "escuro" ? "claro" : "escuro"));
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
   };
 
   const renderChannelIcon = (type) => {
@@ -61,14 +65,37 @@ export default function Transacoes() {
     }
   };
 
+  const transacoesFiltradas = recentTransactions.filter(
+    (tx) =>
+      tx.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tx.id?.toString().includes(searchTerm),
+  );
+
   return (
-    <div className="transacoes-page-layout bento-wrapper-root">
-      <Sidebar activePage="Transactions" />
+    <div
+      className={`transacoes-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+    >
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+        activePage="Transactions"
+      />
 
       <main className="transacoes-main-content">
-        {/* Header Superior */}
+        {/* Header Superior Alinhado */}
         <header className="transacoes-top-bar">
-          <h1 className="page-heading">Transações Financeiras</h1>
+          <div className="top-bar-left">
+            {!isSidebarOpen && (
+              <button
+                className="toggle-sidebar-btn"
+                onClick={toggleSidebar}
+                aria-label="Abrir menu"
+              >
+                <FaBars />
+              </button>
+            )}
+            <h1 className="page-heading">Transações Financeiras</h1>
+          </div>
 
           <div className="top-bar-right">
             <div className="search-box">
@@ -104,89 +131,92 @@ export default function Transacoes() {
           </div>
         </header>
 
-        {/* Dashboard Body com Bento Grid */}
+        {/* Corpo com Bento Grid Padronizado */}
         <div className="transacoes-dashboard-body bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          {/* Top Metrics Cards (Bento style) */}
+          {/* 1. MÉTIRICAS DO TOPO */}
           <div className="metrics-cards-row bento-metrics-grid">
             <div
               className="metric-summary-card bento-card card-featured"
               style={{ "--i": 0 }}
             >
-              <div className="metric-icon-circle orange-bg">
-                <FaWallet className="icon-orange" />
+              <div className="metric-header-clean">
+                <span>Faturamento Total</span>
+                <div className="metric-icon-circle orange-bg">
+                  <FaWallet className="icon-orange" />
+                </div>
               </div>
-              <div className="metric-info">
-                <span className="metric-label">Faturamento Total</span>
-                <strong className="metric-value">{metrics.totalRevenue}</strong>
-              </div>
+              <h2 className="metric-value">{metrics.totalRevenue}</h2>
+              <span className="metric-footer-clean">
+                Acumulado na plataforma
+              </span>
             </div>
 
             <div
               className="metric-summary-card bento-card"
               style={{ "--i": 1 }}
             >
-              <div className="metric-icon-circle pink-bg">
-                <FaReceipt className="icon-pink" />
+              <div className="metric-header-clean">
+                <span>Total de Transações</span>
+                <div className="metric-icon-circle pink-bg">
+                  <FaReceipt className="icon-pink" />
+                </div>
               </div>
-              <div className="metric-info">
-                <span className="metric-label">Total de Transações</span>
-                <strong className="metric-value">
-                  {metrics.numTransactions}
-                </strong>
-              </div>
+              <h2 className="metric-value">{metrics.numTransactions}</h2>
+              <span className="metric-footer-clean">Pedidos concluídos</span>
             </div>
 
             <div
               className="metric-summary-card bento-card"
               style={{ "--i": 2 }}
             >
-              <div className="metric-icon-circle blue-bg">
-                <FaSyncAlt className="icon-blue" />
+              <div className="metric-header-clean">
+                <span>Ticket Médio</span>
+                <div className="metric-icon-circle blue-bg">
+                  <FaSyncAlt className="icon-blue" />
+                </div>
               </div>
-              <div className="metric-info">
-                <span className="metric-label">Ticket Médio</span>
-                <strong className="metric-value">
-                  {metrics.averageTicket}
-                </strong>
-              </div>
+              <h2 className="metric-value">{metrics.averageTicket}</h2>
+              <span className="metric-footer-clean">Média por pedido</span>
             </div>
           </div>
 
-          {/* Middle Charts Row */}
+          {/* 2. GRÁFICOS DO MEIO (Margens Corrigidas para não cortar o texto do Eixo Y) */}
           <div className="charts-two-columns" style={{ "--i": 3 }}>
             {/* Faturamento Anual */}
             <div className="transacoes-chart-card dashboard-card-container">
-              <h3 className="section-title-clean">Faturamento Anual</h3>
-              <div style={{ width: "100%", height: 210 }}>
-                <ResponsiveContainer>
+              <h3 className="section-title">Faturamento Anual</h3>
+              <div className="chart-container-wrapper">
+                <ResponsiveContainer width="100%" height={220}>
                   <LineChart
                     data={yearlyData}
-                    margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
+                    margin={{ top: 15, right: 20, left: 25, bottom: 5 }}
                   >
                     <CartesianGrid
                       strokeDasharray="4 4"
                       vertical={false}
-                      stroke="rgba(0,0,0,0.06)"
+                      stroke="rgba(0,0,0,0.08)"
                     />
                     <XAxis
                       dataKey="year"
                       axisLine={false}
                       tickLine={false}
                       stroke="#868883"
+                      dy={10}
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
                       domain={[0, 50000]}
                       ticks={[0, 10000, 20000, 30000, 40000, 50000]}
-                      tickFormatter={(val) => `R$${val.toLocaleString()}`}
+                      tickFormatter={(val) => `R$${(val / 1000).toFixed(0)}k`}
                       stroke="#868883"
+                      dx={-5}
                     />
                     <Tooltip
                       formatter={(val) => [
-                        `R$ ${val.toLocaleString()}`,
+                        `R$ ${Number(val).toLocaleString("pt-BR")}`,
                         "Faturamento",
                       ]}
                     />
@@ -196,12 +226,12 @@ export default function Transacoes() {
                       stroke="#ed5b22"
                       strokeWidth={3}
                       dot={{
-                        r: 4,
+                        r: 4.5,
                         fill: "#ffffff",
                         stroke: "#ed5b22",
-                        strokeWidth: 2,
+                        strokeWidth: 2.5,
                       }}
-                      activeDot={{ r: 6, fill: "#ed5b22" }}
+                      activeDot={{ r: 7, fill: "#ed5b22" }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -209,36 +239,38 @@ export default function Transacoes() {
             </div>
 
             {/* Receita Mensal */}
-            <div className="transacoes-chart-card dashboard-card-container highlight-border">
-              <h3 className="section-title-clean">Receita Mensal</h3>
-              <div style={{ width: "100%", height: 210 }}>
-                <ResponsiveContainer>
+            <div className="transacoes-chart-card dashboard-card-container card-featured-border">
+              <h3 className="section-title">Receita Mensal</h3>
+              <div className="chart-container-wrapper">
+                <ResponsiveContainer width="100%" height={220}>
                   <LineChart
                     data={monthlyRevenueData}
-                    margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
+                    margin={{ top: 15, right: 20, left: 25, bottom: 5 }}
                   >
                     <CartesianGrid
                       strokeDasharray="4 4"
                       vertical={false}
-                      stroke="rgba(0,0,0,0.06)"
+                      stroke="rgba(0,0,0,0.08)"
                     />
                     <XAxis
                       dataKey="year"
                       axisLine={false}
                       tickLine={false}
                       stroke="#868883"
+                      dy={10}
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
                       domain={[0, 40000]}
                       ticks={[0, 10000, 20000, 30000, 40000]}
-                      tickFormatter={(val) => `R$${val.toLocaleString()}`}
+                      tickFormatter={(val) => `R$${(val / 1000).toFixed(0)}k`}
                       stroke="#868883"
+                      dx={-5}
                     />
                     <Tooltip
                       formatter={(val) => [
-                        `R$ ${val.toLocaleString()}`,
+                        `R$ ${Number(val).toLocaleString("pt-BR")}`,
                         "Receita",
                       ]}
                     />
@@ -248,12 +280,12 @@ export default function Transacoes() {
                       stroke="#0d9488"
                       strokeWidth={3}
                       dot={{
-                        r: 4,
+                        r: 4.5,
                         fill: "#ffffff",
                         stroke: "#0d9488",
-                        strokeWidth: 2,
+                        strokeWidth: 2.5,
                       }}
-                      activeDot={{ r: 6, fill: "#0d9488" }}
+                      activeDot={{ r: 7, fill: "#0d9488" }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -261,7 +293,7 @@ export default function Transacoes() {
             </div>
           </div>
 
-          {/* Bottom Row */}
+          {/* 3. SEÇÃO INFERIOR */}
           <div className="bottom-two-columns" style={{ "--i": 4 }}>
             {/* Receita por Canal */}
             <div className="investments-list-section dashboard-card-container">
@@ -320,9 +352,9 @@ export default function Transacoes() {
                     </tr>
                   </thead>
                   <tbody>
-                    {recentTransactions.map((tx) => (
+                    {transacoesFiltradas.map((tx) => (
                       <tr key={tx.id}>
-                        <td className="sl-col">{tx.id}</td>
+                        <td className="sl-col">#{tx.id}</td>
                         <td className="name-col">{tx.name}</td>
                         <td className="price-col">{tx.price}</td>
                         <td
