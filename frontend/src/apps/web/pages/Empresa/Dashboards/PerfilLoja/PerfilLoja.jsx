@@ -7,10 +7,10 @@ import "./PerfilLoja.css";
 
 export default function PerfilLoja() {
   const [storeProfile, setStoreProfile] = useState({
-    storeName: "Yummy Burger & Pizzas",
+    storeName: "Codó Burger",
     phone: "(61) 99876-5432",
     email: "contato@yummyburger.com.br",
-    address: "Av. Principal, Quadra 10, Lote 05 - Centro",
+    address: "Setor leste, quadra 42, lote 01, Codó - MA",
     description:
       "A melhor hamburgueria artesanal da cidade, focada em ingredientes selecionados e entrega rápida.",
     openingHours: "18:00 - 23:30",
