@@ -9,7 +9,6 @@ import {
   CartesianGrid,
 } from "recharts";
 import {
-  FaSearch,
   FaCog,
   FaBell,
   FaWallet,
@@ -94,16 +93,6 @@ export default function Transacoes() {
           </div>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <FaSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="Buscar cliente ou pedido..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
             <button
               className="action-circle-btn"
               onClick={alternarTema}
