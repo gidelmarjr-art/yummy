@@ -14,7 +14,6 @@ import {
   Area,
 } from "recharts";
 import {
-  FaSearch,
   FaCog,
   FaBell,
   FaClock,
