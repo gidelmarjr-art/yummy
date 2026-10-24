@@ -28,7 +28,7 @@ import "../dashboards-shared.css";
 import "./Transacoes.css";
 
 export default function Transacoes() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
   const [tema, setTema] = useState("claro");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const {
