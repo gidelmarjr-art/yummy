@@ -19,7 +19,7 @@
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Header Superior */
+/* Header Superior limpo (sem search-box) */
 .cardapio-top-bar {
   display: flex;
   align-items: center;
@@ -40,37 +40,6 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  background-color: #f1f5f9;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  width: 260px;
-  border: 1px solid transparent;
-  transition: border-color 0.2s ease;
-}
-
-.search-box:focus-within {
-  border-color: #ed5b22;
-  background-color: #ffffff;
-}
-
-.search-icon {
-  color: #94a3b8;
-  font-size: 0.85rem;
-  margin-right: 0.5rem;
-}
-
-.search-box input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 0.85rem;
-  width: 100%;
-  color: #334155;
 }
 
 .action-circle-btn {
@@ -164,14 +133,62 @@
   min-height: 400px;
 }
 
+/* Linha superior de controles interna (Categorias + Barra de Pesquisa) */
+.cardapio-controls-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Caixa de Pesquisa Integrada */
+.search-box.inline-search {
+  display: flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  padding: 0.55rem 1rem;
+  border-radius: 12px;
+  width: 260px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.search-box.inline-search:focus-within {
+  border-color: #ed5b22;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
+}
+
+.search-box.inline-search .search-icon {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.search-box.inline-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+  color: #1e293b;
+  font-weight: 500;
+  padding: 0;
+}
+
 /* Abas de Categorias */
 .categories-tab-bar {
   display: flex;
   gap: 1.2rem;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 0.8rem;
-  margin-bottom: 1rem;
   overflow-x: auto;
+  flex: 1;
 }
 
 .category-tab-item {
@@ -511,7 +528,7 @@
   margin-top: 0.5rem;
   width: 100%;
   max-height: 140px;
-  object-fit: cover;
+  object-image: cover;
   border-radius: 10px;
   border: 1px solid #e2e8f0;
 }
@@ -552,6 +569,7 @@
   font-weight: 600;
   cursor: pointer;
 }
+
 /* ==========================================
    RESPONSIVIDADE E MEDIA QUERIES
    ========================================== */
@@ -579,12 +597,7 @@
 
   .top-bar-right {
     width: 100%;
-    justify-content: space-between;
-  }
-
-  .search-box {
-    flex: 1;
-    width: auto;
+    justify-content: flex-end;
   }
 
   .page-heading {
@@ -600,7 +613,15 @@
     flex-wrap: wrap;
   }
 
-  /* Linha do item vira "cartão" empilhado em vez do grid de 6 colunas */
+  .cardapio-controls-top-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box.inline-search {
+    width: 100%;
+  }
+
   .menu-item-row {
     display: flex;
     flex-wrap: wrap;

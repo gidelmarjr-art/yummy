@@ -255,18 +255,10 @@ export default function GestaoCardapio() {
 
       <main className="cardapio-main-content">
         <header className="cardapio-top-bar">
-          <h1 className="page-heading">Gestão de Cardápio</h1>
+          <h1 className="page-heading">Gestão de Cardápio[cite: 16]</h1>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <FaSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="Buscar item ou código..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+            {/* Barra de pesquisa removida daqui para seguir o mesmo padrão das outras telas */}
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>
@@ -307,21 +299,34 @@ export default function GestaoCardapio() {
           </div>
 
           <div className="cardapio-table-container">
-            <div className="categories-tab-bar">
-              {categories
-                .filter((cat) => cat.ativo)
-                .map((cat) => (
-                  <button
-                    key={cat.id}
-                    className={`category-tab-item ${activeCategory === cat.slug ? "active" : ""}`}
-                    onClick={() => {
-                      setActiveCategory(cat.slug);
-                      setCurrentPage(1);
-                    }}
-                  >
-                    {cat.nome}
-                  </button>
-                ))}
+            {/* Linha superior interna com Abas de Categorias e Barra de Pesquisa Integrada */}
+            <div className="cardapio-controls-top-row">
+              <div className="categories-tab-bar">
+                {categories
+                  .filter((cat) => cat.ativo)
+                  .map((cat) => (
+                    <button
+                      key={cat.id}
+                      className={`category-tab-item ${activeCategory === cat.slug ? "active" : ""}`}
+                      onClick={() => {
+                        setActiveCategory(cat.slug);
+                        setCurrentPage(1);
+                      }}
+                    >
+                      {cat.nome}
+                    </button>
+                  ))}
+              </div>
+
+              <div className="search-box inline-search">
+                <FaSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Buscar item ou código..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
 
             <div className="menu-items-table">
