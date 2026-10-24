@@ -3,13 +3,13 @@
 .sidebar-container {
   width: 240px;
   min-height: 100vh;
-  background-color: #1e293b;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
-  border-right: 1px solid #334155;
-  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-right: 1px solid #e2e8f0;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease;
   position: relative;
   overflow: visible !important;
   padding: 1.8rem 0.8rem;
@@ -63,7 +63,7 @@
   height: 36px;
   border-radius: 50%;
   background-color: #ed5b22;
-  border: 2px solid #1e293b;
+  border: 2px solid #ffffff;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -86,7 +86,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.5rem 0 2rem 0;
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid #e2e8f0;
   margin-bottom: 1.5rem;
   transition: all 0.3s ease;
 }
@@ -112,7 +112,7 @@
 }
 
 .sidebar-nav::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
@@ -124,7 +124,7 @@
   border: none;
   padding: 0.85rem 1.1rem;
   border-radius: 12px;
-  color: #94a3b8;
+  color: #64748b;
   font-size: 0.92rem;
   font-weight: 500;
   cursor: pointer;
@@ -141,8 +141,8 @@
 }
 
 .sidebar-btn:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+  background-color: #fff0e8;
+  color: #ed5b22;
 }
 
 .sidebar-btn.active {
@@ -159,6 +159,38 @@
 }
 
 .sidebar-btn--logout:hover {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+/* Tema escuro: a navegação acompanha o restante do dashboard. */
+html[data-tema="escuro"] .sidebar-container {
+  background-color: #1e293b !important;
+  border-right-color: #334155 !important;
+}
+
+html[data-tema="escuro"] .sidebar-logo {
+  border-bottom-color: #334155;
+}
+
+html[data-tema="escuro"] .sidebar-toggle-edge-btn {
+  border-color: #1e293b;
+}
+
+html[data-tema="escuro"] .sidebar-nav::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+html[data-tema="escuro"] .sidebar-btn {
+  color: #94a3b8;
+}
+
+html[data-tema="escuro"] .sidebar-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+html[data-tema="escuro"] .sidebar-btn--logout:hover {
   background-color: #450a0a;
   color: #ef4444;
 }
