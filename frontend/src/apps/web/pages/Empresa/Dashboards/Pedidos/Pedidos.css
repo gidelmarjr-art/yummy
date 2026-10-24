@@ -56,14 +56,11 @@
   display: flex;
   align-items: center;
   background-color: #f1f5f9;
-  padding: 0.5rem 1rem;
-  /* Padding padrão limpo */
+  padding: 0.55rem 1rem;
   border-radius: 20px;
-  width: 260px;
+  width: 240px;
   border: 1px solid transparent;
-  transition: border-color 0.2s ease;
-  position: relative;
-  /* Garante contexto para os filhos */
+  transition: all 0.2s ease;
 }
 
 .search-box:focus-within {
@@ -74,12 +71,9 @@
 .search-icon {
   color: #94a3b8;
   font-size: 0.85rem;
-  margin-right: 0.5rem;
-  /* Um espaçamento simples e seguro */
+  margin-right: 0.75rem !important;
+  /* Cria um espaço obrigatório entre o ícone e o texto */
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .search-box input {
@@ -88,10 +82,9 @@
   outline: none;
   font-size: 0.85rem;
   width: 100%;
-  color: #334155;
-  min-width: 0;
-  /* Removemos margens estranhas e garantimos que o texto comece após o ícone */
-  padding-left: 0.2rem;
+  color: #0f172a;
+  padding-left: 0;
+  /* Garante que o texto não tenha recuo extra colado */
 }
 
 .action-circle-btn {

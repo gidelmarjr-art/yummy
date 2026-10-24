@@ -199,12 +199,7 @@ export default function Pedidos() {
           <div className="top-bar-right">
             <div className="search-box">
               <FaSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="Buscar pedido, cliente..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <input type="text" placeholder="Buscar pedido, cliente..." />
             </div>
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
