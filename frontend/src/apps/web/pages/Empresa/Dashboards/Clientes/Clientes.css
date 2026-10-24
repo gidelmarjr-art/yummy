@@ -14,6 +14,7 @@
   flex-direction: column;
 }
 
+/* Header Superior limpo */
 .clientes-top-bar {
   display: flex;
   align-items: center;
@@ -34,36 +35,6 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  background-color: #f2f4f8;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  width: 240px;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-}
-
-.search-box:focus-within {
-  border-color: #ed5b22;
-  background-color: #ffffff;
-}
-
-.search-icon {
-  color: #a0aab8;
-  font-size: 0.85rem;
-  margin-right: 0.5rem;
-}
-
-.search-box input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 0.85rem;
-  width: 100%;
 }
 
 .action-circle-btn {
@@ -119,6 +90,62 @@
   min-height: 400px;
 }
 
+/* Linha superior interna de controlos (Subtítulo + Pesquisa Integrada) */
+.clientes-controls-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* Caixa de Pesquisa Integrada */
+.search-box.inline-search {
+  display: flex;
+  align-items: center;
+  background-color: #f2f4f8;
+  padding: 0.55rem 1rem;
+  border-radius: 12px;
+  width: 280px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.search-box.inline-search:focus-within {
+  border-color: #ed5b22;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
+}
+
+.search-box.inline-search .search-icon {
+  color: #a0aab8;
+  font-size: 0.85rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.search-box.inline-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+  color: #333333;
+  padding: 0;
+}
+
 .clientes-items-list {
   display: flex;
   flex-direction: column;
@@ -164,7 +191,8 @@
   color: #64748b;
 }
 
-.cliente-phone, .cliente-orders {
+.cliente-phone,
+.cliente-orders {
   font-weight: 600;
   color: #475569;
 }
@@ -271,6 +299,7 @@
 .btn-cancel-modal:hover {
   background-color: #e2e8f0;
 }
+
 /* ==========================================
    RESPONSIVIDADE E MEDIA QUERIES
    ========================================== */
@@ -298,12 +327,7 @@
 
   .top-bar-right {
     width: 100%;
-    justify-content: space-between;
-  }
-
-  .search-box {
-    flex: 1;
-    width: auto;
+    justify-content: flex-end;
   }
 
   .page-heading {
@@ -315,7 +339,15 @@
     gap: 1.2rem;
   }
 
-  /* Linha do cliente vira "cartão" empilhado em vez do grid de 5 colunas */
+  .clientes-controls-top-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box.inline-search {
+    width: 100%;
+  }
+
   .cliente-row-item {
     display: flex;
     flex-wrap: wrap;
@@ -334,11 +366,11 @@
     flex-basis: calc(50% - 0.4rem);
   }
 
-  .cliente-row-item > div:last-child {
+  .cliente-row-item>div:last-child {
     flex-basis: 100%;
   }
 
-  .cliente-row-item > div:last-child .btn-view-details {
+  .cliente-row-item>div:last-child .btn-view-details {
     width: 100%;
     justify-content: center;
   }

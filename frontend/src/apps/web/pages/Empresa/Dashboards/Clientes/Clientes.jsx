@@ -49,15 +49,7 @@ export default function Clientes() {
           <h1 className="page-heading">Gestão de Clientes</h1>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <FaSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="Buscar cliente, tel ou e-mail..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+            {/* Barra de pesquisa removida daqui para seguir o novo padrão unificado */}
             <button className="action-circle-btn">
               <FaCog />
             </button>
@@ -76,6 +68,22 @@ export default function Clientes() {
         <div className="clientes-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
           <div className="clientes-table-container">
+            {/* Linha superior interna com a barra de pesquisa integrada */}
+            <div className="clientes-controls-top-row">
+              <h3 className="section-subtitle">
+                Lista de Clientes Cadastrados
+              </h3>
+              <div className="search-box inline-search">
+                <FaSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Buscar cliente, tel ou e-mail..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+
             <div className="clientes-items-list">
               {carregando ? (
                 <p className="dashboard-loading-msg">Carregando clientes…</p>
