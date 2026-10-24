@@ -235,11 +235,24 @@ html[data-tema="escuro"] {
   background-size: 0.65rem auto;
 }
 
+/* Estilização personalizada das opções e remoção do fundo azul nativo */
 .filter-period-selector select option {
-  background-color: var(--cartao);
-  color: var(--texto);
-  font-weight: 600;
-  padding: 10px;
+  background-color: var(--cartao) !important;
+  color: var(--texto) !important;
+  padding: 12px 16px !important;
+  font-weight: 600 !important;
+  font-family: var(--fonte-corpo) !important;
+}
+
+.filter-period-selector select option:hover,
+.filter-period-selector select option:focus,
+.filter-period-selector select option:checked {
+  background-color: var(--laranja-suave) !important;
+  color: var(--laranja) !important;
+}
+
+.filter-period-selector select:focus {
+  outline: none;
 }
 
 .btn-export-report {
