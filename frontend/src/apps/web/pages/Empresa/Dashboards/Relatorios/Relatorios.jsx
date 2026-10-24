@@ -122,6 +122,17 @@ export default function Relatorios() {
     cancelamentoLocal: 0,
   };
 
+  const totalFaturadoPeriodo =
+    period === "7d"
+      ? (weeklyData || []).reduce(
+          (acc, item) => acc + (item.deposit || 0) + (item.withdraw || 0),
+          0,
+        )
+      : (monthlyData || []).reduce(
+          (acc, item) => acc + (item.faturamento || 0),
+          0,
+        );
+
   return (
     <div
       className={`relatorios-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
@@ -173,7 +184,7 @@ export default function Relatorios() {
           </div>
         </header>
 
-        {/* Dashboard na Tela */}
+        {/* Dashboard em Tela */}
         <div className="relatorios-dashboard-body bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
@@ -436,6 +447,7 @@ export default function Relatorios() {
             boxSizing: "border-box",
           }}
         >
+          {/* Header do PDF */}
           <div
             style={{
               display: "flex",
@@ -443,7 +455,7 @@ export default function Relatorios() {
               alignItems: "center",
               borderBottom: "2px solid #ed5b22",
               paddingBottom: "12px",
-              marginBottom: "20px",
+              marginBottom: "16px",
             }}
           >
             <div>
@@ -464,12 +476,14 @@ export default function Relatorios() {
                   fontSize: "12px",
                 }}
               >
-                Período:{" "}
-                {period === "7d"
-                  ? "Últimos 7 dias"
-                  : period === "30d"
-                    ? "Últimos 30 dias"
-                    : "Este Ano"}
+                Filtro Aplicado:{" "}
+                <strong>
+                  {period === "7d"
+                    ? "Últimos 7 dias"
+                    : period === "30d"
+                      ? "Últimos 30 dias"
+                      : "Este Ano"}
+                </strong>
               </p>
             </div>
             <div
@@ -478,25 +492,38 @@ export default function Relatorios() {
               <p style={{ margin: 0 }}>
                 Data de Emissão: {new Date().toLocaleDateString("pt-BR")}
               </p>
+              <p
+                style={{
+                  margin: "2px 0 0",
+                  color: "#16a34a",
+                  fontWeight: "700",
+                }}
+              >
+                Total Acumulado: R${" "}
+                {totalFaturadoPeriodo.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}
+              </p>
             </div>
           </div>
 
+          {/* Métricas Operacionais no PDF */}
           <h3
             style={{
-              fontSize: "14px",
+              fontSize: "13px",
               color: "#0f172a",
-              marginBottom: "10px",
+              marginBottom: "8px",
               fontWeight: "700",
             }}
           >
-            Métricas Operacionais
+            1. Métricas Operacionais
           </h3>
-          <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
+          <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
             <div
               style={{
                 flex: 1,
                 background: "#f8fafc",
-                padding: "14px 16px",
+                padding: "12px 14px",
                 borderRadius: "10px",
                 border: "1px solid #e2e8f0",
               }}
@@ -513,9 +540,9 @@ export default function Relatorios() {
               </span>
               <h2
                 style={{
-                  fontSize: "22px",
+                  fontSize: "20px",
                   color: "#0f172a",
-                  margin: "6px 0",
+                  margin: "4px 0",
                   fontWeight: "800",
                 }}
               >
@@ -523,7 +550,7 @@ export default function Relatorios() {
               </h2>
               <span
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10px",
                   color: "#16a34a",
                   fontWeight: "700",
                 }}
@@ -536,7 +563,7 @@ export default function Relatorios() {
               style={{
                 flex: 1,
                 background: "#f8fafc",
-                padding: "14px 16px",
+                padding: "12px 14px",
                 borderRadius: "10px",
                 border: "1px solid #e2e8f0",
               }}
@@ -553,9 +580,9 @@ export default function Relatorios() {
               </span>
               <h2
                 style={{
-                  fontSize: "22px",
+                  fontSize: "20px",
                   color: "#0f172a",
-                  margin: "6px 0",
+                  margin: "4px 0",
                   fontWeight: "800",
                 }}
               >
@@ -563,7 +590,7 @@ export default function Relatorios() {
               </h2>
               <span
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10px",
                   color: "#dc2626",
                   fontWeight: "700",
                 }}
@@ -576,7 +603,7 @@ export default function Relatorios() {
               style={{
                 flex: 1,
                 background: "#f8fafc",
-                padding: "14px 16px",
+                padding: "12px 14px",
                 borderRadius: "10px",
                 border: "1px solid #e2e8f0",
               }}
@@ -593,17 +620,17 @@ export default function Relatorios() {
               </span>
               <div
                 style={{
-                  marginTop: "8px",
+                  marginTop: "6px",
                   display: "flex",
                   flexDirection: "column",
-                  gap: "4px",
+                  gap: "2px",
                 }}
               >
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    fontSize: "12px",
+                    fontSize: "11px",
                   }}
                 >
                   <span>Delivery:</span>{" "}
@@ -615,7 +642,7 @@ export default function Relatorios() {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    fontSize: "12px",
+                    fontSize: "11px",
                   }}
                 >
                   <span>Local:</span>{" "}
@@ -627,23 +654,25 @@ export default function Relatorios() {
             </div>
           </div>
 
+          {/* Tabela de Detalhamento por Período selecionado */}
           <h3
             style={{
-              fontSize: "14px",
+              fontSize: "13px",
               color: "#0f172a",
-              marginBottom: "10px",
+              marginBottom: "8px",
               fontWeight: "700",
             }}
           >
-            Resumo de Faturamento e Desempenho
+            2. Detalhamento de Valores por{" "}
+            {period === "7d" ? "Dia (Semanal)" : "Mês (Anual/Mensal)"}
           </h3>
           <div
             style={{
               background: "#ffffff",
               borderRadius: "10px",
               border: "1px solid #e2e8f0",
-              padding: "12px",
-              marginBottom: "20px",
+              padding: "10px",
+              marginBottom: "16px",
             }}
           >
             <table
@@ -651,7 +680,7 @@ export default function Relatorios() {
                 width: "100%",
                 borderCollapse: "collapse",
                 textAlign: "left",
-                fontSize: "12px",
+                fontSize: "11px",
               }}
             >
               <thead>
@@ -661,59 +690,111 @@ export default function Relatorios() {
                     color: "#64748b",
                   }}
                 >
-                  <th style={{ padding: "8px 10px" }}>Indicador</th>
-                  <th style={{ padding: "8px 10px" }}>Status Atual</th>
-                  <th style={{ padding: "8px 10px" }}>Avaliação</th>
+                  <th style={{ padding: "6px 8px" }}>
+                    {period === "7d" ? "Dia da Semana" : "Mês"}
+                  </th>
+                  <th style={{ padding: "6px 8px" }}>
+                    {period === "7d"
+                      ? "Depósitos (R$)"
+                      : "Faturamento Recebido (R$)"}
+                  </th>
+                  <th style={{ padding: "6px 8px" }}>
+                    {period === "7d"
+                      ? "Levantamentos / Vendas (R$)"
+                      : "Margem Estimada"}
+                  </th>
+                  <th style={{ padding: "6px 8px" }}>Total do Período</th>
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ borderBottom: "1px solid #f1f5f9" }}>
-                  <td style={{ padding: "10px", fontWeight: "600" }}>
-                    Eficiência da Cozinha
-                  </td>
-                  <td style={{ padding: "10px" }}>
-                    {safeMetrics.tempoPreparo} min méd. de preparo
-                  </td>
-                  <td
-                    style={{
-                      padding: "10px",
-                      color: "#16a34a",
-                      fontWeight: "700",
-                    }}
-                  >
-                    Dentro do esperado
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ padding: "10px", fontWeight: "600" }}>
-                    Taxa de Pedidos Concluídos
-                  </td>
-                  <td style={{ padding: "10px" }}>
-                    {100 - safeMetrics.cancelamentoDelivery}% de sucesso no
-                    Delivery
-                  </td>
-                  <td
-                    style={{
-                      padding: "10px",
-                      color: "#16a34a",
-                      fontWeight: "700",
-                    }}
-                  >
-                    Excelente
-                  </td>
-                </tr>
+                {period === "7d"
+                  ? (weeklyData || []).map((row, idx) => {
+                      const totalDia = (row.deposit || 0) + (row.withdraw || 0);
+                      return (
+                        <tr
+                          key={idx}
+                          style={{ borderBottom: "1px solid #f1f5f9" }}
+                        >
+                          <td style={{ padding: "6px 8px", fontWeight: "600" }}>
+                            {row.day}
+                          </td>
+                          <td style={{ padding: "6px 8px" }}>
+                            R${" "}
+                            {(row.deposit || 0).toLocaleString("pt-BR", {
+                              minimumFractionDigits: 2,
+                            })}
+                          </td>
+                          <td style={{ padding: "6px 8px" }}>
+                            R${" "}
+                            {(row.withdraw || 0).toLocaleString("pt-BR", {
+                              minimumFractionDigits: 2,
+                            })}
+                          </td>
+                          <td
+                            style={{
+                              padding: "6px 8px",
+                              fontWeight: "700",
+                              color: "#ed5b22",
+                            }}
+                          >
+                            R${" "}
+                            {totalDia.toLocaleString("pt-BR", {
+                              minimumFractionDigits: 2,
+                            })}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  : (monthlyData || []).map((row, idx) => (
+                      <tr
+                        key={idx}
+                        style={{ borderBottom: "1px solid #f1f5f9" }}
+                      >
+                        <td style={{ padding: "6px 8px", fontWeight: "600" }}>
+                          {row.month}
+                        </td>
+                        <td style={{ padding: "6px 8px" }}>
+                          R${" "}
+                          {(row.faturamento || 0).toLocaleString("pt-BR", {
+                            minimumFractionDigits: 2,
+                          })}
+                        </td>
+                        <td
+                          style={{
+                            padding: "6px 8px",
+                            color: "#16a34a",
+                            fontWeight: "600",
+                          }}
+                        >
+                          78.5%
+                        </td>
+                        <td
+                          style={{
+                            padding: "6px 8px",
+                            fontWeight: "700",
+                            color: "#ed5b22",
+                          }}
+                        >
+                          R${" "}
+                          {(row.faturamento || 0).toLocaleString("pt-BR", {
+                            minimumFractionDigits: 2,
+                          })}
+                        </td>
+                      </tr>
+                    ))}
               </tbody>
             </table>
           </div>
 
+          {/* Footer do PDF */}
           <div
             style={{
               textAlign: "center",
               color: "#94a3b8",
               fontSize: "10px",
-              marginTop: "20px",
+              marginTop: "12px",
               borderTop: "1px solid #e2e8f0",
-              paddingTop: "10px",
+              paddingTop: "8px",
             }}
           >
             Yummy System © {new Date().getFullYear()} — Relatório Gerencial
