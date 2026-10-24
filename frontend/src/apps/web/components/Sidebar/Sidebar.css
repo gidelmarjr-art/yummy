@@ -165,16 +165,16 @@
 
 /* Tema escuro: a navegação acompanha o restante do dashboard. */
 html[data-tema="escuro"] .sidebar-container {
-  background-color: #1e293b !important;
-  border-right-color: #334155 !important;
+  background-color: var(--fundo) !important;
+  border-right-color: var(--borda) !important;
 }
 
 html[data-tema="escuro"] .sidebar-logo {
-  border-bottom-color: #334155;
+  border-bottom-color: var(--borda);
 }
 
 html[data-tema="escuro"] .sidebar-toggle-edge-btn {
-  border-color: #1e293b;
+  border-color: var(--fundo);
 }
 
 html[data-tema="escuro"] .sidebar-nav::-webkit-scrollbar-thumb {
