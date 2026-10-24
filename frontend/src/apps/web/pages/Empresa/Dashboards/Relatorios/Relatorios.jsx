@@ -157,11 +157,6 @@ export default function Relatorios() {
           </div>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <FaSearch className="search-icon" />
-              <input type="text" placeholder="Buscar indicador..." />
-            </div>
-
             <button
               className="action-circle-btn"
               onClick={alternarTema}
