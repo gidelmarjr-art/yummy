@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  FaSearch,
   FaCog,
   FaBell,
   FaUtensils,
@@ -182,10 +181,6 @@ export default function CadastroPratos() {
           <h1 className="page-heading">Cadastro de Pratos</h1>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <FaSearch className="search-icon" />
-              <input type="text" placeholder="Pesquisar..." />
-            </div>
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>
