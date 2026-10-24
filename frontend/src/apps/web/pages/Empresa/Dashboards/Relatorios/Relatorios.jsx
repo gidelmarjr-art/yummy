@@ -43,8 +43,7 @@ export default function Relatorios() {
   const { metrics, weeklyData, paymentData, monthlyData, loading, erro } =
     useRealtimeDashboard();
 
-  // Referência para o elemento que será convertido em PDF
-  const reportRef = useRef(null);
+  const pdfRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-tema", tema);
@@ -94,16 +93,15 @@ export default function Relatorios() {
     });
   };
 
-  // Função para exportar o PDF exatamente como está na tela
   const handleExportPDF = () => {
-    const element = reportRef.current;
+    const element = pdfRef.current;
     if (!element) return;
 
     setIsExporting(true);
 
     const opt = {
       margin: [10, 10, 10, 10],
-      filename: `Relatorio_Yummy_${period}_${new Date().toISOString().slice(0, 10)}.pdf`,
+      filename: `Relatorio_Gerencial_Yummy_${period}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true, logging: false },
       jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
@@ -175,11 +173,8 @@ export default function Relatorios() {
           </div>
         </header>
 
-        {/* Dashboard Body / Conteúdo para o PDF */}
-        <div
-          className="relatorios-dashboard-body bento-body-container"
-          ref={reportRef}
-        >
+        {/* Dashboard na Tela */}
+        <div className="relatorios-dashboard-body bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
           {loading ? (
@@ -427,6 +422,305 @@ export default function Relatorios() {
           )}
         </div>
       </main>
+
+      {/* Template Oculto para Exportação de PDF */}
+      <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
+        <div
+          ref={pdfRef}
+          style={{
+            padding: "20px",
+            backgroundColor: "#ffffff",
+            fontFamily: "'Inter', sans-serif",
+            color: "#1e293b",
+            width: "277mm",
+            boxSizing: "border-box",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderBottom: "2px solid #ed5b22",
+              paddingBottom: "12px",
+              marginBottom: "20px",
+            }}
+          >
+            <div>
+              <h1
+                style={{
+                  margin: 0,
+                  color: "#ed5b22",
+                  fontSize: "22px",
+                  fontWeight: "800",
+                }}
+              >
+                Yummy — Relatório Gerencial
+              </h1>
+              <p
+                style={{
+                  margin: "4px 0 0",
+                  color: "#64748b",
+                  fontSize: "12px",
+                }}
+              >
+                Período:{" "}
+                {period === "7d"
+                  ? "Últimos 7 dias"
+                  : period === "30d"
+                    ? "Últimos 30 dias"
+                    : "Este Ano"}
+              </p>
+            </div>
+            <div
+              style={{ textAlign: "right", color: "#64748b", fontSize: "12px" }}
+            >
+              <p style={{ margin: 0 }}>
+                Data de Emissão: {new Date().toLocaleDateString("pt-BR")}
+              </p>
+            </div>
+          </div>
+
+          <h3
+            style={{
+              fontSize: "14px",
+              color: "#0f172a",
+              marginBottom: "10px",
+              fontWeight: "700",
+            }}
+          >
+            Métricas Operacionais
+          </h3>
+          <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
+            <div
+              style={{
+                flex: 1,
+                background: "#f8fafc",
+                padding: "14px 16px",
+                borderRadius: "10px",
+                border: "1px solid #e2e8f0",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "10px",
+                  color: "#64748b",
+                  fontWeight: "700",
+                  textTransform: "uppercase",
+                }}
+              >
+                Tempo Médio de Aceitação
+              </span>
+              <h2
+                style={{
+                  fontSize: "22px",
+                  color: "#0f172a",
+                  margin: "6px 0",
+                  fontWeight: "800",
+                }}
+              >
+                {safeMetrics.tempoAceitacao} Min
+              </h2>
+              <span
+                style={{
+                  fontSize: "11px",
+                  color: "#16a34a",
+                  fontWeight: "700",
+                }}
+              >
+                ↓ -1.2 min vs. semana passada
+              </span>
+            </div>
+
+            <div
+              style={{
+                flex: 1,
+                background: "#f8fafc",
+                padding: "14px 16px",
+                borderRadius: "10px",
+                border: "1px solid #e2e8f0",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "10px",
+                  color: "#64748b",
+                  fontWeight: "700",
+                  textTransform: "uppercase",
+                }}
+              >
+                Tempo Médio de Preparo
+              </span>
+              <h2
+                style={{
+                  fontSize: "22px",
+                  color: "#0f172a",
+                  margin: "6px 0",
+                  fontWeight: "800",
+                }}
+              >
+                {safeMetrics.tempoPreparo} Min
+              </h2>
+              <span
+                style={{
+                  fontSize: "11px",
+                  color: "#dc2626",
+                  fontWeight: "700",
+                }}
+              >
+                ↑ +3 min vs. meta
+              </span>
+            </div>
+
+            <div
+              style={{
+                flex: 1,
+                background: "#f8fafc",
+                padding: "14px 16px",
+                borderRadius: "10px",
+                border: "1px solid #e2e8f0",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "10px",
+                  color: "#64748b",
+                  fontWeight: "700",
+                  textTransform: "uppercase",
+                }}
+              >
+                Taxa de Cancelamento
+              </span>
+              <div
+                style={{
+                  marginTop: "8px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "4px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "12px",
+                  }}
+                >
+                  <span>Delivery:</span>{" "}
+                  <strong style={{ color: "#dc2626" }}>
+                    {safeMetrics.cancelamentoDelivery}%
+                  </strong>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "12px",
+                  }}
+                >
+                  <span>Local:</span>{" "}
+                  <strong style={{ color: "#dc2626" }}>
+                    {safeMetrics.cancelamentoLocal}%
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3
+            style={{
+              fontSize: "14px",
+              color: "#0f172a",
+              marginBottom: "10px",
+              fontWeight: "700",
+            }}
+          >
+            Resumo de Faturamento e Desempenho
+          </h3>
+          <div
+            style={{
+              background: "#ffffff",
+              borderRadius: "10px",
+              border: "1px solid #e2e8f0",
+              padding: "12px",
+              marginBottom: "20px",
+            }}
+          >
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                textAlign: "left",
+                fontSize: "12px",
+              }}
+            >
+              <thead>
+                <tr
+                  style={{
+                    borderBottom: "2px solid #e2e8f0",
+                    color: "#64748b",
+                  }}
+                >
+                  <th style={{ padding: "8px 10px" }}>Indicador</th>
+                  <th style={{ padding: "8px 10px" }}>Status Atual</th>
+                  <th style={{ padding: "8px 10px" }}>Avaliação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderBottom: "1px solid #f1f5f9" }}>
+                  <td style={{ padding: "10px", fontWeight: "600" }}>
+                    Eficiência da Cozinha
+                  </td>
+                  <td style={{ padding: "10px" }}>
+                    {safeMetrics.tempoPreparo} min méd. de preparo
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      color: "#16a34a",
+                      fontWeight: "700",
+                    }}
+                  >
+                    Dentro do esperado
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ padding: "10px", fontWeight: "600" }}>
+                    Taxa de Pedidos Concluídos
+                  </td>
+                  <td style={{ padding: "10px" }}>
+                    {100 - safeMetrics.cancelamentoDelivery}% de sucesso no
+                    Delivery
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      color: "#16a34a",
+                      fontWeight: "700",
+                    }}
+                  >
+                    Excelente
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            style={{
+              textAlign: "center",
+              color: "#94a3b8",
+              fontSize: "10px",
+              marginTop: "20px",
+              borderTop: "1px solid #e2e8f0",
+              paddingTop: "10px",
+            }}
+          >
+            Yummy System © {new Date().getFullYear()} — Relatório Gerencial
+            Automatizado
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
