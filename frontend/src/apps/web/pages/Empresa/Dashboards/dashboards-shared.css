@@ -1,6 +1,43 @@
-/* Estados compartilhados (loading/vazio/erro) usados por todos os
-   dashboards da empresa agora que eles consomem a API de verdade. */
+/* dashboards-shared.css - Variáveis Globais de Tema e Estados */
 
+:root,
+html[data-tema="claro"] {
+  --fundo: #f8fafc !important;
+  --cartao: #ffffff !important;
+  --texto: #1e293b !important;
+  --apoio: #64748b !important;
+  --borda: #e2e8f0 !important;
+  --laranja: #ed5b22 !important;
+  --laranja-suave: #fff0e8 !important;
+  --sombra-cartao: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+html[data-tema="escuro"] {
+  --fundo: #0e0f11 !important;
+  --cartao: #17181c !important;
+  --texto: #f3f4f6 !important;
+  --apoio: #9ca3af !important;
+  --borda: rgba(255, 255, 255, 0.08) !important;
+  --laranja: #ed5b22 !important;
+  --laranja-suave: rgba(237, 91, 34, 0.15) !important;
+  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Aplicação automática do fundo e cor de texto base em qualquer layout de aba */
+body,
+.dashboard-page-layout,
+.pedidos-page-layout,
+.cardapio-page-layout,
+.clientes-page-layout,
+.relatorios-page-layout,
+.bento-wrapper-root,
+.page-layout {
+  background-color: var(--fundo) !important;
+  color: var(--texto) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Estados compartilhados (loading/vazio/erro) */
 .dashboard-error-msg {
   background: #fef2f2;
   color: #b91c1c;
@@ -12,14 +49,14 @@
 }
 
 .dashboard-empty-msg {
-  color: #9ca3af;
+  color: var(--apoio);
   font-size: 0.9rem;
   padding: 1rem 0;
   text-align: center;
 }
 
 .dashboard-loading-msg {
-  color: #9ca3af;
+  color: var(--apoio);
   font-size: 0.9rem;
   padding: 2rem 0;
   text-align: center;
@@ -48,49 +85,4 @@
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-/* Pill de status genérico, usado por telas que não definem o próprio (ex: Cadastro de Pratos) */
-.status-pill {
-  display: inline-block;
-  padding: 0.3rem 0.8rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.status-pill.status-em-estoque {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.status-pill.status-esgotado {
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-.status-pill.status-novos {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
-
-.status-pill.status-em-preparo {
-  background: #fef3c7;
-  color: #b45309;
-}
-
-.status-pill.status-prontos {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.status-pill.status-entregues {
-  background: #e0e7ff;
-  color: #4338ca;
-}
-
-.status-pill.status-concluídos {
-  background: #f3f4f6;
-  color: #374151;
 }

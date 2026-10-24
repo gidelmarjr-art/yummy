@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import {
   FaCog,
   FaBell,
+  FaSun,
+  FaMoon,
   FaExclamationTriangle,
   FaCheckCircle,
 } from "react-icons/fa";
@@ -12,9 +14,57 @@ import "./TopHeader.css";
 export default function TopHeader({ title = "Dashboard Geral" }) {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [tema, setTema] = useState(
+    () => localStorage.getItem("yummy_tema") || "claro",
+  );
   const dropdownRef = useRef(null);
 
-  // Lista simulada de notificações de insumos e alertas
+  useEffect(() => {
+    document.documentElement.setAttribute("data-tema", tema);
+    localStorage.setItem("yummy_tema", tema);
+  }, [tema]);
+
+  const alternarTema = (e) => {
+    const novoTema = tema === "escuro" ? "claro" : "escuro";
+    const x = e.clientX || window.innerWidth / 2;
+    const y = e.clientY || window.innerHeight / 2;
+    const raioFinal = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const aplicar = () => {
+      setTema(novoTema);
+      document.documentElement.setAttribute("data-tema", novoTema);
+      localStorage.setItem("yummy_tema", novoTema);
+    };
+
+    if (
+      !document.startViewTransition ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      aplicar();
+      return;
+    }
+
+    const transition = document.startViewTransition(() => aplicar());
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${raioFinal}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 750,
+          easing: "cubic-bezier(.65,0,.35,1)",
+          pseudoElement: "::view-transition-new(root)",
+        },
+      );
+    });
+  };
+
   const [notifications] = useState([
     {
       id: 1,
@@ -25,13 +75,6 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
     },
     {
       id: 2,
-      tipo: "alerta",
-      titulo: "Estoque Crítico: Pão de Hambúrguer",
-      desc: "Quantidade abaixo do limite mínimo (12 unidades).",
-      tempo: "Há 35 min",
-    },
-    {
-      id: 3,
       tipo: "sucesso",
       titulo: "Pedido #1040 Finalizado",
       desc: "Pagamento confirmado via PIX.",
@@ -39,7 +82,6 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
     },
   ]);
 
-  // Fechar dropdown ao clicar fora
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -55,22 +97,28 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
       <h1 className="page-heading">{title}</h1>
 
       <div className="top-bar-right">
-        {/* Botão para Configurações */}
+        {/* Botão Global de Tema */}
+        <button
+          className="action-circle-btn"
+          onClick={alternarTema}
+          aria-label="Alternar Tema"
+          title="Alternar Tema Claro/Escuro"
+        >
+          {tema === "escuro" ? <FaSun /> : <FaMoon />}
+        </button>
+
         <button
           className="action-circle-btn"
           aria-label="Configurações"
-          title="Ir para Configurações"
           onClick={() => navigate("/configuracoes")}
         >
           <FaCog />
         </button>
 
-        {/* Botão de Notificações com Dropdown Popover */}
         <div className="notification-wrapper" ref={dropdownRef}>
           <button
             className={`action-circle-btn ${showNotifications ? "active" : ""}`}
             aria-label="Notificações"
-            title="Ver Notificações"
             onClick={() => setShowNotifications(!showNotifications)}
           >
             <FaBell />
@@ -87,7 +135,6 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
                   {notifications.length} novas
                 </span>
               </div>
-
               <div className="dropdown-body">
                 {notifications.map((notif) => (
                   <div
@@ -109,25 +156,17 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
                   </div>
                 ))}
               </div>
-
-              <div className="dropdown-footer">
-                <button onClick={() => navigate("/estoque")}>
-                  Ir para Controle de Estoque
-                </button>
-              </div>
             </div>
           )}
         </div>
 
-        {/* Avatar clicável redirecionando para o Perfil da Loja */}
         <div
           className="user-profile-avatar clickable"
-          title="Ir para Perfil da Loja"
           onClick={() => navigate("/perfil-loja")}
         >
           <img
             src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-            alt="Perfil da Loja"
+            alt="Avatar"
           />
         </div>
       </div>

@@ -1,26 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap');
 
 /* ==========================================================================
-   TEMA CLARO PERMANENTE - PALETA LARANJA BRAND (#ed5b22)
+   VARIÁVEIS DE TEMA (CLARO E ESCURO)
    ========================================================================== */
 :root,
-html[data-tema="escuro"],
 html[data-tema="claro"] {
   --mola: cubic-bezier(.34, 1.56, .64, 1);
   --suave: cubic-bezier(.22, 1, .36, 1);
   --fonte-titulo: 'Bricolage Grotesque', sans-serif;
   --fonte-corpo: 'Figtree', sans-serif;
 
-  --fundo: #e8e7e0 !important;
-  --cartao: #ffffff !important;
-  --texto: #17181a !important;
-  --apoio: #868883 !important;
-  --laranja: #ed5b22 !important;
-  --laranja-suave: #fff0e8 !important;
-  --circulo-ativo: #17181a !important;
-  --borda: rgba(0, 0, 0, 0.08) !important;
-  --gradiente-destaque: linear-gradient(135deg, #fff0e8 0%, #ffffff 100%) !important;
-  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05) !important;
+  --fundo: #e8e7e0;
+  --cartao: #ffffff;
+  --texto: #17181a;
+  --apoio: #868883;
+  --laranja: #ed5b22;
+  --laranja-suave: #fff0e8;
+  --circulo-ativo: #17181a;
+  --borda: rgba(0, 0, 0, 0.08);
+  --gradiente-destaque: linear-gradient(135deg, #fff0e8 0%, #ffffff 100%);
+  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05);
+}
+
+html[data-tema="escuro"] {
+  --mola: cubic-bezier(.34, 1.56, .64, 1);
+  --suave: cubic-bezier(.22, 1, .36, 1);
+  --fonte-titulo: 'Bricolage Grotesque', sans-serif;
+  --fonte-corpo: 'Figtree', sans-serif;
+
+  --fundo: #0e0f11;
+  --cartao: #17181c;
+  --texto: #f3f4f6;
+  --apoio: #9ca3af;
+  --laranja: #ed5b22;
+  --laranja-suave: rgba(237, 91, 34, 0.15);
+  --circulo-ativo: #ffffff;
+  --borda: rgba(255, 255, 255, 0.08);
+  --gradiente-destaque: linear-gradient(135deg, rgba(237, 91, 34, 0.2) 0%, #17181c 100%);
+  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.4);
 }
 
 .bento-wrapper-root {
