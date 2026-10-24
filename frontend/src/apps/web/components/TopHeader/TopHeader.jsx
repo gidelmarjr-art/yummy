@@ -1,7 +1,13 @@
 // TopHeader.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaSearch, FaCog, FaBell, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
+import {
+  FaSearch,
+  FaCog,
+  FaBell,
+  FaExclamationTriangle,
+  FaCheckCircle,
+} from "react-icons/fa";
 import "./TopHeader.css";
 
 export default function TopHeader({ title = "Dashboard Geral" }) {
@@ -50,12 +56,6 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
       <h1 className="page-heading">{title}</h1>
 
       <div className="top-bar-right">
-        {/* Caixa de Pesquisa */}
-        <div className="search-box">
-          <FaSearch className="search-icon" />
-          <input type="text" placeholder="Pesquisar no sistema..." />
-        </div>
-
         {/* Botão para Configurações */}
         <button
           className="action-circle-btn"
@@ -75,21 +75,32 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
             onClick={() => setShowNotifications(!showNotifications)}
           >
             <FaBell />
-            {notifications.length > 0 && <span className="notification-badge">{notifications.length}</span>}
+            {notifications.length > 0 && (
+              <span className="notification-badge">{notifications.length}</span>
+            )}
           </button>
 
           {showNotifications && (
             <div className="notification-dropdown">
               <div className="dropdown-header">
                 <h3>Notificações & Alertas</h3>
-                <span className="badge-count">{notifications.length} novas</span>
+                <span className="badge-count">
+                  {notifications.length} novas
+                </span>
               </div>
 
               <div className="dropdown-body">
                 {notifications.map((notif) => (
-                  <div key={notif.id} className={`notification-item ${notif.tipo}`}>
+                  <div
+                    key={notif.id}
+                    className={`notification-item ${notif.tipo}`}
+                  >
                     <div className="notif-icon">
-                      {notif.tipo === "alerta" ? <FaExclamationTriangle /> : <FaCheckCircle />}
+                      {notif.tipo === "alerta" ? (
+                        <FaExclamationTriangle />
+                      ) : (
+                        <FaCheckCircle />
+                      )}
                     </div>
                     <div className="notif-content">
                       <h4>{notif.titulo}</h4>
@@ -101,7 +112,9 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
               </div>
 
               <div className="dropdown-footer">
-                <button onClick={() => navigate("/estoque")}>Ir para Controle de Estoque</button>
+                <button onClick={() => navigate("/estoque")}>
+                  Ir para Controle de Estoque
+                </button>
               </div>
             </div>
           )}
@@ -113,7 +126,10 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
           title="Ir para Perfil da Loja"
           onClick={() => navigate("/perfil-loja")}
         >
-          <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Perfil da Loja" />
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+            alt="Perfil da Loja"
+          />
         </div>
       </div>
     </header>
