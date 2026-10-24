@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import html2pdf from "html2pdf.js";
 import {
   BarChart,
   Bar,
@@ -23,6 +24,11 @@ import {
   FaArrowDown,
   FaMotorcycle,
   FaStore,
+  FaBars,
+  FaSun,
+  FaMoon,
+  FaChartPie,
+  FaBan,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { useRealtimeDashboard } from "./useRealtimeDashboard";
@@ -32,11 +38,83 @@ import "./Relatorios.css";
 export default function Relatorios() {
   const [period, setPeriod] = useState("7d");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
+  const [tema, setTema] = useState("claro");
   const { metrics, weeklyData, paymentData, monthlyData, loading, erro } =
     useRealtimeDashboard();
 
+  // Referência para o elemento que será convertido em PDF
+  const reportRef = useRef(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-tema", tema);
+  }, [tema]);
+
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
+  };
+
+  const alternarTema = (e) => {
+    const novoTema = tema === "escuro" ? "claro" : "escuro";
+    const x = e.clientX || window.innerWidth / 2;
+    const y = e.clientY || window.innerHeight / 2;
+    const raioFinal = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const aplicar = () => {
+      setTema(novoTema);
+      document.documentElement.setAttribute("data-tema", novoTema);
+    };
+
+    if (
+      !document.startViewTransition ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      aplicar();
+      return;
+    }
+
+    const transition = document.startViewTransition(() => aplicar());
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${raioFinal}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 750,
+          easing: "cubic-bezier(.65,0,.35,1)",
+          pseudoElement: "::view-transition-new(root)",
+        },
+      );
+    });
+  };
+
+  // Função para exportar o PDF exatamente como está na tela
+  const handleExportPDF = () => {
+    const element = reportRef.current;
+    if (!element) return;
+
+    setIsExporting(true);
+
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: `Relatorio_Yummy_${period}_${new Date().toISOString().slice(0, 10)}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
+    };
+
+    html2pdf()
+      .set(opt)
+      .from(element)
+      .save()
+      .then(() => setIsExporting(false))
+      .catch(() => setIsExporting(false));
   };
 
   const safeMetrics = metrics || {
@@ -48,14 +126,25 @@ export default function Relatorios() {
 
   return (
     <div
-      className={`relatorios-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`relatorios-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
     >
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="relatorios-main-content">
         {/* Header */}
         <header className="relatorios-top-bar">
-          <h1 className="page-heading">Relatórios e Indicadores</h1>
+          <div className="top-bar-left">
+            {!isSidebarOpen && (
+              <button
+                className="toggle-sidebar-btn"
+                onClick={toggleSidebar}
+                aria-label="Abrir menu"
+              >
+                <FaBars />
+              </button>
+            )}
+            <h1 className="page-heading">Relatórios e Indicadores</h1>
+          </div>
 
           <div className="top-bar-right">
             <div className="search-box">
@@ -63,6 +152,13 @@ export default function Relatorios() {
               <input type="text" placeholder="Buscar indicador..." />
             </div>
 
+            <button
+              className="action-circle-btn"
+              onClick={alternarTema}
+              aria-label="Alternar Tema"
+            >
+              {tema === "escuro" ? <FaSun /> : <FaMoon />}
+            </button>
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>
@@ -79,8 +175,11 @@ export default function Relatorios() {
           </div>
         </header>
 
-        {/* Dashboard Body */}
-        <div className="relatorios-dashboard-body">
+        {/* Dashboard Body / Conteúdo para o PDF */}
+        <div
+          className="relatorios-dashboard-body bento-body-container"
+          ref={reportRef}
+        >
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
           {loading ? (
@@ -88,7 +187,7 @@ export default function Relatorios() {
           ) : (
             <>
               {/* Barra de Filtros */}
-              <div className="relatorios-filter-bar">
+              <div className="relatorios-filter-bar" style={{ "--i": 0 }}>
                 <div className="filter-period-selector">
                   <FaCalendarAlt className="calendar-icon" />
                   <select
@@ -103,59 +202,99 @@ export default function Relatorios() {
 
                 <button
                   className="btn-export-report"
-                  onClick={() => alert("Gerando relatório...")}
+                  onClick={handleExportPDF}
+                  disabled={isExporting}
                 >
-                  <FaDownload /> Exportar Relatório
+                  <FaDownload />{" "}
+                  {isExporting ? "Gerando PDF..." : "Exportar Relatório"}
                 </button>
               </div>
 
-              {/* Métricas Operacionais */}
+              {/* Métricas Operacionais Bento */}
               <section className="metrics-section">
-                <h2 className="section-title-dark">Métricas Operacionais</h2>
-                <div className="operational-cards-grid">
-                  <div className="metric-card orange-card">
-                    <div className="metric-header">
+                <h2 className="section-title-dark" style={{ "--i": 1 }}>
+                  Métricas Operacionais
+                </h2>
+                <div className="operational-cards-grid bento-metrics-grid-3">
+                  <div
+                    className="metric-card bento-card card-featured"
+                    style={{ "--i": 2 }}
+                  >
+                    <div className="metric-header-clean">
                       <span>Tempo Médio de Aceitação</span>
-                      <div className="metric-icon-wrapper circle-white">
-                        <FaClock />
+                      <div className="metric-icon-circle orange-bg">
+                        <FaClock className="icon-orange" />
                       </div>
                     </div>
-                    <div className="metric-value">
+                    <h2 className="metric-value">
                       {safeMetrics.tempoAceitacao} Min
-                    </div>
-                    <div className="metric-footer">
+                    </h2>
+                    <div className="metric-footer-clean">
                       <span className="trend-badge positive">
                         <FaArrowDown /> -1.2 min
                       </span>
-                      <span className="trend-label">vs. semana passada</span>
+                      <span className="trend-label"> vs. semana passada</span>
                     </div>
                   </div>
 
-                  <div className="metric-card white-card">
-                    <div className="metric-header">
+                  <div className="metric-card bento-card" style={{ "--i": 3 }}>
+                    <div className="metric-header-clean">
                       <span>Tempo Médio de Preparo</span>
-                      <div className="metric-icon-wrapper circle-orange">
-                        <FaClock />
+                      <div className="metric-icon-circle pink-bg">
+                        <FaClock className="icon-pink" />
                       </div>
                     </div>
-                    <div className="metric-value">
+                    <h2 className="metric-value">
                       {safeMetrics.tempoPreparo} Min
-                    </div>
-                    <div className="metric-footer">
+                    </h2>
+                    <div className="metric-footer-clean">
                       <span className="trend-badge negative">
                         <FaArrowUp /> +3 min
                       </span>
-                      <span className="trend-label">vs. meta</span>
+                      <span className="trend-label"> vs. meta</span>
+                    </div>
+                  </div>
+
+                  <div
+                    className="metric-card bento-card cancellation-card-inline"
+                    style={{ "--i": 4 }}
+                  >
+                    <div className="metric-header-clean">
+                      <span>Taxa de Cancelamento</span>
+                      <div className="metric-icon-circle red-bg">
+                        <FaBan className="icon-red" />
+                      </div>
+                    </div>
+
+                    <div className="cancellation-inline-items">
+                      <div className="cancellation-inline-row">
+                        <span className="cancellation-type">
+                          <FaMotorcycle className="type-icon delivery" />{" "}
+                          Delivery
+                        </span>
+                        <strong className="cancellation-value">
+                          {safeMetrics.cancelamentoDelivery}%
+                        </strong>
+                      </div>
+
+                      <div className="cancellation-inline-row">
+                        <span className="cancellation-type">
+                          <FaStore className="type-icon local" /> Local
+                        </span>
+                        <strong className="cancellation-value">
+                          {safeMetrics.cancelamentoLocal}%
+                        </strong>
+                      </div>
                     </div>
                   </div>
                 </div>
               </section>
 
-              {/* Linha 1: Faturamento Semanal + Formas de Pagamento */}
-              <div className="charts-double-row">
-                <div className="chart-card">
+              {/* Linha 1: Gráficos Bento */}
+              <div className="charts-double-row" style={{ "--i": 5 }}>
+                <div className="chart-card bento-card">
                   <div className="chart-card-header">
-                    <h3>Faturamento Semanal</h3>
+                    <h3 className="section-title-clean">Faturamento Semanal</h3>
                     <div className="chart-legend">
                       <span className="legend-item">
                         <span className="dot deposit"></span> Depósito
@@ -166,47 +305,54 @@ export default function Relatorios() {
                     </div>
                   </div>
 
-                  <div style={{ width: "100%", height: 200 }}>
+                  <div style={{ width: "100%", height: 210 }}>
                     <ResponsiveContainer>
                       <BarChart data={weeklyData || []} barGap={6}>
                         <XAxis
                           dataKey="day"
                           axisLine={false}
                           tickLine={false}
+                          stroke="#868883"
                         />
                         <YAxis
                           axisLine={false}
                           tickLine={false}
                           domain={[0, 500]}
+                          stroke="#868883"
                         />
                         <Tooltip cursor={{ fill: "rgba(0,0,0,0.03)" }} />
                         <Bar
                           dataKey="deposit"
                           fill="#f59e0b"
-                          radius={[4, 4, 0, 0]}
+                          radius={[6, 6, 0, 0]}
                         />
                         <Bar
                           dataKey="withdraw"
                           fill="#ed5b22"
-                          radius={[4, 4, 0, 0]}
+                          radius={[6, 6, 0, 0]}
                         />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
 
-                <div className="chart-card">
-                  <h3>Formas de Pagamento mais Usadas</h3>
-                  <div style={{ width: "100%", height: 200 }}>
+                <div className="chart-card bento-card">
+                  <div className="chart-card-header">
+                    <h3 className="section-title-clean">
+                      Pagamentos mais Usados
+                    </h3>
+                    <FaChartPie style={{ color: "#ed5b22" }} />
+                  </div>
+                  <div style={{ width: "100%", height: 210 }}>
                     <ResponsiveContainer>
                       <PieChart>
                         <Pie
                           data={paymentData || []}
                           cx="50%"
                           cy="50%"
-                          innerRadius={45}
-                          outerRadius={75}
-                          paddingAngle={2}
+                          innerRadius={50}
+                          outerRadius={78}
+                          paddingAngle={3}
                           dataKey="value"
                           label={({ name, value }) => `${value}% ${name}`}
                         >
@@ -224,11 +370,11 @@ export default function Relatorios() {
                 </div>
               </div>
 
-              {/* Linha 2: Faturamento Mensal + Cancelamento */}
-              <div className="charts-double-row">
-                <div className="chart-card">
-                  <h3>Faturamento Mensal</h3>
-                  <div style={{ width: "100%", height: 180 }}>
+              {/* Linha 2: Faturamento Mensal Largura Total */}
+              <div className="full-width-chart-row" style={{ "--i": 6 }}>
+                <div className="chart-card bento-card">
+                  <h3 className="section-title-clean">Faturamento Mensal</h3>
+                  <div style={{ width: "100%", height: 220 }}>
                     <ResponsiveContainer>
                       <AreaChart data={monthlyData || []}>
                         <defs>
@@ -255,11 +401,13 @@ export default function Relatorios() {
                           dataKey="month"
                           axisLine={false}
                           tickLine={false}
+                          stroke="#868883"
                         />
                         <YAxis
                           axisLine={false}
                           tickLine={false}
                           domain={[0, 800]}
+                          stroke="#868883"
                         />
                         <Tooltip />
                         <Area
@@ -272,31 +420,6 @@ export default function Relatorios() {
                         />
                       </AreaChart>
                     </ResponsiveContainer>
-                  </div>
-                </div>
-
-                <div className="chart-card cancellation-rate-card">
-                  <h3>Taxa de Cancelamento</h3>
-                  <div className="cancellation-items">
-                    <div className="cancellation-row">
-                      <div className="cancellation-type">
-                        <FaMotorcycle className="type-icon delivery" />
-                        <span>Delivery</span>
-                      </div>
-                      <strong className="cancellation-value">
-                        {safeMetrics.cancelamentoDelivery}%
-                      </strong>
-                    </div>
-
-                    <div className="cancellation-row">
-                      <div className="cancellation-type">
-                        <FaStore className="type-icon local" />
-                        <span>Local</span>
-                      </div>
-                      <strong className="cancellation-value">
-                        {safeMetrics.cancelamentoLocal}%
-                      </strong>
-                    </div>
                   </div>
                 </div>
               </div>

@@ -1,5 +1,35 @@
-/* Relatorios.css - Completo e Otimizado para Responsividade */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap');
+
+/* Tema e Variáveis Universais */
+:root,
+html[data-tema="escuro"],
+html[data-tema="claro"] {
+  --mola: cubic-bezier(.34, 1.56, .64, 1);
+  --suave: cubic-bezier(.22, 1, .36, 1);
+  --fonte-titulo: 'Bricolage Grotesque', sans-serif;
+  --fonte-corpo: 'Figtree', sans-serif;
+
+  --fundo: #e8e7e0 !important;
+  --cartao: #ffffff !important;
+  --texto: #17181a !important;
+  --apoio: #868883 !important;
+  --laranja: #ed5b22 !important;
+  --laranja-suave: #fff0e8 !important;
+  --borda: rgba(0, 0, 0, 0.08) !important;
+  --gradiente-destaque: linear-gradient(135deg, #fff0e8 0%, #ffffff 100%) !important;
+  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05) !important;
+}
+
+html[data-tema="escuro"] {
+  --fundo: #0e0f11 !important;
+  --cartao: #17181c !important;
+  --texto: #f3f4f6 !important;
+  --apoio: #9ca3af !important;
+  --laranja-suave: rgba(237, 91, 34, 0.15) !important;
+  --borda: rgba(255, 255, 255, 0.08) !important;
+  --gradiente-destaque: linear-gradient(135deg, rgba(237, 91, 34, 0.18) 0%, #17181c 100%) !important;
+  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.4) !important;
+}
 
 *,
 *::before,
@@ -11,9 +41,9 @@
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background-color: #f8fafc;
-  font-family: 'Inter', sans-serif;
-  color: #1e293b;
+  background-color: var(--fundo) !important;
+  font-family: var(--fonte-corpo) !important;
+  color: var(--texto) !important;
   overflow-x: hidden;
 }
 
@@ -22,7 +52,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--fundo) !important;
 }
 
 /* Header Superior */
@@ -31,48 +61,51 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--cartao) !important;
+  border-bottom: 1px solid var(--borda) !important;
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
   gap: 1rem;
 }
 
 .page-heading {
+  font-family: var(--fonte-titulo) !important;
   font-size: 1.5rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto) !important;
   margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .top-bar-right {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 0.8rem;
 }
 
 .search-box {
   display: flex;
   align-items: center;
-  background-color: #f1f5f9;
-  padding: 0.5rem 1rem;
+  background-color: var(--fundo);
+  padding: 0.55rem 1rem;
   border-radius: 20px;
   width: 260px;
-  border: 1px solid transparent;
-  transition: border-color 0.2s ease;
+  border: 1px solid var(--borda);
+  transition: all 0.2s ease;
 }
 
 .search-box:focus-within {
-  border-color: #ed5b22;
-  background-color: #ffffff;
+  border-color: var(--laranja);
+  background-color: var(--cartao);
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.12);
 }
 
 .search-icon {
-  color: #94a3b8;
+  color: var(--apoio);
   font-size: 0.85rem;
-  margin-right: 0.5rem;
-  flex-shrink: 0;
+  margin-right: 0.6rem;
 }
 
 .search-box input {
@@ -81,29 +114,28 @@
   outline: none;
   font-size: 0.85rem;
   width: 100%;
-  color: #334155;
-  min-width: 0;
+  color: var(--texto);
+  font-family: var(--fonte-corpo);
 }
 
 .action-circle-btn {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background-color: var(--cartao);
+  border: 1px solid var(--borda);
   width: 38px;
   height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #64748b;
+  color: var(--apoio);
   cursor: pointer;
   transition: all 0.2s ease;
-  flex-shrink: 0;
 }
 
 .action-circle-btn:hover {
-  background-color: #ed5b22;
+  background-color: var(--laranja);
   color: #ffffff;
-  border-color: #ed5b22;
+  border-color: var(--laranja);
 }
 
 .user-profile-avatar {
@@ -111,8 +143,7 @@
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #ed5b22;
-  flex-shrink: 0;
+  border: 2px solid var(--laranja);
 }
 
 .user-profile-avatar img {
@@ -121,15 +152,35 @@
   object-fit: cover;
 }
 
-/* Corpo Principal dos Relatórios */
+/* Corpo Principal dos Relatórios Bento */
 .relatorios-dashboard-body {
-  background-color: #f1f5f9;
+  background-color: var(--fundo) !important;
   flex: 1;
-  padding: 2rem 2.5rem;
+  padding: 2rem 2.5rem !important;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  min-width: 0;
+  gap: 1.8rem;
+}
+
+/* Animações de Entrada em Cascata */
+.relatorios-filter-bar,
+.metrics-section>*,
+.charts-double-row>*,
+.full-width-chart-row>* {
+  animation: surge 0.6s var(--suave) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+@keyframes surge {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Barra de Filtros */
@@ -145,17 +196,16 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  background-color: #ffffff;
+  background-color: var(--cartao);
   padding: 0.6rem 1.2rem;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  border-radius: 14px;
+  border: 1px solid var(--borda);
+  box-shadow: var(--sombra-cartao);
 }
 
 .calendar-icon {
-  color: #ed5b22;
+  color: var(--laranja);
   font-size: 1rem;
-  flex-shrink: 0;
 }
 
 .filter-period-selector select {
@@ -163,197 +213,214 @@
   background: transparent;
   font-size: 0.88rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--texto);
   outline: none;
   cursor: pointer;
+  font-family: var(--fonte-corpo);
 }
 
 .btn-export-report {
-  background-color: #ed5b22;
+  background-color: var(--laranja);
   color: #ffffff;
   border: none;
   padding: 0.65rem 1.25rem;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(237, 91, 34, 0.2);
+  box-shadow: 0 4px 12px rgba(237, 91, 34, 0.25);
   transition: all 0.2s ease;
-  white-space: nowrap;
 }
 
 .btn-export-report:hover {
   background-color: #ff7a45;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
-/* Métricas Operacionais */
+/* Métricas Operacionais Bento Grid (3 COLUNAS) */
 .metrics-section {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .section-title-dark {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #0f172a;
+  font-family: var(--fonte-titulo) !important;
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  color: var(--texto) !important;
   margin: 0;
 }
 
-.operational-cards-grid {
+.bento-metrics-grid-3 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
 }
 
-.metric-card {
-  border-radius: 20px;
-  padding: 1.25rem 1.5rem;
+.bento-card {
+  background-color: var(--cartao) !important;
+  border-radius: 24px !important;
+  border: 1px solid var(--borda) !important;
+  box-shadow: var(--sombra-cartao) !important;
+  padding: 1.5rem !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   min-width: 0;
 }
 
-.metric-card.orange-card {
-  background-color: #ed5b22;
-  color: #ffffff;
-  border: none;
+.bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08) !important;
 }
 
-.metric-card.orange-card .metric-header span {
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.78rem;
-  letter-spacing: 0.5px;
+.card-featured {
+  background: var(--gradiente-destaque) !important;
+  border-color: var(--laranja) !important;
 }
 
-.metric-card.orange-card .metric-value {
-  color: #ffffff;
-  font-size: 2.2rem;
-  font-weight: 800;
-}
-
-.metric-card.orange-card .circle-white {
-  background-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-}
-
-.metric-card.orange-card .trend-badge.positive {
-  background-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  font-weight: 800;
-  padding: 4px 8px;
-  border-radius: 8px;
-}
-
-.metric-card.orange-card .trend-label {
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-  font-size: 0.75rem;
-}
-
-.metric-card.white-card {
-  background-color: #ffffff;
-  color: #0f172a;
-  border: 1px solid #e2e8f0;
-}
-
-.metric-card.white-card .metric-header span {
-  color: #64748b;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.78rem;
-  letter-spacing: 0.5px;
-}
-
-.metric-card.white-card .metric-value {
-  color: #0f172a;
-  font-size: 2.2rem;
-  font-weight: 800;
-}
-
-.metric-card.white-card .circle-orange {
-  background-color: #ffedd5;
-  color: #ed5b22;
-}
-
-.metric-card.white-card .trend-badge.negative {
-  background-color: #fee2e2;
-  color: #dc2626;
-  font-weight: 800;
-  padding: 4px 8px;
-  border-radius: 8px;
-}
-
-.metric-card.white-card .trend-label {
-  color: #64748b;
-  font-weight: 500;
-  font-size: 0.75rem;
-}
-
-.metric-header {
+.metric-header-clean {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: var(--apoio);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.metric-icon-wrapper {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
+.metric-icon-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 1.15rem;
 }
 
-.metric-footer {
+.orange-bg {
+  background-color: var(--laranja-suave);
+}
+
+.icon-orange {
+  color: var(--laranja);
+}
+
+.pink-bg {
+  background-color: rgba(225, 29, 72, 0.12);
+}
+
+.icon-pink {
+  color: #e11d48;
+}
+
+.red-bg {
+  background-color: rgba(220, 38, 38, 0.12);
+}
+
+.icon-red {
+  color: #dc2626;
+}
+
+.metric-value {
+  font-family: var(--fonte-titulo) !important;
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  color: var(--texto) !important;
+  letter-spacing: -0.03em !important;
+  margin: 0.2rem 0 !important;
+}
+
+.metric-footer-clean {
+  font-size: 0.78rem;
+  color: var(--apoio);
+  font-weight: 600;
+}
+
+.trend-badge {
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.trend-badge.positive {
+  color: #16a34a;
+  background-color: rgba(22, 163, 74, 0.12);
+}
+
+.trend-badge.negative {
+  color: #dc2626;
+  background-color: rgba(220, 38, 38, 0.12);
+}
+
+/* Taxa de Cancelamento no Card da Linha Superior */
+.cancellation-inline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.cancellation-inline-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.8rem;
+  background-color: var(--fundo);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+}
+
+.cancellation-type {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--texto);
 }
 
-/* Grid de Gráficos Duplos */
+.cancellation-type .type-icon {
+  font-size: 0.95rem;
+  color: var(--laranja);
+}
+
+.cancellation-value {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #dc2626;
+}
+
+/* Gráficos Duplos Bento */
 .charts-double-row {
   display: grid;
-  grid-template-columns: 1.8fr 1.2fr;
+  grid-template-columns: 1.6fr 1.4fr;
   gap: 1.5rem;
 }
 
 .chart-card {
-  background-color: #ffffff;
-  border-radius: 20px;
-  padding: 1.5rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-  display: flex;
   flex-direction: column;
-  min-width: 0;
-}
-
-.chart-card h3 {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 1rem 0;
 }
 
 .chart-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.8rem;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.section-title-clean {
+  font-family: var(--fonte-titulo) !important;
+  font-size: 1.1rem !important;
+  font-weight: 800 !important;
+  color: var(--texto) !important;
+  margin: 0;
 }
 
 .chart-legend {
@@ -361,7 +428,7 @@
   gap: 1rem;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #64748b;
+  color: var(--apoio);
 }
 
 .legend-item {
@@ -384,46 +451,9 @@
   background-color: #ed5b22;
 }
 
-/* Taxa de Cancelamento Card */
-.cancellation-rate-card {
-  justify-content: flex-start;
-}
-
-.cancellation-items {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  margin-top: 1rem;
-}
-
-.cancellation-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.2rem;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-}
-
-.cancellation-type {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.cancellation-type .type-icon {
-  font-size: 1.2rem;
-  color: #ed5b22;
-}
-
-.cancellation-value {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #dc2626;
+/* Faturamento Mensal Largura Total */
+.full-width-chart-row {
+  width: 100%;
 }
 
 .loading-placeholder {
@@ -431,22 +461,22 @@
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  color: #64748b;
+  color: var(--apoio);
   font-weight: 600;
 }
 
 /* Responsividade */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .bento-metrics-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+
+  .bento-metrics-grid-3,
   .charts-double-row {
     grid-template-columns: 1fr;
-  }
-
-  .relatorios-dashboard-body {
-    padding: 1.5rem;
-  }
-
-  .relatorios-top-bar {
-    padding: 1rem 1.5rem;
   }
 }
 
@@ -464,44 +494,9 @@
 
   .search-box {
     flex: 1;
-    width: auto;
-  }
-
-  .page-heading {
-    font-size: 1.25rem;
   }
 
   .relatorios-dashboard-body {
-    padding: 1rem;
-    gap: 1.2rem;
-  }
-
-  .filter-period-selector {
-    flex: 1;
-  }
-
-  .cancellation-row {
-    flex-wrap: wrap;
-    gap: 0.6rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .chart-card {
-    padding: 1.1rem;
-  }
-
-  .btn-export-report {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .action-circle-btn {
-    width: 34px;
-    height: 34px;
-  }
-
-  .metric-value {
-    font-size: 1.8rem !important;
+    padding: 1rem !important;
   }
 }
