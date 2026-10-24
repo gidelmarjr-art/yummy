@@ -23,6 +23,18 @@ html[data-tema="claro"] {
   --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.05) !important;
 }
 
+html[data-tema="escuro"] {
+  --fundo: #0e0f11 !important;
+  --cartao: #17181c !important;
+  --texto: #f3f4f6 !important;
+  --apoio: #9ca3af !important;
+  --laranja-suave: rgba(237, 91, 34, 0.15) !important;
+  --circulo-ativo: #ffffff !important;
+  --borda: rgba(255, 255, 255, 0.08) !important;
+  --gradiente-destaque: linear-gradient(135deg, rgba(237, 91, 34, 0.18) 0%, #17181c 100%) !important;
+  --sombra-cartao: 0 10px 28px rgba(0, 0, 0, 0.4) !important;
+}
+
 .transacoes-page-layout {
   display: flex;
   min-height: 100vh;

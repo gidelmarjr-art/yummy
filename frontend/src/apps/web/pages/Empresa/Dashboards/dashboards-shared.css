@@ -86,3 +86,60 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/*
+ * Compatibilidade com os dashboards legados: algumas telas ainda possuem
+ * cores literais em seus arquivos próprios. Esta camada garante que todas
+ * respondam ao mesmo data-tema definido pelo ThemeProvider.
+ */
+html[data-tema="escuro"],
+html[data-tema="escuro"] body {
+  background-color: var(--fundo) !important;
+  color: var(--texto) !important;
+}
+
+html[data-tema="escuro"] [class*="-page-layout"],
+html[data-tema="escuro"] .page-layout,
+html[data-tema="escuro"] [class*="-main-content"],
+html[data-tema="escuro"] .main-content,
+html[data-tema="escuro"] [class*="-dashboard-body"],
+html[data-tema="escuro"] .page-body {
+  background-color: var(--fundo) !important;
+  color: var(--texto) !important;
+}
+
+html[data-tema="escuro"] [class*="-top-bar"],
+html[data-tema="escuro"] .top-bar-header,
+html[data-tema="escuro"] [class*="-card"],
+html[data-tema="escuro"] [class*="-container"],
+html[data-tema="escuro"] [class*="-table-wrapper"],
+html[data-tema="escuro"] [class*="-table-container"],
+html[data-tema="escuro"] [class*="-items-list"],
+html[data-tema="escuro"] .search-box,
+html[data-tema="escuro"] input,
+html[data-tema="escuro"] select,
+html[data-tema="escuro"] textarea {
+  background-color: var(--cartao) !important;
+  border-color: var(--borda) !important;
+  color: var(--texto) !important;
+}
+
+html[data-tema="escuro"] .page-heading,
+html[data-tema="escuro"] h1,
+html[data-tema="escuro"] h2,
+html[data-tema="escuro"] h3,
+html[data-tema="escuro"] label,
+html[data-tema="escuro"] input::placeholder,
+html[data-tema="escuro"] textarea::placeholder {
+  color: var(--texto) !important;
+}
+
+html[data-tema="escuro"] .action-circle-btn,
+html[data-tema="escuro"] .recent-order-item,
+html[data-tema="escuro"] .stock-alert-item,
+html[data-tema="escuro"] .investment-item-card,
+html[data-tema="escuro"] .trending-table-wrapper {
+  background-color: var(--cartao) !important;
+  border-color: var(--borda) !important;
+  color: var(--apoio) !important;
+}
