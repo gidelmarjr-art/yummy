@@ -52,39 +52,52 @@
   gap: 1.2rem;
 }
 
-.search-box {
+/* Grupo esquerdo na linha de controles (Filtro + Busca) */
+.top-controls-left-group {
   display: flex;
   align-items: center;
-  background-color: #f1f5f9;
-  padding: 0.55rem 1rem;
-  border-radius: 20px;
-  width: 240px;
-  border: 1px solid transparent;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Caixa de Pesquisa Integrada ao lado do Filtro */
+.search-box.inline-search {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  width: 280px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
   transition: all 0.2s ease;
 }
 
-.search-box:focus-within {
+.search-box.inline-search:focus-within {
   border-color: #ed5b22;
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
   background-color: #ffffff;
 }
 
-.search-icon {
+.search-box.inline-search .search-icon {
   color: #94a3b8;
   font-size: 0.85rem;
-  margin-right: 0.75rem !important;
-  /* Cria um espaço obrigatório entre o ícone e o texto */
+  margin-right: 0.75rem;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
-.search-box input {
+.search-box.inline-search input {
   border: none;
   background: transparent;
   outline: none;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   width: 100%;
-  color: #0f172a;
-  padding-left: 0;
-  /* Garante que o texto não tenha recuo extra colado */
+  color: #1e293b;
+  font-weight: 500;
+  min-width: 0;
+  padding: 0;
 }
 
 .action-circle-btn {
@@ -304,7 +317,6 @@
 .pedido-row-item {
   display: grid;
   grid-template-columns: 36px 100px 2.1fr 1.1fr 1fr 230px;
-  /* Coluna de ações dimensionada adequadamente */
   align-items: center;
   gap: 0.6rem;
   padding: 1rem 0;
@@ -456,7 +468,6 @@
   background-color: #ff7a45;
 }
 
-/* Botão de Cancelar na Tabela Admin */
 .btn-cancel-admin {
   background-color: #fee2e2;
   color: #ef4444;
@@ -676,12 +687,7 @@
 
   .top-bar-right {
     width: 100%;
-    justify-content: space-between;
-  }
-
-  .search-box {
-    flex: 1;
-    width: auto;
+    justify-content: flex-end;
   }
 
   .page-heading {
@@ -699,8 +705,14 @@
     gap: 1rem;
   }
 
+  .top-controls-left-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .dropdown-filter-wrapper,
-  .status-dropdown-select {
+  .status-dropdown-select,
+  .search-box.inline-search {
     width: 100%;
   }
 
@@ -744,33 +756,5 @@
 
   .form-group-row {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .pedidos-table-container {
-    padding: 1rem;
-  }
-
-  .order-actions-col {
-    flex-basis: 100%;
-    margin-left: 0;
-    width: 100%;
-  }
-
-  .order-actions-col .btn-view-details,
-  .order-actions-col .btn-advance-status {
-    flex: 1;
-    justify-content: center;
-    padding: 0.6rem;
-  }
-
-  .action-circle-btn {
-    width: 34px;
-    height: 34px;
-  }
-
-  .pedidos-modal-card {
-    padding: 1.2rem;
   }
 }

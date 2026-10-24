@@ -197,10 +197,6 @@ export default function Pedidos() {
           <h1 className="page-heading">Pedidos em Tempo Real</h1>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <FaSearch className="search-icon" />
-              <input type="text" placeholder="Buscar pedido, cliente..." />
-            </div>
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>
@@ -220,21 +216,34 @@ export default function Pedidos() {
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
           <div className="top-controls-row">
-            <div className="dropdown-filter-wrapper">
-              <select
-                className="status-dropdown-select"
-                value={statusDropdownFilter}
-                onChange={(e) => setStatusDropdownFilter(e.target.value)}
-              >
-                <option value="Todos">Filtrar: Todos os status</option>
-                <option value="Novos">Novos</option>
-                <option value="Em preparo">Em preparo</option>
-                <option value="Prontos">Prontos</option>
-                <option value="Entregues">Entregues</option>
-                <option value="Concluídos">Concluídos</option>
-                <option value="Cancelado">Cancelado</option>
-              </select>
-              <FaChevronDown className="dropdown-icon" />
+            <div className="top-controls-left-group">
+              <div className="dropdown-filter-wrapper">
+                <select
+                  className="status-dropdown-select"
+                  value={statusDropdownFilter}
+                  onChange={(e) => setStatusDropdownFilter(e.target.value)}
+                >
+                  <option value="Todos">Filtrar: Todos os status</option>
+                  <option value="Novos">Novos</option>
+                  <option value="Em preparo">Em preparo</option>
+                  <option value="Prontos">Prontos</option>
+                  <option value="Entregues">Entregues</option>
+                  <option value="Concluídos">Concluídos</option>
+                  <option value="Cancelado">Cancelado</option>
+                </select>
+                <FaChevronDown className="dropdown-icon" />
+              </div>
+
+              {/* Barra de pesquisa integrada ao lado do filtro */}
+              <div className="search-box inline-search">
+                <FaSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Buscar pedido, cliente..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
 
             <div className="novo-pedido-card-top">
