@@ -57,10 +57,13 @@
   align-items: center;
   background-color: #f1f5f9;
   padding: 0.5rem 1rem;
+  /* Padding padrão limpo */
   border-radius: 20px;
   width: 260px;
   border: 1px solid transparent;
   transition: border-color 0.2s ease;
+  position: relative;
+  /* Garante contexto para os filhos */
 }
 
 .search-box:focus-within {
@@ -72,7 +75,11 @@
   color: #94a3b8;
   font-size: 0.85rem;
   margin-right: 0.5rem;
+  /* Um espaçamento simples e seguro */
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-box input {
@@ -83,6 +90,8 @@
   width: 100%;
   color: #334155;
   min-width: 0;
+  /* Removemos margens estranhas e garantimos que o texto comece após o ícone */
+  padding-left: 0.2rem;
 }
 
 .action-circle-btn {
