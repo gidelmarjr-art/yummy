@@ -192,24 +192,38 @@ html[data-tema="escuro"] {
   gap: 1rem;
 }
 
-/* Seletor de Período Modernizado (Bento Grid) */
-.filter-period-selector {
+/* --- Dropdown Customizado Moderno (Estilo Bento Grid / Imagem de Referência) --- */
+.custom-dropdown-container {
   position: relative;
+  background-color: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  box-shadow: var(--sombra-cartao);
+  width: 220px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.25s ease;
+}
+
+.custom-dropdown-container:hover {
+  border-color: var(--laranja);
+}
+
+.custom-dropdown-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--texto);
+  font-family: var(--fonte-corpo);
+}
+
+.dropdown-selected-left {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background-color: var(--cartao);
-  padding: 0.65rem 1.25rem;
-  border-radius: 16px;
-  border: 1px solid var(--borda);
-  box-shadow: var(--sombra-cartao);
-  transition: all 0.25s ease;
-  cursor: pointer;
-}
-
-.filter-period-selector:hover {
-  border-color: var(--laranja);
-  transform: translateY(-1px);
 }
 
 .calendar-icon {
@@ -217,39 +231,91 @@ html[data-tema="escuro"] {
   font-size: 1rem;
 }
 
-.filter-period-selector select {
-  border: none;
-  background: transparent;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--texto);
-  outline: none;
-  cursor: pointer;
-  font-family: var(--fonte-corpo);
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+.dropdown-arrow {
+  font-size: 0.65rem;
+  color: var(--apoio);
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+  color: var(--laranja);
+}
+
+/* Menu Flutuante */
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
   width: 100%;
-  padding-right: 1.5rem;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23868883%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.2rem center;
-  background-size: 0.6rem auto;
+  background-color: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 100;
+  animation: dropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Estilização da lista flutuante e remoção do azul nativo */
-.filter-period-selector select option {
-  background-color: var(--cartao) !important;
-  color: var(--texto) !important;
-  padding: 14px 18px !important;
-  font-weight: 600 !important;
-  font-family: var(--fonte-corpo) !important;
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.filter-period-selector select option:checked,
-.filter-period-selector select option:hover {
-  background-color: var(--laranja-suave) !important;
-  color: var(--laranja) !important;
+.custom-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--texto);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.custom-dropdown-item:hover {
+  background-color: var(--laranja-suave);
+  color: var(--laranja);
+}
+
+.custom-dropdown-item.selected {
+  background-color: var(--laranja-suave);
+  color: var(--laranja);
+  font-weight: 700;
+}
+
+/* Bolinhas Indicadoras Coloridas */
+.dot-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.dot-indicator.orange {
+  background-color: #ed5b22;
+}
+
+.dot-indicator.blue {
+  background-color: #3b82f6;
+}
+
+.dot-indicator.green {
+  background-color: #10b981;
+}
+
+.check-mark {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--laranja);
 }
 
 .btn-export-report {

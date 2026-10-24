@@ -39,6 +39,7 @@ export default function Relatorios() {
   const [period, setPeriod] = useState("7d");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [tema, setTema] = useState("claro");
   const { metrics, weeklyData, paymentData, monthlyData, loading, erro } =
     useRealtimeDashboard();
@@ -192,18 +193,79 @@ export default function Relatorios() {
             <div className="loading-placeholder">Carregando relatórios...</div>
           ) : (
             <>
-              {/* Barra de Filtros */}
+              {/* Barra de Filtros com Dropdown Customizado */}
               <div className="relatorios-filter-bar" style={{ "--i": 0 }}>
-                <div className="filter-period-selector">
-                  <FaCalendarAlt className="calendar-icon" />
-                  <select
-                    value={period}
-                    onChange={(e) => setPeriod(e.target.value)}
-                  >
-                    <option value="7d">Últimos 7 dias</option>
-                    <option value="30d">Últimos 30 dias</option>
-                    <option value="year">Este Ano</option>
-                  </select>
+                <div
+                  className="custom-dropdown-container"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
+                  <div className="custom-dropdown-selected">
+                    <div className="dropdown-selected-left">
+                      <FaCalendarAlt className="calendar-icon" />
+                      <span>
+                        {period === "7d" && "Últimos 7 dias"}
+                        {period === "30d" && "Últimos 30 dias"}
+                        {period === "year" && "Este Ano"}
+                      </span>
+                    </div>
+                    <span
+                      className={`dropdown-arrow ${isDropdownOpen ? "open" : ""}`}
+                    >
+                      ▼
+                    </span>
+                  </div>
+
+                  {isDropdownOpen && (
+                    <div className="custom-dropdown-menu">
+                      <div
+                        className={`custom-dropdown-item ${period === "7d" ? "selected" : ""}`}
+                        onClick={() => {
+                          setPeriod("7d");
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span className="dot-indicator orange"></span>
+                          <span>Últimos 7 dias</span>
+                        </div>
+                        {period === "7d" && (
+                          <span className="check-mark">✓</span>
+                        )}
+                      </div>
+
+                      <div
+                        className={`custom-dropdown-item ${period === "30d" ? "selected" : ""}`}
+                        onClick={() => {
+                          setPeriod("30d");
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span className="dot-indicator blue"></span>
+                          <span>Últimos 30 dias</span>
+                        </div>
+                        {period === "30d" && (
+                          <span className="check-mark">✓</span>
+                        )}
+                      </div>
+
+                      <div
+                        className={`custom-dropdown-item ${period === "year" ? "selected" : ""}`}
+                        onClick={() => {
+                          setPeriod("year");
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span className="dot-indicator green"></span>
+                          <span>Este Ano</span>
+                        </div>
+                        {period === "year" && (
+                          <span className="check-mark">✓</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <button
