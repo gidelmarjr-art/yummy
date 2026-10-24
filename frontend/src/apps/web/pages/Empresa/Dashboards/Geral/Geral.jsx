@@ -7,10 +7,9 @@ import {
   FaUsers,
   FaDollarSign,
   FaBars,
-  FaSun,
-  FaMoon,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import { useContagem } from "./useContagem";
 import { getGeral } from "../../../../services/api";
 import "../dashboards-shared.css";
@@ -28,7 +27,6 @@ export default function Dashboard() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [tema, setTema] = useState("claro");
   const [pontoAtivoChart, setPontoAtivoChart] = useState(null);
 
   const numFaturamento =
@@ -39,10 +37,6 @@ export default function Dashboard() {
   const pedAnimado = useContagem(metrics.activeOrders);
   const insAnimado = useContagem(metrics.lowStockItems);
   const cliAnimado = useContagem(metrics.totalClients);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-tema", tema);
-  }, [tema]);
 
   useEffect(() => {
     getGeral()
@@ -57,46 +51,6 @@ export default function Dashboard() {
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
-  };
-
-  const alternarTema = (e) => {
-    const novoTema = tema === "escuro" ? "claro" : "escuro";
-    const x = e.clientX || window.innerWidth / 2;
-    const y = e.clientY || window.innerHeight / 2;
-    const raioFinal = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y),
-    );
-
-    const aplicar = () => {
-      setTema(novoTema);
-      document.documentElement.setAttribute("data-tema", novoTema);
-    };
-
-    if (
-      !document.startViewTransition ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      aplicar();
-      return;
-    }
-
-    const transition = document.startViewTransition(() => aplicar());
-    transition.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${raioFinal}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 750,
-          easing: "cubic-bezier(.65,0,.35,1)",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      );
-    });
   };
 
   const dadosGrafico = [
@@ -145,13 +99,7 @@ export default function Dashboard() {
           </div>
 
           <div className="top-bar-right">
-            <button
-              className="action-circle-btn"
-              onClick={alternarTema}
-              aria-label="Alternar Tema"
-            >
-              {tema === "escuro" ? <FaSun /> : <FaMoon />}
-            </button>
+            <ThemeToggleButton />
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>

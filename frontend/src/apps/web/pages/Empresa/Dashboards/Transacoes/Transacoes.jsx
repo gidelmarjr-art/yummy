@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   LineChart,
   Line,
@@ -17,19 +17,17 @@ import {
   FaMotorcycle,
   FaStore,
   FaShoppingBag,
-  FaSun,
-  FaMoon,
   FaBars,
   FaChartLine,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import { useRealtimeTransactions } from "./useRealtimeTransactions";
 import "../dashboards-shared.css";
 import "./Transacoes.css";
 
 export default function Transacoes() {
   const [searchTerm] = useState("");
-  const [tema, setTema] = useState("claro");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const {
     metrics,
@@ -39,14 +37,6 @@ export default function Transacoes() {
     recentTransactions,
     erro,
   } = useRealtimeTransactions();
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-tema", tema);
-  }, [tema]);
-
-  const alternarTema = () => {
-    setTema((prev) => (prev === "escuro" ? "claro" : "escuro"));
-  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -93,13 +83,7 @@ export default function Transacoes() {
           </div>
 
           <div className="top-bar-right">
-            <button
-              className="action-circle-btn"
-              onClick={alternarTema}
-              aria-label="Alternar Tema"
-            >
-              {tema === "escuro" ? <FaSun /> : <FaMoon />}
-            </button>
+            <ThemeToggleButton />
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>

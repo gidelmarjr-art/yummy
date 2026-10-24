@@ -14,6 +14,7 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import {
   getPedidos,
   criarPedido,
@@ -197,6 +198,7 @@ export default function Pedidos() {
           <h1 className="page-heading">Pedidos em Tempo Real</h1>
 
           <div className="top-bar-right">
+            <ThemeToggleButton />
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>

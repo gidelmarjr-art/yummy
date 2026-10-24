@@ -10,22 +10,12 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 import "./TopHeader.css";
+import { useTheme } from "../../../../context/ThemeContext";
 
-export default function TopHeader({ title = "Dashboard Geral" }) {
-  const navigate = useNavigate();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [tema, setTema] = useState(
-    () => localStorage.getItem("yummy_tema") || "claro",
-  );
-  const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-tema", tema);
-    localStorage.setItem("yummy_tema", tema);
-  }, [tema]);
+export function ThemeToggleButton() {
+  const { theme, toggleTheme } = useTheme();
 
   const alternarTema = (e) => {
-    const novoTema = tema === "escuro" ? "claro" : "escuro";
     const x = e.clientX || window.innerWidth / 2;
     const y = e.clientY || window.innerHeight / 2;
     const raioFinal = Math.hypot(
@@ -34,9 +24,7 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
     );
 
     const aplicar = () => {
-      setTema(novoTema);
-      document.documentElement.setAttribute("data-tema", novoTema);
-      localStorage.setItem("yummy_tema", novoTema);
+      toggleTheme();
     };
 
     if (
@@ -64,6 +52,23 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
       );
     });
   };
+
+  return (
+    <button
+      className="action-circle-btn"
+      onClick={alternarTema}
+      aria-label="Alternar tema"
+      title="Alternar entre tema claro e escuro"
+    >
+      {theme === "escuro" ? <FaSun /> : <FaMoon />}
+    </button>
+  );
+}
+
+export default function TopHeader({ title = "Dashboard Geral" }) {
+  const navigate = useNavigate();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const dropdownRef = useRef(null);
 
   const [notifications] = useState([
     {
@@ -97,15 +102,7 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
       <h1 className="page-heading">{title}</h1>
 
       <div className="top-bar-right">
-        {/* Botão Global de Tema */}
-        <button
-          className="action-circle-btn"
-          onClick={alternarTema}
-          aria-label="Alternar Tema"
-          title="Alternar Tema Claro/Escuro"
-        >
-          {tema === "escuro" ? <FaSun /> : <FaMoon />}
-        </button>
+        <ThemeToggleButton />
 
         <button
           className="action-circle-btn"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCog, FaBell, FaLock, FaShieldAlt } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import {
   alterarSenha,
   getSessoes,
@@ -83,6 +84,7 @@ export default function Seguranca() {
           <h1 className="page-heading">Segurança e Acessos</h1>
 
           <div className="top-bar-right">
+            <ThemeToggleButton />
             <button className="action-circle-btn">
               <FaCog />
             </button>

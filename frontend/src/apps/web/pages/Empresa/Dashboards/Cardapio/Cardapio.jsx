@@ -13,6 +13,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import {
   getCardapio,
   criarProduto,
@@ -258,6 +259,7 @@ export default function GestaoCardapio() {
           <h1 className="page-heading">Gestão de Cardápio[cite: 16]</h1>
 
           <div className="top-bar-right">
+            <ThemeToggleButton />
             {/* Barra de pesquisa removida daqui para seguir o mesmo padrão das outras telas */}
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />

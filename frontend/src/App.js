@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Importe o CartProvider do local correto onde ele está salvo
 import { CartProvider } from "./context/CartContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import "./apps/web/pages/Empresa/Dashboards/dashboards-shared.css";
 
 import LandingPage from "./apps/web/pages/landing/Landing";
 import Cadastro from "./apps/web/pages/Cadastro/Cadastro";
@@ -39,8 +41,9 @@ import PerfilLoja from "./apps/web/pages/Empresa/Dashboards/PerfilLoja/PerfilLoj
 
 function App() {
   return (
-    <CartProvider>
-      <BrowserRouter>
+    <ThemeProvider>
+      <CartProvider>
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/cadastro" element={<Cadastro />} />
@@ -81,8 +84,9 @@ function App() {
           <Route path="/menu-carousel" element={<MenuCaroussel />} />
           <Route path="/mapa-navegacao" element={<MapaNavegacao />} />
         </Routes>
-      </BrowserRouter>
-    </CartProvider>
+        </BrowserRouter>
+      </CartProvider>
+    </ThemeProvider>
   );
 }
 

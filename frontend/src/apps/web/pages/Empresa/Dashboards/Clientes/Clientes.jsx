@@ -8,6 +8,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import { getClientes } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Clientes.css";
@@ -49,6 +50,7 @@ export default function Clientes() {
           <h1 className="page-heading">Gestão de Clientes</h1>
 
           <div className="top-bar-right">
+            <ThemeToggleButton />
             {/* Barra de pesquisa removida daqui para seguir o novo padrão unificado */}
             <button className="action-circle-btn">
               <FaCog />

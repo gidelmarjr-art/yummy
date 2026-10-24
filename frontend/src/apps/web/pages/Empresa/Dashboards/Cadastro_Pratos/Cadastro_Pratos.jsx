@@ -8,6 +8,7 @@ import {
   FaSave,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import {
   getEstoque,
   criarProduto,
@@ -181,6 +182,7 @@ export default function CadastroPratos() {
           <h1 className="page-heading">Cadastro de Pratos</h1>
 
           <div className="top-bar-right">
+            <ThemeToggleButton />
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>

@@ -11,6 +11,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import { getEstoque, criarInsumo, reporInsumo } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Estoque.css";
@@ -127,6 +128,7 @@ export default function Estoque() {
           <h1 className="page-heading">Controle de Estoque e Insumos</h1>
 
           <div className="top-bar-right">
+            <ThemeToggleButton />
             <div className="search-box">
               <FaSearch className="search-icon" />
               <input

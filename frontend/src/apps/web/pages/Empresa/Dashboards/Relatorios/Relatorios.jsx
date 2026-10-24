@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import html2pdf from "html2pdf.js";
 import {
   BarChart,
@@ -24,12 +24,11 @@ import {
   FaMotorcycle,
   FaStore,
   FaBars,
-  FaSun,
-  FaMoon,
   FaChartPie,
   FaBan,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import { useRealtimeDashboard } from "./useRealtimeDashboard";
 import "../dashboards-shared.css";
 import "./Relatorios.css";
@@ -39,58 +38,13 @@ export default function Relatorios() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [tema, setTema] = useState("claro");
   const { metrics, weeklyData, paymentData, monthlyData, loading, erro } =
     useRealtimeDashboard();
 
   const pdfRef = useRef(null);
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-tema", tema);
-  }, [tema]);
-
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
-  };
-
-  const alternarTema = (e) => {
-    const novoTema = tema === "escuro" ? "claro" : "escuro";
-    const x = e.clientX || window.innerWidth / 2;
-    const y = e.clientY || window.innerHeight / 2;
-    const raioFinal = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y),
-    );
-
-    const aplicar = () => {
-      setTema(novoTema);
-      document.documentElement.setAttribute("data-tema", novoTema);
-    };
-
-    if (
-      !document.startViewTransition ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      aplicar();
-      return;
-    }
-
-    const transition = document.startViewTransition(() => aplicar());
-    transition.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${raioFinal}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 750,
-          easing: "cubic-bezier(.65,0,.35,1)",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      );
-    });
   };
 
   const handleExportPDF = () => {
@@ -156,13 +110,7 @@ export default function Relatorios() {
           </div>
 
           <div className="top-bar-right">
-            <button
-              className="action-circle-btn"
-              onClick={alternarTema}
-              aria-label="Alternar Tema"
-            >
-              {tema === "escuro" ? <FaSun /> : <FaMoon />}
-            </button>
+            <ThemeToggleButton />
             <button className="action-circle-btn" aria-label="Configurações">
               <FaCog />
             </button>
