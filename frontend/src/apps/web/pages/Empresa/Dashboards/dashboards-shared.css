@@ -59,10 +59,38 @@ button:disabled {
   font-weight: 700;
   white-space: nowrap;
 }
-.status-pill.status-em-estoque { background: #dcfce7; color: #15803d; }
-.status-pill.status-esgotado { background: #fee2e2; color: #b91c1c; }
-.status-pill.status-novos { background: #dbeafe; color: #1d4ed8; }
-.status-pill.status-em-preparo { background: #fef3c7; color: #b45309; }
-.status-pill.status-prontos { background: #dcfce7; color: #15803d; }
-.status-pill.status-entregues { background: #e0e7ff; color: #4338ca; }
-.status-pill.status-concluídos { background: #f3f4f6; color: #374151; }
+
+.status-pill.status-em-estoque {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-pill.status-esgotado {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.status-pill.status-novos {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-pill.status-em-preparo {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-pill.status-prontos {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-pill.status-entregues {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.status-pill.status-concluídos {
+  background: #f3f4f6;
+  color: #374151;
+}

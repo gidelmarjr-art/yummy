@@ -12,8 +12,8 @@ import {
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { useContagem } from "./useContagem";
-import { getGeral } from "../../../../../services/api";
-import "../../dashboards-shared.css";
+import { getGeral } from "../../../../services/api";
+import "../dashboards-shared.css";
 import "./Geral.css";
 
 export default function Dashboard() {

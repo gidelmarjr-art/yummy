@@ -25,7 +25,7 @@ import {
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { useRealtimeTransactions } from "./useRealtimeTransactions";
-import "../../dashboards-shared.css";
+import "../dashboards-shared.css";
 import "./Transacoes.css";
 
 export default function Transacoes() {
