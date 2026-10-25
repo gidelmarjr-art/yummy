@@ -43,9 +43,8 @@
   gap: 1.2rem;
 }
 
-/* O botão de menu agora aparece e integra-se no grupo */
 .action-circle-btn.toggle-sidebar-trigger {
-  display: flex;
+  display: none;
 }
 
 .action-circle-btn {
@@ -218,6 +217,10 @@
     position: relative;
   }
 
+  .action-circle-btn.toggle-sidebar-trigger {
+    display: flex;
+  }
+
   .page-heading {
     font-size: 1.3rem;
     text-align: center;
@@ -226,26 +229,13 @@
 
   .top-bar-right {
     width: 100%;
-    display: flex;
     justify-content: center;
   }
 
-  .action-circle-btn.toggle-sidebar-trigger {
-    display: flex !important;
-  }
-
-  /* Ajusta o espaçamento interno e aplica um pequeno deslocamento à direita para centrar perfeitamente com o título */
   .top-bar-mobile-actions {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    flex-wrap: nowrap;
-    gap: 0.65rem;
-    /* Espaço uniforme entre os ícones */
-    width: 100%;
+    gap: 0.6rem;
     margin: 0 auto;
-    padding-left: 18px;
-    /* Puxa o grupo inteiro ligeiramente para a direita para centrar com o título */
   }
 
   .notification-dropdown {
@@ -254,3 +244,22 @@
     transform: translateX(-50%);
   }
 }
+
+/* ==========================================
+   SUPORTE À TRANSIÇÃO DE TEMA (VIEW TRANSITION)
+   ========================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+
