@@ -37,7 +37,7 @@
   flex-shrink: 0;
 }
 
-.toggle-sidebar-trigger {
+.action-circle-btn.toggle-sidebar-trigger {
   display: none;
 }
 
@@ -211,7 +211,7 @@
     position: relative;
   }
 
-  .toggle-sidebar-trigger {
+  .action-circle-btn.toggle-sidebar-trigger {
     display: flex;
   }
 
@@ -224,7 +224,7 @@
   .top-bar-right {
     width: 100%;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   .notification-dropdown {
@@ -250,3 +250,4 @@
 ::view-transition-new(root) {
   z-index: 9999;
 }
+
