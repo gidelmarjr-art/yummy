@@ -103,10 +103,21 @@ export default function TopHeader({
   }, []);
 
   return (
-    <header className="top-bar-header estrutura-central">
-      <h1 className="page-heading">{title}</h1>
+    <header className="top-bar-header">
+      <div className="top-bar-left-group">
+        {toggleSidebar && (!isSidebarOpen || window.innerWidth <= 768) && (
+          <button
+            className="action-circle-btn toggle-sidebar-trigger"
+            onClick={toggleSidebar}
+            aria-label="Abrir menu"
+          >
+            <FaBars />
+          </button>
+        )}
+        <h1 className="page-heading">{title}</h1>
+      </div>
 
-      <div className="top-bar-icons-row">
+      <div className="top-bar-right">
         <ThemeToggleButton />
 
         <button
