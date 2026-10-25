@@ -37,6 +37,10 @@
   flex-shrink: 0;
 }
 
+.toggle-sidebar-trigger {
+  display: none;
+}
+
 .action-circle-btn {
   background-color: var(--fundo, #f8fafc);
   border: 1px solid var(--borda, #e2e8f0);
@@ -208,10 +212,7 @@
   }
 
   .toggle-sidebar-trigger {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    display: flex;
   }
 
   .page-heading {

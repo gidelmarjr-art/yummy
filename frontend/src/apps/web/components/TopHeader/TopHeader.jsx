@@ -69,7 +69,7 @@ export function ThemeToggleButton() {
 
 export default function TopHeader({ title = "Dashboard Geral" }) {
   const navigate = useNavigate();
-  const { isOpen: isSidebarOpen, toggleSidebar } = useSidebar();
+  const { toggleSidebar } = useSidebar();
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -103,19 +103,18 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
   return (
     <header className="top-bar-header">
       <div className="top-bar-left-group">
-        {toggleSidebar && (!isSidebarOpen || window.innerWidth <= 768) && (
-          <button
-            className="action-circle-btn toggle-sidebar-trigger"
-            onClick={toggleSidebar}
-            aria-label="Abrir menu"
-          >
-            <FaBars />
-          </button>
-        )}
         <h1 className="page-heading">{title}</h1>
       </div>
 
       <div className="top-bar-right">
+        <button
+          className="action-circle-btn toggle-sidebar-trigger"
+          onClick={toggleSidebar}
+          aria-label="Abrir menu lateral"
+          title="Abrir menu lateral"
+        >
+          <FaBars />
+        </button>
         <ThemeToggleButton />
 
         <button
@@ -184,5 +183,6 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
     </header>
   );
 }
+
 
 
