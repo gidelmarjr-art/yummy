@@ -229,7 +229,7 @@ export default function Pedidos() {
         <div className="pedidos-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          <div className="top-controls-row">
+          <div className="top-controls-row" style={{ "--i": 0 }}>
             <div className="top-controls-left-group">
               <div className="dropdown-filter-wrapper">
                 <select
@@ -279,7 +279,7 @@ export default function Pedidos() {
             </div>
           </div>
 
-          <div className="pedidos-table-container">
+          <div className="pedidos-table-container" style={{ "--i": 1 }}>
             <div className="status-tab-bar">
               {STATUS_TABS.map((tab) => {
                 const count =
@@ -432,10 +432,7 @@ export default function Pedidos() {
               </div>
             </div>
 
-            <div
-              className="modal-actions"
-              style={{ display: "flex", gap: "0.5rem" }}
-            >
+            <div className="modal-actions">
               <button
                 className="btn-print-ticket"
                 onClick={() => window.print()}
@@ -453,7 +450,7 @@ export default function Pedidos() {
                       color: "#fff",
                       border: "none",
                       padding: "0.75rem",
-                      borderRadius: "10px",
+                      borderRadius: "12px",
                       fontWeight: "700",
                       cursor: "pointer",
                       flex: 1,
@@ -489,12 +486,14 @@ export default function Pedidos() {
             >
               <FaExclamationTriangle />
             </div>
-            <h2 style={{ marginBottom: "0.8rem", color: "#0f172a" }}>
+            <h2
+              style={{ marginBottom: "0.8rem", color: "var(--texto, #0f172a)" }}
+            >
               Cancelar Pedido?
             </h2>
             <p
               style={{
-                color: "#64748b",
+                color: "var(--apoio, #64748b)",
                 fontSize: "0.9rem",
                 marginBottom: "1.5rem",
               }}
@@ -512,7 +511,7 @@ export default function Pedidos() {
                   color: "#fff",
                   border: "none",
                   padding: "0.75rem",
-                  borderRadius: "10px",
+                  borderRadius: "12px",
                   fontWeight: "700",
                   cursor: "pointer",
                 }}
@@ -524,11 +523,11 @@ export default function Pedidos() {
                 disabled={loadingCancelAdmin}
                 style={{
                   flex: 1,
-                  backgroundColor: "#f1f5f9",
-                  color: "#475569",
-                  border: "1px solid #cbd5e1",
+                  backgroundColor: "var(--fundo, #f1f5f9)",
+                  color: "var(--texto, #475569)",
+                  border: "1px solid var(--borda, #cbd5e1)",
                   padding: "0.75rem",
-                  borderRadius: "10px",
+                  borderRadius: "12px",
                   fontWeight: "700",
                   cursor: "pointer",
                 }}

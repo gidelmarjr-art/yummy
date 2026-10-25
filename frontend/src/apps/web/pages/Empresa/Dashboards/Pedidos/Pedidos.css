@@ -1,4 +1,4 @@
-/* Pedidos.css - Com Estrutura Central Responsiva */
+/* Pedidos.css - Com Animações e Estrutura Central Responsiva */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 *,
@@ -11,9 +11,9 @@
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background-color: #f8fafc;
-  font-family: 'Inter', sans-serif;
-  color: #1e293b;
+  background-color: var(--fundo, #f8fafc);
+  font-family: var(--fonte-corpo, 'Inter', sans-serif);
+  color: var(--texto, #1e293b);
   overflow-x: hidden;
 }
 
@@ -23,16 +23,17 @@
   flex-direction: column;
   min-width: 0;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--fundo, #f8fafc);
 }
 
-/* Header Superior - Padrão Desktop (Expandido) */
+/* Header Superior */
 .pedidos-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--cartao, #ffffff);
+  border-bottom: 1px solid var(--borda, #e2e8f0);
   gap: 1rem;
 }
 
@@ -44,9 +45,10 @@
 }
 
 .page-heading {
+  font-family: var(--fonte-titulo, 'Bricolage Grotesque', sans-serif);
   font-size: 1.5rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -68,27 +70,26 @@
   flex-wrap: wrap;
 }
 
-/* Caixa de Pesquisa Integrada ao lado do Filtro */
+/* Caixa de Pesquisa Integrada */
 .search-box.inline-search {
   display: flex;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--cartao, #ffffff);
   padding: 0.65rem 1rem;
   border-radius: 12px;
   width: 280px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--borda, #e2e8f0);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
   transition: all 0.2s ease;
 }
 
 .search-box.inline-search:focus-within {
-  border-color: #ed5b22;
-  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
-  background-color: #ffffff;
+  border-color: var(--laranja, #ed5b22);
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.15);
 }
 
 .search-box.inline-search .search-icon {
-  color: #94a3b8;
+  color: var(--apoio, #94a3b8);
   font-size: 0.85rem;
   margin-right: 0.75rem;
   flex-shrink: 0;
@@ -102,31 +103,31 @@
   outline: none;
   font-size: 0.88rem;
   width: 100%;
-  color: #1e293b;
+  color: var(--texto, #1e293b);
   font-weight: 500;
   min-width: 0;
   padding: 0;
 }
 
 .action-circle-btn {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background-color: var(--fundo, #f8fafc);
+  border: 1px solid var(--borda, #e2e8f0);
   width: 38px;
   height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #64748b;
+  color: var(--apoio, #64748b);
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
 .action-circle-btn:hover {
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
-  border-color: #ed5b22;
+  border-color: var(--laranja, #ed5b22);
 }
 
 .user-profile-avatar {
@@ -134,7 +135,7 @@
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #ed5b22;
+  border: 2px solid var(--laranja, #ed5b22);
   flex-shrink: 0;
 }
 
@@ -146,13 +147,32 @@
 
 /* Corpo Principal dos Pedidos */
 .pedidos-dashboard-body {
-  background-color: #f1f5f9;
+  background-color: var(--fundo, #f1f5f9);
   flex: 1;
   padding: 2rem 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   min-width: 0;
+}
+
+/* Animações de Entrada Escalonadas */
+.top-controls-row,
+.pedidos-table-container {
+  animation: surge 0.6s cubic-bezier(.22, 1, .36, 1) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+@keyframes surge {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Controles Superiores */
@@ -173,7 +193,7 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   border: none;
   padding: 0.75rem 2.8rem 0.75rem 1.2rem;
@@ -191,8 +211,8 @@
 }
 
 .status-dropdown-select option {
-  background-color: #ffffff;
-  color: #1e293b;
+  background-color: var(--cartao, #ffffff);
+  color: var(--texto, #1e293b);
   font-weight: 600;
   padding: 0.6rem 1rem;
 }
@@ -209,18 +229,19 @@
 
 /* Card Novo Pedido */
 .novo-pedido-card-top {
-  background-color: #ffffff;
-  border-radius: 16px;
+  background-color: var(--cartao, #ffffff);
+  border-radius: 20px;
   padding: 1rem 1.5rem;
   width: 320px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--borda, #e2e8f0);
+  box-shadow: var(--sombra-cartao, 0 4px 12px rgba(0, 0, 0, 0.03));
 }
 
 .card-title {
+  font-family: var(--fonte-titulo, 'Bricolage Grotesque', sans-serif);
   font-size: 1rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
   display: block;
   margin-bottom: 0.8rem;
 }
@@ -232,11 +253,11 @@
 
 .btn-orange-action {
   flex: 1;
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   border: none;
   padding: 0.65rem 0.5rem;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 0.82rem;
   cursor: pointer;
@@ -244,20 +265,22 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 12px rgba(237, 91, 34, 0.2);
 }
 
 .btn-orange-action:hover {
   background-color: #ff7a45;
+  transform: translateY(-1px);
 }
 
 /* Container da Tabela de Pedidos */
 .pedidos-table-container {
-  background-color: #ffffff;
-  border-radius: 20px;
+  background-color: var(--cartao, #ffffff);
+  border-radius: 24px;
   padding: 1.5rem 2rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--borda, #e2e8f0);
+  box-shadow: var(--sombra-cartao, 0 4px 12px rgba(0, 0, 0, 0.03));
   min-height: 400px;
 }
 
@@ -265,7 +288,7 @@
 .status-tab-bar {
   display: flex;
   gap: 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--borda, #e2e8f0);
   padding-bottom: 0.8rem;
   margin-bottom: 1rem;
   overflow-x: auto;
@@ -274,7 +297,7 @@
 .status-tab-item {
   background: none;
   border: none;
-  color: #64748b;
+  color: var(--apoio, #64748b);
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
@@ -288,11 +311,11 @@
 }
 
 .status-tab-item:hover {
-  color: #ed5b22;
+  color: var(--laranja, #ed5b22);
 }
 
 .status-tab-item.active {
-  color: #ed5b22;
+  color: var(--laranja, #ed5b22);
   font-weight: 700;
 }
 
@@ -303,12 +326,12 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   border-radius: 2px;
 }
 
 .tab-badge {
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   font-size: 0.7rem;
   font-weight: 700;
@@ -328,13 +351,13 @@
   align-items: center;
   gap: 0.6rem;
   padding: 1rem 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--borda, #f1f5f9);
   font-size: 0.88rem;
   transition: background-color 0.2s ease;
 }
 
 .pedido-row-item:hover {
-  background-color: #f8fafc;
+  background-color: rgba(237, 91, 34, 0.03);
 }
 
 .pedido-row-item:last-child {
@@ -343,7 +366,7 @@
 
 .order-receipt-icon {
   font-size: 1.1rem;
-  color: #ed5b22;
+  color: var(--laranja, #ed5b22);
 }
 
 .order-id-col {
@@ -354,13 +377,13 @@
 
 .order-code {
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
   white-space: nowrap;
 }
 
 .order-time {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: var(--apoio, #94a3b8);
   display: flex;
   align-items: center;
   gap: 0.2rem;
@@ -375,7 +398,7 @@
 
 .customer-name {
   font-weight: 700;
-  color: #1e293b;
+  color: var(--texto, #1e293b);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -384,7 +407,7 @@
 .order-summary {
   margin: 0;
   font-size: 0.8rem;
-  color: #64748b;
+  color: var(--apoio, #64748b);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -428,7 +451,7 @@
 
 .order-total-price {
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
   white-space: nowrap;
 }
 
@@ -440,11 +463,11 @@
 }
 
 .btn-view-details {
-  background-color: #f1f5f9;
-  color: #334155;
-  border: 1px solid #e2e8f0;
+  background-color: var(--fundo, #f1f5f9);
+  color: var(--texto, #334155);
+  border: 1px solid var(--borda, #e2e8f0);
   padding: 0.45rem 0.65rem;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -455,16 +478,16 @@
 }
 
 .btn-view-details:hover {
-  background-color: #e2e8f0;
-  color: #0f172a;
+  background-color: var(--borda, #e2e8f0);
+  color: var(--texto, #0f172a);
 }
 
 .btn-advance-status {
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   border: none;
   padding: 0.45rem 0.65rem;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 0.78rem;
   cursor: pointer;
@@ -482,7 +505,7 @@
   border: 1px solid #fecaca;
   width: 34px;
   height: 34px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -501,7 +524,7 @@
 .empty-orders-msg {
   padding: 3rem;
   text-align: center;
-  color: #94a3b8;
+  color: var(--apoio, #94a3b8);
   font-weight: 500;
 }
 
@@ -518,11 +541,12 @@
   justify-content: center;
   z-index: 1000;
   padding: 1rem;
+  animation: surge 0.3s ease both;
 }
 
 .pedidos-modal-card {
-  background: #ffffff;
-  border-radius: 20px;
+  background: var(--cartao, #ffffff);
+  border-radius: 24px;
   width: 100%;
   max-width: 500px;
   padding: 2rem;
@@ -538,14 +562,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--borda, #e2e8f0);
   padding-bottom: 0.8rem;
 }
 
 .modal-header h2 {
+  font-family: var(--fonte-titulo, 'Bricolage Grotesque', sans-serif);
   font-size: 1.2rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
   margin: 0;
 }
 
@@ -553,7 +578,7 @@
   background: none;
   border: none;
   font-size: 1rem;
-  color: #64748b;
+  color: var(--apoio, #64748b);
   cursor: pointer;
 }
 
@@ -562,7 +587,7 @@
   flex-direction: column;
   gap: 0.6rem;
   font-size: 0.9rem;
-  color: #334155;
+  color: var(--texto, #334155);
 }
 
 .modal-items-list {
@@ -579,18 +604,18 @@
 .modal-items-list li {
   display: flex;
   justify-content: space-between;
-  background: #f8fafc;
+  background: var(--fundo, #f8fafc);
   padding: 0.5rem 0.8rem;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .modal-total-line {
   display: flex;
   justify-content: space-between;
   font-size: 1.1rem;
-  color: #ed5b22;
+  color: var(--laranja, #ed5b22);
   margin-top: 0.5rem;
-  border-top: 1px dashed #cbd5e1;
+  border-top: 1px dashed var(--borda, #cbd5e1);
   padding-top: 0.8rem;
 }
 
@@ -609,20 +634,22 @@
 .form-group label {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #475569;
+  color: var(--apoio, #475569);
 }
 
 .form-group input {
   padding: 0.7rem 0.9rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
+  border: 1px solid var(--borda, #cbd5e1);
+  border-radius: 12px;
   font-size: 0.9rem;
   outline: none;
   width: 100%;
+  background-color: var(--fundo, #ffffff);
+  color: var(--texto, #1e293b);
 }
 
 .form-group input:focus {
-  border-color: #ed5b22;
+  border-color: var(--laranja, #ed5b22);
 }
 
 .form-group-row {
@@ -640,11 +667,11 @@
 .btn-save-modal,
 .btn-print-ticket {
   flex: 1;
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   border: none;
   padding: 0.75rem;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -655,11 +682,11 @@
 
 .btn-cancel-modal {
   flex: 1;
-  background-color: #f1f5f9;
-  color: #475569;
-  border: 1px solid #cbd5e1;
+  background-color: var(--fundo, #f1f5f9);
+  color: var(--texto, #475569);
+  border: 1px solid var(--borda, #cbd5e1);
   padding: 0.75rem;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -686,7 +713,6 @@
   }
 }
 
-/* Em aparelhos menores, aplica a Estrutura Central (título no meio e ícones centralizados abaixo) */
 @media (max-width: 768px) {
   .pedidos-top-bar {
     flex-direction: column;
@@ -744,14 +770,13 @@
     width: 100%;
   }
 
-  /* Correção da responsividade dos itens de pedidos no mobile */
   .pedido-row-item {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 0.6rem;
     padding: 1.2rem 0;
-    border-bottom: 2px solid #e2e8f0;
+    border-bottom: 2px solid var(--borda, #e2e8f0);
   }
 
   .order-receipt-icon {
@@ -768,7 +793,6 @@
     margin-left: auto;
   }
 
-  /* Permite que o texto do cliente e endereço quebre linha em vez de cortar com ... */
   .order-info-col {
     order: 3;
     flex-basis: 100%;
