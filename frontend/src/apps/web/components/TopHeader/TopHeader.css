@@ -1,23 +1,23 @@
-/* TopHeader.css */
-.top-bar-header {
+/* TopHeader.css - Estrutura Central */
+.top-bar-header.estrutura-central {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.2rem 2rem;
+  justify-content: center;
+  padding: 1.5rem 1rem;
   background-color: var(--cartao, #ffffff);
   border-bottom: 1px solid var(--borda, #e2e8f0);
   transition: background-color 0.3s ease, border-color 0.3s ease;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
   gap: 1rem;
 }
 
-.top-bar-left-group {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  min-width: 0;
-  flex: 1;
+.toggle-sidebar-absolute {
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
 }
 
 .page-heading {
@@ -25,24 +25,23 @@
   font-weight: 800;
   color: var(--texto, #0f172a);
   margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-align: center;
 }
 
-.top-bar-right {
+.top-bar-icons-row {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  justify-content: center;
+  gap: 1.2rem;
   position: relative;
-  flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .action-circle-btn {
   background-color: var(--fundo, #f8fafc);
   border: 1px solid var(--borda, #e2e8f0);
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -108,7 +107,8 @@
 .notification-dropdown {
   position: absolute;
   top: 48px;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 330px;
   max-width: 90vw;
   background-color: var(--cartao, #ffffff);
@@ -189,43 +189,23 @@
   color: var(--apoio, #94a3b8);
 }
 
-.dropdown-footer {
-  padding: 0.75rem;
-  text-align: center;
-  background-color: var(--fundo, #f8fafc);
-  border-top: 1px solid var(--borda, #e2e8f0);
-}
-
-.dropdown-footer button {
-  background: transparent;
-  border: none;
-  color: var(--laranja, #ed5b22);
-  font-weight: 700;
-  font-size: 0.82rem;
-  cursor: pointer;
-}
-
 @media (max-width: 768px) {
-  .top-bar-header {
-    padding: 0.8rem 1rem;
+  .top-bar-header.estrutura-central {
+    padding: 1.2rem 1rem;
   }
 
   .page-heading {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
 
-  .top-bar-right {
-    gap: 0.5rem;
+  .top-bar-icons-row {
+    gap: 0.8rem;
   }
 
-  .action-circle-btn {
-    width: 34px;
-    height: 34px;
-  }
-
+  .action-circle-btn,
   .user-profile-avatar.clickable {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
   }
 }
 
