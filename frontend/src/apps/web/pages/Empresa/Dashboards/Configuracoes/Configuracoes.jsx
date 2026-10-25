@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import { FaBell, FaMotorcycle, FaSave, FaCog, FaBars } from "react-icons/fa";
+import "../dashboards-shared.css";
 import "./Configuracoes.css";
 
 export default function Configuracoes() {

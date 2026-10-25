@@ -143,3 +143,70 @@ html[data-tema="escuro"] .trending-table-wrapper {
   border-color: var(--borda) !important;
   color: var(--apoio) !important;
 }
+
+/* Base visual e de movimento compartilhada por todas as abas empresariais. */
+[class$="-top-bar"],
+.top-bar-header {
+  transition: background-color .3s ease, border-color .3s ease, color .3s ease;
+}
+
+[class*="-dashboard-body"],
+.config-body-content,
+.page-body {
+  animation: dashboardFadeIn .45s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+/* Os filtros devem ficar acima de tabelas e cards animados logo abaixo. */
+.top-controls-row,
+.relatorios-filter-bar {
+  position: relative;
+  z-index: 100;
+}
+
+.cp-card,
+.config-card-container,
+.profile-card,
+.modal-form,
+.cp-ficha-row {
+  overflow: visible;
+}
+
+[class*="-dashboard-body"] > *,
+.config-body-content > *,
+.profile-container > *,
+.bento-metrics-grid > *,
+.metrics-cards-row > *,
+.bento-metrics-grid-3 > *,
+.middle-section-grid > *,
+.charts-double-row > *,
+.bottom-two-columns > *,
+.full-width-chart-row > * {
+  animation: dashboardRise .55s cubic-bezier(.22, 1, .36, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+[class*="-card"],
+[class*="-table-container"],
+[class*="-row-item"],
+.profile-card,
+.config-card-container {
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background-color .3s ease;
+}
+
+[class*="-card"]:hover,
+[class*="-table-container"]:hover,
+.profile-card:hover,
+.config-card-container:hover {
+  border-color: color-mix(in srgb, var(--laranja) 38%, var(--borda)) !important;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, .1);
+}
+
+button:not(:disabled) { transition: transform .18s ease, background-color .2s ease, border-color .2s ease, color .2s ease; }
+button:not(:disabled):active { transform: scale(.97); }
+
+@keyframes dashboardFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dashboardRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}

@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import DashboardSelect from "../components/DashboardSelect";
 import {
   getCardapio,
   criarProduto,
@@ -507,20 +508,12 @@ export default function GestaoCardapio() {
               <div className="form-group-row">
                 <div className="form-group">
                   <label>Categoria</label>
-                  <select
+                  <DashboardSelect
                     value={formData.category}
-                    onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
-                    }
-                  >
-                    {categories
-                      .filter((cat) => cat.ativo)
-                      .map((cat) => (
-                        <option key={cat.id} value={cat.slug}>
-                          {cat.nome}
-                        </option>
-                      ))}
-                  </select>
+                    onChange={(category) => setFormData({ ...formData, category })}
+                    options={categories.filter((cat) => cat.ativo).map((cat) => ({ value: cat.slug, label: cat.nome, color: "#3b82f6" }))}
+                    placeholder="Selecione uma categoria"
+                  />
                 </div>
                 <div className="form-group">
                   <label>Preço (R$)</label>
@@ -539,15 +532,14 @@ export default function GestaoCardapio() {
 
               <div className="form-group">
                 <label>Status de Estoque Inicial</label>
-                <select
+                <DashboardSelect
                   value={formData.status}
-                  onChange={(e) =>
-                    setFormData({ ...formData, status: e.target.value })
-                  }
-                >
-                  <option value="Em estoque">Em estoque</option>
-                  <option value="Esgotado">Esgotado</option>
-                </select>
+                  onChange={(status) => setFormData({ ...formData, status })}
+                  options={[
+                    { value: "Em estoque", label: "Em estoque", color: "#16a34a" },
+                    { value: "Esgotado", label: "Esgotado", color: "#dc2626" },
+                  ]}
+                />
               </div>
 
               <div className="modal-actions">

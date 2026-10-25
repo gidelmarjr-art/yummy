@@ -10,6 +10,7 @@ import {
   FaBell,
   FaBars,
 } from "react-icons/fa";
+import "../dashboards-shared.css";
 import "./PerfilLoja.css";
 
 export default function PerfilLoja() {

@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import DashboardSelect from "../components/DashboardSelect";
 import {
   getEstoque,
   criarProduto,
@@ -248,18 +249,12 @@ export default function CadastroPratos() {
 
                 <div className="cp-input-group">
                   <label>Categoria</label>
-                  <select
+                  <DashboardSelect
                     value={dados.categoria}
-                    onChange={(e) =>
-                      setDados({ ...dados, categoria: e.target.value })
-                    }
-                  >
-                    {categorias.map((cat) => (
-                      <option key={cat.id} value={cat.slug}>
-                        {cat.nome}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(categoria) => setDados({ ...dados, categoria })}
+                    options={categorias.map((cat) => ({ value: cat.slug, label: cat.nome, color: "#3b82f6" }))}
+                    placeholder="Selecione uma categoria"
+                  />
                 </div>
 
                 <div className="cp-input-group full-width">
@@ -300,15 +295,14 @@ export default function CadastroPratos() {
 
                 <div className="cp-input-group">
                   <label>Status Inicial</label>
-                  <select
+                  <DashboardSelect
                     value={dados.status}
-                    onChange={(e) =>
-                      setDados({ ...dados, status: e.target.value })
-                    }
-                  >
-                    <option value="Em estoque">Em estoque</option>
-                    <option value="Esgotado">Esgotado</option>
-                  </select>
+                    onChange={(status) => setDados({ ...dados, status })}
+                    options={[
+                      { value: "Em estoque", label: "Em estoque", color: "#16a34a" },
+                      { value: "Esgotado", label: "Esgotado", color: "#dc2626" },
+                    ]}
+                  />
                 </div>
               </div>
             </div>
@@ -335,19 +329,14 @@ export default function CadastroPratos() {
                 <div className="cp-ficha-list">
                   {fichaTecnica.map((linha, index) => (
                     <div className="cp-ficha-row" key={index}>
-                      <select
+                      <DashboardSelect
                         value={linha.insumo_id}
-                        onChange={(e) =>
-                          handleFichaChange(index, "insumo_id", e.target.value)
-                        }
-                      >
-                        <option value="">Selecione um insumo…</option>
-                        {insumos.map((insumo) => (
-                          <option key={insumo.id} value={insumo.id}>
-                            {insumo.nome} ({insumo.codigo})
-                          </option>
-                        ))}
-                      </select>
+                        onChange={(insumoId) => handleFichaChange(index, "insumo_id", insumoId)}
+                        options={[
+                          { value: "", label: "Selecione um insumo…" },
+                          ...insumos.map((insumo) => ({ value: insumo.id, label: `${insumo.nome} (${insumo.codigo})`, color: "#14b8a6" })),
+                        ]}
+                      />
 
                       <div className="cp-ficha-qtd">
                         <input

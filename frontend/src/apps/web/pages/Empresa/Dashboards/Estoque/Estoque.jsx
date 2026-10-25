@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import DashboardSelect from "../components/DashboardSelect";
 import { getEstoque, criarInsumo, reporInsumo } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Estoque.css";
@@ -161,19 +162,16 @@ export default function Estoque() {
 
           <div className="top-controls-row" style={{ "--i": 0 }}>
             <div className="top-controls-left-group">
-              <div className="dropdown-filter-wrapper">
-                <select
-                  className="status-dropdown-select"
-                  value={dropdownFilter}
-                  onChange={(e) => setDropdownFilter(e.target.value)}
-                >
-                  <option value="Todos">Filtrar: Todos os níveis</option>
-                  <option value="Estável">Estável</option>
-                  <option value="Baixo">Baixo</option>
-                  <option value="Crítico">Crítico</option>
-                </select>
-                <FaChevronDown className="dropdown-icon" />
-              </div>
+              <DashboardSelect
+                value={dropdownFilter}
+                onChange={setDropdownFilter}
+                options={[
+                  { value: "Todos", label: "Todos os níveis", color: "#ed5b22" },
+                  { value: "Estável", label: "Estável", color: "#16a34a" },
+                  { value: "Baixo", label: "Baixo", color: "#eab308" },
+                  { value: "Crítico", label: "Crítico", color: "#dc2626" },
+                ]}
+              />
 
               {/* Barra de pesquisa integrada ao lado do filtro */}
               <div className="search-box inline-search">
@@ -372,16 +370,15 @@ export default function Estoque() {
                 </div>
                 <div className="form-group">
                   <label>Unidade</label>
-                  <select
+                  <DashboardSelect
                     value={newItemForm.unit}
-                    onChange={(e) =>
-                      setNewItemForm({ ...newItemForm, unit: e.target.value })
-                    }
-                  >
-                    <option value="kg">kg</option>
-                    <option value="un">un</option>
-                    <option value="L">L</option>
-                  </select>
+                    onChange={(unit) => setNewItemForm({ ...newItemForm, unit })}
+                    options={[
+                      { value: "kg", label: "Quilogramas (kg)", color: "#3b82f6" },
+                      { value: "un", label: "Unidades (un)", color: "#8b5cf6" },
+                      { value: "L", label: "Litros (L)", color: "#14b8a6" },
+                    ]}
+                  />
                 </div>
               </div>
               <div className="form-group-row">

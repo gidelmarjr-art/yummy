@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import DashboardSelect from "../components/DashboardSelect";
 import {
   getPedidos,
   criarPedido,
@@ -231,22 +232,19 @@ export default function Pedidos() {
 
           <div className="top-controls-row" style={{ "--i": 0 }}>
             <div className="top-controls-left-group">
-              <div className="dropdown-filter-wrapper">
-                <select
-                  className="status-dropdown-select"
-                  value={statusDropdownFilter}
-                  onChange={(e) => setStatusDropdownFilter(e.target.value)}
-                >
-                  <option value="Todos">Filtrar: Todos os status</option>
-                  <option value="Novos">Novos</option>
-                  <option value="Em preparo">Em preparo</option>
-                  <option value="Prontos">Prontos</option>
-                  <option value="Entregues">Entregues</option>
-                  <option value="Concluídos">Concluídos</option>
-                  <option value="Cancelado">Cancelado</option>
-                </select>
-                <FaChevronDown className="dropdown-icon" />
-              </div>
+              <DashboardSelect
+                value={statusDropdownFilter}
+                onChange={setStatusDropdownFilter}
+                options={[
+                  { value: "Todos", label: "Todos os status", color: "#ed5b22" },
+                  { value: "Novos", label: "Novos", color: "#3b82f6" },
+                  { value: "Em preparo", label: "Em preparo", color: "#f97316" },
+                  { value: "Prontos", label: "Prontos", color: "#eab308" },
+                  { value: "Entregues", label: "Entregues", color: "#14b8a6" },
+                  { value: "Concluídos", label: "Concluídos", color: "#16a34a" },
+                  { value: "Cancelado", label: "Cancelado", color: "#dc2626" },
+                ]}
+              />
 
               {/* Barra de pesquisa integrada ao lado do filtro */}
               <div className="search-box inline-search">

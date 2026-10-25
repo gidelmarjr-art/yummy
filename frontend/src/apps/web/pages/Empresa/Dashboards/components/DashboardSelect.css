@@ -1,0 +1,17 @@
+.dashboard-select { position: relative; min-width: 190px; font-family: var(--fonte-corpo, Inter, sans-serif); z-index: 20; }
+.dashboard-select.is-open { z-index: 1000; }
+.dashboard-select-trigger, .dashboard-select-option { width: 100%; border: 0; font: inherit; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+.dashboard-select-trigger { min-height: 46px; padding: 0.7rem 1rem; border: 1px solid var(--borda, #e2e8f0); border-radius: 14px; background: var(--cartao, #fff); color: var(--texto, #1e293b); font-weight: 700; box-shadow: var(--sombra-cartao, 0 4px 12px rgba(0,0,0,.03)); transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.dashboard-select-trigger:hover, .dashboard-select-trigger.is-open { border-color: var(--laranja, #ed5b22); box-shadow: 0 0 0 3px rgba(237,91,34,.12); }
+.dashboard-select-trigger.is-open { transform: translateY(-1px); }
+.dashboard-select-value { display: inline-flex; align-items: center; gap: .65rem; min-width: 0; text-align: left; }
+.dashboard-select-dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+.dashboard-select-arrow { color: var(--laranja, #ed5b22); font-size: .75rem; transition: transform .2s ease; }
+.dashboard-select-trigger.is-open .dashboard-select-arrow { transform: rotate(180deg); }
+.dashboard-select-menu { position: absolute; top: calc(100% + 8px); left: 0; width: 100%; overflow: hidden; border: 1px solid var(--borda, #e2e8f0); border-radius: 16px; background: var(--cartao, #fff); box-shadow: 0 16px 32px rgba(15,23,42,.18); z-index: 1001; animation: dashboardSelectIn .2s cubic-bezier(.22,1,.36,1) both; }
+.dashboard-select-option { padding: .85rem 1rem; background: transparent; color: var(--texto, #1e293b); font-weight: 600; transition: background-color .16s ease, color .16s ease; }
+.dashboard-select-option:hover, .dashboard-select-option.is-selected { background: var(--laranja-suave, #fff0e8); color: var(--laranja, #ed5b22); }
+.dashboard-select-check { color: var(--laranja, #ed5b22); font-size: .8rem; }
+.form-group .dashboard-select, .cp-input-group .dashboard-select, .cp-ficha-row .dashboard-select { width: 100%; min-width: 0; }
+@keyframes dashboardSelectIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+html[data-tema="escuro"] .dashboard-select-menu { box-shadow: 0 18px 36px rgba(0,0,0,.45); }
