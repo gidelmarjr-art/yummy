@@ -1,7 +1,7 @@
 // PerfilLoja.jsx
 import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import TopHeader from "../../../../components/TopHeader/TopHeader";
 import {
   FaStore,
   FaSave,
@@ -52,37 +52,7 @@ export default function PerfilLoja() {
     <div className={`page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}>
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <main className="main-content">
-        {/* Header Superior Padronizado */}
-        <header className="perfil-top-bar">
-          <div className="top-bar-left-group">
-            {(!isSidebarOpen || window.innerWidth <= 768) && (
-              <button
-                className="action-circle-btn toggle-sidebar-trigger"
-                onClick={toggleSidebar}
-                aria-label="Abrir menu"
-              >
-                <FaBars />
-              </button>
-            )}
-            <h1 className="page-heading">Perfil da Loja</h1>
-          </div>
-
-          <div className="top-bar-right">
-            <ThemeToggleButton />
-            <button className="action-circle-btn" aria-label="Configurações">
-              <FaCog />
-            </button>
-            <button className="action-circle-btn" aria-label="Notificações">
-              <FaBell />
-            </button>
-            <div className="user-profile-avatar">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-                alt="Avatar Yummy"
-              />
-            </div>
-          </div>
-        </header>
+        <TopHeader title="Perfil da Loja" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         <div className="page-body">
           <form onSubmit={handleSave} className="profile-container">

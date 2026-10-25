@@ -1,32 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const THEME_STORAGE_KEY = "yummy_tema";
 const ThemeContext = createContext(null);
 
-function getSavedTheme() {
-  return localStorage.getItem(THEME_STORAGE_KEY) === "escuro"
-    ? "escuro"
-    : "claro";
-}
-
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(getSavedTheme);
+  // O tema claro é sempre o estado inicial de uma nova visita à aplicação.
+  const [theme, setTheme] = useState("claro");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-tema", theme);
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
-
-  useEffect(() => {
-    const syncThemeBetweenTabs = (event) => {
-      if (event.key === THEME_STORAGE_KEY) {
-        setTheme(event.newValue === "escuro" ? "escuro" : "claro");
-      }
-    };
-
-    window.addEventListener("storage", syncThemeBetweenTabs);
-    return () => window.removeEventListener("storage", syncThemeBetweenTabs);
-  }, []);
 
   const toggleTheme = () => {
     setTheme((currentTheme) =>

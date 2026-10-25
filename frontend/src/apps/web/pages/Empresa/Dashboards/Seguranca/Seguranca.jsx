@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCog, FaBell, FaLock, FaShieldAlt, FaBars } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import TopHeader from "../../../../components/TopHeader/TopHeader";
 import {
   alterarSenha,
   getSessoes,
@@ -80,36 +80,7 @@ export default function Seguranca() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="seguranca-main-content">
-        <header className="seguranca-top-bar">
-          <div className="top-bar-left-group">
-            {(!isSidebarOpen || window.innerWidth <= 768) && (
-              <button
-                className="action-circle-btn toggle-sidebar-trigger"
-                onClick={toggleSidebar}
-                aria-label="Abrir menu"
-              >
-                <FaBars />
-              </button>
-            )}
-            <h1 className="page-heading">Segurança e Acessos</h1>
-          </div>
-
-          <div className="top-bar-right">
-            <ThemeToggleButton />
-            <button className="action-circle-btn">
-              <FaCog />
-            </button>
-            <button className="action-circle-btn">
-              <FaBell />
-            </button>
-            <div className="user-profile-avatar">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-                alt="Avatar"
-              />
-            </div>
-          </div>
-        </header>
+        <TopHeader title="Segurança e Acessos" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         <div className="seguranca-dashboard-body">
           <div className="security-grid">

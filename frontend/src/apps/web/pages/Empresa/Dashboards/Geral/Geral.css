@@ -200,7 +200,7 @@ html[data-tema="escuro"] {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 120px;
+  height: 180px;
   font-size: 0.75rem;
   color: var(--apoio);
   font-weight: 500;
@@ -220,7 +220,7 @@ html[data-tema="escuro"] {
 
 .bento-svg-chart {
   width: 100%;
-  height: 120px;
+  height: 180px;
   overflow: visible;
 }
 
@@ -266,7 +266,7 @@ html[data-tema="escuro"] {
   position: relative;
   width: 100%;
   height: 24px;
-  margin-top: 10px;
+  margin-top: 14px;
   font-size: 0.78rem;
   color: var(--apoio);
 }
@@ -463,5 +463,14 @@ html[data-tema="escuro"] {
 
   .bento-body-container {
     padding: 1rem !important;
+  }
+
+  .chart-y-axis,
+  .bento-svg-chart {
+    height: 120px;
+  }
+
+  .chart-x-axis {
+    margin-top: 10px;
   }
 }

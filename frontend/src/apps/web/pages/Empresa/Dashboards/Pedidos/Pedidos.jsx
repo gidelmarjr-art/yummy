@@ -14,7 +14,7 @@ import {
   FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import TopHeader from "../../../../components/TopHeader/TopHeader";
 import DashboardSelect from "../components/DashboardSelect";
 import {
   getPedidos,
@@ -195,36 +195,7 @@ export default function Pedidos() {
       />
 
       <main className="pedidos-main-content">
-        <header className="pedidos-top-bar">
-          <div className="top-bar-left-group">
-            {(!isSidebarOpen || window.innerWidth <= 768) && (
-              <button
-                className="action-circle-btn toggle-sidebar-trigger"
-                onClick={() => setIsSidebarOpen((prev) => !prev)}
-                aria-label="Abrir menu"
-              >
-                <FaBars />
-              </button>
-            )}
-            <h1 className="page-heading">Pedidos em Tempo Real</h1>
-          </div>
-
-          <div className="top-bar-right">
-            <ThemeToggleButton />
-            <button className="action-circle-btn" aria-label="Configurações">
-              <FaCog />
-            </button>
-            <button className="action-circle-btn" aria-label="Notificações">
-              <FaBell />
-            </button>
-            <div className="user-profile-avatar">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-                alt="Avatar"
-              />
-            </div>
-          </div>
-        </header>
+        <TopHeader title="Pedidos em Tempo Real" isSidebarOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
 
         <div className="pedidos-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}

@@ -46,13 +46,13 @@ export default function Dashboard() {
   };
 
   const dadosGrafico = [
-    { dia: "Seg", valor: 350, x: 25, y: 77.5 },
-    { dia: "Ter", valor: 520, x: 80, y: 66.8 },
-    { dia: "Qua", valor: 700, x: 135, y: 55.0 },
-    { dia: "Qui", valor: 610, x: 190, y: 60.8 },
-    { dia: "Sex", valor: 980, x: 245, y: 37.0 },
-    { dia: "Sáb", valor: 1232, x: 300, y: 10.0 },
-    { dia: "Dom", valor: numFaturamento || 1050, x: 355, y: 32.5 },
+    { dia: "Seg", valor: 350, x: 40, y: 136 },
+    { dia: "Ter", valor: 520, x: 140, y: 112 },
+    { dia: "Qua", valor: 700, x: 240, y: 88 },
+    { dia: "Qui", valor: 610, x: 340, y: 99 },
+    { dia: "Sex", valor: 980, x: 440, y: 54 },
+    { dia: "Sáb", valor: 1232, x: 540, y: 20 },
+    { dia: "Dom", valor: numFaturamento || 1050, x: 640, y: 66 },
   ];
 
   const pathD =
@@ -173,13 +173,13 @@ export default function Dashboard() {
                   className="svg-chart-container"
                   onMouseLeave={() => setPontoAtivoChart(null)}
                 >
-                  <svg viewBox="0 0 400 120" className="bento-svg-chart">
+                  <svg viewBox="0 0 680 180" className="bento-svg-chart">
                     <g className="chart-grid-lines">
-                      <line x1="0" y1="10" x2="400" y2="10" />
-                      <line x1="0" y1="32.5" x2="400" y2="32.5" />
-                      <line x1="0" y1="55" x2="400" y2="55" />
-                      <line x1="0" y1="77.5" x2="400" y2="77.5" />
-                      <line x1="0" y1="100" x2="400" y2="100" />
+                      <line x1="0" y1="20" x2="680" y2="20" />
+                      <line x1="0" y1="59" x2="680" y2="59" />
+                      <line x1="0" y1="98" x2="680" y2="98" />
+                      <line x1="0" y1="137" x2="680" y2="137" />
+                      <line x1="0" y1="176" x2="680" y2="176" />
                     </g>
 
                     <path
@@ -211,8 +211,8 @@ export default function Dashboard() {
                     <div
                       className="chart-tooltip-floating"
                       style={{
-                        left: `${(dadosGrafico[pontoAtivoChart].x / 400) * 100}%`,
-                        top: `${(dadosGrafico[pontoAtivoChart].y / 120) * 100}%`,
+                        left: `${(dadosGrafico[pontoAtivoChart].x / 680) * 100}%`,
+                        top: `${(dadosGrafico[pontoAtivoChart].y / 180) * 100}%`,
                       }}
                     >
                       <strong>{dadosGrafico[pontoAtivoChart].dia}</strong>
@@ -230,7 +230,7 @@ export default function Dashboard() {
                       <span
                         key={i}
                         className={pontoAtivoChart === i ? "active" : ""}
-                        style={{ left: `${(d.x / 400) * 100}%` }}
+                        style={{ left: `${(d.x / 680) * 100}%` }}
                       >
                         {d.dia}
                       </span>

@@ -21,7 +21,7 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import TopHeader from "../../../../components/TopHeader/TopHeader";
 import { useRealtimeTransactions } from "./useRealtimeTransactions";
 import "../dashboards-shared.css";
 import "./Transacoes.css";
@@ -68,37 +68,7 @@ export default function Transacoes() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="transacoes-main-content">
-        <header className="transacoes-top-bar">
-          <div className="top-bar-left">
-            {!isSidebarOpen && (
-              <button
-                className="toggle-sidebar-btn"
-                onClick={toggleSidebar}
-                aria-label="Abrir menu"
-              >
-                <FaBars />
-              </button>
-            )}
-            <h1 className="page-heading">Transações Financeiras</h1>
-          </div>
-
-          <div className="top-bar-right">
-            <ThemeToggleButton />
-            <button className="action-circle-btn" aria-label="Configurações">
-              <FaCog />
-            </button>
-            <button className="action-circle-btn" aria-label="Notificações">
-              <FaBell />
-            </button>
-
-            <div className="user-profile-avatar">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-                alt="Avatar Yummy"
-              />
-            </div>
-          </div>
-        </header>
+        <TopHeader title="Transações Financeiras" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         <div className="transacoes-dashboard-body bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}

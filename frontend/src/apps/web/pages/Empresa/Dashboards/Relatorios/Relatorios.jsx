@@ -28,7 +28,7 @@ import {
   FaBan,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import TopHeader from "../../../../components/TopHeader/TopHeader";
 import { useRealtimeDashboard } from "./useRealtimeDashboard";
 import "../dashboards-shared.css";
 import "./Relatorios.css";
@@ -94,38 +94,7 @@ export default function Relatorios() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="relatorios-main-content">
-        {/* Header */}
-        <header className="relatorios-top-bar">
-          <div className="top-bar-left">
-            {!isSidebarOpen && (
-              <button
-                className="toggle-sidebar-btn"
-                onClick={toggleSidebar}
-                aria-label="Abrir menu"
-              >
-                <FaBars />
-              </button>
-            )}
-            <h1 className="page-heading">Relatórios e Indicadores</h1>
-          </div>
-
-          <div className="top-bar-right">
-            <ThemeToggleButton />
-            <button className="action-circle-btn" aria-label="Configurações">
-              <FaCog />
-            </button>
-            <button className="action-circle-btn" aria-label="Notificações">
-              <FaBell />
-            </button>
-
-            <div className="user-profile-avatar">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-                alt="Avatar Yummy"
-              />
-            </div>
-          </div>
-        </header>
+        <TopHeader title="Relatórios e Indicadores" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         {/* Dashboard em Tela */}
         <div className="relatorios-dashboard-body bento-body-container">

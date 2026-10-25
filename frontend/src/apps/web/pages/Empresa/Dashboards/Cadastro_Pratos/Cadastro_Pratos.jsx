@@ -9,7 +9,7 @@ import {
   FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import TopHeader from "../../../../components/TopHeader/TopHeader";
 import DashboardSelect from "../components/DashboardSelect";
 import {
   getEstoque,
@@ -179,36 +179,7 @@ export default function CadastroPratos() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="cadastro-pratos-main-content">
-        <header className="cadastro-pratos-top-bar">
-          <div className="top-bar-left-group">
-            {(!isSidebarOpen || window.innerWidth <= 768) && (
-              <button
-                className="action-circle-btn toggle-sidebar-trigger"
-                onClick={toggleSidebar}
-                aria-label="Abrir menu"
-              >
-                <FaBars />
-              </button>
-            )}
-            <h1 className="page-heading">Cadastro de Pratos</h1>
-          </div>
-
-          <div className="top-bar-right">
-            <ThemeToggleButton />
-            <button className="action-circle-btn" aria-label="Configurações">
-              <FaCog />
-            </button>
-            <button className="action-circle-btn" aria-label="Notificações">
-              <FaBell />
-            </button>
-            <div className="user-profile-avatar">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-                alt="Avatar"
-              />
-            </div>
-          </div>
-        </header>
+        <TopHeader title="Cadastro de Pratos" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         <div className="cadastro-pratos-body-content">
           <form

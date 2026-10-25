@@ -144,6 +144,39 @@ html[data-tema="escuro"] .trending-table-wrapper {
   color: var(--apoio) !important;
 }
 
+/* Contraste consistente para conteúdo legado no modo escuro. */
+html[data-tema="escuro"] [class*="-row-item"],
+html[data-tema="escuro"] [class*="-item-card"],
+html[data-tema="escuro"] [class*="-info-col"],
+html[data-tema="escuro"] .modal-body-details,
+html[data-tema="escuro"] .form-group,
+html[data-tema="escuro"] .cp-input-group,
+html[data-tema="escuro"] .security-card,
+html[data-tema="escuro"] .config-card-container,
+html[data-tema="escuro"] .profile-card {
+  color: var(--texto) !important;
+}
+
+html[data-tema="escuro"] [class*="-row-item"] span,
+html[data-tema="escuro"] [class*="-row-item"] strong,
+html[data-tema="escuro"] [class*="-item-card"] span,
+html[data-tema="escuro"] [class*="-item-card"] strong,
+html[data-tema="escuro"] .modal-body-details p,
+html[data-tema="escuro"] .security-card p,
+html[data-tema="escuro"] .config-card-container p {
+  color: var(--texto) !important;
+}
+
+html[data-tema="escuro"] .order-summary,
+html[data-tema="escuro"] .item-category,
+html[data-tema="escuro"] .cliente-email,
+html[data-tema="escuro"] .order-detail-sub,
+html[data-tema="escuro"] .metric-footer-clean,
+html[data-tema="escuro"] .chart-y-axis,
+html[data-tema="escuro"] .chart-x-axis {
+  color: var(--apoio) !important;
+}
+
 /* Base visual e de movimento compartilhada por todas as abas empresariais. */
 [class$="-top-bar"],
 .top-bar-header {
