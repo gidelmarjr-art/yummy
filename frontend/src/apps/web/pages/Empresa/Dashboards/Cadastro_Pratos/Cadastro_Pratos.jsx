@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  FaCog,
-  FaBell,
-  FaUtensils,
-  FaPlus,
-  FaTrashAlt,
-  FaSave,
-  FaBars,
-} from "react-icons/fa";
+import { FaUtensils, FaPlus, FaTrashAlt, FaSave } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
 import DashboardSelect from "../components/DashboardSelect";
@@ -179,7 +171,11 @@ export default function CadastroPratos() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="cadastro-pratos-main-content">
-        <TopHeader title="Cadastro de Pratos" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Cadastro de Pratos"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="cadastro-pratos-body-content">
           <form
@@ -223,7 +219,11 @@ export default function CadastroPratos() {
                   <DashboardSelect
                     value={dados.categoria}
                     onChange={(categoria) => setDados({ ...dados, categoria })}
-                    options={categorias.map((cat) => ({ value: cat.slug, label: cat.nome, color: "#3b82f6" }))}
+                    options={categorias.map((cat) => ({
+                      value: cat.slug,
+                      label: cat.nome,
+                      color: "#3b82f6",
+                    }))}
                     placeholder="Selecione uma categoria"
                   />
                 </div>
@@ -270,8 +270,16 @@ export default function CadastroPratos() {
                     value={dados.status}
                     onChange={(status) => setDados({ ...dados, status })}
                     options={[
-                      { value: "Em estoque", label: "Em estoque", color: "#16a34a" },
-                      { value: "Esgotado", label: "Esgotado", color: "#dc2626" },
+                      {
+                        value: "Em estoque",
+                        label: "Em estoque",
+                        color: "#16a34a",
+                      },
+                      {
+                        value: "Esgotado",
+                        label: "Esgotado",
+                        color: "#dc2626",
+                      },
                     ]}
                   />
                 </div>
@@ -302,10 +310,16 @@ export default function CadastroPratos() {
                     <div className="cp-ficha-row" key={index}>
                       <DashboardSelect
                         value={linha.insumo_id}
-                        onChange={(insumoId) => handleFichaChange(index, "insumo_id", insumoId)}
+                        onChange={(insumoId) =>
+                          handleFichaChange(index, "insumo_id", insumoId)
+                        }
                         options={[
                           { value: "", label: "Selecione um insumo…" },
-                          ...insumos.map((insumo) => ({ value: insumo.id, label: `${insumo.nome} (${insumo.codigo})`, color: "#14b8a6" })),
+                          ...insumos.map((insumo) => ({
+                            value: insumo.id,
+                            label: `${insumo.nome} (${insumo.codigo})`,
+                            color: "#14b8a6",
+                          })),
                         ]}
                       />
 
