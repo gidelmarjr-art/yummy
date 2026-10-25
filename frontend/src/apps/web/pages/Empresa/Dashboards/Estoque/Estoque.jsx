@@ -9,6 +9,7 @@ import {
   FaPrint,
   FaEye,
   FaTimes,
+  FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
@@ -125,19 +126,21 @@ export default function Estoque() {
 
       <main className="estoque-main-content">
         <header className="estoque-top-bar">
-          <h1 className="page-heading">Controle de Estoque e Insumos</h1>
+          <div className="top-bar-left-group">
+            {(!isSidebarOpen || window.innerWidth <= 768) && (
+              <button
+                className="action-circle-btn toggle-sidebar-trigger"
+                onClick={toggleSidebar}
+                aria-label="Abrir menu"
+              >
+                <FaBars />
+              </button>
+            )}
+            <h1 className="page-heading">Controle de Estoque e Insumos</h1>
+          </div>
 
           <div className="top-bar-right">
             <ThemeToggleButton />
-            <div className="search-box">
-              <FaSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="Buscar insumo..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
             <button className="action-circle-btn">
               <FaCog />
             </button>
@@ -157,18 +160,31 @@ export default function Estoque() {
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
           <div className="top-controls-row">
-            <div className="dropdown-filter-wrapper">
-              <select
-                className="status-dropdown-select"
-                value={dropdownFilter}
-                onChange={(e) => setDropdownFilter(e.target.value)}
-              >
-                <option value="Todos">Filtrar: Todos os níveis</option>
-                <option value="Estável">Estável</option>
-                <option value="Baixo">Baixo</option>
-                <option value="Crítico">Crítico</option>
-              </select>
-              <FaChevronDown className="dropdown-icon" />
+            <div className="top-controls-left-group">
+              <div className="dropdown-filter-wrapper">
+                <select
+                  className="status-dropdown-select"
+                  value={dropdownFilter}
+                  onChange={(e) => setDropdownFilter(e.target.value)}
+                >
+                  <option value="Todos">Filtrar: Todos os níveis</option>
+                  <option value="Estável">Estável</option>
+                  <option value="Baixo">Baixo</option>
+                  <option value="Crítico">Crítico</option>
+                </select>
+                <FaChevronDown className="dropdown-icon" />
+              </div>
+
+              {/* Barra de pesquisa integrada ao lado do filtro */}
+              <div className="search-box inline-search">
+                <FaSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Buscar insumo..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
 
             <div className="novo-pedido-card-top">

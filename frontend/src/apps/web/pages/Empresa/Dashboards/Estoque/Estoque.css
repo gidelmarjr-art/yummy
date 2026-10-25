@@ -1,4 +1,4 @@
-/* Estoque.css - Harmonizado e Atualizado */
+/* Estoque.css - Harmonizado e Atualizado com Estrutura Central e Barra de Pesquisa Integrada */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 .estoque-page-layout {
@@ -19,7 +19,7 @@
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Header Superior */
+/* Header Superior - Padrão Desktop (Expandido) */
 .estoque-top-bar {
   display: flex;
   align-items: center;
@@ -27,6 +27,14 @@
   padding: 1.2rem 2.5rem;
   background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
+  gap: 1rem;
+}
+
+.top-bar-left-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
 }
 
 .page-heading {
@@ -34,43 +42,64 @@
   font-weight: 800;
   color: #0f172a;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .top-bar-right {
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  flex-shrink: 0;
 }
 
-.search-box {
+/* Grupo esquerdo na linha de controles (Filtro + Busca) */
+.top-controls-left-group {
   display: flex;
   align-items: center;
-  background-color: #f1f5f9;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  width: 260px;
-  border: 1px solid transparent;
-  transition: border-color 0.2s ease;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.search-box:focus-within {
+/* Caixa de Pesquisa Integrada ao lado do Filtro */
+.search-box.inline-search {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  width: 280px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.search-box.inline-search:focus-within {
   border-color: #ed5b22;
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
   background-color: #ffffff;
 }
 
-.search-icon {
+.search-box.inline-search .search-icon {
   color: #94a3b8;
   font-size: 0.85rem;
-  margin-right: 0.5rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
-.search-box input {
+.search-box.inline-search input {
   border: none;
   background: transparent;
   outline: none;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   width: 100%;
-  color: #334155;
+  color: #1e293b;
+  font-weight: 500;
+  min-width: 0;
+  padding: 0;
 }
 
 .action-circle-btn {
@@ -85,6 +114,7 @@
   color: #64748b;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .action-circle-btn:hover {
@@ -99,6 +129,7 @@
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #ed5b22;
+  flex-shrink: 0;
 }
 
 .user-profile-avatar img {
@@ -122,7 +153,6 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  flex-wrap: wrap;
 }
 
 /* Dropdown de Filtro */
@@ -160,7 +190,7 @@
   font-size: 0.8rem;
 }
 
-/* Card Superior de Ações Rapidase/Relatório */
+/* Card Superior de Ações Rápidas/Relatório */
 .novo-pedido-card-top {
   background-color: #ffffff;
   border-radius: 16px;
@@ -530,8 +560,9 @@
 .btn-cancel-modal:hover {
   background-color: #e2e8f0;
 }
+
 /* ==========================================
-   RESPONSIVIDADE E MEDIA QUERIES
+   RESPONSIVIDADE E ESTRUTURA CENTRAL
    ========================================== */
 
 @media (max-width: 1024px) {
@@ -552,25 +583,40 @@
   }
 }
 
+/* Em aparelhos menores, aplica a Estrutura Central (título no meio e ícones centralizados abaixo) */
 @media (max-width: 768px) {
   .estoque-top-bar {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1rem;
     gap: 1rem;
-    padding: 1rem;
+    position: relative;
   }
 
-  .top-bar-right {
+  .top-bar-left-group {
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
+    position: relative;
   }
 
-  .search-box {
-    flex: 1;
-    width: auto;
+  .toggle-sidebar-trigger {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .page-heading {
     font-size: 1.25rem;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .top-bar-right {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
   }
 
   .estoque-dashboard-body {
@@ -581,14 +627,20 @@
   .top-controls-row {
     flex-direction: column;
     align-items: stretch;
+    gap: 1rem;
+  }
+
+  .top-controls-left-group {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .dropdown-filter-wrapper,
-  .status-dropdown-select {
+  .status-dropdown-select,
+  .search-box.inline-search {
     width: 100%;
   }
 
-  /* Linha do insumo vira "cartão" empilhado em vez do grid de 6 colunas */
   .estoque-row-item {
     display: flex;
     flex-wrap: wrap;
