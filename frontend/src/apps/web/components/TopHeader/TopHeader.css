@@ -43,8 +43,9 @@
   gap: 1.2rem;
 }
 
+/* O botão de menu agora aparece e integra-se no grupo */
 .action-circle-btn.toggle-sidebar-trigger {
-  display: none;
+  display: flex;
 }
 
 .action-circle-btn {
@@ -217,10 +218,6 @@
     position: relative;
   }
 
-  .action-circle-btn.toggle-sidebar-trigger {
-    display: flex;
-  }
-
   .page-heading {
     font-size: 1.3rem;
     text-align: center;
@@ -234,7 +231,8 @@
 
   .top-bar-mobile-actions {
     justify-content: center;
-    gap: 0.6rem;
+    flex-wrap: wrap;
+    gap: 0.8rem;
     margin: 0 auto;
   }
 
@@ -244,22 +242,3 @@
     transform: translateX(-50%);
   }
 }
-
-/* ==========================================
-   SUPORTE À TRANSIÇÃO DE TEMA (VIEW TRANSITION)
-   ========================================== */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
-  z-index: 1;
-}
-
-::view-transition-new(root) {
-  z-index: 9999;
-}
-
-

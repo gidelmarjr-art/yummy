@@ -108,84 +108,84 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
 
       <div className="top-bar-right">
         <div className="top-bar-actions top-bar-mobile-actions">
-        <button
-          className="action-circle-btn toggle-sidebar-trigger"
-          onClick={toggleSidebar}
-          aria-label="Abrir menu lateral"
-          title="Abrir menu lateral"
-        >
-          <FaBars />
-        </button>
-        <ThemeToggleButton />
-
-        <button
-          className="action-circle-btn"
-          aria-label="Configurações"
-          onClick={() => navigate("/configuracoes")}
-        >
-          <FaCog />
-        </button>
-
-        <div className="notification-wrapper" ref={dropdownRef}>
+          {/* Botão de abrir o menu inserido diretamente no grupo de ações para alinhar junto com os demais */}
           <button
-            className={`action-circle-btn ${showNotifications ? "active" : ""}`}
-            aria-label="Notificações"
-            onClick={() => setShowNotifications(!showNotifications)}
+            className="action-circle-btn toggle-sidebar-trigger"
+            onClick={toggleSidebar}
+            aria-label="Abrir menu lateral"
+            title="Abrir menu lateral"
           >
-            <FaBell />
-            {notifications.length > 0 && (
-              <span className="notification-badge">{notifications.length}</span>
-            )}
+            <FaBars />
           </button>
 
-          {showNotifications && (
-            <div className="notification-dropdown">
-              <div className="dropdown-header">
-                <h3>Notificações & Alertas</h3>
-                <span className="badge-count">
-                  {notifications.length} novas
-                </span>
-              </div>
-              <div className="dropdown-body">
-                {notifications.map((notif) => (
-                  <div
-                    key={notif.id}
-                    className={`notification-item ${notif.tipo}`}
-                  >
-                    <div className="notif-icon">
-                      {notif.tipo === "alerta" ? (
-                        <FaExclamationTriangle />
-                      ) : (
-                        <FaCheckCircle />
-                      )}
-                    </div>
-                    <div className="notif-content">
-                      <h4>{notif.titulo}</h4>
-                      <p>{notif.desc}</p>
-                      <span className="notif-time">{notif.tempo}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+          <ThemeToggleButton />
 
-        <div
-          className="user-profile-avatar clickable"
-          onClick={() => navigate("/perfil-loja")}
-        >
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-            alt="Avatar"
-          />
-        </div>
+          <button
+            className="action-circle-btn"
+            aria-label="Configurações"
+            onClick={() => navigate("/configuracoes")}
+          >
+            <FaCog />
+          </button>
+
+          <div className="notification-wrapper" ref={dropdownRef}>
+            <button
+              className={`action-circle-btn ${showNotifications ? "active" : ""}`}
+              aria-label="Notificações"
+              onClick={() => setShowNotifications(!showNotifications)}
+            >
+              <FaBell />
+              {notifications.length > 0 && (
+                <span className="notification-badge">
+                  {notifications.length}
+                </span>
+              )}
+            </button>
+
+            {showNotifications && (
+              <div className="notification-dropdown">
+                <div className="dropdown-header">
+                  <h3>Notificações & Alertas</h3>
+                  <span className="badge-count">
+                    {notifications.length} novas
+                  </span>
+                </div>
+                <div className="dropdown-body">
+                  {notifications.map((notif) => (
+                    <div
+                      key={notif.id}
+                      className={`notification-item ${notif.tipo}`}
+                    >
+                      <div className="notif-icon">
+                        {notif.tipo === "alerta" ? (
+                          <FaExclamationTriangle />
+                        ) : (
+                          <FaCheckCircle />
+                        )}
+                      </div>
+                      <div className="notif-content">
+                        <h4>{notif.titulo}</h4>
+                        <p>{notif.desc}</p>
+                        <span className="notif-time">{notif.tempo}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
+            )}
+          </div>
+
+          <div
+            className="user-profile-avatar clickable"
+            onClick={() => navigate("/perfil-loja")}
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+              alt="Avatar"
+            />
+          </div>
+        </div>
       </div>
     </header>
   );
 }
-
-
-
-
