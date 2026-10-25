@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
-import { FaBell, FaMotorcycle, FaSave, FaCog, FaBars } from "react-icons/fa";
+import { FaBell, FaMotorcycle, FaSave } from "react-icons/fa";
 import "../dashboards-shared.css";
 import "./Configuracoes.css";
 
@@ -49,7 +49,11 @@ export default function Configuracoes() {
     >
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <main className="config-main-content">
-        <TopHeader title="Configurações do Sistema" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Configurações do Sistema"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="config-body-content">
           <form

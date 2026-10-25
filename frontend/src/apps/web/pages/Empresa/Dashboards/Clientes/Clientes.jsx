@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaCog, FaBell, FaUser, FaEye, FaTimes, FaBars } from "react-icons/fa";
+import { FaUser, FaEye, FaTimes } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
 import { getClientes } from "../../../../services/api";
@@ -39,7 +39,11 @@ export default function Clientes() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="clientes-main-content">
-        <TopHeader title="Gestão de Clientes" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Gestão de Clientes"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="clientes-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
