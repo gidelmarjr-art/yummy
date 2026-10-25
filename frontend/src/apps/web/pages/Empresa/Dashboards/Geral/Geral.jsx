@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaUtensils, FaBoxes, FaUsers, FaDollarSign } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
@@ -6,6 +6,11 @@ import { useContagem } from "./useContagem";
 import { getGeral } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Geral.css";
+
+// O gráfico é desenhado no tamanho real do espaço disponível (em pixels), para
+// que os pontos e os nomes dos dias fiquem alinhados em qualquer largura de tela.
+const MARGEM_X_GRAFICO = 40; // respiro à esquerda e à direita dos pontos
+const ALTURA_BASE = 180; // altura para a qual as posições Y abaixo foram definidas
 
 export default function Dashboard() {
   const [metrics, setMetrics] = useState({
@@ -20,6 +25,11 @@ export default function Dashboard() {
   const [erro, setErro] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [pontoAtivoChart, setPontoAtivoChart] = useState(null);
+  const svgRef = useRef(null);
+  const [tamanhoGrafico, setTamanhoGrafico] = useState({
+    largura: 680,
+    altura: ALTURA_BASE,
+  });
 
   const numFaturamento =
     parseFloat(metrics.totalSales.replace(/[^\d,]/g, "").replace(",", ".")) ||
@@ -45,15 +55,53 @@ export default function Dashboard() {
     setIsSidebarOpen((prev) => !prev);
   };
 
-  const dadosGrafico = [
-    { dia: "Seg", valor: 350, x: 40, y: 136 },
-    { dia: "Ter", valor: 520, x: 140, y: 112 },
-    { dia: "Qua", valor: 700, x: 240, y: 88 },
-    { dia: "Qui", valor: 610, x: 340, y: 99 },
-    { dia: "Sex", valor: 980, x: 440, y: 54 },
-    { dia: "Sáb", valor: 1232, x: 540, y: 20 },
-    { dia: "Dom", valor: numFaturamento || 1050, x: 640, y: 66 },
+  // Mede o gráfico e acompanha mudanças (redimensionar a janela, abrir/fechar o menu lateral).
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return undefined;
+
+    const medir = () => {
+      const { width, height } = el.getBoundingClientRect();
+      if (width > 0 && height > 0) {
+        setTamanhoGrafico((atual) =>
+          atual.largura === width && atual.altura === height
+            ? atual
+            : { largura: width, altura: height },
+        );
+      }
+    };
+
+    medir();
+    if (typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", medir);
+      return () => window.removeEventListener("resize", medir);
+    }
+    const observador = new ResizeObserver(medir);
+    observador.observe(el);
+    return () => observador.disconnect();
+  }, []);
+
+  const { largura: larguraGrafico, altura: alturaGrafico } = tamanhoGrafico;
+  const escalaY = alturaGrafico / ALTURA_BASE;
+
+  const pontosBase = [
+    { dia: "Seg", valor: 350, y: 136 },
+    { dia: "Ter", valor: 520, y: 112 },
+    { dia: "Qua", valor: 700, y: 88 },
+    { dia: "Qui", valor: 610, y: 99 },
+    { dia: "Sex", valor: 980, y: 54 },
+    { dia: "Sáb", valor: 1232, y: 20 },
+    { dia: "Dom", valor: numFaturamento || 1050, y: 66 },
   ];
+
+  // Os pontos se distribuem igualmente por toda a largura disponível.
+  const passoX =
+    (larguraGrafico - MARGEM_X_GRAFICO * 2) / (pontosBase.length - 1);
+  const dadosGrafico = pontosBase.map((p, i) => ({
+    ...p,
+    x: MARGEM_X_GRAFICO + i * passoX,
+    y: p.y * escalaY,
+  }));
 
   const pathD =
     `M ${dadosGrafico[0].x},${dadosGrafico[0].y} ` +
@@ -173,13 +221,21 @@ export default function Dashboard() {
                   className="svg-chart-container"
                   onMouseLeave={() => setPontoAtivoChart(null)}
                 >
-                  <svg viewBox="0 0 680 180" className="bento-svg-chart">
+                  <svg
+                    ref={svgRef}
+                    viewBox={`0 0 ${larguraGrafico} ${alturaGrafico}`}
+                    className="bento-svg-chart"
+                  >
                     <g className="chart-grid-lines">
-                      <line x1="0" y1="20" x2="680" y2="20" />
-                      <line x1="0" y1="59" x2="680" y2="59" />
-                      <line x1="0" y1="98" x2="680" y2="98" />
-                      <line x1="0" y1="137" x2="680" y2="137" />
-                      <line x1="0" y1="176" x2="680" y2="176" />
+                      {[20, 59, 98, 137, 176].map((y) => (
+                        <line
+                          key={y}
+                          x1="0"
+                          y1={y * escalaY}
+                          x2={larguraGrafico}
+                          y2={y * escalaY}
+                        />
+                      ))}
                     </g>
 
                     <path
@@ -211,8 +267,8 @@ export default function Dashboard() {
                     <div
                       className="chart-tooltip-floating"
                       style={{
-                        left: `${(dadosGrafico[pontoAtivoChart].x / 680) * 100}%`,
-                        top: `${(dadosGrafico[pontoAtivoChart].y / 180) * 100}%`,
+                        left: `${dadosGrafico[pontoAtivoChart].x}px`,
+                        top: `${dadosGrafico[pontoAtivoChart].y}px`,
                       }}
                     >
                       <strong>{dadosGrafico[pontoAtivoChart].dia}</strong>
@@ -230,7 +286,7 @@ export default function Dashboard() {
                       <span
                         key={i}
                         className={pontoAtivoChart === i ? "active" : ""}
-                        style={{ left: `${(d.x / 680) * 100}%` }}
+                        style={{ left: `${d.x}px` }}
                       >
                         {d.dia}
                       </span>
