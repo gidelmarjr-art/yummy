@@ -26,7 +26,11 @@ const NAV_ITEMS = [
   { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
   { name: "Pedidos", path: "/pedidos", icon: <FaUtensils /> },
   { name: "Cardápio", path: "/cardapio", icon: <FaClipboardList /> },
-  { name: "Cadastro de Pratos", path: "/cadastro-pratos", icon: <FaPlusCircle /> },
+  {
+    name: "Cadastro de Pratos",
+    path: "/cadastro-pratos",
+    icon: <FaPlusCircle />,
+  },
   { name: "Operacionais", path: "/estoque", icon: <FaTools /> },
   { name: "Transactions", path: "/transacoes", icon: <FaExchangeAlt /> },
   { name: "Relatórios", path: "/relatorios", icon: <FaChartBar /> },
@@ -35,7 +39,10 @@ const NAV_ITEMS = [
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
 ];
 
-export default function Sidebar({ isOpen: externalIsOpen, toggleSidebar: externalToggle }) {
+export default function Sidebar({
+  isOpen: externalIsOpen,
+  toggleSidebar: externalToggle,
+}) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -100,7 +107,8 @@ export default function Sidebar({ isOpen: externalIsOpen, toggleSidebar: externa
 
           <nav className="sidebar-nav">
             {NAV_ITEMS.map((item) => {
-              const isActive = location.pathname.toLowerCase() === item.path.toLowerCase();
+              const isActive =
+                location.pathname.toLowerCase() === item.path.toLowerCase();
 
               return (
                 <button
@@ -120,7 +128,9 @@ export default function Sidebar({ isOpen: externalIsOpen, toggleSidebar: externa
               onClick={handleLogout}
               title={!isOpen ? "Sair" : ""}
             >
-              <span className="sidebar-icon"><FaSignOutAlt /></span>
+              <span className="sidebar-icon">
+                <FaSignOutAlt />
+              </span>
               <span className="sidebar-label">Sair</span>
             </button>
           </nav>

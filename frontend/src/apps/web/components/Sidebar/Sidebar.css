@@ -217,6 +217,17 @@ html[data-tema="escuro"] .sidebar-btn--logout:hover {
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
   }
 
+  /* Reduz o tamanho da logo e ajusta os espaçamentos em telas menores */
+  .sidebar-logo {
+    padding: 0.01rem 0 1rem 0 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .logo-img {
+    max-width: 80px !important;
+    /* Diminui de 130px para 80px (ou o tamanho que preferir) */
+  }
+
   /* Quando fechado no mobile: recua o menu, mas ajusta a posição da seta para sobressair */
   .sidebar-container.is-closed {
     transform: translateX(-100%);
