@@ -8,9 +8,16 @@ import "../dashboards-shared.css";
 import "./Geral.css";
 
 // O gráfico é desenhado no tamanho real do espaço disponível (em pixels), para
-// que os pontos e os nomes dos dias fiquem alinhados em qualquer largura de tela.
-const MARGEM_X_GRAFICO = 40; // respiro à esquerda e à direita dos pontos
-const ALTURA_BASE = 180; // altura para a qual as posições Y abaixo foram definidas
+// que os pontos, os números do eixo e os nomes dos dias fiquem alinhados em
+// qualquer largura e altura de tela.
+const PASSO_EIXO_Y = 250; // um traço do eixo vertical a cada R$ 250
+const TOPO_EIXO_Y = 3000; // o eixo vai até R$ 3.000 (cresce se algum valor passar disso)
+const MARGEM_ESQ = 56; // espaço para os números do eixo Y
+const MARGEM_DIR = 8;
+const MARGEM_PONTOS = 24; // afastamento dos pontos das pontas do gráfico
+const MARGEM_TOPO = 12;
+const MARGEM_BASE = 8;
+const ESPACO_MIN_ROTULO = 18; // altura mínima (px) entre dois números do eixo Y
 
 export default function Dashboard() {
   const [metrics, setMetrics] = useState({
@@ -28,7 +35,7 @@ export default function Dashboard() {
   const svgRef = useRef(null);
   const [tamanhoGrafico, setTamanhoGrafico] = useState({
     largura: 680,
-    altura: ALTURA_BASE,
+    altura: 260,
   });
 
   const numFaturamento =
@@ -82,25 +89,48 @@ export default function Dashboard() {
   }, []);
 
   const { largura: larguraGrafico, altura: alturaGrafico } = tamanhoGrafico;
-  const escalaY = alturaGrafico / ALTURA_BASE;
 
   const pontosBase = [
-    { dia: "Seg", valor: 350, y: 136 },
-    { dia: "Ter", valor: 520, y: 112 },
-    { dia: "Qua", valor: 700, y: 88 },
-    { dia: "Qui", valor: 610, y: 99 },
-    { dia: "Sex", valor: 980, y: 54 },
-    { dia: "Sáb", valor: 1232, y: 20 },
-    { dia: "Dom", valor: numFaturamento || 1050, y: 66 },
+    { dia: "Seg", valor: 350 },
+    { dia: "Ter", valor: 520 },
+    { dia: "Qua", valor: 700 },
+    { dia: "Qui", valor: 610 },
+    { dia: "Sex", valor: 980 },
+    { dia: "Sáb", valor: 1232 },
+    { dia: "Dom", valor: numFaturamento || 1050 },
   ];
 
+  // Eixo Y: de 0 até 3.000 em passos de 250 (ou mais, se algum valor ultrapassar).
+  const maxValor = Math.max(...pontosBase.map((p) => p.valor));
+  const topoY = Math.max(
+    TOPO_EIXO_Y,
+    Math.ceil(maxValor / PASSO_EIXO_Y) * PASSO_EIXO_Y,
+  );
+  const alturaUtil = alturaGrafico - MARGEM_TOPO - MARGEM_BASE;
+  const yDoValor = (valor) => MARGEM_TOPO + (1 - valor / topoY) * alturaUtil;
+
+  // Em telas baixas mostra só parte dos números (500 em 500, ou 1.000 em 1.000)
+  // para eles não ficarem amontoados.
+  const pxPorPasso = alturaUtil / (topoY / PASSO_EIXO_Y);
+  const saltoRotulo =
+    pxPorPasso >= ESPACO_MIN_ROTULO
+      ? 1
+      : pxPorPasso * 2 >= ESPACO_MIN_ROTULO
+        ? 2
+        : 4;
+  const marcasY = Array.from(
+    { length: topoY / PASSO_EIXO_Y + 1 },
+    (_, i) => i * PASSO_EIXO_Y,
+  ).filter((_, i) => i % saltoRotulo === 0);
+
   // Os pontos se distribuem igualmente por toda a largura disponível.
-  const passoX =
-    (larguraGrafico - MARGEM_X_GRAFICO * 2) / (pontosBase.length - 1);
+  const xInicial = MARGEM_ESQ + MARGEM_PONTOS;
+  const xFinal = larguraGrafico - MARGEM_DIR - MARGEM_PONTOS;
+  const passoX = (xFinal - xInicial) / (pontosBase.length - 1);
   const dadosGrafico = pontosBase.map((p, i) => ({
     ...p,
-    x: MARGEM_X_GRAFICO + i * passoX,
-    y: p.y * escalaY,
+    x: xInicial + i * passoX,
+    y: yDoValor(p.valor),
   }));
 
   const pathD =
@@ -209,59 +239,71 @@ export default function Dashboard() {
               </div>
 
               <div className="points-chart-wrapper">
-                <div className="chart-y-axis">
-                  <span>1.232</span>
-                  <span>1.050</span>
-                  <span>700</span>
-                  <span>350</span>
-                  <span>0</span>
-                </div>
-
                 <div
                   className="svg-chart-container"
                   onMouseLeave={() => setPontoAtivoChart(null)}
                 >
-                  <svg
-                    ref={svgRef}
-                    viewBox={`0 0 ${larguraGrafico} ${alturaGrafico}`}
-                    className="bento-svg-chart"
-                  >
-                    <g className="chart-grid-lines">
-                      {[20, 59, 98, 137, 176].map((y) => (
-                        <line
-                          key={y}
-                          x1="0"
-                          y1={y * escalaY}
-                          x2={larguraGrafico}
-                          y2={y * escalaY}
-                        />
-                      ))}
-                    </g>
-
-                    <path
-                      d={pathD}
-                      pathLength="1"
-                      className="chart-line-smooth"
-                    />
-
-                    {dadosGrafico.map((d, idx) => (
-                      <g key={idx} onMouseEnter={() => setPontoAtivoChart(idx)}>
-                        <circle
-                          cx={d.x}
-                          cy={d.y}
-                          r="14"
-                          fill="transparent"
-                          style={{ cursor: "pointer" }}
-                        />
-                        <circle
-                          cx={d.x}
-                          cy={d.y}
-                          r={pontoAtivoChart === idx ? 6 : 4.5}
-                          className={`points-chart-node ${pontoAtivoChart === idx ? "active" : ""}`}
-                        />
+                  <div className="svg-plot">
+                    <svg
+                      ref={svgRef}
+                      viewBox={`0 0 ${larguraGrafico} ${alturaGrafico}`}
+                      className="bento-svg-chart"
+                    >
+                      <g className="chart-grid-lines">
+                        {marcasY.map((valor) => (
+                          <line
+                            key={valor}
+                            x1={MARGEM_ESQ}
+                            y1={yDoValor(valor)}
+                            x2={larguraGrafico - MARGEM_DIR}
+                            y2={yDoValor(valor)}
+                          />
+                        ))}
                       </g>
-                    ))}
-                  </svg>
+
+                      <g className="chart-y-labels">
+                        {marcasY.map((valor) => (
+                          <text
+                            key={valor}
+                            className="chart-y-label"
+                            x={MARGEM_ESQ - 10}
+                            y={yDoValor(valor)}
+                            textAnchor="end"
+                            dominantBaseline="middle"
+                          >
+                            {valor.toLocaleString("pt-BR")}
+                          </text>
+                        ))}
+                      </g>
+
+                      <path
+                        d={pathD}
+                        pathLength="1"
+                        className="chart-line-smooth"
+                      />
+
+                      {dadosGrafico.map((d, idx) => (
+                        <g
+                          key={idx}
+                          onMouseEnter={() => setPontoAtivoChart(idx)}
+                        >
+                          <circle
+                            cx={d.x}
+                            cy={d.y}
+                            r="14"
+                            fill="transparent"
+                            style={{ cursor: "pointer" }}
+                          />
+                          <circle
+                            cx={d.x}
+                            cy={d.y}
+                            r={pontoAtivoChart === idx ? 6 : 4.5}
+                            className={`points-chart-node ${pontoAtivoChart === idx ? "active" : ""}`}
+                          />
+                        </g>
+                      ))}
+                    </svg>
+                  </div>
 
                   {pontoAtivoChart !== null && (
                     <div
