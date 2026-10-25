@@ -2,14 +2,7 @@
 import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
-import {
-  FaStore,
-  FaSave,
-  FaCamera,
-  FaCog,
-  FaBell,
-  FaBars,
-} from "react-icons/fa";
+import { FaStore, FaSave, FaCamera } from "react-icons/fa";
 import "../dashboards-shared.css";
 import "./PerfilLoja.css";
 
@@ -52,7 +45,11 @@ export default function PerfilLoja() {
     <div className={`page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}>
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <main className="main-content">
-        <TopHeader title="Perfil da Loja" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Perfil da Loja"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="page-body">
           <form onSubmit={handleSave} className="profile-container">

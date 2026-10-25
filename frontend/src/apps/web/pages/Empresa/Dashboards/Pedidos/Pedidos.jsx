@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
   FaSearch,
-  FaCog,
-  FaBell,
   FaReceipt,
   FaPlus,
   FaPrint,
@@ -11,7 +9,6 @@ import {
   FaTimes,
   FaBan,
   FaExclamationTriangle,
-  FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
@@ -195,7 +192,11 @@ export default function Pedidos() {
       />
 
       <main className="pedidos-main-content">
-        <TopHeader title="Pedidos em Tempo Real" isSidebarOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
+        <TopHeader
+          title="Pedidos em Tempo Real"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        />
 
         <div className="pedidos-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}

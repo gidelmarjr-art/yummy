@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
   FaSearch,
-  FaCog,
-  FaBell,
   FaBoxes,
   FaPlus,
   FaPrint,
   FaEye,
   FaTimes,
-  FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
@@ -125,7 +122,11 @@ export default function Estoque() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="estoque-main-content">
-        <TopHeader title="Controle de Estoque e Insumos" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Controle de Estoque e Insumos"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="estoque-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
