@@ -1,4 +1,4 @@
-/* Pedidos.css - Correção Completa e Responsiva */
+/* Pedidos.css - Com Estrutura Central Responsiva */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 *,
@@ -25,7 +25,7 @@
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Header Superior */
+/* Header Superior - Padrão Desktop (Expandido) */
 .pedidos-top-bar {
   display: flex;
   align-items: center;
@@ -34,6 +34,13 @@
   background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
   gap: 1rem;
+}
+
+.top-bar-left-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
 }
 
 .page-heading {
@@ -50,6 +57,7 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  flex-shrink: 0;
 }
 
 /* Grupo esquerdo na linha de controles (Filtro + Busca) */
@@ -657,7 +665,7 @@
 }
 
 /* ==========================================
-   RESPONSIVIDADE E MEDIA QUERIES
+   RESPONSIVIDADE E ESTRUTURA CENTRAL
    ========================================== */
 
 @media (max-width: 1024px) {
@@ -678,20 +686,40 @@
   }
 }
 
+/* Em aparelhos menores, aplica a Estrutura Central (título no meio e ícones centralizados abaixo) */
 @media (max-width: 768px) {
   .pedidos-top-bar {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1rem;
     gap: 1rem;
-    padding: 1rem;
+    position: relative;
   }
 
-  .top-bar-right {
+  .top-bar-left-group {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
+    position: relative;
+  }
+
+  .toggle-sidebar-trigger {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .page-heading {
     font-size: 1.25rem;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .top-bar-right {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
   }
 
   .pedidos-dashboard-body {

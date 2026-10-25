@@ -12,6 +12,7 @@ import {
   FaTimes,
   FaBan,
   FaExclamationTriangle,
+  FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
@@ -149,7 +150,7 @@ export default function Pedidos() {
     try {
       await criarPedido({
         cliente_nome: newOrderForm.customer,
-        local: newOrderForm.location,
+        location: newOrderForm.location,
         canal: "local",
         itens: [
           {
@@ -195,7 +196,18 @@ export default function Pedidos() {
 
       <main className="pedidos-main-content">
         <header className="pedidos-top-bar">
-          <h1 className="page-heading">Pedidos em Tempo Real</h1>
+          <div className="top-bar-left-group">
+            {(!isSidebarOpen || window.innerWidth <= 768) && (
+              <button
+                className="action-circle-btn toggle-sidebar-trigger"
+                onClick={() => setIsSidebarOpen((prev) => !prev)}
+                aria-label="Abrir menu"
+              >
+                <FaBars />
+              </button>
+            )}
+            <h1 className="page-heading">Pedidos em Tempo Real</h1>
+          </div>
 
           <div className="top-bar-right">
             <ThemeToggleButton />
