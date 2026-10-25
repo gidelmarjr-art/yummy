@@ -4,7 +4,6 @@ import {
   FaCog,
   FaBell,
   FaReceipt,
-  FaChevronDown,
   FaPlus,
   FaPrint,
   FaClock,
@@ -236,12 +235,24 @@ export default function Pedidos() {
                 value={statusDropdownFilter}
                 onChange={setStatusDropdownFilter}
                 options={[
-                  { value: "Todos", label: "Todos os status", color: "#ed5b22" },
+                  {
+                    value: "Todos",
+                    label: "Todos os status",
+                    color: "#ed5b22",
+                  },
                   { value: "Novos", label: "Novos", color: "#3b82f6" },
-                  { value: "Em preparo", label: "Em preparo", color: "#f97316" },
+                  {
+                    value: "Em preparo",
+                    label: "Em preparo",
+                    color: "#f97316",
+                  },
                   { value: "Prontos", label: "Prontos", color: "#eab308" },
                   { value: "Entregues", label: "Entregues", color: "#14b8a6" },
-                  { value: "Concluídos", label: "Concluídos", color: "#16a34a" },
+                  {
+                    value: "Concluídos",
+                    label: "Concluídos",
+                    color: "#16a34a",
+                  },
                   { value: "Cancelado", label: "Cancelado", color: "#dc2626" },
                 ]}
               />
