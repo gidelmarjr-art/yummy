@@ -744,11 +744,12 @@
     width: 100%;
   }
 
+  /* Correção da responsividade dos itens de pedidos no mobile */
   .pedido-row-item {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 0.8rem;
+    align-items: flex-start;
+    gap: 0.6rem;
     padding: 1.2rem 0;
     border-bottom: 2px solid #e2e8f0;
   }
@@ -759,6 +760,7 @@
 
   .order-id-col {
     order: 1;
+    flex: 1;
   }
 
   .order-status-badge-col {
@@ -766,20 +768,41 @@
     margin-left: auto;
   }
 
+  /* Permite que o texto do cliente e endereço quebre linha em vez de cortar com ... */
   .order-info-col {
     order: 3;
     flex-basis: 100%;
+    min-width: 0;
+  }
+
+  .customer-name {
+    white-space: normal !important;
+    word-break: break-word;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    font-size: 0.92rem;
+    line-height: 1.3;
+  }
+
+  .order-summary {
+    white-space: normal !important;
+    word-break: break-word;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    font-size: 0.82rem;
   }
 
   .order-total-price {
     order: 4;
     font-size: 1.05rem;
+    margin-top: 0.3rem;
   }
 
   .order-actions-col {
     order: 5;
     margin-left: auto;
     gap: 0.5rem;
+    margin-top: 0.3rem;
   }
 
   .form-group-row {
