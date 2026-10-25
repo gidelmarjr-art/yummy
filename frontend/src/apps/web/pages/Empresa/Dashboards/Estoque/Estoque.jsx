@@ -4,7 +4,6 @@ import {
   FaCog,
   FaBell,
   FaBoxes,
-  FaChevronDown,
   FaPlus,
   FaPrint,
   FaEye,
@@ -166,7 +165,11 @@ export default function Estoque() {
                 value={dropdownFilter}
                 onChange={setDropdownFilter}
                 options={[
-                  { value: "Todos", label: "Todos os níveis", color: "#ed5b22" },
+                  {
+                    value: "Todos",
+                    label: "Todos os níveis",
+                    color: "#ed5b22",
+                  },
                   { value: "Estável", label: "Estável", color: "#16a34a" },
                   { value: "Baixo", label: "Baixo", color: "#eab308" },
                   { value: "Crítico", label: "Crítico", color: "#dc2626" },
@@ -372,9 +375,15 @@ export default function Estoque() {
                   <label>Unidade</label>
                   <DashboardSelect
                     value={newItemForm.unit}
-                    onChange={(unit) => setNewItemForm({ ...newItemForm, unit })}
+                    onChange={(unit) =>
+                      setNewItemForm({ ...newItemForm, unit })
+                    }
                     options={[
-                      { value: "kg", label: "Quilogramas (kg)", color: "#3b82f6" },
+                      {
+                        value: "kg",
+                        label: "Quilogramas (kg)",
+                        color: "#3b82f6",
+                      },
                       { value: "un", label: "Unidades (un)", color: "#8b5cf6" },
                       { value: "L", label: "Litros (L)", color: "#14b8a6" },
                     ]}
