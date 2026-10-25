@@ -6,6 +6,7 @@ import {
   FaUser,
   FaEye,
   FaTimes,
+  FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
@@ -47,11 +48,21 @@ export default function Clientes() {
 
       <main className="clientes-main-content">
         <header className="clientes-top-bar">
-          <h1 className="page-heading">Gestão de Clientes</h1>
+          <div className="top-bar-left-group">
+            {(!isSidebarOpen || window.innerWidth <= 768) && (
+              <button
+                className="action-circle-btn toggle-sidebar-trigger"
+                onClick={toggleSidebar}
+                aria-label="Abrir menu"
+              >
+                <FaBars />
+              </button>
+            )}
+            <h1 className="page-heading">Gestão de Clientes</h1>
+          </div>
 
           <div className="top-bar-right">
             <ThemeToggleButton />
-            {/* Barra de pesquisa removida daqui para seguir o novo padrão unificado */}
             <button className="action-circle-btn">
               <FaCog />
             </button>
