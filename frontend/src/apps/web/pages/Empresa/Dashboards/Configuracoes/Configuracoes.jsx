@@ -1,8 +1,8 @@
 // Configuracoes.jsx
 import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import TopHeader from "../../../../components/TopHeader/TopHeader";
-import { FaBell, FaMotorcycle, FaSave } from "react-icons/fa";
+import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import { FaBell, FaMotorcycle, FaSave, FaCog, FaBars } from "react-icons/fa";
 import "./Configuracoes.css";
 
 export default function Configuracoes() {
@@ -48,7 +48,36 @@ export default function Configuracoes() {
     >
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <main className="config-main-content">
-        <TopHeader title="Configurações do Sistema" />
+        <header className="config-top-bar">
+          <div className="top-bar-left-group">
+            {(!isSidebarOpen || window.innerWidth <= 768) && (
+              <button
+                className="action-circle-btn toggle-sidebar-trigger"
+                onClick={toggleSidebar}
+                aria-label="Abrir menu"
+              >
+                <FaBars />
+              </button>
+            )}
+            <h1 className="page-heading">Configurações do Sistema</h1>
+          </div>
+
+          <div className="top-bar-right">
+            <ThemeToggleButton />
+            <button className="action-circle-btn" aria-label="Configurações">
+              <FaCog />
+            </button>
+            <button className="action-circle-btn" aria-label="Notificações">
+              <FaBell />
+            </button>
+            <div className="user-profile-avatar">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                alt="Avatar Yummy"
+              />
+            </div>
+          </div>
+        </header>
 
         <div className="config-body-content">
           <form
