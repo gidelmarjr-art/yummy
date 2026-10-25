@@ -198,12 +198,32 @@
   padding: 0;
 }
 
-/* Abas de Categorias */
+/* Abas de Categorias Responsivas e com rolagem suave */
 .categories-tab-bar {
   display: flex;
   gap: 1.2rem;
   overflow-x: auto;
+  overflow-y: hidden;
   flex: 1;
+  min-width: 0;
+  padding-bottom: 0.4rem;
+  scrollbar-width: thin;
+  /* Para Firefox */
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* Estilização da barra de rolagem para navegadores Webkit (Chrome, Safari, Edge) */
+.categories-tab-bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.categories-tab-bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.categories-tab-bar::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
 }
 
 .category-tab-item {
@@ -213,10 +233,11 @@
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  padding: 0.4rem 0.4rem;
+  padding: 0.4rem 0.2rem;
   position: relative;
   white-space: nowrap;
   transition: color 0.2s ease;
+  flex-shrink: 0;
 }
 
 .category-tab-item:hover {
