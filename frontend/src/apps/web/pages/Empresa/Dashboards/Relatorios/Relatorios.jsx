@@ -300,7 +300,7 @@ export default function Relatorios() {
                 </div>
               </section>
 
-              {/* Linha 1: Gráficos Bento com margens corrigidas para legibilidade */}
+              {/* Linha 1: Gráficos Bento com intervalo forçado em 0 para exibir todos os dias */}
               <div className="charts-double-row" style={{ "--i": 5 }}>
                 <div className="chart-card bento-card">
                   <div className="chart-card-header">
@@ -327,6 +327,7 @@ export default function Relatorios() {
                           axisLine={false}
                           tickLine={false}
                           stroke="#868883"
+                          interval={0}
                           dy={8}
                         />
                         <YAxis
@@ -387,7 +388,7 @@ export default function Relatorios() {
                 </div>
               </div>
 
-              {/* Linha 2: Faturamento Mensal Largura Total com legibilidade perfeita */}
+              {/* Linha 2: Faturamento Mensal Largura Total com intervalo forçado em 0 */}
               <div className="full-width-chart-row" style={{ "--i": 6 }}>
                 <div className="chart-card bento-card">
                   <h3 className="section-title-clean">Faturamento Mensal</h3>
@@ -422,6 +423,7 @@ export default function Relatorios() {
                           axisLine={false}
                           tickLine={false}
                           stroke="#868883"
+                          interval={0}
                           dy={8}
                         />
                         <YAxis
