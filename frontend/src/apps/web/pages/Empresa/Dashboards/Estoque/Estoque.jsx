@@ -17,7 +17,7 @@ import { getEstoque, criarInsumo, reporInsumo } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Estoque.css";
 
-const STATUS_TABS = ["Estável", "Baixo", "Crítico", "Todos"];
+const STATUS_TABS = ["Todos", "Estável", "Baixo", "Crítico"];
 
 function insumoParaItem(insumo) {
   return {
