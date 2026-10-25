@@ -290,7 +290,7 @@ export default function GestaoCardapio() {
         <div className="cardapio-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          <div className="top-action-buttons">
+          <div className="top-action-buttons" style={{ "--i": 0 }}>
             <button
               className="btn-primary-orange"
               onClick={() => handleOpenModal(null)}
@@ -311,7 +311,7 @@ export default function GestaoCardapio() {
             </button>
           </div>
 
-          <div className="cardapio-table-container">
+          <div className="cardapio-table-container" style={{ "--i": 1 }}>
             {/* Linha superior interna com Abas de Categorias e Barra de Pesquisa Integrada */}
             <div className="cardapio-controls-top-row">
               <div className="categories-tab-bar">
@@ -414,7 +414,7 @@ export default function GestaoCardapio() {
             </div>
           </div>
 
-          <footer className="cardapio-pagination">
+          <footer className="cardapio-pagination" style={{ "--i": 2 }}>
             <button
               className="btn-page-step"
               disabled={currentPage === 1}
