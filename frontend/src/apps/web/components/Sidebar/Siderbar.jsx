@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   FaHome,
@@ -23,6 +23,7 @@ import { logout } from "../../services/api";
 
 const NAV_ITEMS = [
   { name: "Geral", path: "/dashboard", icon: <FaHome /> },
+  { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
   { name: "Pedidos", path: "/pedidos", icon: <FaUtensils /> },
   { name: "Cardápio", path: "/cardapio", icon: <FaClipboardList /> },
   {
@@ -34,7 +35,6 @@ const NAV_ITEMS = [
   { name: "Transactions", path: "/transacoes", icon: <FaExchangeAlt /> },
   { name: "Relatórios", path: "/relatorios", icon: <FaChartBar /> },
   { name: "Clientes", path: "/clientes", icon: <FaUsers /> },
-  { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
   { name: "Segurança", path: "/seguranca", icon: <FaLock /> },
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
 ];
@@ -46,12 +46,20 @@ export default function Sidebar({
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Lê o estado salvo no localStorage de forma global
   const [internalIsOpen, setInternalIsOpen] = useState(() => {
     const savedState = localStorage.getItem("sidebar_open");
     return savedState !== null ? JSON.parse(savedState) : true;
   });
 
   const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+
+  // Sincroniza caso o estado mude externamente
+  useEffect(() => {
+    if (externalIsOpen !== undefined) {
+      setInternalIsOpen(externalIsOpen);
+    }
+  }, [externalIsOpen]);
 
   const handleToggle = () => {
     const newState = !isOpen;
