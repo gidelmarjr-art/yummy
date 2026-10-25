@@ -331,7 +331,7 @@ html[data-tema="escuro"] {
 .investments-list {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.8rem;
 }
 
 .investment-item-card {
@@ -342,6 +342,7 @@ html[data-tema="escuro"] {
   align-items: center;
   justify-content: space-between;
   border: 1px solid var(--borda);
+  gap: 1rem;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
@@ -353,41 +354,52 @@ html[data-tema="escuro"] {
 .investment-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
+  min-width: 0;
+  flex: 1;
 }
 
 .investment-icon-box {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   flex-shrink: 0;
 }
 
 .investment-names {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.1rem;
+  min-width: 0;
 }
 
 .investment-names strong {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: var(--texto);
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .investment-names span {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--apoio);
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .investment-right {
   display: flex;
-  gap: 1.8rem;
+  align-items: center;
+  gap: 1.2rem;
+  flex-shrink: 0;
 }
 
 .investment-val-group,
@@ -399,16 +411,18 @@ html[data-tema="escuro"] {
 
 .investment-val-group strong,
 .investment-return-group strong {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 800;
   color: var(--texto);
+  white-space: nowrap;
 }
 
 .investment-val-group span,
 .investment-return-group span {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--apoio);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 /* Tabela de Transações Recentes */
@@ -511,5 +525,28 @@ html[data-tema="escuro"] {
 
   .transacoes-dashboard-body {
     padding: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .investment-item-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+
+  .investment-right {
+    justify-content: space-between;
+    border-top: 1px solid var(--borda);
+    padding-top: 0.6rem;
+  }
+
+  .investment-val-group,
+  .investment-return-group {
+    align-items: flex-start;
+  }
+
+  .investment-return-group {
+    align-items: flex-end;
   }
 }
