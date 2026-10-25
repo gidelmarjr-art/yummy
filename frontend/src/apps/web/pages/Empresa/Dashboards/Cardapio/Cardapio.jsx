@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  FaSearch,
   FaCog,
   FaBell,
   FaCamera,
@@ -333,7 +332,6 @@ export default function GestaoCardapio() {
               </div>
 
               <div className="search-box inline-search">
-                <FaSearch className="search-icon" />
                 <input
                   type="text"
                   placeholder="Buscar item ou código..."
@@ -510,8 +508,16 @@ export default function GestaoCardapio() {
                   <label>Categoria</label>
                   <DashboardSelect
                     value={formData.category}
-                    onChange={(category) => setFormData({ ...formData, category })}
-                    options={categories.filter((cat) => cat.ativo).map((cat) => ({ value: cat.slug, label: cat.nome, color: "#3b82f6" }))}
+                    onChange={(category) =>
+                      setFormData({ ...formData, category })
+                    }
+                    options={categories
+                      .filter((cat) => cat.ativo)
+                      .map((cat) => ({
+                        value: cat.slug,
+                        label: cat.nome,
+                        color: "#3b82f6",
+                      }))}
                     placeholder="Selecione uma categoria"
                   />
                 </div>
@@ -536,7 +542,11 @@ export default function GestaoCardapio() {
                   value={formData.status}
                   onChange={(status) => setFormData({ ...formData, status })}
                   options={[
-                    { value: "Em estoque", label: "Em estoque", color: "#16a34a" },
+                    {
+                      value: "Em estoque",
+                      label: "Em estoque",
+                      color: "#16a34a",
+                    },
                     { value: "Esgotado", label: "Esgotado", color: "#dc2626" },
                   ]}
                 />
