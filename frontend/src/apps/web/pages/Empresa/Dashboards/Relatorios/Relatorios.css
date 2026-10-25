@@ -183,15 +183,14 @@ html[data-tema="escuro"] {
   }
 }
 
-/* Barra de Filtros com Prioridade Máxima de Camada */
+/* Barra de Filtros com Alinhamento Lado a Lado Garantido */
 .relatorios-filter-bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   gap: 1rem;
   position: relative;
   z-index: 1000 !important;
+  flex-wrap: nowrap;
 }
 
 /* --- Dropdown Customizado Moderno --- */
@@ -205,6 +204,7 @@ html[data-tema="escuro"] {
   cursor: pointer;
   user-select: none;
   transition: all 0.25s ease;
+  flex-shrink: 0;
 }
 
 .custom-dropdown-container:hover {
@@ -324,9 +324,9 @@ html[data-tema="escuro"] {
   background-color: var(--laranja);
   color: #ffffff;
   border: none;
-  padding: 0.65rem 1.25rem;
-  border-radius: 14px;
-  font-size: 0.85rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 16px;
+  font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -334,6 +334,8 @@ html[data-tema="escuro"] {
   gap: 0.5rem;
   box-shadow: 0 4px 12px rgba(237, 91, 34, 0.25);
   transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-export-report:hover {
@@ -552,6 +554,10 @@ html[data-tema="escuro"] {
   background-color: #ed5b22;
 }
 
+.chart-container-wrapper {
+  width: 100%;
+}
+
 /* Faturamento Mensal Largura Total */
 .full-width-chart-row {
   width: 100%;
@@ -599,5 +605,14 @@ html[data-tema="escuro"] {
 
   .relatorios-dashboard-body {
     padding: 1rem !important;
+  }
+
+  .relatorios-filter-bar {
+    flex-wrap: wrap;
+  }
+
+  .custom-dropdown-container,
+  .btn-export-report {
+    width: 100%;
   }
 }

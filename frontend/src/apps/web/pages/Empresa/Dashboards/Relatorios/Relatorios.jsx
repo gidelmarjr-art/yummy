@@ -135,7 +135,7 @@ export default function Relatorios() {
             <div className="loading-placeholder">Carregando relatórios...</div>
           ) : (
             <>
-              {/* Barra de Filtros com Dropdown Customizado */}
+              {/* Barra de Filtros com Dropdown Customizado + Botão Lado a Lado */}
               <div className="relatorios-filter-bar" style={{ "--i": 0 }}>
                 <div
                   className="custom-dropdown-container"
@@ -300,7 +300,7 @@ export default function Relatorios() {
                 </div>
               </section>
 
-              {/* Linha 1: Gráficos Bento */}
+              {/* Linha 1: Gráficos Bento com margens corrigidas para legibilidade */}
               <div className="charts-double-row" style={{ "--i": 5 }}>
                 <div className="chart-card bento-card">
                   <div className="chart-card-header">
@@ -315,20 +315,27 @@ export default function Relatorios() {
                     </div>
                   </div>
 
-                  <div style={{ width: "100%", height: 210 }}>
-                    <ResponsiveContainer>
-                      <BarChart data={weeklyData || []} barGap={6}>
+                  <div className="chart-container-wrapper">
+                    <ResponsiveContainer width="100%" height={240}>
+                      <BarChart
+                        data={weeklyData || []}
+                        margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
+                        barGap={6}
+                      >
                         <XAxis
                           dataKey="day"
                           axisLine={false}
                           tickLine={false}
                           stroke="#868883"
+                          dy={8}
                         />
                         <YAxis
                           axisLine={false}
                           tickLine={false}
-                          domain={[0, 500]}
+                          domain={[0, 600]}
+                          ticks={[0, 150, 300, 450, 600]}
                           stroke="#868883"
+                          dx={-5}
                         />
                         <Tooltip cursor={{ fill: "rgba(0,0,0,0.03)" }} />
                         <Bar
@@ -353,15 +360,15 @@ export default function Relatorios() {
                     </h3>
                     <FaChartPie style={{ color: "#ed5b22" }} />
                   </div>
-                  <div style={{ width: "100%", height: 210 }}>
-                    <ResponsiveContainer>
+                  <div className="chart-container-wrapper">
+                    <ResponsiveContainer width="100%" height={240}>
                       <PieChart>
                         <Pie
                           data={paymentData || []}
                           cx="50%"
                           cy="50%"
                           innerRadius={50}
-                          outerRadius={78}
+                          outerRadius={82}
                           paddingAngle={3}
                           dataKey="value"
                           label={({ name, value }) => `${value}% ${name}`}
@@ -380,13 +387,16 @@ export default function Relatorios() {
                 </div>
               </div>
 
-              {/* Linha 2: Faturamento Mensal Largura Total */}
+              {/* Linha 2: Faturamento Mensal Largura Total com legibilidade perfeita */}
               <div className="full-width-chart-row" style={{ "--i": 6 }}>
                 <div className="chart-card bento-card">
                   <h3 className="section-title-clean">Faturamento Mensal</h3>
-                  <div style={{ width: "100%", height: 220 }}>
-                    <ResponsiveContainer>
-                      <AreaChart data={monthlyData || []}>
+                  <div className="chart-container-wrapper">
+                    <ResponsiveContainer width="100%" height={250}>
+                      <AreaChart
+                        data={monthlyData || []}
+                        margin={{ top: 15, right: 20, left: -10, bottom: 0 }}
+                      >
                         <defs>
                           <linearGradient
                             id="colorFaturamento"
@@ -412,12 +422,15 @@ export default function Relatorios() {
                           axisLine={false}
                           tickLine={false}
                           stroke="#868883"
+                          dy={8}
                         />
                         <YAxis
                           axisLine={false}
                           tickLine={false}
-                          domain={[0, 800]}
+                          domain={[0, 1000]}
+                          ticks={[0, 200, 400, 600, 800, 1000]}
                           stroke="#868883"
+                          dx={-5}
                         />
                         <Tooltip />
                         <Area
