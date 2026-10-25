@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaCog, FaBell, FaLock, FaShieldAlt } from "react-icons/fa";
+import { FaCog, FaBell, FaLock, FaShieldAlt, FaBars } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import {
@@ -81,7 +81,18 @@ export default function Seguranca() {
 
       <main className="seguranca-main-content">
         <header className="seguranca-top-bar">
-          <h1 className="page-heading">Segurança e Acessos</h1>
+          <div className="top-bar-left-group">
+            {(!isSidebarOpen || window.innerWidth <= 768) && (
+              <button
+                className="action-circle-btn toggle-sidebar-trigger"
+                onClick={toggleSidebar}
+                aria-label="Abrir menu"
+              >
+                <FaBars />
+              </button>
+            )}
+            <h1 className="page-heading">Segurança e Acessos</h1>
+          </div>
 
           <div className="top-bar-right">
             <ThemeToggleButton />

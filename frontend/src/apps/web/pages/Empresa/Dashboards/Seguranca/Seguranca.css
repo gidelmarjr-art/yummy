@@ -34,6 +34,13 @@
   gap: 1rem;
 }
 
+.top-bar-left-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
 .page-heading {
   font-size: 1.5rem;
   font-weight: 800;
@@ -48,6 +55,7 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  flex-shrink: 0;
 }
 
 .action-circle-btn {
@@ -315,18 +323,37 @@
 
 @media (max-width: 768px) {
   .seguranca-top-bar {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1rem;
     gap: 1rem;
-    padding: 1rem;
+    position: relative;
   }
 
-  .top-bar-right {
+  .top-bar-left-group {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
+    position: relative;
+  }
+
+  .toggle-sidebar-trigger {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .page-heading {
     font-size: 1.25rem;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .top-bar-right {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
   }
 
   .seguranca-dashboard-body {
