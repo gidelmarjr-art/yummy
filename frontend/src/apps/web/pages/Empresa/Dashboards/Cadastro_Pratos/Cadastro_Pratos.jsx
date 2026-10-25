@@ -29,7 +29,6 @@ export default function CadastroPratos() {
     descricao: "",
   });
 
-  // Cada linha da ficha técnica: qual insumo e quanto ele gasta por unidade vendida.
   const [fichaTecnica, setFichaTecnica] = useState([
     { insumo_id: "", quantidade_necessaria: "" },
   ]);
@@ -227,9 +226,10 @@ export default function CadastroPratos() {
               </p>
             )}
 
-            <div className="cp-card">
+            <div className="cp-card" style={{ "--i": 0 }}>
               <h3 className="section-title">
-                <FaUtensils style={{ color: "#ff5500" }} /> Dados do Prato
+                <FaUtensils style={{ color: "var(--laranja, #ed5b22)" }} />{" "}
+                Dados do Prato
               </h3>
 
               <div className="cp-form-grid">
@@ -313,7 +313,7 @@ export default function CadastroPratos() {
               </div>
             </div>
 
-            <div className="cp-card">
+            <div className="cp-card" style={{ "--i": 1 }}>
               <h3 className="section-title">
                 📋 Ficha Técnica (composição de insumos)
               </h3>
@@ -392,7 +392,7 @@ export default function CadastroPratos() {
               )}
             </div>
 
-            <div className="cp-actions-wrapper">
+            <div className="cp-actions-wrapper" style={{ "--i": 2 }}>
               <button
                 type="submit"
                 className="save-config-btn"
@@ -405,7 +405,7 @@ export default function CadastroPratos() {
           </form>
 
           {recentes.length > 0 && (
-            <div className="cp-card cp-recentes">
+            <div className="cp-card cp-recentes" style={{ "--i": 3 }}>
               <h3 className="section-title">Últimos pratos cadastrados</h3>
               <div className="cp-recentes-list">
                 {recentes.map((p) => (
