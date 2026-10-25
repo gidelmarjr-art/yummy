@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Importe o CartProvider do local correto onde ele está salvo
 import { CartProvider } from "./context/CartContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { SidebarProvider } from "./context/SidebarContext";
 import "./apps/web/pages/Empresa/Dashboards/dashboards-shared.css";
 
 import LandingPage from "./apps/web/pages/landing/Landing";
@@ -42,6 +43,7 @@ import PerfilLoja from "./apps/web/pages/Empresa/Dashboards/PerfilLoja/PerfilLoj
 function App() {
   return (
     <ThemeProvider>
+      <SidebarProvider>
       <CartProvider>
         <BrowserRouter>
         <Routes>
@@ -86,8 +88,12 @@ function App() {
         </Routes>
         </BrowserRouter>
       </CartProvider>
+      </SidebarProvider>
     </ThemeProvider>
   );
 }
 
 export default App;
+
+
+

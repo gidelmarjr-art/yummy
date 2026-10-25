@@ -25,7 +25,6 @@ import "./Transacoes.css";
 
 export default function Transacoes() {
   const [searchTerm] = useState("");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const {
     metrics,
     yearlyData,
@@ -34,10 +33,6 @@ export default function Transacoes() {
     recentTransactions,
     erro,
   } = useRealtimeTransactions();
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   const renderChannelIcon = (type) => {
     switch (type) {
@@ -60,16 +55,12 @@ export default function Transacoes() {
 
   return (
     <div
-      className={`transacoes-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`transacoes-page-layout bento-wrapper-root`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
 
       <main className="transacoes-main-content">
-        <TopHeader
-          title="Transações Financeiras"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Transações Financeiras" />
 
         <div className="transacoes-dashboard-body bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
@@ -325,3 +316,4 @@ export default function Transacoes() {
     </div>
   );
 }
+

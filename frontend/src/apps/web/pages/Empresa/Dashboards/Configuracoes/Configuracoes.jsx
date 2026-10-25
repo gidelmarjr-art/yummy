@@ -19,11 +19,6 @@ export default function Configuracoes() {
 
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   const handleToggle = (key) => {
     setConfig((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -45,15 +40,11 @@ export default function Configuracoes() {
 
   return (
     <div
-      className={`config-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`config-page-layout`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
       <main className="config-main-content">
-        <TopHeader
-          title="Configurações do Sistema"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Configurações do Sistema" />
 
         <div className="config-body-content">
           <form
@@ -167,3 +158,4 @@ export default function Configuracoes() {
     </div>
   );
 }
+

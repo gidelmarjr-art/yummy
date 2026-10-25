@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   FaHome,
@@ -20,6 +20,7 @@ import "./Sidebar.css";
 
 import logoImg from "../../../../imgs/LogoYummy_2.png";
 import { logout } from "../../services/api";
+import { useSidebar } from "../../../../context/SidebarContext";
 
 const NAV_ITEMS = [
   { name: "Geral", path: "/dashboard", icon: <FaHome /> },
@@ -39,43 +40,16 @@ const NAV_ITEMS = [
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
 ];
 
-export default function Sidebar({
-  isOpen: externalIsOpen,
-  toggleSidebar: externalToggle,
-}) {
+export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Lê o estado salvo no localStorage de forma global
-  const [internalIsOpen, setInternalIsOpen] = useState(() => {
-    const savedState = localStorage.getItem("sidebar_open");
-    return savedState !== null ? JSON.parse(savedState) : true;
-  });
-
-  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
-
-  // Sincroniza caso o estado mude externamente
-  useEffect(() => {
-    if (externalIsOpen !== undefined) {
-      setInternalIsOpen(externalIsOpen);
-    }
-  }, [externalIsOpen]);
-
-  const handleToggle = () => {
-    const newState = !isOpen;
-    setInternalIsOpen(newState);
-    localStorage.setItem("sidebar_open", JSON.stringify(newState));
-
-    if (typeof externalToggle === "function") {
-      externalToggle();
-    }
-  };
+  const { isOpen, toggleSidebar } = useSidebar();
 
   const handleNavigation = (path) => {
     navigate(path);
     // No mobile, fecha a sidebar automaticamente após escolher uma página
     if (window.innerWidth <= 768 && isOpen) {
-      handleToggle();
+      toggleSidebar();
     }
   };
 
@@ -94,14 +68,14 @@ export default function Sidebar({
       {/* Camada escura de fundo ao abrir no mobile */}
       <div
         className={`sidebar-overlay ${isOpen ? "active" : ""}`}
-        onClick={handleToggle}
+        onClick={toggleSidebar}
       />
 
       <aside className={`sidebar-container ${!isOpen ? "is-closed" : ""}`}>
         {/* Botão flutuante na borda */}
         <button
           className="sidebar-toggle-edge-btn"
-          onClick={handleToggle}
+          onClick={toggleSidebar}
           aria-label="Alternar Menu Lateral"
           title={isOpen ? "Recolher Menu" : "Expandir Menu"}
         >
@@ -147,3 +121,5 @@ export default function Sidebar({
     </>
   );
 }
+
+

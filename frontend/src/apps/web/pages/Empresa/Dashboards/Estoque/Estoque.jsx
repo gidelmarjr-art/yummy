@@ -36,8 +36,6 @@ export default function Estoque() {
   const [activeTab, setActiveTab] = useState("Todos");
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownFilter, setDropdownFilter] = useState("Todos");
-
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedItemDetails, setSelectedItemDetails] = useState(null);
   const [isNewItemModalOpen, setIsNewItemModalOpen] = useState(false);
   const [salvando, setSalvando] = useState(false);
@@ -58,10 +56,6 @@ export default function Estoque() {
   useEffect(() => {
     carregarEstoque().finally(() => setCarregando(false));
   }, []);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   const handleCreateItem = async (e) => {
     e.preventDefault();
@@ -117,16 +111,12 @@ export default function Estoque() {
 
   return (
     <div
-      className={`estoque-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`estoque-page-layout`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
 
       <main className="estoque-main-content">
-        <TopHeader
-          title="Controle de Estoque e Insumos"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Controle de Estoque e Insumos" />
 
         <div className="estoque-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
@@ -411,3 +401,4 @@ export default function Estoque() {
     </div>
   );
 }
+

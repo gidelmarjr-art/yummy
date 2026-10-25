@@ -12,7 +12,6 @@ export default function Clientes() {
   const [erro, setErro] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedClient, setSelectedClient] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     getClientes()
@@ -20,10 +19,6 @@ export default function Clientes() {
       .catch((err) => setErro(err.detail || err.message))
       .finally(() => setCarregando(false));
   }, []);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   const filteredClientes = clientes.filter(
     (c) =>
@@ -34,16 +29,12 @@ export default function Clientes() {
 
   return (
     <div
-      className={`clientes-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`clientes-page-layout`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
 
       <main className="clientes-main-content">
-        <TopHeader
-          title="Gestão de Clientes"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Gestão de Clientes" />
 
         <div className="clientes-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
@@ -139,3 +130,4 @@ export default function Clientes() {
     </div>
   );
 }
+

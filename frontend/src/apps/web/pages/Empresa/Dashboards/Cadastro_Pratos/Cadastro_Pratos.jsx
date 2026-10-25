@@ -32,7 +32,6 @@ export default function CadastroPratos() {
   const [recentes, setRecentes] = useState([]);
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const carregarRecentes = () => {
     getCardapio()
@@ -68,10 +67,6 @@ export default function CadastroPratos() {
         }),
       );
   }, []);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   const handleFichaChange = (index, campo, valor) => {
     setFichaTecnica((prev) =>
@@ -166,16 +161,12 @@ export default function CadastroPratos() {
 
   return (
     <div
-      className={`cadastro-pratos-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`cadastro-pratos-page-layout`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
 
       <main className="cadastro-pratos-main-content">
-        <TopHeader
-          title="Cadastro de Pratos"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Cadastro de Pratos" />
 
         <div className="cadastro-pratos-body-content">
           <form
@@ -412,3 +403,4 @@ export default function CadastroPratos() {
     </div>
   );
 }
+

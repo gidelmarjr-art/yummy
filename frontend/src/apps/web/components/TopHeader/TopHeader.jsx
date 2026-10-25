@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import "./TopHeader.css";
 import { useTheme } from "../../../../context/ThemeContext";
+import { useSidebar } from "../../../../context/SidebarContext";
 
 export function ThemeToggleButton() {
   const { theme, toggleTheme } = useTheme();
@@ -66,12 +67,9 @@ export function ThemeToggleButton() {
   );
 }
 
-export default function TopHeader({
-  title = "Dashboard Geral",
-  isSidebarOpen,
-  toggleSidebar,
-}) {
+export default function TopHeader({ title = "Dashboard Geral" }) {
   const navigate = useNavigate();
+  const { isOpen: isSidebarOpen, toggleSidebar } = useSidebar();
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -186,3 +184,5 @@ export default function TopHeader({
     </header>
   );
 }
+
+

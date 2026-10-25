@@ -69,8 +69,6 @@ export default function Pedidos() {
   const [activeTab, setActiveTab] = useState("Em preparo");
   const [searchTerm, setSearchTerm] = useState("");
   const [statusDropdownFilter, setStatusDropdownFilter] = useState("Todos");
-
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
   const [orderParaCancelar, setOrderParaCancelar] = useState(null);
@@ -186,17 +184,10 @@ export default function Pedidos() {
 
   return (
     <div className="pedidos-page-layout">
-      <Sidebar
-        isOpen={isSidebarOpen}
-        toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
-      />
+      <Sidebar />
 
       <main className="pedidos-main-content">
-        <TopHeader
-          title="Pedidos em Tempo Real"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
-        />
+        <TopHeader title="Pedidos em Tempo Real" />
 
         <div className="pedidos-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
@@ -635,3 +626,4 @@ export default function Pedidos() {
     </div>
   );
 }
+

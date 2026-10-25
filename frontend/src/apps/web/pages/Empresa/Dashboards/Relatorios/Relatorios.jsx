@@ -32,17 +32,12 @@ import "./Relatorios.css";
 
 export default function Relatorios() {
   const [period, setPeriod] = useState("7d");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { metrics, weeklyData, paymentData, monthlyData, loading, erro } =
     useRealtimeDashboard();
 
   const pdfRef = useRef(null);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   const handleExportPDF = () => {
     const element = pdfRef.current;
@@ -86,16 +81,12 @@ export default function Relatorios() {
 
   return (
     <div
-      className={`relatorios-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`relatorios-page-layout bento-wrapper-root`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
 
       <main className="relatorios-main-content">
-        <TopHeader
-          title="Relatórios e Indicadores"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Relatórios e Indicadores" />
 
         {/* Dashboard em Tela */}
         <div className="relatorios-dashboard-body bento-body-container">
@@ -794,3 +785,4 @@ export default function Relatorios() {
     </div>
   );
 }
+

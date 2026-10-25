@@ -51,8 +51,6 @@ export default function GestaoCardapio() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [salvando, setSalvando] = useState(false);
@@ -80,10 +78,6 @@ export default function GestaoCardapio() {
   useEffect(() => {
     carregarCardapio().finally(() => setCarregando(false));
   }, []);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   const handleToggleStatus = async (id) => {
     try {
@@ -248,16 +242,12 @@ export default function GestaoCardapio() {
 
   return (
     <div
-      className={`cardapio-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`cardapio-page-layout`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
 
       <main className="cardapio-main-content">
-        <TopHeader
-          title="Gestão de Cardápio"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Gestão de Cardápio" />
 
         <div className="cardapio-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
@@ -601,3 +591,4 @@ export default function GestaoCardapio() {
     </div>
   );
 }
+

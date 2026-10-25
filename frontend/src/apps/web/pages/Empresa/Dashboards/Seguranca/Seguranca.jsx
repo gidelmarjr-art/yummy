@@ -22,7 +22,6 @@ export default function Seguranca() {
   const [sessions, setSessions] = useState([]);
   const [carregandoSessoes, setCarregandoSessoes] = useState(true);
   const [erroSessoes, setErroSessoes] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     getSessoes()
@@ -30,10 +29,6 @@ export default function Seguranca() {
       .catch((err) => setErroSessoes(err.detail || err.message))
       .finally(() => setCarregandoSessoes(false));
   }, []);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
@@ -75,16 +70,12 @@ export default function Seguranca() {
 
   return (
     <div
-      className={`seguranca-page-layout ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`seguranca-page-layout`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
 
       <main className="seguranca-main-content">
-        <TopHeader
-          title="Segurança e Acessos"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Segurança e Acessos" />
 
         <div className="seguranca-dashboard-body">
           <div className="security-grid">
@@ -197,3 +188,4 @@ export default function Seguranca() {
     </div>
   );
 }
+

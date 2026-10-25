@@ -30,7 +30,6 @@ export default function Dashboard() {
   const [stockAlerts, setStockAlerts] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [pontoAtivoChart, setPontoAtivoChart] = useState(null);
   const svgRef = useRef(null);
   const [tamanhoGrafico, setTamanhoGrafico] = useState({
@@ -57,10 +56,6 @@ export default function Dashboard() {
       .catch((err) => setErro(err.detail || err.message))
       .finally(() => setCarregando(false));
   }, []);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
 
   // Mede o gráfico e acompanha mudanças (redimensionar a janela, abrir/fechar o menu lateral).
   useEffect(() => {
@@ -149,16 +144,12 @@ export default function Dashboard() {
 
   return (
     <div
-      className={`dashboard-page-layout bento-wrapper-root ${!isSidebarOpen ? "sidebar-collapsed" : ""}`}
+      className={`dashboard-page-layout bento-wrapper-root`}
     >
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar />
 
       <main className="dashboard-main-content">
-        <TopHeader
-          title="Dashboard Geral"
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
+        <TopHeader title="Dashboard Geral" />
 
         <div className="dashboard-body-content bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
@@ -416,3 +407,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
