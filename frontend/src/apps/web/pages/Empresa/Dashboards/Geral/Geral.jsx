@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  FaCog,
-  FaBell,
-  FaUtensils,
-  FaBoxes,
-  FaUsers,
-  FaDollarSign,
-  FaBars,
-} from "react-icons/fa";
+import { FaUtensils, FaBoxes, FaUsers, FaDollarSign } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
-import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
+import TopHeader from "../../../../components/TopHeader/TopHeader";
 import { useContagem } from "./useContagem";
 import { getGeral } from "../../../../services/api";
 import "../dashboards-shared.css";
@@ -84,37 +76,11 @@ export default function Dashboard() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="dashboard-main-content">
-        <header className="dashboard-top-bar">
-          <div className="top-bar-left">
-            {!isSidebarOpen && (
-              <button
-                className="toggle-sidebar-btn"
-                onClick={toggleSidebar}
-                aria-label="Abrir menu"
-              >
-                <FaBars />
-              </button>
-            )}
-            <h1 className="page-heading">Dashboard Geral</h1>
-          </div>
-
-          <div className="top-bar-right">
-            <ThemeToggleButton />
-            <button className="action-circle-btn" aria-label="Configurações">
-              <FaCog />
-            </button>
-            <button className="action-circle-btn" aria-label="Notificações">
-              <FaBell />
-            </button>
-
-            <div className="user-profile-avatar">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-                alt="Avatar"
-              />
-            </div>
-          </div>
-        </header>
+        <TopHeader
+          title="Dashboard Geral"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="dashboard-body-content bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}

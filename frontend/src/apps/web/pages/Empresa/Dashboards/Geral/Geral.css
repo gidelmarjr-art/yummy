@@ -47,6 +47,7 @@ html[data-tema="escuro"] {
   min-height: 100vh;
   display: flex;
   width: 100%;
+  overflow-x: hidden;
 }
 
 .bento-wrapper-root .dashboard-main-content {
@@ -57,29 +58,13 @@ html[data-tema="escuro"] {
   background-color: var(--fundo) !important;
 }
 
-.bento-wrapper-root .dashboard-top-bar {
-  background-color: var(--cartao) !important;
-  border-bottom: 1px solid var(--borda) !important;
-  color: var(--texto) !important;
-  padding: 1.2rem 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.bento-wrapper-root .page-heading {
-  font-family: var(--fonte-titulo) !important;
-  color: var(--texto) !important;
-  font-size: 1.5rem;
-  font-weight: 800;
-}
-
 .bento-body-container {
   padding: 2rem 2.5rem !important;
   background-color: var(--fundo) !important;
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
+  box-sizing: border-box;
 }
 
 /* Grid Bento Superior */
@@ -88,6 +73,7 @@ html[data-tema="escuro"] {
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 1.25rem !important;
   width: 100% !important;
+  box-sizing: border-box;
 }
 
 .bento-card,
@@ -102,6 +88,7 @@ html[data-tema="escuro"] {
   justify-content: space-between !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   min-width: 0 !important;
+  box-sizing: border-box;
 }
 
 .bento-card:hover {
@@ -173,6 +160,7 @@ html[data-tema="escuro"] {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba(237, 91, 34, 0.25);
+  flex-shrink: 0;
 }
 
 .metric-footer {
@@ -189,6 +177,7 @@ html[data-tema="escuro"] {
   grid-template-columns: 2.2fr 1fr !important;
   gap: 1.5rem !important;
   width: 100% !important;
+  box-sizing: border-box;
 }
 
 .section-title-clean {
@@ -226,6 +215,7 @@ html[data-tema="escuro"] {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .bento-svg-chart {
@@ -314,6 +304,7 @@ html[data-tema="escuro"] {
    ========================================================================== */
 .full-width-orders-card {
   width: 100% !important;
+  box-sizing: border-box;
 }
 
 .recent-orders-list,
