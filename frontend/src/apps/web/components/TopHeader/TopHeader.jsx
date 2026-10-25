@@ -8,6 +8,7 @@ import {
   FaMoon,
   FaExclamationTriangle,
   FaCheckCircle,
+  FaBars,
 } from "react-icons/fa";
 import "./TopHeader.css";
 import { useTheme } from "../../../../context/ThemeContext";
@@ -65,7 +66,11 @@ export function ThemeToggleButton() {
   );
 }
 
-export default function TopHeader({ title = "Dashboard Geral" }) {
+export default function TopHeader({
+  title = "Dashboard Geral",
+  isSidebarOpen,
+  toggleSidebar,
+}) {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef(null);
@@ -99,7 +104,18 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
 
   return (
     <header className="top-bar-header">
-      <h1 className="page-heading">{title}</h1>
+      <div className="top-bar-left-group">
+        {toggleSidebar && (!isSidebarOpen || window.innerWidth <= 768) && (
+          <button
+            className="action-circle-btn toggle-sidebar-trigger"
+            onClick={toggleSidebar}
+            aria-label="Abrir menu"
+          >
+            <FaBars />
+          </button>
+        )}
+        <h1 className="page-heading">{title}</h1>
+      </div>
 
       <div className="top-bar-right">
         <ThemeToggleButton />
