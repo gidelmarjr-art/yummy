@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaCog, FaBell, FaLock, FaShieldAlt, FaBars } from "react-icons/fa";
+import { FaLock, FaShieldAlt } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
 import {
@@ -80,7 +80,11 @@ export default function Seguranca() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="seguranca-main-content">
-        <TopHeader title="Segurança e Acessos" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Segurança e Acessos"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="seguranca-dashboard-body">
           <div className="security-grid">

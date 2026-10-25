@@ -9,15 +9,12 @@ import {
   CartesianGrid,
 } from "recharts";
 import {
-  FaCog,
-  FaBell,
   FaWallet,
   FaReceipt,
   FaSyncAlt,
   FaMotorcycle,
   FaStore,
   FaShoppingBag,
-  FaBars,
   FaChartLine,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
@@ -68,7 +65,11 @@ export default function Transacoes() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="transacoes-main-content">
-        <TopHeader title="Transações Financeiras" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Transações Financeiras"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="transacoes-dashboard-body bento-body-container">
           {erro && <p className="dashboard-error-msg">{erro}</p>}

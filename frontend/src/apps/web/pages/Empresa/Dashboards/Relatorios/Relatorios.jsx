@@ -14,8 +14,6 @@ import {
   Area,
 } from "recharts";
 import {
-  FaCog,
-  FaBell,
   FaClock,
   FaDownload,
   FaCalendarAlt,
@@ -23,7 +21,6 @@ import {
   FaArrowDown,
   FaMotorcycle,
   FaStore,
-  FaBars,
   FaChartPie,
   FaBan,
 } from "react-icons/fa";
@@ -94,7 +91,11 @@ export default function Relatorios() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="relatorios-main-content">
-        <TopHeader title="Relatórios e Indicadores" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Relatórios e Indicadores"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         {/* Dashboard em Tela */}
         <div className="relatorios-dashboard-body bento-body-container">
