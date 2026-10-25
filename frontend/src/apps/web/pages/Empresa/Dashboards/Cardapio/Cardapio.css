@@ -1,4 +1,4 @@
-/* Cardapio.css - Gestão de Cardápio Atualizado */
+/* Cardapio.css - Gestão de Cardápio Atualizado com Estrutura Central */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 .cardapio-page-layout {
@@ -19,7 +19,7 @@
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Header Superior limpo (sem search-box) */
+/* Header Superior - Padrão Desktop (Expandido) */
 .cardapio-top-bar {
   display: flex;
   align-items: center;
@@ -27,6 +27,14 @@
   padding: 1.2rem 2.5rem;
   background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
+  gap: 1rem;
+}
+
+.top-bar-left-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
 }
 
 .page-heading {
@@ -34,12 +42,16 @@
   font-weight: 800;
   color: #0f172a;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .top-bar-right {
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  flex-shrink: 0;
 }
 
 .action-circle-btn {
@@ -54,6 +66,7 @@
   color: #64748b;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .action-circle-btn:hover {
@@ -68,6 +81,7 @@
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #ed5b22;
+  flex-shrink: 0;
 }
 
 .user-profile-avatar img {
@@ -90,6 +104,7 @@
 .top-action-buttons {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .btn-primary-orange {
@@ -528,7 +543,7 @@
   margin-top: 0.5rem;
   width: 100%;
   max-height: 140px;
-  object-image: cover;
+  object-fit: cover;
   border-radius: 10px;
   border: 1px solid #e2e8f0;
 }
@@ -571,7 +586,7 @@
 }
 
 /* ==========================================
-   RESPONSIVIDADE E MEDIA QUERIES
+   RESPONSIVIDADE E ESTRUTURA CENTRAL
    ========================================== */
 
 @media (max-width: 1024px) {
@@ -588,20 +603,40 @@
   }
 }
 
+/* Em aparelhos menores, aplica a Estrutura Central (título no meio e ícones centralizados abaixo) */
 @media (max-width: 768px) {
   .cardapio-top-bar {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1rem;
     gap: 1rem;
-    padding: 1rem;
+    position: relative;
   }
 
-  .top-bar-right {
+  .top-bar-left-group {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
+    position: relative;
+  }
+
+  .toggle-sidebar-trigger {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .page-heading {
     font-size: 1.25rem;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .top-bar-right {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
   }
 
   .cardapio-dashboard-body {
