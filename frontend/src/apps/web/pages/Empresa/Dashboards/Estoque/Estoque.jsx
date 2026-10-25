@@ -159,7 +159,7 @@ export default function Estoque() {
         <div className="estoque-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
-          <div className="top-controls-row">
+          <div className="top-controls-row" style={{ "--i": 0 }}>
             <div className="top-controls-left-group">
               <div className="dropdown-filter-wrapper">
                 <select
@@ -206,7 +206,7 @@ export default function Estoque() {
             </div>
           </div>
 
-          <div className="estoque-table-container">
+          <div className="estoque-table-container" style={{ "--i": 1 }}>
             <div className="status-tab-bar">
               {STATUS_TABS.map((tab) => {
                 const count =

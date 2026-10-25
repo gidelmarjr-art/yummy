@@ -1,13 +1,13 @@
-/* Estoque.css - Harmonizado e Atualizado com Estrutura Central e Barra de Pesquisa Integrada */
+/* Estoque.css - Harmonizado com a Estrutura Central e Animações */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 .estoque-page-layout {
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background-color: #f8fafc;
-  font-family: 'Inter', sans-serif;
-  color: #1e293b;
+  background-color: var(--fundo, #f8fafc);
+  font-family: var(--fonte-corpo, 'Inter', sans-serif);
+  color: var(--texto, #1e293b);
   overflow-x: hidden;
 }
 
@@ -17,16 +17,17 @@
   flex-direction: column;
   min-width: 0;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--fundo, #f8fafc);
 }
 
-/* Header Superior - Padrão Desktop (Expandido) */
+/* Header Superior */
 .estoque-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--cartao, #ffffff);
+  border-bottom: 1px solid var(--borda, #e2e8f0);
   gap: 1rem;
 }
 
@@ -38,9 +39,10 @@
 }
 
 .page-heading {
+  font-family: var(--fonte-titulo, 'Bricolage Grotesque', sans-serif);
   font-size: 1.5rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -62,27 +64,27 @@
   flex-wrap: wrap;
 }
 
-/* Caixa de Pesquisa Integrada ao lado do Filtro */
+/* Caixa de Pesquisa Integrada */
 .search-box.inline-search {
   display: flex;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--cartao, #ffffff);
   padding: 0.65rem 1rem;
   border-radius: 12px;
   width: 280px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--borda, #e2e8f0);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
   transition: all 0.2s ease;
 }
 
 .search-box.inline-search:focus-within {
-  border-color: #ed5b22;
-  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
-  background-color: #ffffff;
+  border-color: var(--laranja, #ed5b22);
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.15);
+  background-color: var(--cartao, #ffffff);
 }
 
 .search-box.inline-search .search-icon {
-  color: #94a3b8;
+  color: var(--apoio, #94a3b8);
   font-size: 0.85rem;
   margin-right: 0.75rem;
   flex-shrink: 0;
@@ -96,31 +98,31 @@
   outline: none;
   font-size: 0.88rem;
   width: 100%;
-  color: #1e293b;
+  color: var(--texto, #1e293b);
   font-weight: 500;
   min-width: 0;
   padding: 0;
 }
 
 .action-circle-btn {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background-color: var(--fundo, #f8fafc);
+  border: 1px solid var(--borda, #e2e8f0);
   width: 38px;
   height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #64748b;
+  color: var(--apoio, #64748b);
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
 .action-circle-btn:hover {
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
-  border-color: #ed5b22;
+  border-color: var(--laranja, #ed5b22);
 }
 
 .user-profile-avatar {
@@ -128,7 +130,7 @@
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #ed5b22;
+  border: 2px solid var(--laranja, #ed5b22);
   flex-shrink: 0;
 }
 
@@ -140,12 +142,31 @@
 
 /* Corpo Principal do Estoque */
 .estoque-dashboard-body {
-  background-color: #f1f5f9;
+  background-color: var(--fundo, #f1f5f9);
   flex: 1;
   padding: 2rem 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* Animações de Entrada Escalonadas */
+.top-controls-row,
+.estoque-table-container {
+  animation: surge 0.6s cubic-bezier(.22, 1, .36, 1) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+@keyframes surge {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .top-controls-row {
@@ -163,7 +184,7 @@
 
 .status-dropdown-select {
   appearance: none;
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   border: none;
   padding: 0.75rem 2.5rem 0.75rem 1.2rem;
@@ -192,18 +213,19 @@
 
 /* Card Superior de Ações Rápidas/Relatório */
 .novo-pedido-card-top {
-  background-color: #ffffff;
-  border-radius: 16px;
+  background-color: var(--cartao, #ffffff);
+  border-radius: 20px;
   padding: 1rem 1.5rem;
   width: 320px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--borda, #e2e8f0);
+  box-shadow: var(--sombra-cartao, 0 4px 12px rgba(0, 0, 0, 0.03));
 }
 
 .card-title {
+  font-family: var(--fonte-titulo, 'Bricolage Grotesque', sans-serif);
   font-size: 1rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
   display: block;
   margin-bottom: 0.8rem;
 }
@@ -215,11 +237,11 @@
 
 .btn-orange-action {
   flex: 1;
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   border: none;
   padding: 0.65rem 0.6rem;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 0.8rem;
   cursor: pointer;
@@ -238,11 +260,11 @@
 
 /* Tabela Container */
 .estoque-table-container {
-  background-color: #ffffff;
-  border-radius: 20px;
+  background-color: var(--cartao, #ffffff);
+  border-radius: 24px;
   padding: 1.5rem 2rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--borda, #e2e8f0);
+  box-shadow: var(--sombra-cartao, 0 4px 12px rgba(0, 0, 0, 0.03));
   min-height: 400px;
 }
 
@@ -250,7 +272,7 @@
 .status-tab-bar {
   display: flex;
   gap: 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--borda, #e2e8f0);
   padding-bottom: 0.8rem;
   margin-bottom: 1rem;
   overflow-x: auto;
@@ -259,7 +281,7 @@
 .status-tab-item {
   background: none;
   border: none;
-  color: #64748b;
+  color: var(--apoio, #64748b);
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
@@ -272,11 +294,11 @@
 }
 
 .status-tab-item:hover {
-  color: #ed5b22;
+  color: var(--laranja, #ed5b22);
 }
 
 .status-tab-item.active {
-  color: #ed5b22;
+  color: var(--laranja, #ed5b22);
   font-weight: 700;
 }
 
@@ -287,12 +309,12 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   border-radius: 2px;
 }
 
 .tab-badge {
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   font-size: 0.7rem;
   font-weight: 700;
@@ -311,13 +333,13 @@
   grid-template-columns: 40px 2fr 1.2fr 1.2fr 1.2fr 160px;
   align-items: center;
   padding: 0.85rem 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--borda, #f1f5f9);
   font-size: 0.88rem;
   transition: background-color 0.2s ease;
 }
 
 .estoque-row-item:hover {
-  background-color: #f8fafc;
+  background-color: rgba(237, 91, 34, 0.03);
 }
 
 .estoque-row-item:last-child {
@@ -326,7 +348,7 @@
 
 .estoque-icon {
   font-size: 1.1rem;
-  color: #ed5b22;
+  color: var(--laranja, #ed5b22);
   display: flex;
   align-items: center;
 }
@@ -338,18 +360,18 @@
 
 .item-name {
   font-weight: 700;
-  color: #1e293b;
+  color: var(--texto, #1e293b);
 }
 
 .item-category {
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--apoio, #64748b);
   font-weight: 500;
 }
 
 .item-qty {
   font-weight: 700;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
 }
 
 .status-pill {
@@ -381,7 +403,7 @@
 
 .item-cost {
   font-weight: 800;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
 }
 
 .estoque-actions-col {
@@ -391,11 +413,11 @@
 }
 
 .btn-view-details {
-  background-color: #f1f5f9;
-  color: #475569;
-  border: 1px solid #cbd5e1;
+  background-color: var(--fundo, #f1f5f9);
+  color: var(--texto, #475569);
+  border: 1px solid var(--borda, #cbd5e1);
   padding: 0.45rem 0.75rem;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 0.78rem;
   cursor: pointer;
@@ -406,16 +428,16 @@
 }
 
 .btn-view-details:hover {
-  background-color: #e2e8f0;
-  color: #0f172a;
+  background-color: var(--borda, #e2e8f0);
+  color: var(--texto, #0f172a);
 }
 
 .btn-repor-stock {
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   border: none;
   padding: 0.45rem 0.75rem;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 0.78rem;
   cursor: pointer;
@@ -429,7 +451,7 @@
 .empty-msg {
   padding: 3rem;
   text-align: center;
-  color: #94a3b8;
+  color: var(--apoio, #94a3b8);
   font-weight: 500;
 }
 
@@ -437,22 +459,23 @@
 .estoque-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.5);
+  background-color: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: surge 0.3s ease both;
 }
 
 .estoque-modal-card {
-  background: #ffffff;
-  border-radius: 20px;
+  background: var(--cartao, #ffffff);
+  border-radius: 24px;
   padding: 2rem;
   width: 100%;
   max-width: 480px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--borda, #e2e8f0);
 }
 
 .modal-header {
@@ -463,23 +486,24 @@
 }
 
 .modal-header h2 {
+  font-family: var(--fonte-titulo, 'Bricolage Grotesque', sans-serif);
   font-size: 1.25rem;
   font-weight: 800;
   margin: 0;
-  color: #0f172a;
+  color: var(--texto, #0f172a);
 }
 
 .btn-close-modal {
   background: none;
   border: none;
   font-size: 1.1rem;
-  color: #94a3b8;
+  color: var(--apoio, #94a3b8);
   cursor: pointer;
   transition: color 0.2s ease;
 }
 
 .btn-close-modal:hover {
-  color: #0f172a;
+  color: var(--texto, #0f172a);
 }
 
 .modal-form {
@@ -498,25 +522,25 @@
 .form-group label {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #475569;
+  color: var(--apoio, #475569);
 }
 
 .form-group input,
 .form-group select {
   padding: 0.65rem 0.85rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
+  border: 1px solid var(--borda, #cbd5e1);
+  border-radius: 12px;
   font-size: 0.88rem;
   outline: none;
   font-family: inherit;
-  color: #1e293b;
-  background-color: #ffffff;
+  color: var(--texto, #1e293b);
+  background-color: var(--fundo, #ffffff);
   transition: border-color 0.2s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: #ed5b22;
+  border-color: var(--laranja, #ed5b22);
 }
 
 .form-group-row {
@@ -532,11 +556,11 @@
 
 .btn-save-modal {
   flex: 1;
-  background-color: #ed5b22;
+  background-color: var(--laranja, #ed5b22);
   color: #ffffff;
   border: none;
   padding: 0.75rem;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -547,18 +571,18 @@
 }
 
 .btn-cancel-modal {
-  background-color: #f1f5f9;
-  color: #475569;
-  border: 1px solid #e2e8f0;
+  background-color: var(--fundo, #f1f5f9);
+  color: var(--texto, #475569);
+  border: 1px solid var(--borda, #e2e8f0);
   padding: 0.75rem 1.2rem;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .btn-cancel-modal:hover {
-  background-color: #e2e8f0;
+  background-color: var(--borda, #e2e8f0);
 }
 
 /* ==========================================
@@ -583,7 +607,6 @@
   }
 }
 
-/* Em aparelhos menores, aplica a Estrutura Central (título no meio e ícones centralizados abaixo) */
 @media (max-width: 768px) {
   .estoque-top-bar {
     flex-direction: column;
