@@ -24,7 +24,6 @@ import { useSidebar } from "../../../../context/SidebarContext";
 
 const NAV_ITEMS = [
   { name: "Geral", path: "/dashboard", icon: <FaHome /> },
-  { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
   { name: "Pedidos", path: "/pedidos", icon: <FaUtensils /> },
   { name: "Cardápio", path: "/cardapio", icon: <FaClipboardList /> },
   {
@@ -36,6 +35,7 @@ const NAV_ITEMS = [
   { name: "Transactions", path: "/transacoes", icon: <FaExchangeAlt /> },
   { name: "Relatórios", path: "/relatorios", icon: <FaChartBar /> },
   { name: "Clientes", path: "/clientes", icon: <FaUsers /> },
+  { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
   { name: "Segurança", path: "/seguranca", icon: <FaLock /> },
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
 ];
@@ -121,5 +121,3 @@ export default function Sidebar() {
     </>
   );
 }
-
-
