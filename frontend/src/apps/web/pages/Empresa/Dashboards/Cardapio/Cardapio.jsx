@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  FaCog,
-  FaBell,
   FaCamera,
   FaChevronLeft,
   FaChevronRight,
@@ -10,7 +8,6 @@ import {
   FaPlus,
   FaTrashAlt,
   FaTimes,
-  FaBars,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
@@ -256,7 +253,11 @@ export default function GestaoCardapio() {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main className="cardapio-main-content">
-        <TopHeader title="Gestão de Cardápio" isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <TopHeader
+          title="Gestão de Cardápio"
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="cardapio-dashboard-body">
           {erro && <p className="dashboard-error-msg">{erro}</p>}
