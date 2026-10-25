@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  FaSearch,
-  FaCog,
-  FaBell,
-  FaUser,
-  FaEye,
-  FaTimes,
-  FaBars,
-} from "react-icons/fa";
+import { FaCog, FaBell, FaUser, FaEye, FaTimes, FaBars } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import { ThemeToggleButton } from "../../../../components/TopHeader/TopHeader";
 import { getClientes } from "../../../../services/api";
@@ -87,7 +79,6 @@ export default function Clientes() {
                 Lista de Clientes Cadastrados
               </h3>
               <div className="search-box inline-search">
-                <FaSearch className="search-icon" />
                 <input
                   type="text"
                   placeholder="Buscar cliente, tel ou e-mail..."
