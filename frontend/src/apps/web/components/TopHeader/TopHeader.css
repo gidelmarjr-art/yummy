@@ -224,16 +224,30 @@
     white-space: normal;
   }
 
+  /* Força o contentor direito a ocupar toda a largura e centraliza o seu conteúdo */
   .top-bar-right {
     width: 100%;
-    justify-content: center;
+    display: flex;
+    justify-content: center !important;
+    margin-left: 0 !important;
   }
 
+  /* Garante que o botão do menu aparece */
+  .action-circle-btn.toggle-sidebar-trigger {
+    display: flex !important;
+  }
+
+  /* Centraliza perfeitamente o bloco e dá um pequeno ajuste ótico se necessário */
   .top-bar-mobile-actions {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.8rem;
+    flex-wrap: nowrap;
+    gap: 0.7rem;
+    /* Espaço uniforme entre os círculos */
+    width: 100%;
     margin: 0 auto;
+    padding-left: 0;
   }
 
   .notification-dropdown {
