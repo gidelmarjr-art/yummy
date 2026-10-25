@@ -107,6 +107,7 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
       </div>
 
       <div className="top-bar-right">
+        <div className="top-bar-actions top-bar-mobile-actions">
         <button
           className="action-circle-btn toggle-sidebar-trigger"
           onClick={toggleSidebar}
@@ -179,10 +180,12 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
             alt="Avatar"
           />
         </div>
+              </div>
       </div>
     </header>
   );
 }
+
 
 
 
