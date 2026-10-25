@@ -87,8 +87,8 @@ export default function PerfilLoja() {
           <form onSubmit={handleSave} className="profile-container">
             {mensagem && <div className="form-success-msg">{mensagem}</div>}
 
-            {/* Banner e Foto da Loja */}
-            <div className="profile-card banner-card">
+            {/* Banner e Foto da Loja com animação indexada */}
+            <div className="profile-card banner-card" style={{ "--i": 0 }}>
               <div
                 className="store-banner"
                 style={{ backgroundImage: `url(${storeProfile.bannerUrl})` }}
@@ -108,8 +108,8 @@ export default function PerfilLoja() {
               </div>
             </div>
 
-            {/* Formulário de Dados da Loja */}
-            <div className="profile-card">
+            {/* Formulário de Dados da Loja com animação indexada */}
+            <div className="profile-card" style={{ "--i": 1 }}>
               <h3 className="section-title">
                 <FaStore /> Dados Visíveis ao Cliente
               </h3>
@@ -177,7 +177,7 @@ export default function PerfilLoja() {
               </div>
             </div>
 
-            <div className="actions-wrapper">
+            <div className="actions-wrapper" style={{ "--i": 2 }}>
               <button type="submit" className="save-btn" disabled={salvando}>
                 <FaSave /> {salvando ? "Salvando..." : "Salvar Perfil"}
               </button>
