@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
 
-/* Habilita o scroll suave em toda a página quando clicar em links internos */
 html {
   scroll-behavior: smooth;
 }
@@ -143,64 +142,6 @@ html {
 .btn--lg {
   padding: 1.1rem 2.2rem;
   font-size: 1.05rem;
-}
-
-/* Header Yummy com transição suave */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  backdrop-filter: blur(12px);
-  background: rgba(2, 20, 58, 0.85);
-  border-bottom: 1px solid var(--line);
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.nav__inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.1rem 6vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav__logo {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.4rem;
-  color: var(--ink);
-  transition: transform 0.2s ease;
-}
-
-.nav__logo:hover {
-  transform: scale(1.03);
-}
-
-.nav__logo .dot {
-  color: var(--orange);
-}
-
-.nav__links {
-  display: flex;
-  gap: 2rem;
-  font-size: 0.92rem;
-  color: var(--muted);
-}
-
-.nav__links a {
-  transition: color 0.25s ease, transform 0.25s ease;
-}
-
-.nav__links a:hover {
-  color: var(--ink);
-  transform: translateY(-1px);
-}
-
-@media (max-width: 720px) {
-  .nav__links {
-    display: none;
-  }
 }
 
 .hero {
@@ -746,10 +687,6 @@ html {
   margin: 0 0 2rem;
 }
 
-/* ==========================================================================
-   Yummy Footer (Modelo da imagem com micro-interações fluidas)
-   ========================================================================== */
-
 .yummy-footer {
   background-color: #010d26;
   color: var(--ink);
@@ -840,7 +777,6 @@ html {
 .yummy-footer__col a:hover {
   color: var(--orange);
   transform: translateX(4px);
-  /* Efeito sutil de deslocamento lateral ao passar o mouse */
 }
 
 .yummy-footer__hours p {

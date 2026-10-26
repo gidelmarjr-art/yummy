@@ -2,19 +2,18 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    /* Começa totalmente invisível / transparente no topo */
-    background: transparent;
-    border-bottom: 1px solid transparent;
-    backdrop-filter: blur(0px);
-    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+    background: transparent !important;
+    border-bottom: 1px solid transparent !important;
+    backdrop-filter: blur(0px) !important;
+    transition: all 0.3s ease-in-out !important;
 }
 
-/* Quando a página for rolada, esta classe é ativada via JavaScript */
+/* Quando o usuário rolar a página, o JavaScript aplica esta classe */
 .nav.scrolled {
-    background: rgba(2, 20, 58, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line, rgba(238, 242, 251, 0.12));
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+    background: rgba(2, 20, 58, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid var(--line, rgba(238, 242, 251, 0.12)) !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3) !important;
 }
 
 .nav__inner {

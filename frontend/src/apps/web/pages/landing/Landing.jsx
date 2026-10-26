@@ -214,7 +214,7 @@ export default function LandingPage() {
     if (el && !flowNodesRef.current.includes(el)) flowNodesRef.current.push(el);
   };
   const addBar = (el) => {
-    if (el && !barsRef.current.includes(el)) barsRef.current.includes(el);
+    if (el && !barsRef.current.includes(el)) barsRef.current.push(el);
   };
 
   useEffect(() => {
@@ -378,7 +378,7 @@ export default function LandingPage() {
 
   return (
     <div className="yummy-lp" ref={root}>
-      {/* Header Landing Inserido Diretamente */}
+      {/* Header Independente */}
       <HeaderLanding />
 
       <section className="hero">
@@ -645,7 +645,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Rodapé Yummy */}
       <footer className="yummy-footer">
         <div className="yummy-footer__inner">
           <div className="yummy-footer__brand">
