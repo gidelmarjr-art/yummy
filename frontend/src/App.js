@@ -44,56 +44,59 @@ function App() {
   return (
     <ThemeProvider>
       <SidebarProvider>
-      <CartProvider>
-        <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/carrinho" element={<Cart />} />
-          <Route path="/Sobre" element={<Sobre />} />
-          <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+        <CartProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/carrinho" element={<Cart />} />
+              <Route path="/Sobre" element={<Sobre />} />
+              <Route path="/redefinir-senha" element={<RedefinirSenha />} />
 
-          <Route path="/restaurantes" element={<Home />} />
-          <Route
-            path="/favoritos"
-            element={<Navigate to="/perfil/favoritos" replace />}
-          />
+              <Route path="/restaurantes" element={<Home />} />
+              <Route
+                path="/favoritos"
+                element={<Navigate to="/perfil/favoritos" replace />}
+              />
 
-          <Route path="/pagamento" element={<Pagamento />} />
-          <Route path="/acompanhar-entrega" element={<AcompanharEntrega />} />
-          <Route path="/perfil" element={<PerfilResumo />} />
-          <Route path="/perfil/dados-pessoais" element={<DadosPessoais />} />
-          <Route path="/perfil/enderecos" element={<Enderecos />} />
-          <Route path="/perfil/pedidos" element={<MeusPedidos />} />
-          <Route path="/perfil/favoritos" element={<Favoritos />} />
-          <Route path="/perfil/pagamentos" element={<PagamentosPerfil />} />
-          <Route path="/perfil/seguranca" element={<SegurancaPerfil />} />
-          <Route path="/cardapio" element={<Cardapio />} />
-          <Route path="/pedidos" element={<Pedidos />} />
-          <Route path="/relatorios" element={<Relatorios />} />
-          <Route path="/transacoes" element={<Transacoes />} />
-          <Route path="/estoque" element={<Estoque />} />
-          <Route path="/seguranca" element={<Seguranca />} />
-          <Route path="/clientes" element={<Clientes />} />
-          <Route path="/dashboard" element={<Geral />} />
-          <Route path="/configuracoes" element={<Configuracoes />} />
-          <Route path="/cadastro-pratos" element={<CadastroPratos />} />
-          <Route path="/perfil-loja" element={<PerfilLoja />} />
+              <Route path="/pagamento" element={<Pagamento />} />
+              <Route
+                path="/acompanhar-entrega"
+                element={<AcompanharEntrega />}
+              />
+              <Route path="/perfil" element={<PerfilResumo />} />
+              <Route
+                path="/perfil/dados-pessoais"
+                element={<DadosPessoais />}
+              />
+              <Route path="/perfil/enderecos" element={<Enderecos />} />
+              <Route path="/perfil/pedidos" element={<MeusPedidos />} />
+              <Route path="/perfil/favoritos" element={<Favoritos />} />
+              <Route path="/perfil/pagamentos" element={<PagamentosPerfil />} />
+              <Route path="/perfil/seguranca" element={<SegurancaPerfil />} />
+              <Route path="/cardapio" element={<Cardapio />} />
+              <Route path="/pedidos" element={<Pedidos />} />
+              <Route path="/relatorios" element={<Relatorios />} />
+              <Route path="/transacoes" element={<Transacoes />} />
+              <Route path="/estoque" element={<Estoque />} />
+              <Route path="/seguranca" element={<Seguranca />} />
+              <Route path="/clientes" element={<Clientes />} />
+              <Route path="/dashboard" element={<Geral />} />
+              <Route path="/configuracoes" element={<Configuracoes />} />
+              <Route path="/cadastro-pratos" element={<CadastroPratos />} />
+              <Route path="/perfil-loja" element={<PerfilLoja />} />
 
-          <Route path="/privacidade" element={<Privacidade />} />
-          <Route path="/menu-carousel" element={<MenuCaroussel />} />
-          <Route path="/mapa-navegacao" element={<MapaNavegacao />} />
-        </Routes>
-        </BrowserRouter>
-      </CartProvider>
+              <Route path="/privacidade" element={<Privacidade />} />
+              <Route path="/menu-carousel" element={<MenuCaroussel />} />
+              <Route path="/mapa-navegacao" element={<MapaNavegacao />} />
+            </Routes>
+          </BrowserRouter>
+        </CartProvider>
       </SidebarProvider>
     </ThemeProvider>
   );
 }
 
 export default App;
-
-
-
