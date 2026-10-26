@@ -37,10 +37,15 @@ export default function HeaderLanding() {
   return (
     <header className={`nav ${isScrolled ? "scrolled" : ""}`}>
       <div className="nav__inner">
-        <Link to="/" className="nav__logo">
-          Yummy<span className="dot">.</span>
-        </Link>
-        <nav className="nav__links">
+        {/* PARTE 1: Logo à esquerda */}
+        <div className="nav__left">
+          <Link to="/" className="nav__logo">
+            Yummy<span className="dot">.</span>
+          </Link>
+        </div>
+
+        {/* PARTE 2: Os 5 botões centralizados */}
+        <nav className="nav__center">
           <button
             onClick={() => handleScrollTo("fluxo")}
             className="nav__link-btn"
@@ -62,7 +67,9 @@ export default function HeaderLanding() {
           <Link to="/Sobre">Sobre nós</Link>
           <Link to="/mapa-navegacao">Mapa de navegação</Link>
         </nav>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+
+        {/* PARTE 3: Entrar e Falar com o time à direita */}
+        <div className="nav__right">
           <Link to="/login" className="btn btn--ghost">
             Entrar
           </Link>
