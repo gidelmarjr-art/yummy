@@ -34,6 +34,8 @@
 .nav__left {
     display: flex;
     justify-content: flex-start;
+    margin-left: -2rem;
+    /* Mantido o seu ajuste original de margem esquerda */
 }
 
 .nav__logo {
@@ -86,6 +88,7 @@
 /* PARTE 3: ENTRAR E FALAR COM O TIME */
 .nav__right {
     display: flex;
+    margin-right: -10rem;
     justify-content: flex-end;
     align-items: center;
     gap: 1rem;
