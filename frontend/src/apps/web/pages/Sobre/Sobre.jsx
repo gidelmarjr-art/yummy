@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import HeaderLanding from "../../components/HeaderLanding/HeaderLanding";
 import {
   Store,
   ShoppingCart,
@@ -16,10 +17,6 @@ import {
 import "./Sobre.css";
 
 gsap.registerPlugin(ScrollTrigger);
-
-/* ------------------------------------------------------------------ */
-/* Conteúdo                                                           */
-/* ------------------------------------------------------------------ */
 
 const MISSAO_VISAO_VALORES = [
   {
@@ -81,10 +78,6 @@ const EQUIPE = [
   { nome: "Equipe de Operações" },
   { nome: "Equipe de Tecnologia" },
 ];
-
-/* ------------------------------------------------------------------ */
-/* Componente                                                         */
-/* ------------------------------------------------------------------ */
 
 export default function SobrePage() {
   const root = useRef(null);
@@ -169,7 +162,9 @@ export default function SobrePage() {
 
   return (
     <div className="yummy-lp sobre-page" ref={root}>
-      {/* ---------------- HERO / PROPÓSITO ---------------- */}
+      {/* Header Landing Inserido Diretamente */}
+      <HeaderLanding />
+
       <section className="about-hero">
         <div className="section__head">
           <p className="eyebrow about-hero__eyebrow">Sobre nós</p>
@@ -178,14 +173,11 @@ export default function SobrePage() {
             Nosso propósito é aproximar clientes e estabelecimentos, tornando o
             atendimento mais simples e ágil, esteja o cliente onde estiver.
             Acreditamos que fazer um pedido — seja no restaurante ou por
-            delivery — deve ser rápido, claro e sem complicações, e que os
-            funcionários devem ter total visibilidade e controle sobre cada
-            solicitação que recebem.
+            delivery — deve ser rápido, claro e sem complicações.
           </p>
         </div>
       </section>
 
-      {/* ---------------- MISSÃO, VISÃO E VALORES ---------------- */}
       <section className="mvv">
         <div className="section__head">
           <p className="eyebrow">Diretrizes</p>
@@ -203,7 +195,6 @@ export default function SobrePage() {
         </div>
       </section>
 
-      {/* ---------------- NÚMEROS ---------------- */}
       <section className="stats">
         <div className="section__head">
           <p className="eyebrow">Em números</p>
@@ -220,7 +211,6 @@ export default function SobrePage() {
         </div>
       </section>
 
-      {/* ---------------- COMO FUNCIONA ---------------- */}
       <section className="how">
         <div className="section__head">
           <p className="eyebrow">Como funciona</p>
@@ -241,7 +231,6 @@ export default function SobrePage() {
         </div>
       </section>
 
-      {/* ---------------- DIFERENCIAIS ---------------- */}
       <section className="diffs">
         <div className="section__head">
           <p className="eyebrow">Diferenciais</p>
@@ -259,7 +248,6 @@ export default function SobrePage() {
         </div>
       </section>
 
-      {/* ---------------- NOSSA EQUIPE ---------------- */}
       <section className="team">
         <div className="section__head">
           <p className="eyebrow">Nossa equipe</p>
@@ -280,7 +268,6 @@ export default function SobrePage() {
         </div>
       </section>
 
-      {/* ---------------- FOOTER ---------------- */}
       <footer className="footer">
         <span>Yummy © 2026</span>
         <span>

@@ -1,10 +1,26 @@
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./HeaderLanding.css";
 
 export default function HeaderLanding() {
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isHome = location.pathname === "/"; // Ajuste conforme a rota da sua landing page (ex: se for /landing, altere aqui)
+  const isHome = location.pathname === "/";
+
+  // Monitora o scroll da página
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleScrollTo = (id) => {
     if (!isHome) {
@@ -20,7 +36,7 @@ export default function HeaderLanding() {
   };
 
   return (
-    <header className="nav">
+    <header className={`nav ${isScrolled ? "scrolled" : ""}`}>
       <div className="nav__inner">
         <Link to="/" className="nav__logo">
           Yummy<span className="dot">.</span>
@@ -45,9 +61,7 @@ export default function HeaderLanding() {
             Tempo real
           </button>
           <Link to="/Sobre">Sobre nós</Link>
-          <Link to="/mapa-navegacao" style={{ color: "var(--ink)" }}>
-            Mapa de navegação
-          </Link>
+          <Link to="/mapa-navegacao">Mapa de navegação</Link>
         </nav>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <Link to="/login" className="btn btn--ghost">

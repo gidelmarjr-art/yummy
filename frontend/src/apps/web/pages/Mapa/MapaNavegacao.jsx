@@ -1,11 +1,14 @@
-import { Heart, Map } from "lucide-react"; // 👈 Garanta que estas linhas existam no topo
+import { Heart, Map } from "lucide-react";
+import HeaderLanding from "../../components/HeaderLanding/HeaderLanding";
 import mapaImg from "./mapa.jpeg";
 import "./MapaNavegacao.css";
 
 export default function MapaNavegacao() {
   return (
     <div className="yummy-map-page">
-      {/* Seção da Página do Mapa */}
+      {/* Header Landing Inserido Diretamente */}
+      <HeaderLanding />
+
       <section className="map-section">
         <div className="map-section__head">
           <p className="map-section__eyebrow">Arquitetura da Informação</p>
@@ -35,7 +38,6 @@ export default function MapaNavegacao() {
         </div>
       </section>
 
-      {/* Rodapé */}
       <footer className="map-footer">
         <span>Yummy © 2026</span>
         <span>

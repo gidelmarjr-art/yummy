@@ -1,12 +1,20 @@
-/* Estilos específicos da HeaderLanding, caso queira isolar, ou reutilize o Landing.css */
 .nav {
     position: sticky;
     top: 0;
     z-index: 50;
-    backdrop-filter: blur(12px);
+    /* Começa totalmente invisível / transparente no topo */
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    backdrop-filter: blur(0px);
+    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Quando a página for rolada, esta classe é ativada via JavaScript */
+.nav.scrolled {
     background: rgba(2, 20, 58, 0.85);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line, rgba(238, 242, 251, 0.12));
-    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
 }
 
 .nav__inner {
@@ -52,6 +60,7 @@
     cursor: pointer;
     transition: color 0.25s ease, transform 0.25s ease;
     padding: 0;
+    text-decoration: none;
 }
 
 .nav__links a:hover,

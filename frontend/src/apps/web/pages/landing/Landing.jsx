@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import HeaderLanding from "../../components/HeaderLanding/HeaderLanding";
 import {
   Smartphone,
   ChefHat,
@@ -213,7 +214,7 @@ export default function LandingPage() {
     if (el && !flowNodesRef.current.includes(el)) flowNodesRef.current.push(el);
   };
   const addBar = (el) => {
-    if (el && !barsRef.current.includes(el)) barsRef.current.push(el);
+    if (el && !barsRef.current.includes(el)) barsRef.current.includes(el);
   };
 
   useEffect(() => {
@@ -377,6 +378,9 @@ export default function LandingPage() {
 
   return (
     <div className="yummy-lp" ref={root}>
+      {/* Header Landing Inserido Diretamente */}
+      <HeaderLanding />
+
       <section className="hero">
         <div className="hero__inner">
           <div className="hero__copy">
@@ -641,7 +645,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Rodapé Yummy com animação e transições refinadas */}
+      {/* Rodapé Yummy */}
       <footer className="yummy-footer">
         <div className="yummy-footer__inner">
           <div className="yummy-footer__brand">
