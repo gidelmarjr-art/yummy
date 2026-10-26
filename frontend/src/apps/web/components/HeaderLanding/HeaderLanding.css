@@ -1,0 +1,67 @@
+/* Estilos específicos da HeaderLanding, caso queira isolar, ou reutilize o Landing.css */
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(2, 20, 58, 0.85);
+    border-bottom: 1px solid var(--line, rgba(238, 242, 251, 0.12));
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.nav__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.1rem 6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav__logo {
+    font-family: var(--font-display, "Fraunces", serif);
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--ink, #eef2fb);
+    transition: transform 0.2s ease;
+    text-decoration: none;
+}
+
+.nav__logo:hover {
+    transform: scale(1.03);
+}
+
+.nav__logo .dot {
+    color: var(--orange, #ff9500);
+}
+
+.nav__links {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.92rem;
+    color: var(--muted, #93a3c9);
+    align-items: center;
+}
+
+.nav__links a,
+.nav__link-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: color 0.25s ease, transform 0.25s ease;
+    padding: 0;
+}
+
+.nav__links a:hover,
+.nav__link-btn:hover {
+    color: var(--ink, #eef2fb);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+    .nav__links {
+        display: none;
+    }
+}
