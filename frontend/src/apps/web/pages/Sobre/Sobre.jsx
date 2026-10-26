@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
+import { HeaderLanding } from "../../../components/HeaderLanding/HeaderLanding";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Store,
@@ -169,30 +170,14 @@ export default function SobrePage() {
 
   return (
     <div className="yummy-lp sobre-page" ref={root}>
-      {/* ---------------- NAV ---------------- */}
-      <header className="nav">
-        <div className="nav__inner">
-          <Link to="/" className="nav__logo">
-            Yummy<span className="dot">.</span>
-          </Link>
-          <nav className="nav__links">
-            <Link to="/">Início</Link>
-            <Link to="/sobre" className="nav__links--active">Sobre nós</Link>
-          </nav>
-          <a href="mailto:contato@yummy.app" className="btn btn--ghost">
-            Falar com o time
-          </a>
-        </div>
-      </header>
-
       {/* ---------------- HERO / PROPÓSITO ---------------- */}
       <section className="about-hero">
         <div className="section__head">
           <p className="eyebrow about-hero__eyebrow">Sobre nós</p>
           <h1>Conectando restaurantes e clientes com simplicidade.</h1>
           <p className="section__lede">
-            Nosso propósito é aproximar clientes e estabelecimentos, tornando
-            o atendimento mais simples e ágil, esteja o cliente onde estiver.
+            Nosso propósito é aproximar clientes e estabelecimentos, tornando o
+            atendimento mais simples e ágil, esteja o cliente onde estiver.
             Acreditamos que fazer um pedido — seja no restaurante ou por
             delivery — deve ser rápido, claro e sem complicações, e que os
             funcionários devem ter total visibilidade e controle sobre cada
@@ -246,7 +231,9 @@ export default function SobrePage() {
         <div className="how__grid">
           {COMO_FUNCIONA.map((s, i) => (
             <div className="step-card" key={s.titulo}>
-              <span className="step-card__index">{String(i + 1).padStart(2, "0")}</span>
+              <span className="step-card__index">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               <span className="step-card__icon">{s.icon}</span>
               <h3>{s.titulo}</h3>
               <p>{s.desc}</p>
