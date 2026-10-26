@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import HeaderLanding from "../../components/HeaderLanding/HeaderLanding";
-import mapaImg from "./mapa.jpeg"; // Agora a imagem está na mesma pasta!
+import { Heart, Map } from "lucide-react"; // 👈 Garanta que estas linhas existam no topo
+import mapaImg from "./mapa.jpeg";
 import "./MapaNavegacao.css";
 
 export default function MapaNavegacao() {
