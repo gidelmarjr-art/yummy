@@ -10,7 +10,6 @@ export default function HeaderLanding() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Se rolar mais do que 20 pixels para baixo, ativa o fundo sólido
       if (window.scrollY > 20) {
         setIsScrolled(true);
       } else {
