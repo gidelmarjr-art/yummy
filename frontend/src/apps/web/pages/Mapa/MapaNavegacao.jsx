@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Heart, Map } from "lucide-react"; // 👈 Garanta que estas linhas existam no topo
 import mapaImg from "./mapa.jpeg";
 import "./MapaNavegacao.css";
