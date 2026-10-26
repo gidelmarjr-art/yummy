@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
-import { HeaderLanding } from "../../../components/HeaderLanding/HeaderLanding";
+import HeaderLanding from "../../components/HeaderLanding/HeaderLanding";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Store,
