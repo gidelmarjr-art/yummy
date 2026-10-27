@@ -11,7 +11,6 @@ import {
   FaLock,
   FaCog,
   FaPlusCircle,
-  FaStore,
   FaSignOutAlt,
   FaChevronLeft,
   FaChevronRight,

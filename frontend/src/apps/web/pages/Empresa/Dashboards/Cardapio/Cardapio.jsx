@@ -5,7 +5,6 @@ import {
   FaChevronRight,
   FaCheck,
   FaBan,
-  FaPlus,
   FaTrashAlt,
   FaTimes,
 } from "react-icons/fa";
