@@ -2,19 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { gsap } from "gsap";
-import {
-  Eye,
-  EyeOff,
-  ArrowLeft,
-  Zap,
-  MapPin,
-  ShieldCheck,
-} from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, Zap, MapPin, ShieldCheck } from "lucide-react";
 import "./Cadastro.css";
 
 import logoIcone from "../../../../imgs/LogoYummy.png";
 
-const SELOS_SEGURANCA = ["DADOS_CRIPTOGRAFADOS", "SENHA_COM_HASH", "LGPD_COMPLIANT"];
+const SELOS_SEGURANCA = [
+  "DADOS_CRIPTOGRAFADOS",
+  "SENHA_COM_HASH",
+  "LGPD_COMPLIANT",
+];
 
 const BENEFICIOS = [
   {
@@ -146,8 +143,8 @@ export default function CadastroCliente() {
 
   return (
     <div className="cadastro-page" ref={rootRef}>
-      <Link to="/" className="cadastro-page__back">
-        <ArrowLeft size={16} /> Início
+      <Link to="/Login" className="cadastro-page__back">
+        <ArrowLeft size={16} /> Login
       </Link>
 
       <div className="cadastro-page__layout">
@@ -345,7 +342,11 @@ export default function CadastroCliente() {
               />
               <span>
                 Li e aceito os Termos de Uso e a{" "}
-                <Link to="/privacidade" target="_blank" rel="noopener noreferrer">
+                <Link
+                  to="/privacidade"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Política de Privacidade (LGPD)
                 </Link>
               </span>
