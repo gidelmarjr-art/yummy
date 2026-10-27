@@ -11,6 +11,7 @@ import {
   FaLock,
   FaCog,
   FaPlusCircle,
+  FaStore,
   FaSignOutAlt,
   FaChevronLeft,
   FaChevronRight,
@@ -33,7 +34,7 @@ const NAV_ITEMS = [
   { name: "Operacionais", path: "/estoque", icon: <FaTools /> },
   { name: "Transactions", path: "/transacoes", icon: <FaExchangeAlt /> },
   { name: "Relatórios", path: "/relatorios", icon: <FaChartBar /> },
-  { name: "Clientes", path: "/clientes", icon: <FaUsers /> },
+  { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
   { name: "Segurança", path: "/seguranca", icon: <FaLock /> },
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
 ];
