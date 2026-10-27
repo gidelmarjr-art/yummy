@@ -241,9 +241,7 @@ export default function GestaoCardapio() {
   };
 
   return (
-    <div
-      className={`cardapio-page-layout`}
-    >
+    <div className={`cardapio-page-layout`}>
       <Sidebar />
 
       <main className="cardapio-main-content">
@@ -253,12 +251,6 @@ export default function GestaoCardapio() {
           {erro && <p className="dashboard-error-msg">{erro}</p>}
 
           <div className="top-action-buttons" style={{ "--i": 0 }}>
-            <button
-              className="btn-primary-orange"
-              onClick={() => handleOpenModal(null)}
-            >
-              <FaPlus /> ADICIONAR ITEM
-            </button>
             <button
               className="btn-primary-orange"
               onClick={() => setShowCategories(true)}
@@ -591,4 +583,3 @@ export default function GestaoCardapio() {
     </div>
   );
 }
-
