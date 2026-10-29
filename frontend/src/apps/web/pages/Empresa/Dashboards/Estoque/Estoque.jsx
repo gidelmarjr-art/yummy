@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  FaSearch,
-  FaBoxes,
-  FaPlus,
-  FaPrint,
-  FaEye,
-  FaTimes,
-} from "react-icons/fa";
+import { FaBoxes, FaPlus, FaPrint, FaEye, FaTimes } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
 import DashboardSelect from "../components/DashboardSelect";
