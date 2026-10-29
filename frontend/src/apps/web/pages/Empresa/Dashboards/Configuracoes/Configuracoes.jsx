@@ -2,7 +2,16 @@
 import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
-import { FaBell, FaMotorcycle, FaSave } from "react-icons/fa";
+import {
+  FaBell,
+  FaMotorcycle,
+  FaSave,
+  FaBox,
+  FaVolumeUp,
+  FaPrint,
+  FaSun,
+  FaMoon,
+} from "react-icons/fa";
 import "../dashboards-shared.css";
 import "./Configuracoes.css";
 
@@ -39,7 +48,7 @@ export default function Configuracoes() {
   };
 
   return (
-    <div className={`config-page-layout`}>
+    <div className="config-page-layout">
       <Sidebar />
       <main className="config-main-content">
         <TopHeader title="Configurações do Sistema" />
@@ -79,63 +88,94 @@ export default function Configuracoes() {
               </div>
             </div>
 
-            {/* Bloco 2: Automação e Notificações */}
+            {/* Bloco 2: Automação e Notificações (Com os novos switches com ícones) */}
             <div className="config-card-container">
               <h3 className="section-title">
                 <FaBell /> Alertas & Automação de Pedidos
               </h3>
+
               <div className="config-toggle-list">
+                {/* Item 1: Estoque Mínimo */}
                 <div className="config-toggle-item">
                   <div className="toggle-info">
-                    <h4>Alerta de Estoque Mínimo</h4>
+                    <h4>
+                      <FaBox
+                        style={{ marginRight: "8px", color: "var(--laranja)" }}
+                      />
+                      Alerta de Estoque Mínimo
+                    </h4>
                     <p>
                       Notificar no painel superior quando um insumo estiver
                       acabando.
                     </p>
                   </div>
-                  <label className="switch">
+                  <label className="icon-switch">
                     <input
                       type="checkbox"
                       checked={config.alertaEstoqueMinimo}
                       onChange={() => handleToggle("alertaEstoqueMinimo")}
                     />
-                    <span className="slider"></span>
+                    <span className="icon-slider">
+                      <span className="slider-icon-wrapper">
+                        {config.alertaEstoqueMinimo ? <FaSun /> : <FaMoon />}
+                      </span>
+                    </span>
                   </label>
                 </div>
 
+                {/* Item 2: Som de Alerta */}
                 <div className="config-toggle-item">
                   <div className="toggle-info">
-                    <h4>Som de Alerta para Novos Pedidos</h4>
+                    <h4>
+                      <FaVolumeUp
+                        style={{ marginRight: "8px", color: "var(--laranja)" }}
+                      />
+                      Som de Alerta para Novos Pedidos
+                    </h4>
                     <p>
                       Tocar um aviso sonoro quando um pedido for recebido no
                       sistema.
                     </p>
                   </div>
-                  <label className="switch">
+                  <label className="icon-switch">
                     <input
                       type="checkbox"
                       checked={config.alertaSonsPedidos}
                       onChange={() => handleToggle("alertaSonsPedidos")}
                     />
-                    <span className="slider"></span>
+                    <span className="icon-slider">
+                      <span className="slider-icon-wrapper">
+                        {config.alertaSonsPedidos ? <FaSun /> : <FaMoon />}
+                      </span>
+                    </span>
                   </label>
                 </div>
 
+                {/* Item 3: Impressão Automática */}
                 <div className="config-toggle-item">
                   <div className="toggle-info">
-                    <h4>Impressão Automática na Cozinha</h4>
+                    <h4>
+                      <FaPrint
+                        style={{ marginRight: "8px", color: "var(--laranja)" }}
+                      />
+                      Impressão Automática na Cozinha
+                    </h4>
                     <p>
                       Enviar comanda direto para a impressora assim que aceitar
                       o pedido.
                     </p>
                   </div>
-                  <label className="switch">
+                  <label className="icon-switch">
                     <input
                       type="checkbox"
                       checked={config.impressaoAutomatica}
                       onChange={() => handleToggle("impressaoAutomatica")}
                     />
-                    <span className="slider"></span>
+                    <span className="icon-slider">
+                      <span className="slider-icon-wrapper">
+                        {config.impressaoAutomatica ? <FaSun /> : <FaMoon />}
+                      </span>
+                    </span>
                   </label>
                 </div>
               </div>

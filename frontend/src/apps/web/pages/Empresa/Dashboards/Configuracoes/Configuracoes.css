@@ -141,3 +141,62 @@
   /* Alterado para variável */
   margin: 0;
 }
+
+/* ==========================================
+   ESTILIZAÇÃO DO SWITCH COM ÍCONE (ESTILO DA FOTO)
+   ========================================== */
+
+.icon-switch {
+  position: relative;
+  display: inline-block;
+  width: 58px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.icon-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.icon-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--borda, #cbd5e1);
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 34px;
+}
+
+.slider-icon-wrapper {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--cartao, #17181c);
+  color: #ffffff;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Quando ativado (ligado) */
+.icon-switch input:checked+.icon-slider {
+  background-color: var(--laranja, #ed5b22);
+}
+
+.icon-switch input:checked+.icon-slider .slider-icon-wrapper {
+  transform: translateX(26px);
+  background-color: #ffffff;
+  color: var(--laranja, #ed5b22);
+}
