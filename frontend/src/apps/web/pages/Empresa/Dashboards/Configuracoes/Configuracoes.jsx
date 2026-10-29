@@ -39,9 +39,7 @@ export default function Configuracoes() {
   };
 
   return (
-    <div
-      className={`config-page-layout`}
-    >
+    <div className={`config-page-layout`}>
       <Sidebar />
       <main className="config-main-content">
         <TopHeader title="Configurações do Sistema" />
@@ -158,4 +156,3 @@ export default function Configuracoes() {
     </div>
   );
 }
-
