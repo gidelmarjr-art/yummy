@@ -110,9 +110,7 @@ export default function Estoque() {
   });
 
   return (
-    <div
-      className={`estoque-page-layout`}
-    >
+    <div className={`estoque-page-layout`}>
       <Sidebar />
 
       <main className="estoque-main-content">
@@ -140,7 +138,6 @@ export default function Estoque() {
 
               {/* Barra de pesquisa integrada ao lado do filtro */}
               <div className="search-box inline-search">
-                <FaSearch className="search-icon" />
                 <input
                   type="text"
                   placeholder="Buscar insumo..."
@@ -401,4 +398,3 @@ export default function Estoque() {
     </div>
   );
 }
-
