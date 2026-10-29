@@ -35,8 +35,8 @@ const NAV_ITEMS = [
   { name: "Transactions", path: "/transacoes", icon: <FaExchangeAlt /> },
   { name: "Relatórios", path: "/relatorios", icon: <FaChartBar /> },
   { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
-  { name: "Segurança", path: "/seguranca", icon: <FaLock /> },
   { name: "Configurações", path: "/configuracoes", icon: <FaCog /> },
+  { name: "Segurança", path: "/seguranca", icon: <FaLock /> },
 ];
 
 export default function Sidebar() {
