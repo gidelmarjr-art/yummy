@@ -1,4 +1,4 @@
-/* Configuracoes.css - Atualizado para suportar temas */
+/* Configuracoes.css - Completo e Responsivo com Temas */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 *,
@@ -12,10 +12,8 @@
   min-height: 100vh;
   width: 100%;
   background-color: var(--fundo, #f8fafc);
-  /* Alterado para variável */
   font-family: 'Inter', sans-serif;
   color: var(--texto, #1e293b);
-  /* Alterado para variável */
   overflow-x: hidden;
 }
 
@@ -25,7 +23,6 @@
   flex-direction: column;
   min-width: 0;
   background-color: var(--fundo, #f8fafc);
-  /* Garantir fundo dinâmico */
 }
 
 /* Header Superior */
@@ -35,9 +32,7 @@
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
   background-color: var(--cartao, #ffffff);
-  /* Alterado para variável */
   border-bottom: 1px solid var(--borda, #e2e8f0);
-  /* Alterado para variável */
   gap: 1rem;
 }
 
@@ -52,19 +47,92 @@
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--texto, #0f172a);
-  /* Alterado para variável */
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* ... (mantenha os seletores intermediários iguais) ... */
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-shrink: 0;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--fundo, #f1f5f9);
+  padding: 0.55rem 1rem;
+  border-radius: 20px;
+  width: 240px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: var(--laranja, #ed5b22);
+  background-color: var(--cartao, #ffffff);
+}
+
+.search-icon {
+  color: var(--apoio, #94a3b8);
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  width: 100%;
+  color: var(--texto, #0f172a);
+  min-width: 0;
+}
+
+.action-circle-btn {
+  background-color: var(--fundo, #f8fafc);
+  border: 1px solid var(--borda, #e2e8f0);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--apoio, #64748b);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.action-circle-btn:hover {
+  background-color: var(--laranja, #ed5b22);
+  color: #ffffff;
+  border-color: var(--laranja, #ed5b22);
+}
+
+.user-profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--fundo, #eee);
+  border: 2px solid var(--laranja, #ed5b22);
+  flex-shrink: 0;
+}
+
+.user-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 /* Corpo Neutro da Página */
 .config-body-content {
   background-color: var(--fundo, #f1f5f9);
-  /* Alterado para variável */
   flex: 1;
   padding: 2rem 2.5rem;
   display: flex;
@@ -76,13 +144,10 @@
 /* Seções de Configurações */
 .config-card-container {
   background-color: var(--cartao, #ffffff);
-  /* Alterado para variável */
   border-radius: 20px;
   padding: 2rem;
   box-shadow: var(--sombra-cartao, 0 4px 12px rgba(0, 0, 0, 0.03));
-  /* Alterado para variável */
   border: 1px solid var(--borda, #e2e8f0);
-  /* Alterado para variável */
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -93,64 +158,104 @@
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--texto, #0f172a);
-  /* Alterado para variável */
   margin: 0;
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
 
-/* ... */
+.section-title svg {
+  color: var(--laranja, #ed5b22) !important;
+  flex-shrink: 0;
+}
+
+.config-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.config-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.config-input-group.full-width {
+  grid-column: span 2;
+}
 
 .config-input-group label {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--apoio, #475569);
-  /* Alterado para variável */
 }
 
 .config-input-group input,
 .config-input-group select {
   padding: 0.75rem 1rem;
   border: 1px solid var(--borda, #cbd5e1);
-  /* Alterado para variável */
   border-radius: 10px;
   font-size: 0.9rem;
   background-color: var(--cartao, #ffffff);
-  /* Alterado para variável */
   color: var(--texto, #0f172a);
-  /* Alterado para variável */
   outline: none;
   width: 100%;
   transition: all 0.2s ease;
 }
 
-/* ... */
+.config-input-group input:focus,
+.config-input-group select:focus {
+  border-color: var(--laranja, #ed5b22);
+  box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.1);
+}
+
+/* Lista de Togglers */
+.config-toggle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.config-toggle-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--borda, #f1f5f9);
+  gap: 1.2rem;
+}
+
+.config-toggle-item:last-child {
+  border-bottom: none;
+}
+
+.toggle-info {
+  min-width: 0;
+}
 
 .toggle-info h4 {
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--texto, #0f172a);
-  /* Alterado para variável */
   margin: 0 0 0.2rem 0;
+  display: flex;
+  align-items: center;
 }
 
 .toggle-info p {
   font-size: 0.82rem;
   color: var(--apoio, #64748b);
-  /* Alterado para variável */
   margin: 0;
 }
 
-/* ==========================================
-   ESTILIZAÇÃO DO SWITCH COM ÍCONE (ESTILO DA FOTO)
-   ========================================== */
-
+/* Switch no Estilo Pílula (Posicionado à esquerda) */
 .icon-switch {
   position: relative;
   display: inline-block;
-  width: 58px;
-  height: 32px;
+  width: 52px;
+  height: 28px;
   flex-shrink: 0;
 }
 
@@ -174,29 +279,156 @@
 
 .slider-icon-wrapper {
   position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
+  height: 22px;
+  width: 22px;
   left: 3px;
   bottom: 3px;
-  background-color: var(--cartao, #17181c);
-  color: #ffffff;
+  background-color: #ffffff;
   transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Quando ativado (ligado) */
+/* Estado selecionado (Ligado) */
 .icon-switch input:checked+.icon-slider {
   background-color: var(--laranja, #ed5b22);
 }
 
 .icon-switch input:checked+.icon-slider .slider-icon-wrapper {
-  transform: translateX(26px);
+  transform: translateX(24px);
   background-color: #ffffff;
-  color: var(--laranja, #ed5b22);
+}
+
+/* Botão de Salvar */
+.config-actions-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.save-config-btn {
+  background-color: var(--laranja, #ed5b22);
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 2.2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(237, 91, 34, 0.25);
+}
+
+.save-config-btn:hover:not(:disabled) {
+  background-color: #ff7a45;
+  transform: translateY(-1px);
+}
+
+.save-config-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mensagens de Feedback */
+.form-error-msg {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.form-success-msg {
+  background-color: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Media Queries Responsivos */
+@media (max-width: 1024px) {
+  .config-top-bar {
+    padding: 1rem 1.5rem;
+  }
+
+  .config-body-content {
+    padding: 1.5rem;
+  }
+
+  .config-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .config-input-group.full-width {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .config-top-bar {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1rem;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .top-bar-left-group {
+    width: 100%;
+    justify-content: center;
+    position: relative;
+  }
+
+  .page-heading {
+    font-size: 1.25rem;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .top-bar-right {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .config-body-content {
+    padding: 1rem;
+    gap: 1.2rem;
+  }
+
+  .config-card-container {
+    padding: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .config-card-container {
+    padding: 1.1rem;
+  }
+
+  .config-actions-wrapper {
+    justify-content: stretch;
+  }
+
+  .save-config-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .config-input-group input,
+  .config-input-group select {
+    font-size: 1rem;
+  }
 }

@@ -1,4 +1,3 @@
-// Configuracoes.jsx
 import React, { useState } from "react";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
@@ -9,8 +8,6 @@ import {
   FaBox,
   FaVolumeUp,
   FaPrint,
-  FaSun,
-  FaMoon,
 } from "react-icons/fa";
 import "../dashboards-shared.css";
 import "./Configuracoes.css";
@@ -88,7 +85,7 @@ export default function Configuracoes() {
               </div>
             </div>
 
-            {/* Bloco 2: Automação e Notificações (Com os novos switches com ícones) */}
+            {/* Bloco 2: Automação e Notificações */}
             <div className="config-card-container">
               <h3 className="section-title">
                 <FaBell /> Alertas & Automação de Pedidos
@@ -97,6 +94,17 @@ export default function Configuracoes() {
               <div className="config-toggle-list">
                 {/* Item 1: Estoque Mínimo */}
                 <div className="config-toggle-item">
+                  <label className="icon-switch">
+                    <input
+                      type="checkbox"
+                      checked={config.alertaEstoqueMinimo}
+                      onChange={() => handleToggle("alertaEstoqueMinimo")}
+                    />
+                    <span className="icon-slider">
+                      <span className="slider-icon-wrapper"></span>
+                    </span>
+                  </label>
+
                   <div className="toggle-info">
                     <h4>
                       <FaBox
@@ -109,22 +117,21 @@ export default function Configuracoes() {
                       acabando.
                     </p>
                   </div>
-                  <label className="icon-switch">
-                    <input
-                      type="checkbox"
-                      checked={config.alertaEstoqueMinimo}
-                      onChange={() => handleToggle("alertaEstoqueMinimo")}
-                    />
-                    <span className="icon-slider">
-                      <span className="slider-icon-wrapper">
-                        {config.alertaEstoqueMinimo ? <FaSun /> : <FaMoon />}
-                      </span>
-                    </span>
-                  </label>
                 </div>
 
                 {/* Item 2: Som de Alerta */}
                 <div className="config-toggle-item">
+                  <label className="icon-switch">
+                    <input
+                      type="checkbox"
+                      checked={config.alertaSonsPedidos}
+                      onChange={() => handleToggle("alertaSonsPedidos")}
+                    />
+                    <span className="icon-slider">
+                      <span className="slider-icon-wrapper"></span>
+                    </span>
+                  </label>
+
                   <div className="toggle-info">
                     <h4>
                       <FaVolumeUp
@@ -137,22 +144,21 @@ export default function Configuracoes() {
                       sistema.
                     </p>
                   </div>
-                  <label className="icon-switch">
-                    <input
-                      type="checkbox"
-                      checked={config.alertaSonsPedidos}
-                      onChange={() => handleToggle("alertaSonsPedidos")}
-                    />
-                    <span className="icon-slider">
-                      <span className="slider-icon-wrapper">
-                        {config.alertaSonsPedidos ? <FaSun /> : <FaMoon />}
-                      </span>
-                    </span>
-                  </label>
                 </div>
 
                 {/* Item 3: Impressão Automática */}
                 <div className="config-toggle-item">
+                  <label className="icon-switch">
+                    <input
+                      type="checkbox"
+                      checked={config.impressaoAutomatica}
+                      onChange={() => handleToggle("impressaoAutomatica")}
+                    />
+                    <span className="icon-slider">
+                      <span className="slider-icon-wrapper"></span>
+                    </span>
+                  </label>
+
                   <div className="toggle-info">
                     <h4>
                       <FaPrint
@@ -165,18 +171,6 @@ export default function Configuracoes() {
                       o pedido.
                     </p>
                   </div>
-                  <label className="icon-switch">
-                    <input
-                      type="checkbox"
-                      checked={config.impressaoAutomatica}
-                      onChange={() => handleToggle("impressaoAutomatica")}
-                    />
-                    <span className="icon-slider">
-                      <span className="slider-icon-wrapper">
-                        {config.impressaoAutomatica ? <FaSun /> : <FaMoon />}
-                      </span>
-                    </span>
-                  </label>
                 </div>
               </div>
             </div>
