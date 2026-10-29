@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
-  FaSearch,
   FaReceipt,
   FaPlus,
   FaPrint,
@@ -67,7 +66,6 @@ export default function Pedidos() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
   const [activeTab, setActiveTab] = useState("Em preparo");
-  const [searchTerm, setSearchTerm] = useState("");
   const [statusDropdownFilter, setStatusDropdownFilter] = useState("Todos");
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
@@ -175,11 +173,7 @@ export default function Pedidos() {
     const matchesTab = activeTab === "Todos" || order.status === activeTab;
     const matchesDropdown =
       statusDropdownFilter === "Todos" || order.status === statusDropdownFilter;
-    const matchesSearch =
-      order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.id.includes(searchTerm) ||
-      order.itemsSummary.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesTab && matchesDropdown && matchesSearch;
+    return matchesTab && matchesDropdown;
   });
 
   return (
@@ -219,17 +213,6 @@ export default function Pedidos() {
                   { value: "Cancelado", label: "Cancelado", color: "#dc2626" },
                 ]}
               />
-
-              {/* Barra de pesquisa integrada ao lado do filtro */}
-              <div className="search-box inline-search">
-                <FaSearch className="search-icon" />
-                <input
-                  type="text"
-                  placeholder="Buscar pedido, cliente..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
             </div>
 
             <div className="novo-pedido-card-top">
@@ -626,4 +609,3 @@ export default function Pedidos() {
     </div>
   );
 }
-
