@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Heart,
-  Map,
-  Maximize2,
-  X,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
-} from "lucide-react";
+import { Heart, Maximize2, X, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import HeaderLanding from "../../components/HeaderLanding/HeaderLanding";
 import mapaImg from "./mapa.jpeg";
 import "./MapaNavegacao.css";
