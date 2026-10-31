@@ -131,50 +131,54 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(1, 13, 38, 0.95);
-  backdrop-filter: blur(8px);
+  background: rgba(1, 13, 38, 0.96);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  padding: 1rem;
   animation: fadeIn 0.25s ease;
 }
 
-.map-modal__content {
+.map-modal__container {
   width: 100%;
-  max-width: 1400px;
-  max-height: 90vh;
+  height: 100%;
   overflow: auto;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--navy);
-  padding: 1rem;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+  /* Permite rolar livremente pelo ecrã */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-overflow-scrolling: touch;
 }
 
 .map-modal__image {
-  width: 100%;
+  max-width: none;
+  /* Essencial para destravar o zoom */
+  width: 900px;
+  /* Força a imagem a iniciar maior que o ecrã do telemóvel */
   height: auto;
   display: block;
-  cursor: grab;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 .map-modal__close {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  position: fixed;
+  top: 1.2rem;
+  right: 1.2rem;
   background: var(--navy-2);
   color: var(--ink);
   border: 1px solid var(--line);
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  z-index: 1001;
+  z-index: 1010;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .map-modal__close:hover {

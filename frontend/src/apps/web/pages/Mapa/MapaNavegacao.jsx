@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Map, ZoomIn, X, Maximize2 } from "lucide-react";
+import { Heart, Map, Maximize2, X } from "lucide-react";
 import HeaderLanding from "../../components/HeaderLanding/HeaderLanding";
 import mapaImg from "./mapa.jpeg";
 import "./MapaNavegacao.css";
@@ -51,7 +51,7 @@ export default function MapaNavegacao() {
           </button>
 
           <div
-            className="map-modal__content"
+            className="map-modal__container"
             onClick={(e) => e.stopPropagation()}
           >
             <img
