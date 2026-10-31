@@ -23,6 +23,7 @@ html {
   color: var(--ink);
   font-family: var(--font-body);
   overflow-x: hidden;
+  width: 100%;
   line-height: 1.5;
 }
 
@@ -165,6 +166,17 @@ html {
 @media (max-width: 900px) {
   .hero__inner {
     grid-template-columns: 1fr;
+    text-align: center;
+    padding-bottom: 3rem;
+  }
+
+  .hero__sub {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero__ctas {
+    justify-content: center;
   }
 }
 
@@ -212,6 +224,13 @@ html {
   justify-content: center;
 }
 
+@media (max-width: 900px) {
+  .hero__visual {
+    width: 100%;
+    margin-top: 2rem;
+  }
+}
+
 .ticket {
   width: 270px;
   background: var(--cream);
@@ -222,6 +241,14 @@ html {
   font-family: var(--font-mono);
   transform: rotate(4deg);
   position: relative;
+}
+
+@media (max-width: 900px) {
+  .ticket {
+    width: 100%;
+    max-width: 280px;
+    transform: rotate(0deg);
+  }
 }
 
 .ticket::before,
@@ -615,6 +642,13 @@ html {
   font-size: 0.82rem;
 }
 
+@media (max-width: 620px) {
+  .stock__row {
+    grid-template-columns: 75px 1fr;
+    gap: 0.6rem;
+  }
+}
+
 .stock__label {
   color: var(--muted);
 }
@@ -637,6 +671,15 @@ html {
 .stock__value {
   text-align: right;
   color: var(--ink);
+}
+
+@media (max-width: 620px) {
+  .stock__value {
+    grid-column: span 2;
+    text-align: left;
+    font-size: 0.78rem;
+    opacity: 0.8;
+  }
 }
 
 .stock__note {
