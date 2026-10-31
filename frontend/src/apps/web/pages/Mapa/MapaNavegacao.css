@@ -144,22 +144,65 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  /* Permite rolar livremente pelo ecrã */
+  /* Permite rolar a imagem para qualquer lado quando estiver com zoom */
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding-top: 4rem;
   -webkit-overflow-scrolling: touch;
 }
 
 .map-modal__image {
-  max-width: none;
-  /* Essencial para destravar o zoom */
-  width: 900px;
-  /* Força a imagem a iniciar maior que o ecrã do telemóvel */
+  width: 100%;
+  max-width: 1200px;
   height: auto;
   display: block;
   border-radius: 8px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease-out;
+  /* Transição suave ao clicar nos botões de zoom */
+}
+
+/* Barra de controlos de Zoom flutuante */
+.map-modal__controls {
+  position: fixed;
+  top: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy-2);
+  border: 1px solid var(--line);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 1010;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.map-ctrl-btn {
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.map-ctrl-btn:hover {
+  background: rgba(253, 75, 4, 0.2);
+  color: var(--orange);
+}
+
+.map-zoom-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  min-width: 42px;
+  text-align: center;
 }
 
 .map-modal__close {
