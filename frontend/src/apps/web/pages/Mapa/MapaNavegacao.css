@@ -145,20 +145,20 @@
   height: 100%;
   overflow: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 5rem 2rem 2rem 2rem;
   -webkit-overflow-scrolling: touch;
 }
 
 .map-modal__image {
-  width: 100%;
-  max-width: 1200px;
+  width: 1000px;
+  max-width: none;
   height: auto;
   display: block;
   border-radius: 8px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-  transform-origin: center center;
+  transform-origin: top left;
   transition: transform 0.2s ease-out;
   margin: auto;
 }
