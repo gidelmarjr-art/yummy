@@ -1,4 +1,4 @@
-/* Estilos padrão do tema Yummy (isolados para evitar erros de caminho) */
+/* Estilos padrão do tema Yummy */
 .yummy-map-page {
   --navy: #02143a;
   --navy-2: #081d4e;
@@ -39,65 +39,6 @@
   border-bottom: 1px solid var(--line);
 }
 
-.map-nav__inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.1rem 6vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.map-nav__logo {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.4rem;
-}
-
-.map-nav__logo .dot {
-  color: var(--orange);
-}
-
-.map-nav__links {
-  display: flex;
-  gap: 2rem;
-  font-size: 0.92rem;
-  color: var(--muted);
-}
-
-.map-nav__links a:hover {
-  color: var(--ink);
-}
-
-@media (max-width: 720px) {
-  .map-nav__links {
-    display: none;
-  }
-}
-
-/* Botões */
-.map-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  border: 1.5px solid var(--line);
-  color: var(--ink);
-  background: transparent;
-  transition: all 0.25s ease;
-  white-space: nowrap;
-}
-
-.map-btn:hover {
-  border-color: var(--orange);
-  color: var(--orange);
-}
-
-/* Seção do Conteúdo / Mapa */
 .map-section {
   position: relative;
   padding: 5rem 6vw;
@@ -145,7 +86,14 @@
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  overflow: auto;
+}
+
+/* Wrapper da imagem com dica de clique */
+.map-panel__wrapper {
+  position: relative;
+  cursor: zoom-in;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .map-panel__image {
@@ -153,6 +101,96 @@
   height: auto;
   display: block;
   border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.map-panel__wrapper:hover .map-panel__image {
+  transform: scale(1.01);
+}
+
+.map-panel__hint {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(2, 20, 58, 0.85);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* MODAL DE ZOOM / LIGHTBOX */
+.map-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(1, 13, 38, 0.95);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  animation: fadeIn 0.25s ease;
+}
+
+.map-modal__content {
+  width: 100%;
+  max-width: 1400px;
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--navy);
+  padding: 1rem;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+}
+
+.map-modal__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: grab;
+}
+
+.map-modal__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: var(--navy-2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1001;
+}
+
+.map-modal__close:hover {
+  background: var(--orange);
+  color: var(--navy);
+  border-color: var(--orange);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Rodapé */
