@@ -101,7 +101,7 @@ html {
   font-size: 0.95rem;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.25s ease;
   border: 1.5px solid transparent;
-  white-space: nowrap;
+  text-align: center;
 }
 
 .btn--primary {
@@ -143,6 +143,19 @@ html {
 .btn--lg {
   padding: 1.1rem 2.2rem;
   font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+/* Ajuste responsivo para o botão grande em dispositivos móveis */
+@media (max-width: 620px) {
+  .btn--lg {
+    padding: 1rem 1.2rem;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+    height: auto;
+  }
 }
 
 .hero {
