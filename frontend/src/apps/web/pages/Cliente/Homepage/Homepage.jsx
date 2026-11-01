@@ -14,7 +14,9 @@ import {
   FaDrumstickBite,
   FaClock,
   FaMotorcycle,
+  FaShoppingCart,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import "./Homepage.css";
 
 import Header from "../../../components/Header/Header";
@@ -28,15 +30,9 @@ const BANNER_IMG =
 const RESTAURANT_AVATAR =
   "https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=150&q=80";
 
-// Os pratos e as categorias vêm do backend (useCardapio) — o mesmo cardápio
-// que a loja gerencia no painel de admin. As fotos em src/imgs/ só entram
-// como reserva quando o prato não tem imagem_url cadastrada.
-
 // Quantos produtos de cada categoria aparecem na aba "Tudo" (destaques)
 const HIGHLIGHTS_PER_CATEGORY = 2;
 
-// Monta os destaques pegando N produtos de cada categoria (na ordem em que
-// aparecem em PRODUCTS), em vez de mostrar o cardápio inteiro de uma vez.
 function getHighlights(products, categoryIds, count) {
   const highlights = [];
   categoryIds.forEach((categoryId) => {
@@ -149,7 +145,6 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
-  // Reanima o grid de produtos toda vez que a categoria muda
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -169,7 +164,6 @@ export default function Home() {
     return () => ctx.revert();
   }, [activeCategory, carregando]);
 
-  // Anima a seção "cardápio completo" quando o Ver mais é aberto
   useEffect(() => {
     if (!mostrarTudo) return;
 
@@ -258,6 +252,21 @@ export default function Home() {
   return (
     <div className="home-page-bg" ref={containerRef}>
       <Header cartCount={totalItemsCount} />
+
+      {/* Botão flutuante do carrinho que acompanha a página */}
+      <Link
+        to="/carrinho"
+        className="floating-cart-btn"
+        aria-label="Ver Carrinho"
+      >
+        <div className="floating-cart-icon-wrapper">
+          <FaShoppingCart />
+          {totalItemsCount > 0 && (
+            <span className="floating-cart-badge">{totalItemsCount}</span>
+          )}
+        </div>
+        <span className="floating-cart-total">Carrinho</span>
+      </Link>
 
       <div className="bg-pattern"></div>
 
