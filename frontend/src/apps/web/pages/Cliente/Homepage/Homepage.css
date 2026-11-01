@@ -477,7 +477,6 @@
   box-shadow: 0 12px 25px rgba(242, 102, 36, 0.35);
 }
 
-/* Bolinha que "voa" do produto até o ícone do carrinho no header */
 .fly-to-cart {
   position: fixed;
   width: 14px;
@@ -490,77 +489,7 @@
   transform: translate(-50%, -50%);
 }
 
-@media (max-width: 960px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .restaurant-info-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.6rem;
-  }
-
-  .restaurant-rating {
-    margin-top: 0.2rem;
-  }
-
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .floating-icons-container {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-  .food-icon,
-  .promo-banner__dot {
-    animation: none !important;
-  }
-}
-
-/* Botão de favoritar (coração) sobre a foto do prato */
-.fav-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 36px;
-  height: 36px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
-  color: #6b6b6b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-  transition: transform 0.2s ease, color 0.2s ease, background-color 0.2s ease;
-  z-index: 2;
-}
-
-.fav-btn:hover {
-  transform: scale(1.12);
-  color: #e24b63;
-}
-
-.fav-btn.is-active {
-  color: #e24b63;
-  background: #ffffff;
-}
-
-.fav-btn:focus-visible {
-  outline: 2px solid #e24b63;
-  outline-offset: 2px;
-}
-
-/* Botão Flutuante do Carrinho */
+/* --- BOTÃO FLUTUANTE DO CARRINHO --- */
 .floating-cart-btn {
   position: fixed;
   bottom: 2rem;
@@ -613,10 +542,87 @@
   font-size: 0.95rem;
 }
 
+/* Responsividade para telemóveis: oculta o texto "Carrinho" e transforma em botão circular apenas com o ícone */
 @media (max-width: 640px) {
   .floating-cart-btn {
-    bottom: 1.2rem;
-    right: 1.2rem;
-    padding: 0.75rem 1.1rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    padding: 0.9rem;
+    /* Torna o botão quadrado/redondo */
+    border-radius: 50%;
   }
+
+  .floating-cart-total {
+    display: none;
+    /* Oculta o texto "Carrinho" em telas menores */
+  }
+}
+
+@media (max-width: 960px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .restaurant-info-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .restaurant-rating {
+    margin-top: 0.2rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .floating-icons-container {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .food-icon,
+  .promo-banner__dot {
+    animation: none !important;
+  }
+}
+
+.fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #6b6b6b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  z-index: 2;
+}
+
+.fav-btn:hover {
+  transform: scale(1.12);
+  color: #e24b63;
+}
+
+.fav-btn.is-active {
+  color: #e24b63;
+  background: #ffffff;
+}
+
+.fav-btn:focus-visible {
+  outline: 2px solid #e24b63;
+  outline-offset: 2px;
 }
