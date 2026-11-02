@@ -279,3 +279,48 @@
     display: none; /* Oculta a barra grande no mobile para não quebrar o layout (você pode ajustar depois se quiser um ícone de lupa clicável no mobile) */
   }
 }
+/* Tema do cliente: o mesmo estado global usado nos dashboards. */
+.header-theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(242, 102, 36, 0.1);
+}
+
+.header-theme-toggle:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid #f26624;
+  outline-offset: 3px;
+}
+
+html[data-tema="escuro"] .yummy-header {
+  background-color: rgba(16, 17, 20, 0.9);
+  border-bottom-color: rgba(255, 255, 255, 0.09);
+}
+
+html[data-tema="escuro"] .search-container input {
+  background: #1b1d22;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #f7f8fa;
+  box-shadow: none;
+}
+
+html[data-tema="escuro"] .search-container input::placeholder,
+html[data-tema="escuro"] .search-icon {
+  color: #9da1aa;
+}
+
+html[data-tema="escuro"] .header-theme-toggle {
+  background: rgba(242, 102, 36, 0.16);
+}
+
+html[data-tema="escuro"] .cart-badge {
+  border-color: #101114;
+}
+
+@media (max-width: 768px) {
+  html[data-tema="escuro"] .header-nav {
+    background-color: rgba(16, 17, 20, 0.98);
+    border-bottom-color: rgba(255, 255, 255, 0.09);
+  }
+}
