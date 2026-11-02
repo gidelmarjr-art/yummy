@@ -211,3 +211,7 @@
         margin-top: 0.2rem;
     }
 }
+/* Tema escuro — Favoritos */
+html[data-tema="escuro"] .favorito-card { background: #191b20; border-color: rgba(255,255,255,.09); }
+html[data-tema="escuro"] .favorito-card__texto h3, html[data-tema="escuro"] .favorito-card__preco { color: #f6f7f9; }
+html[data-tema="escuro"] .favorito-card__texto p { color: #afb3bd; }
