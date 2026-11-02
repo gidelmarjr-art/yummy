@@ -224,3 +224,9 @@
   outline: 2px solid #e24b63;
   outline-offset: 2px;
 }
+/* Tema escuro — Carrossel do cardápio */
+html[data-tema="escuro"] .menu-carousel { color: #f6f7f9; }
+html[data-tema="escuro"] .menu-carousel-card { background: #191b20; border-color: rgba(255,255,255,.09); box-shadow: 0 12px 28px rgba(0,0,0,.3); }
+html[data-tema="escuro"] .menu-carousel-card__body, html[data-tema="escuro"] .menu-carousel__header, html[data-tema="escuro"] .menu-carousel-card__price { color: #f6f7f9; }
+html[data-tema="escuro"] .menu-carousel__count, html[data-tema="escuro"] .menu-carousel-card__tag { color: #afb3bd; }
+html[data-tema="escuro"] .menu-carousel__arrow { background: #202229; border-color: rgba(255,255,255,.12); color: #ff9a68; }
