@@ -637,3 +637,12 @@
 .btn-modal-error:hover {
   background: #e05312;
 }
+/* Tema escuro — Pagamento */
+html[data-tema="escuro"] .payment-page-bg { background: #101114; color: #f6f7f9; }
+html[data-tema="escuro"] .payment-card-side, html[data-tema="escuro"] .payment-brand-side, html[data-tema="escuro"] .payment-section, html[data-tema="escuro"] .financial-summary, html[data-tema="escuro"] .method-extra-panel, html[data-tema="escuro"] .new-card-form, html[data-tema="escuro"] .modal-content { background: #191b20; border-color: rgba(255,255,255,.1); color: #f6f7f9; box-shadow: 0 16px 34px rgba(0,0,0,.35); }
+html[data-tema="escuro"] .payment-page-bg h1, html[data-tema="escuro"] .payment-page-bg h2, html[data-tema="escuro"] .payment-page-bg h3, html[data-tema="escuro"] .item-title, html[data-tema="escuro"] .item-price, html[data-tema="escuro"] .summary-line { color: #f6f7f9; }
+html[data-tema="escuro"] .payment-page-bg p, html[data-tema="escuro"] .payment-page-bg span, html[data-tema="escuro"] .payment-page-bg label, html[data-tema="escuro"] .section-subtitle { color: #afb3bd; }
+html[data-tema="escuro"] .method-option, html[data-tema="escuro"] .card-radio-item, html[data-tema="escuro"] .address-row { background: #202229; border-color: rgba(255,255,255,.1); }
+html[data-tema="escuro"] .method-option.active, html[data-tema="escuro"] .card-radio-item.selected { background: rgba(242,102,36,.15); border-color: #f26624; }
+html[data-tema="escuro"] .payment-page-bg input { background: #202229; border-color: rgba(255,255,255,.12); color: #f6f7f9; }
+html[data-tema="escuro"] .modal-overlay { background: rgba(0,0,0,.72); }
