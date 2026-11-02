@@ -477,6 +477,7 @@
   box-shadow: 0 12px 25px rgba(242, 102, 36, 0.35);
 }
 
+/* Bolinha que "voa" do produto até o ícone do carrinho no header */
 .fly-to-cart {
   position: fixed;
   width: 14px;
@@ -487,75 +488,6 @@
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-}
-
-/* --- BOTÃO FLUTUANTE DO CARRINHO --- */
-.floating-cart-btn {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  background-color: #f26624;
-  color: #ffffff;
-  border: none;
-  border-radius: 50px;
-  padding: 0.85rem 1.4rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(242, 102, 36, 0.4);
-  z-index: 999;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-decoration: none;
-}
-
-.floating-cart-btn:hover {
-  transform: translateY(-4px) scale(1.03);
-  background-color: #d85312;
-  box-shadow: 0 14px 30px rgba(242, 102, 36, 0.5);
-}
-
-.floating-cart-icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-}
-
-.floating-cart-badge {
-  position: absolute;
-  top: -8px;
-  right: -10px;
-  background-color: #ffffff;
-  color: #f26624;
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 0.1rem 0.4rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.floating-cart-total {
-  font-size: 0.95rem;
-}
-
-/* Responsividade para telemóveis: oculta o texto "Carrinho" e transforma em botão circular apenas com o ícone */
-@media (max-width: 640px) {
-  .floating-cart-btn {
-    bottom: 1.5rem;
-    right: 1.5rem;
-    padding: 0.9rem;
-    /* Torna o botão quadrado/redondo */
-    border-radius: 50%;
-  }
-
-  .floating-cart-total {
-    display: none;
-    /* Oculta o texto "Carrinho" em telas menores */
-  }
 }
 
 @media (max-width: 960px) {
@@ -592,6 +524,7 @@
   }
 }
 
+/* Botão de favoritar (coração) sobre a foto do prato */
 .fav-btn {
   position: absolute;
   top: 10px;
@@ -625,4 +558,92 @@
 .fav-btn:focus-visible {
   outline: 2px solid #e24b63;
   outline-offset: 2px;
+}
+
+/* Tema escuro da Homepage: cores locais para manter leitura e identidade do cardápio. */
+html[data-tema="escuro"] .home-page-bg {
+  background-color: #101114;
+  color: #f6f7f9;
+}
+
+html[data-tema="escuro"] .home-page-bg .bg-pattern {
+  background-image: radial-gradient(rgba(242, 102, 36, 0.16) 1.5px, transparent 1.5px);
+}
+
+html[data-tema="escuro"] .home-page-bg .food-icon {
+  color: rgba(255, 142, 88, 0.1);
+}
+
+html[data-tema="escuro"] .home-page-bg .shape-1 {
+  background-color: rgba(242, 102, 36, 0.1);
+}
+
+html[data-tema="escuro"] .home-page-bg .shape-2 {
+  background-color: rgba(126, 73, 40, 0.16);
+}
+
+html[data-tema="escuro"] .home-page-bg .restaurant-banner-card,
+html[data-tema="escuro"] .home-page-bg .product-card {
+  background: #191b20;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.32);
+}
+
+html[data-tema="escuro"] .home-page-bg .restaurant-avatar {
+  border-color: #191b20;
+}
+
+html[data-tema="escuro"] .home-page-bg .restaurant-name,
+html[data-tema="escuro"] .home-page-bg .section-header h2,
+html[data-tema="escuro"] .home-page-bg .full-menu-section__header h2,
+html[data-tema="escuro"] .home-page-bg .product-title,
+html[data-tema="escuro"] .home-page-bg .product-price {
+  color: #f6f7f9;
+}
+
+html[data-tema="escuro"] .home-page-bg .address,
+html[data-tema="escuro"] .home-page-bg .product-desc,
+html[data-tema="escuro"] .home-page-bg .section-header__count,
+html[data-tema="escuro"] .home-page-bg .full-menu-section__header p {
+  color: #afb3bd;
+}
+
+html[data-tema="escuro"] .home-page-bg .promo-banner {
+  background: rgba(242, 102, 36, 0.12);
+  border-color: rgba(242, 102, 36, 0.28);
+  color: #ffd8c3;
+}
+
+html[data-tema="escuro"] .home-page-bg .promo-banner strong {
+  color: #ff9a68;
+}
+
+html[data-tema="escuro"] .home-page-bg .category-pill {
+  background: #1b1d22;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #ff9a68;
+  box-shadow: none;
+}
+
+html[data-tema="escuro"] .home-page-bg .category-pill.active {
+  background: #f26624;
+  border-color: #f26624;
+  color: #ffffff;
+}
+
+html[data-tema="escuro"] .home-page-bg .fav-btn {
+  background: rgba(27, 29, 34, 0.94);
+  color: #c9cdd5;
+}
+
+html[data-tema="escuro"] .home-page-bg .fav-btn.is-active {
+  background: #2b2023;
+  color: #ff7185;
+}
+
+html[data-tema="escuro"] .home-page-bg .full-menu-section {
+  border-top-color: rgba(242, 102, 36, 0.35);
+}
+
+html[data-tema="escuro"] .home-page-bg .product-card:hover {
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.48);
 }
