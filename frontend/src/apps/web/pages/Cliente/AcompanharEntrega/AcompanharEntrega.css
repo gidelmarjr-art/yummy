@@ -302,3 +302,15 @@
     font-size: 0.68rem;
   }
 }
+/* Tema escuro — Acompanhamento */
+html[data-tema="escuro"] .tracking-page-bg { background: #101114; color: #f6f7f9; }
+html[data-tema="escuro"] .tracking-page-bg h1, html[data-tema="escuro"] .tracking-page-bg h2, html[data-tema="escuro"] .tracking-item__title, html[data-tema="escuro"] .tracking-item__price, html[data-tema="escuro"] .tracking-detail__value { color: #f6f7f9; }
+html[data-tema="escuro"] .tracking-card, html[data-tema="escuro"] .tracking-stepper { background: #191b20; box-shadow: 0 12px 28px rgba(0,0,0,.3); }
+html[data-tema="escuro"] .tracking-code, html[data-tema="escuro"] .tracking-empty p, html[data-tema="escuro"] .tracking-item__qty, html[data-tema="escuro"] .tracking-detail__label, html[data-tema="escuro"] .tracking-step__label { color: #afb3bd; }
+html[data-tema="escuro"] .tracking-step__icon, html[data-tema="escuro"] .tracking-step__line { background: #292c33; color: #858a94; }
+html[data-tema="escuro"] .tracking-step.is-done .tracking-step__label { color: #f6f7f9; }
+html[data-tema="escuro"] .tracking-total-row { border-color: rgba(255,255,255,.12); }
+html[data-tema="escuro"] .tracking-confirm-modal { background: rgba(0,0,0,.72) !important; }
+html[data-tema="escuro"] .tracking-confirm-modal__content { background: #191b20 !important; }
+html[data-tema="escuro"] .tracking-confirm-modal__content h2 { color: #f6f7f9 !important; }
+html[data-tema="escuro"] .tracking-confirm-modal__content p { color: #afb3bd !important; }

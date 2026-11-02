@@ -300,6 +300,7 @@ export default function AcompanharEntrega() {
 
       {showConfirmModal && (
         <div
+          className="tracking-confirm-modal"
           style={{
             position: "fixed",
             top: 0,
@@ -315,6 +316,7 @@ export default function AcompanharEntrega() {
           }}
         >
           <div
+            className="tracking-confirm-modal__content"
             style={{
               background: "#ffffff",
               borderRadius: "20px",
@@ -393,3 +395,4 @@ export default function AcompanharEntrega() {
     </div>
   );
 }
+
