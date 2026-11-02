@@ -280,3 +280,8 @@
         padding: 0.55rem 1rem;
     }
 }
+/* Tema escuro — Histórico de pedidos */
+html[data-tema="escuro"] .meus-pedidos-item, html[data-tema="escuro"] .meus-pedidos-filtro { background: #191b20; border-color: rgba(255,255,255,.09); color: #f6f7f9; }
+html[data-tema="escuro"] .meus-pedidos-item strong, html[data-tema="escuro"] .meus-pedidos-item__total { color: #f6f7f9; }
+html[data-tema="escuro"] .meus-pedidos-item__resumo, html[data-tema="escuro"] .meus-pedidos-item__data, html[data-tema="escuro"] .meus-pedidos-filtro__count, html[data-tema="escuro"] .meus-pedidos-msg { color: #afb3bd; }
+html[data-tema="escuro"] .meus-pedidos-filtro.active { background: rgba(242,102,36,.16); color: #ff9a68; border-color: #f26624; }
