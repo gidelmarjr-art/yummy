@@ -203,3 +203,10 @@
   color: #666;
   margin-bottom: 1.5rem;
 }
+/* Tema escuro — Carrinho */
+html[data-tema="escuro"] .cart-page-bg { background: #101114; color: #f6f7f9; }
+html[data-tema="escuro"] .cart-section-card, html[data-tema="escuro"] .cart-total-card, html[data-tema="escuro"] .empty-cart-card { background: #191b20; border-color: rgba(255,255,255,.09); box-shadow: 0 12px 28px rgba(0,0,0,.3); }
+html[data-tema="escuro"] .cart-page-bg h1, html[data-tema="escuro"] .cart-page-bg h2, html[data-tema="escuro"] .cart-page-bg h3, html[data-tema="escuro"] .restaurant-summary-name, html[data-tema="escuro"] .summary-row { color: #f6f7f9; }
+html[data-tema="escuro"] .cart-page-bg p, html[data-tema="escuro"] .cart-page-bg span, html[data-tema="escuro"] .cart-page-bg label { color: #afb3bd; }
+html[data-tema="escuro"] .cart-input { background: #202229; border-color: rgba(255,255,255,.12); color: #f6f7f9; }
+html[data-tema="escuro"] .summary-divider { border-color: rgba(255,255,255,.12); }
