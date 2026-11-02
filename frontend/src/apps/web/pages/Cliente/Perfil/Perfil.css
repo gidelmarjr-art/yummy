@@ -532,3 +532,15 @@
     flex-direction: column; 
   } 
 }
+/* Tema escuro — Perfil do cliente */
+.profile-theme-toggle { margin-left: auto; width: 38px; height: 38px; border: 0; border-radius: 50%; display: grid; place-items: center; background: #fff1ea; color: #ef5b22; cursor: pointer; }
+.profile-theme-toggle:focus-visible, .profile-back:focus-visible, .profile-nav-link:focus-visible { outline: 2px solid #f26624; outline-offset: 3px; }
+html[data-tema="escuro"] .profile-page { background: #101114; color: #f6f7f9; }
+html[data-tema="escuro"] .profile-topbar, html[data-tema="escuro"] .profile-sidebar, html[data-tema="escuro"] .profile-title, html[data-tema="escuro"] .profile-welcome-card, html[data-tema="escuro"] .profile-summary-card, html[data-tema="escuro"] .profile-info-card, html[data-tema="escuro"] .profile-form-card, html[data-tema="escuro"] .profile-add-inline, html[data-tema="escuro"] .profile-list-card, html[data-tema="escuro"] .profile-empty { background: #191b20; border-color: rgba(255,255,255,.09); color: #f6f7f9; box-shadow: 0 12px 28px rgba(0,0,0,.28); }
+html[data-tema="escuro"] .profile-page h1, html[data-tema="escuro"] .profile-page h2, html[data-tema="escuro"] .profile-page h3, html[data-tema="escuro"] .profile-page strong { color: #f6f7f9; }
+html[data-tema="escuro"] .profile-page p, html[data-tema="escuro"] .profile-page small, html[data-tema="escuro"] .profile-page label, html[data-tema="escuro"] .profile-cart, html[data-tema="escuro"] .profile-nav-link { color: #afb3bd; }
+html[data-tema="escuro"] .profile-nav-link:hover, html[data-tema="escuro"] .profile-nav-link.is-active { background: rgba(242,102,36,.15); color: #ff9a68; }
+html[data-tema="escuro"] .profile-back, html[data-tema="escuro"] .profile-theme-toggle, html[data-tema="escuro"] .profile-icon-button { background: #282a31; color: #ff9a68; }
+html[data-tema="escuro"] .profile-form-card input, html[data-tema="escuro"] .profile-add-inline input { background: #202229; border-color: rgba(255,255,255,.12); color: #f6f7f9; }
+html[data-tema="escuro"] .profile-sidebar__heading { border-color: rgba(255,255,255,.1); }
+html[data-tema="escuro"] .profile-empty { border-color: rgba(255,255,255,.16); }
