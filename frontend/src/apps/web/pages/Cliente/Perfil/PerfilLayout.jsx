@@ -10,9 +10,11 @@ import {
   FaShoppingBag, 
   FaUser, 
   FaShoppingCart,
-  FaSignOutAlt 
-} from "react-icons/fa";
+  FaSignOutAlt,
+  FaMoon,
+  FaSun } from "react-icons/fa";
 import "./Perfil.css";
+import { useTheme } from "../../../../../context/ThemeContext";
 
 const NAVIGATION = [
   { label: "Visão geral", path: "/perfil", icon: <FaHome /> },
@@ -27,6 +29,7 @@ const NAVIGATION = [
 export default function PerfilLayout({ title, description, children }) {
   const location = useLocation(); 
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     // 1. Limpa os dados de sessão do usuário
@@ -44,6 +47,15 @@ export default function PerfilLayout({ title, description, children }) {
           <FaArrowLeft />
         </button>
         <Link to="/home" className="profile-brand">Yummy</Link>
+        <button
+          type="button"
+          className="profile-theme-toggle"
+          onClick={toggleTheme}
+          aria-label="Alternar entre tema claro e escuro"
+          title="Alternar tema"
+        >
+          {theme === "escuro" ? <FaSun /> : <FaMoon />}
+        </button>
         <Link to="/carrinho" className="profile-cart">
           <FaShoppingCart />
           <span>Carrinho</span>
@@ -95,3 +107,4 @@ export default function PerfilLayout({ title, description, children }) {
     </div>
   );
 }
+
