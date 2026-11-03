@@ -4,7 +4,7 @@ import {
   FaStar,
   FaHeart,
   FaRegHeart,
-  FaPlus,
+  FaCartPlus,
   FaPizzaSlice,
   FaHamburger,
   FaUtensils,
@@ -407,9 +407,9 @@ export default function Home() {
                     className="add-btn"
                     onClick={(e) => handleAddToCart(prod, e)}
                     disabled={prod.esgotado}
-                    aria-label="Adicionar item"
+                    aria-label="Adicionar item ao carrinho"
                   >
-                    <FaPlus />
+                    <FaCartPlus />
                   </button>
                 </div>
               </div>
