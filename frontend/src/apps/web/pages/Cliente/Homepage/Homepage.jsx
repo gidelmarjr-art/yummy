@@ -33,13 +33,30 @@ const RESTAURANT_AVATAR =
 // Quantos produtos de cada categoria aparecem na aba "Tudo" (destaques)
 const HIGHLIGHTS_PER_CATEGORY = 2;
 
+// 💡 Lista de itens que você deseja excluir/trocar dos "Mais pedidos".
+// Basta adicionar ou remover títulos aqui conforme necessário!
+const SELECTED_HIGHLIGHTS = [
+  "Bacon BBQ Gourmet",
+  "Calabresa Especial",
+  "Combinado Hot Roll (10 unid.)",
+  "Omelete de Ervas e Queijo Branco",
+  "Brigadeiro Gourmet Tradicional (4 unid.)",
+  "Milkshake de Ovomaltine (400ml)",
+  "Soda Italiana de Maçã Verde",
+  "Balde de Frango Crocante (Crispy Tenders)",
+];
+
 function getHighlights(products, categoryIds, count) {
   const highlights = [];
   categoryIds.forEach((categoryId) => {
-    const fromCategory = products.filter((p) => p.category === categoryId);
+    // Filtra os produtos da categoria ignorando os que estão na lista de rejeitados
+    const fromCategory = products.filter(
+      (p) =>
+        p.category === categoryId && !REJECTED_HIGHLIGHTS.includes(p.title),
+    );
     highlights.push(...fromCategory.slice(0, count));
   });
-  return highlights;
+  return products.filter((p) => SELECTED_HIGHLIGHTS.includes(p.title));
 }
 
 export default function Home() {
