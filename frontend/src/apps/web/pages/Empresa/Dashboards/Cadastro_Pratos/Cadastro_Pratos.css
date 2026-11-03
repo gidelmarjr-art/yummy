@@ -487,3 +487,32 @@
     height: 34px;
   }
 }
+
+/* ================================================================= *
+   CORREÇÃO DE SOBREPOSIÇÃO (Z-INDEX) DOS DROPDOWNS
+   ================================================================ */
+
+/* Permite que o conteúdo do card não corte os menus suspensos */
+.cp-card {
+  overflow: visible !important;
+}
+
+/* Garante que os grupos de input que contêm o dropdown fiquem visíveis por cima */
+.cp-input-group {
+  position: relative;
+  z-index: 1;
+}
+
+/* Quando o usuário clica/foca no campo de Categoria ou Status, ele ganha prioridade de camada */
+.cp-input-group:focus-within,
+.cp-input-group:hover {
+  z-index: 20 !important;
+}
+
+/* Garante que o menu suspenso (dropdown) fique sobre os cards de baixo */
+.dashboard-select-dropdown,
+.cp-input-group [class*="-dropdown"],
+.cp-input-group [class*="-menu"] {
+  z-index: 9999 !important;
+  position: absolute !important;
+}
