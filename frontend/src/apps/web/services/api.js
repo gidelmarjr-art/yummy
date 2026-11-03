@@ -134,6 +134,15 @@ export const logout = () => authFetch("/auth/logout", { method: "POST" });
 export const criarFuncionario = (dados) =>
   authFetch("/auth/funcionarios", { method: "POST", body: dados });
 
+// ---------- Perfil: favoritos ----------
+// O backend associa o favorito ao usuário do token. Portanto, o front só
+// envia o id do produto — nunca o id do usuário.
+export const getFavoritos = () => authFetch("/perfil/favoritos");
+export const favoritarProduto = (produtoId) =>
+  authFetch(`/perfil/favoritos/${produtoId}`, { method: "PUT" });
+export const desfavoritarProduto = (produtoId) =>
+  authFetch(`/perfil/favoritos/${produtoId}`, { method: "DELETE" });
+
 // ---------- Utilitários ----------
 export function formatTimeAgo(isoString) {
   const diffMs = Date.now() - new Date(isoString).getTime();
