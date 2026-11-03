@@ -714,3 +714,14 @@ html[data-tema="escuro"] .home-page-bg .full-menu-section {
 html[data-tema="escuro"] .home-page-bg .product-card:hover {
   box-shadow: 0 18px 38px rgba(0, 0, 0, 0.48);
 }
+
+/* Garante que o botão de adicionar fique com o fundo laranja mesmo no tema escuro */
+html[data-tema="escuro"] .home-page-bg .add-btn {
+  background-color: #f26624 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(242, 102, 36, 0.4);
+}
+
+html[data-tema="escuro"] .home-page-bg .add-btn:hover {
+  background-color: #d85312 !important;
+}
