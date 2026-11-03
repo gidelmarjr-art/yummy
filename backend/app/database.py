@@ -15,7 +15,11 @@ if SQLALCHEMY_DATABASE_URL:
     elif SQLALCHEMY_DATABASE_URL.startswith("postgresql://"):
         SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# pool_pre_ping testa a conexão antes de usar e pool_recycle renova conexões
+# antigas: no Supabase/Render (plano gratuito) as conexões ociosas são
+# derrubadas pelo servidor, e sem isso a primeira requisição depois de um
+# tempo parado falha com "connection closed unexpectedly".
+engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True, pool_recycle=300)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
