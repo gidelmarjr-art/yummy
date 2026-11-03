@@ -889,3 +889,8 @@ html[data-tema="escuro"] .status-concluidos {
   background: rgba(22, 163, 74, 0.2) !important;
   color: #86efac !important;
 }
+
+html[data-tema="escuro"] .status-cancelado {
+  background: rgba(220, 38, 38, 0.2) !important;
+  color: #fca5a5 !important;
+}
