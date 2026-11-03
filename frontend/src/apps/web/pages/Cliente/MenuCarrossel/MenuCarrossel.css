@@ -45,48 +45,49 @@
   display: none;
 }
 
+/* Setas sempre visíveis */
 .menu-carousel__arrow {
   position: absolute;
   top: 40%;
   transform: translateY(-50%);
   z-index: 5;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(4px);
   color: #333;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.25s ease, background 0.25s ease, transform 0.2s ease;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-}
-
-.menu-carousel__wrapper:hover .menu-carousel__arrow {
   opacity: 1;
+  /* Visível o tempo todo */
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 .menu-carousel__arrow:hover {
   background: #ffffff;
   transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 8px 20px rgba(242, 102, 36, 0.25);
 }
 
 .menu-carousel__arrow--left {
-  left: -14px;
+  left: -16px;
 }
 
 .menu-carousel__arrow--right {
-  right: -14px;
+  right: -16px;
 }
 
+/* Card ampliado */
 .menu-carousel-card {
   flex-shrink: 0;
-  width: 220px;
-  border-radius: 16px;
+  width: 260px;
+  /* Largura aumentada de 220px para 260px */
+  border-radius: 18px;
   overflow: hidden;
   background: #ffffff;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
@@ -102,7 +103,8 @@
 .menu-carousel-card__img {
   position: relative;
   width: 100%;
-  height: 165px;
+  height: 195px;
+  /* Altura da imagem aumentada de 165px para 195px */
   overflow: hidden;
 }
 
@@ -162,15 +164,13 @@
   color: #111;
 }
 
+/* Botão de adicionar padronizado com a rodinha laranja */
 .menu-carousel-card__add {
   width: 32px;
-  /* Padronizado com o tamanho de 32px do outro botão */
   height: 32px;
   border-radius: 50%;
   background: #f26624;
-  /* Fundo laranja padrão */
   color: #ffffff;
-  /* Ícone branco */
   border: none;
   display: flex;
   align-items: center;
@@ -235,8 +235,8 @@ html[data-tema="escuro"] .menu-carousel {
 
 html[data-tema="escuro"] .menu-carousel-card {
   background: #191b20;
-  border-color: rgba(255, 255, 255, .09);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, .3);
+  border-color: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
 }
 
 html[data-tema="escuro"] .menu-carousel-card__body,
@@ -252,39 +252,11 @@ html[data-tema="escuro"] .menu-carousel-card__tag {
 
 html[data-tema="escuro"] .menu-carousel__arrow {
   background: #202229;
-  border-color: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, 0.12);
   color: #ff9a68;
 }
 
-/* Tema escuro — Carrossel do cardápio */
-html[data-tema="escuro"] .menu-carousel {
-  color: #f6f7f9;
-}
-
-html[data-tema="escuro"] .menu-carousel-card {
-  background: #191b20;
-  border-color: rgba(255, 255, 255, .09);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, .3);
-}
-
-html[data-tema="escuro"] .menu-carousel-card__body,
-html[data-tema="escuro"] .menu-carousel__header,
-html[data-tema="escuro"] .menu-carousel-card__price {
-  color: #f6f7f9;
-}
-
-html[data-tema="escuro"] .menu-carousel__count,
-html[data-tema="escuro"] .menu-carousel-card__tag {
-  color: #afb3bd;
-}
-
-html[data-tema="escuro"] .menu-carousel__arrow {
-  background: #202229;
-  border-color: rgba(255, 255, 255, .12);
-  color: #ff9a68;
-}
-
-/* Garante o botão laranja perfeitamente visível no tema escuro */
+/* Botão laranja no tema escuro */
 html[data-tema="escuro"] .menu-carousel-card__add {
   background-color: #f26624 !important;
   color: #ffffff !important;
