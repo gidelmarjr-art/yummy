@@ -4,6 +4,7 @@ import {
   FaChevronRight,
   FaPlus,
   FaHeart,
+  FaCartPlus,
   FaRegHeart,
 } from "react-icons/fa";
 import "./MenuCarrossel.css";
@@ -90,7 +91,7 @@ export default function MenuCarousel({
                     onClick={(e) => onAdd(item, e)}
                     aria-label="Adicionar item"
                   >
-                    <FaPlus />
+                    <FaCartPlus />
                   </button>
                 </div>
               </div>
