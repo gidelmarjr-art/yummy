@@ -489,30 +489,83 @@
 }
 
 /* ================================================================= *
-   CORREÇÃO DE SOBREPOSIÇÃO (Z-INDEX) DOS DROPDOWNS
+   CORREÇÃO COMPLETA DE ROLAGEM PARA TODOS OS DROPDOWNS
    ================================================================ */
 
-/* Permite que o conteúdo do card não corte os menus suspensos */
+.dashboard-select-menu {
+  max-height: 240px !important;
+  /* Altura máxima ideal para não estourar a tela */
+  overflow-y: auto !important;
+  /* Habilita a rolagem interna automática */
+  overflow-x: hidden !important;
+}
+
+/* Estilização suave da barra de rolagem do menu suspenso */
+.dashboard-select-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard-select-menu::-webkit-scrollbar-thumb {
+  background: rgba(237, 91, 34, 0.4);
+  border-radius: 4px;
+}
+
+.dashboard-select-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Faz os dropdowns da parte inferior (como Status Inicial) abrirem para cima */
+.cp-form-grid .cp-input-group:last-child .dashboard-select-menu {
+  top: auto !important;
+  bottom: calc(100% + 6px) !important;
+  box-shadow: 0 -10px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Garante que o card e o grupo fiquem na camada superior */
 .cp-card {
   overflow: visible !important;
 }
 
-/* Garante que os grupos de input que contêm o dropdown fiquem visíveis por cima */
 .cp-input-group {
-  position: relative;
-  z-index: 1;
+  position: relative !important;
 }
 
-/* Quando o usuário clica/foca no campo de Categoria ou Status, ele ganha prioridade de camada */
-.cp-input-group:focus-within,
-.cp-input-group:hover {
-  z-index: 20 !important;
-}
-
-/* Garante que o menu suspenso (dropdown) fique sobre os cards de baixo */
-.dashboard-select-dropdown,
-.cp-input-group [class*="-dropdown"],
-.cp-input-group [class*="-menu"] {
+.cp-input-group:focus-within {
   z-index: 9999 !important;
+}
+
+/* ================================================================= *
+   CORREÇÃO DEFINITIVA DE SOBREPOSIÇÃO DA FICHA TÉCNICA
+   ================================================================ */
+
+/* 1. Libera o overflow em todos os containers principais do formulário */
+.cadastro-pratos-body-content,
+.cadastro-pratos-form-wrapper,
+.cp-card {
+  overflow: visible !important;
+}
+
+/* 2. Força o card da Ficha Técnica a ter uma prioridade alta de empilhamento */
+.cp-card:has(.cp-ficha-list) {
+  position: relative !important;
+  z-index: 500 !important;
+}
+
+/* 3. Eleva a linha e o menu do insumo para a camada máxima absoluta */
+.cp-ficha-row {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.cp-ficha-row:focus-within,
+.cp-ficha-row:hover,
+.cp-ficha-row:has(.dashboard-select.is-open) {
+  z-index: 999999 !important;
+}
+
+.cp-ficha-row .dashboard-select.is-open .dashboard-select-menu {
+  z-index: 1000000 !important;
   position: absolute !important;
+  max-height: 220px !important;
+  overflow-y: auto !important;
 }
