@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import {
   FaChevronLeft,
   FaChevronRight,
-  FaPlus,
   FaHeart,
   FaCartPlus,
   FaRegHeart,
