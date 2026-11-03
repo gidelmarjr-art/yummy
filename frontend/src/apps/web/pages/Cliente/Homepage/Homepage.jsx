@@ -46,16 +46,7 @@ const SELECTED_HIGHLIGHTS = [
   "Balde de Frango Crocante (Crispy Tenders)",
 ];
 
-function getHighlights(products, categoryIds, count) {
-  const highlights = [];
-  categoryIds.forEach((categoryId) => {
-    // Filtra os produtos da categoria ignorando os que estão na lista de rejeitados
-    const fromCategory = products.filter(
-      (p) =>
-        p.category === categoryId && !REJECTED_HIGHLIGHTS.includes(p.title),
-    );
-    highlights.push(...fromCategory.slice(0, count));
-  });
+function getHighlights(products) {
   return products.filter((p) => SELECTED_HIGHLIGHTS.includes(p.title));
 }
 
