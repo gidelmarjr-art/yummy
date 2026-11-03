@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Date, Integer, String
 from app.database import Base
 
 class Usuario(Base):
@@ -13,3 +13,4 @@ class Usuario(Base):
     telefone = Column(String, nullable=True)
     cpf = Column(String, nullable=True)
     endereco = Column(String, nullable=True)
+    data_nascimento = Column(Date, nullable=True)
