@@ -833,3 +833,59 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ================================================================= *
+   CORREÇÃO DE LEGIBILIDADE NO TEMA ESCURO — PEDIDOS
+   ================================================================ */
+
+html[data-tema="escuro"] .pedidos-page-layout .customer-name,
+html[data-tema="escuro"] .pedidos-page-layout .order-code,
+html[data-tema="escuro"] .pedidos-page-layout .order-total-price,
+html[data-tema="escuro"] .pedidos-page-layout .page-heading {
+  color: #f3f4f6 !important;
+}
+
+html[data-tema="escuro"] .pedidos-page-layout .order-summary,
+html[data-tema="escuro"] .pedidos-page-layout .order-time {
+  color: #9ca3af !important;
+}
+
+/* Ajuste de contraste para os cards e lista de itens no tema escuro */
+html[data-tema="escuro"] .pedidos-table-container,
+html[data-tema="escuro"] .novo-pedido-card-top,
+html[data-tema="escuro"] .pedidos-top-bar,
+html[data-tema="escuro"] .pedido-row-item {
+  background-color: var(--cartao, #17181c) !important;
+  border-color: var(--borda, rgba(255, 255, 255, 0.08)) !important;
+}
+
+html[data-tema="escuro"] .pedido-row-item:hover {
+  background-color: rgba(237, 91, 34, 0.08) !important;
+}
+
+/* Ajuste das pílulas/badges de status no tema escuro para excelente contraste */
+html[data-tema="escuro"] .status-novos {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #93c5fd !important;
+}
+
+html[data-tema="escuro"] .status-em-preparo {
+  background: rgba(249, 115, 22, 0.2) !important;
+  color: #fdba74 !important;
+}
+
+html[data-tema="escuro"] .status-prontos {
+  background: rgba(234, 179, 8, 0.2) !important;
+  color: #fde047 !important;
+}
+
+html[data-tema="escuro"] .status-entregues {
+  background: rgba(20, 184, 166, 0.2) !important;
+  color: #5eead4 !important;
+}
+
+html[data-tema="escuro"] .status-concluídos,
+html[data-tema="escuro"] .status-concluidos {
+  background: rgba(22, 163, 74, 0.2) !important;
+  color: #86efac !important;
+}
