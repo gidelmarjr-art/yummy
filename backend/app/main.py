@@ -17,6 +17,9 @@ import app.models.item_pedido  # noqa: F401
 import app.models.transacao  # noqa: F401
 import app.models.configuracao_loja  # noqa: F401
 import app.models.categoria  # noqa: F401
+import app.models.endereco  # noqa: F401
+import app.models.cartao_salvo  # noqa: F401
+import app.models.favorito  # noqa: F401
 
 from app.routers import (
     auth_router,
@@ -27,6 +30,7 @@ from app.routers import (
     estoque_router,
     geral_router,
     pedidos_router,
+    perfil_router,
     relatorios_router,
     seguranca_router,
     transacoes_router,
@@ -100,6 +104,7 @@ app.include_router(cardapio_router.router)
 app.include_router(categorias_router.router)
 app.include_router(estoque_router.router)
 app.include_router(pedidos_router.router)
+app.include_router(perfil_router.router)
 app.include_router(clientes_router.router)
 app.include_router(transacoes_router.router)
 app.include_router(relatorios_router.router)
