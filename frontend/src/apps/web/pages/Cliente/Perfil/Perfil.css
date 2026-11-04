@@ -109,6 +109,7 @@
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
   gap: 30px;
+  animation: profileFadeIn .45s cubic-bezier(.22, 1, .36, 1) both;
 }
 
 .profile-sidebar,
@@ -128,6 +129,7 @@
 .profile-sidebar {
   height: fit-content;
   padding: 20px 14px;
+  animation: profileRise .55s cubic-bezier(.22, 1, .36, 1) both;
 }
 
 .profile-sidebar__heading {
@@ -189,6 +191,46 @@
   flex-direction: column;
   gap: 20px;
   /* Garante afastamento uniforme entre os cards da área principal */
+}
+
+/* Entrada das abas: mesma cadência usada nos cards do dashboard. */
+.profile-content>* {
+  animation: profileRise .55s cubic-bezier(.22, 1, .36, 1) both;
+  animation-delay: calc(var(--profile-entry-index, 1) * 70ms);
+}
+
+.profile-content> :nth-child(1) {
+  --profile-entry-index: 1;
+}
+
+.profile-content> :nth-child(2) {
+  --profile-entry-index: 2;
+}
+
+.profile-content> :nth-child(3) {
+  --profile-entry-index: 3;
+}
+
+@keyframes profileFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes profileRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Título principal com padding adequado */
@@ -690,4 +732,14 @@ html[data-tema="escuro"] .profile-sidebar__heading {
 
 html[data-tema="escuro"] .profile-empty {
   border-color: rgba(255, 255, 255, .16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .profile-shell,
+  .profile-sidebar,
+  .profile-content>* {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
