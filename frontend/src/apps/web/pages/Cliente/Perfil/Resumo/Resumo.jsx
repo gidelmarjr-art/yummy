@@ -3,11 +3,29 @@ import { Link } from "react-router-dom";
 import { FaHeart, FaMapMarkerAlt, FaShoppingBag, FaUser } from "react-icons/fa";
 import PerfilLayout from "../PerfilLayout";
 import { getProfile } from "../profileStorage";
+import { getEnderecos, getFavoritos, getPerfil } from "../../../../services/api";
 
 export default function Resumo() {
   const [profile, setProfile] = useState(getProfile());
   useEffect(() => {
-    setProfile(getProfile());
+    let ativo = true;
+    Promise.all([getPerfil(), getEnderecos(), getFavoritos()])
+      .then(([perfil, enderecos, favoritos]) => {
+        if (!ativo) return;
+        setProfile((anterior) => ({
+          ...anterior,
+          name: perfil.nome_completo || anterior.name,
+          email: perfil.usuario || anterior.email,
+          phone: perfil.telefone || "",
+          birthDate: perfil.data_nascimento || "",
+          addresses: enderecos,
+          favorites: favoritos.map((favorito) => ({ id: favorito.produto_id })),
+        }));
+      })
+      .catch(() => {
+        // Mantém o cache local como alternativa visual em caso de falha temporária.
+      });
+    return () => { ativo = false; };
   }, []);
   const firstName = profile.name.trim().split(" ")[0] || "cliente";
   const cards = [
