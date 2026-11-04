@@ -134,6 +134,23 @@ export const logout = () => authFetch("/auth/logout", { method: "POST" });
 export const criarFuncionario = (dados) =>
   authFetch("/auth/funcionarios", { method: "POST", body: dados });
 
+// ---------- Perfil ----------
+export const getPerfil = () => authFetch("/perfil");
+export const atualizarPerfil = (dados) =>
+  authFetch("/perfil", { method: "PUT", body: dados });
+
+export const getEnderecos = () => authFetch("/perfil/enderecos");
+export const criarEndereco = (dados) =>
+  authFetch("/perfil/enderecos", { method: "POST", body: dados });
+export const excluirEndereco = (enderecoId) =>
+  authFetch(`/perfil/enderecos/${enderecoId}`, { method: "DELETE" });
+
+export const getCartoes = () => authFetch("/perfil/cartoes");
+export const criarCartao = (dados) =>
+  authFetch("/perfil/cartoes", { method: "POST", body: dados });
+export const excluirCartao = (cartaoId) =>
+  authFetch(`/perfil/cartoes/${cartaoId}`, { method: "DELETE" });
+
 // ---------- Perfil: favoritos ----------
 // O backend associa o favorito ao usuário do token. Portanto, o front só
 // envia o id do produto — nunca o id do usuário.
