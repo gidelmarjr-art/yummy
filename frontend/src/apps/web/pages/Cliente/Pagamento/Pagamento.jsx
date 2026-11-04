@@ -12,6 +12,7 @@ import {
   FaSpinner,
   FaCheck,
   FaMapMarkerAlt,
+  FaChevronDown,
   FaPlus,
   FaLock,
 } from "react-icons/fa";
@@ -44,6 +45,7 @@ const paraCartaoDaTela = (cartao) => ({
 
 export default function Pagamento() {
   const containerRef = useRef(null);
+  const addressMenuRef = useRef(null);
   const navigate = useNavigate();
 
   const { cartItems, clearCart } = useCart();
@@ -53,6 +55,7 @@ export default function Pagamento() {
   // Endereço e cartões vêm sempre do perfil salvo do usuário autenticado.
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
+  const [isAddressMenuOpen, setIsAddressMenuOpen] = useState(false);
 
   // Estados de Cartão de Crédito
   const [savedCards, setSavedCards] = useState([]);
@@ -114,6 +117,16 @@ export default function Pagamento() {
   }, []);
 
   useEffect(() => {
+    const fecharAoClicarFora = (event) => {
+      if (!addressMenuRef.current?.contains(event.target)) {
+        setIsAddressMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", fecharAoClicarFora);
+    return () => document.removeEventListener("mousedown", fecharAoClicarFora);
+  }, []);
+
+  useEffect(() => {
     let ativo = true;
     Promise.all([getEnderecos(), getCartoes()])
       .then(([enderecos, cartoes]) => {
@@ -127,10 +140,14 @@ export default function Pagamento() {
       })
       .catch((erro) => {
         if (!ativo) return;
-        setErrorMessage(erro.detail || "Não foi possível carregar os dados do perfil.");
+        setErrorMessage(
+          erro.detail || "Não foi possível carregar os dados do perfil.",
+        );
         setIsErrorModalOpen(true);
       });
-    return () => { ativo = false; };
+    return () => {
+      ativo = false;
+    };
   }, []);
 
   const handleCopyPix = () => {
@@ -170,7 +187,9 @@ export default function Pagamento() {
       return;
     }
     if (!selectedAddress) {
-      setErrorMessage("Cadastre e selecione um endereço no seu perfil antes de finalizar o pedido.");
+      setErrorMessage(
+        "Cadastre e selecione um endereço no seu perfil antes de finalizar o pedido.",
+      );
       setIsErrorModalOpen(true);
       return;
     }
@@ -296,24 +315,60 @@ export default function Pagamento() {
           <section className="payment-section">
             <h2 className="section-subtitle">ENDEREÇO DE ENTREGA</h2>
             {addresses.length ? (
-              <div className="address-row">
-                <FaMapMarkerAlt className="address-icon" />
-                <select
-                  className="address-input"
-                  value={selectedAddressId}
-                  onChange={(event) => setSelectedAddressId(event.target.value)}
+              <div className="address-picker" ref={addressMenuRef}>
+                <button
+                  type="button"
+                  className={`address-row ${isAddressMenuOpen ? "is-open" : ""}`}
+                  onClick={() => setIsAddressMenuOpen((aberto) => !aberto)}
+                  aria-expanded={isAddressMenuOpen}
+                  aria-haspopup="listbox"
                   aria-label="Selecione o endereço de entrega"
                 >
-                  {addresses.map((item) => (
-                    <option key={item.id} value={String(item.id)}>
-                      {item.apelido}: {formatarEndereco(item)}
-                    </option>
-                  ))}
-                </select>
+                  <FaMapMarkerAlt className="address-icon" />
+                  <span className="address-input">
+                    {selectedAddress?.apelido}: {address}
+                  </span>
+                  <FaChevronDown
+                    className="address-chevron"
+                    aria-hidden="true"
+                  />
+                </button>
+                {isAddressMenuOpen && (
+                  <div
+                    className="address-options"
+                    role="listbox"
+                    aria-label="Endereços salvos"
+                  >
+                    {addresses.map((item) => {
+                      const selecionado = String(item.id) === selectedAddressId;
+                      return (
+                        <button
+                          type="button"
+                          key={item.id}
+                          role="option"
+                          aria-selected={selecionado}
+                          className={`address-option ${selecionado ? "is-selected" : ""}`}
+                          onClick={() => {
+                            setSelectedAddressId(String(item.id));
+                            setIsAddressMenuOpen(false);
+                          }}
+                        >
+                          <span className="address-option__dot" />
+                          <span>
+                            <strong>{item.apelido}</strong>:{" "}
+                            {formatarEndereco(item)}
+                          </span>
+                          {selecionado && <FaCheck aria-label="Selecionado" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             ) : (
               <p className="profile-error">
-                Nenhum endereço salvo. Cadastre um endereço no perfil para finalizar o pedido.
+                Nenhum endereço salvo. Cadastre um endereço no perfil para
+                finalizar o pedido.
               </p>
             )}
           </section>
