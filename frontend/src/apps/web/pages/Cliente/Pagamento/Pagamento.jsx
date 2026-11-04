@@ -17,7 +17,12 @@ import {
 } from "react-icons/fa";
 import "./Pagamento.css";
 import { useCart } from "../../../../../context/CartContext";
-import { criarMeuPedido } from "../../../services/api";
+import {
+  criarCartao,
+  criarMeuPedido,
+  getCartoes,
+  getEnderecos,
+} from "../../../services/api";
 
 import logoMascote from "../../../../../imgs/LogoYummy_2.png";
 import logoNome from "../../../../../imgs/LogoYummy_3.png";
@@ -28,6 +33,15 @@ const FORMAS_PAGAMENTO = {
   cash: "Dinheiro",
 };
 
+const formatarEndereco = (endereco) =>
+  `${endereco.rua}, ${endereco.numero}${endereco.complemento ? ` — ${endereco.complemento}` : ""}, ${endereco.cidade}`;
+
+const paraCartaoDaTela = (cartao) => ({
+  id: String(cartao.id),
+  brand: cartao.bandeira || "Cartão",
+  last4: cartao.final,
+});
+
 export default function Pagamento() {
   const containerRef = useRef(null);
   const navigate = useNavigate();
@@ -36,17 +50,13 @@ export default function Pagamento() {
 
   const [selectedMethod, setSelectedMethod] = useState("credit");
 
-  // Estado do Endereço
-  const [address, setAddress] = useState("Setor Leste, Quadra 42, Lote 01");
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [tempAddress, setTempAddress] = useState(address);
+  // Endereço e cartões vêm sempre do perfil salvo do usuário autenticado.
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState("");
 
   // Estados de Cartão de Crédito
-  const [savedCards, setSavedCards] = useState([
-    { id: "1", brand: "Mastercard", last4: "4321", name: "João Silva" },
-    { id: "2", brand: "Visa", last4: "8899", name: "João Silva" },
-  ]);
-  const [selectedCardId, setSelectedCardId] = useState("1");
+  const [savedCards, setSavedCards] = useState([]);
+  const [selectedCardId, setSelectedCardId] = useState("");
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const [newCard, setNewCard] = useState({
     number: "",
@@ -69,6 +79,11 @@ export default function Pagamento() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [confirmedOrder, setConfirmedOrder] = useState(null);
+
+  const selectedAddress = addresses.find(
+    (item) => String(item.id) === selectedAddressId,
+  );
+  const address = selectedAddress ? formatarEndereco(selectedAddress) : "";
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
@@ -98,13 +113,25 @@ export default function Pagamento() {
     return () => ctx.revert();
   }, []);
 
-  const handleSaveAddress = (e) => {
-    e.preventDefault();
-    if (tempAddress.trim()) {
-      setAddress(tempAddress);
-      setIsEditingAddress(false);
-    }
-  };
+  useEffect(() => {
+    let ativo = true;
+    Promise.all([getEnderecos(), getCartoes()])
+      .then(([enderecos, cartoes]) => {
+        if (!ativo) return;
+        setAddresses(enderecos);
+        if (enderecos.length) setSelectedAddressId(String(enderecos[0].id));
+
+        const cartoesDaTela = cartoes.map(paraCartaoDaTela);
+        setSavedCards(cartoesDaTela);
+        if (cartoesDaTela.length) setSelectedCardId(cartoesDaTela[0].id);
+      })
+      .catch((erro) => {
+        if (!ativo) return;
+        setErrorMessage(erro.detail || "Não foi possível carregar os dados do perfil.");
+        setIsErrorModalOpen(true);
+      });
+    return () => { ativo = false; };
+  }, []);
 
   const handleCopyPix = () => {
     const dummyPixKey =
@@ -114,7 +141,7 @@ export default function Pagamento() {
     setTimeout(() => setPixCopied(false), 2500);
   };
 
-  const handleAddNewCard = (e) => {
+  const handleAddNewCard = async (e) => {
     e.preventDefault();
     if (!newCard.number || !newCard.name || !newCard.expiry || !newCard.cvv) {
       setErrorMessage("Por favor, preencha todos os campos do cartão.");
@@ -123,22 +150,27 @@ export default function Pagamento() {
     }
 
     const last4 = newCard.number.replace(/\s/g, "").slice(-4) || "0000";
-    const createdCard = {
-      id: Date.now().toString(),
-      brand: "Cartão",
-      last4,
-      name: newCard.name,
-    };
-
-    setSavedCards([...savedCards, createdCard]);
-    setSelectedCardId(createdCard.id);
-    setShowAddCardForm(false);
-    setNewCard({ number: "", name: "", expiry: "", cvv: "" });
+    try {
+      const criado = await criarCartao({ final: last4, bandeira: "Cartão" });
+      const createdCard = paraCartaoDaTela(criado);
+      setSavedCards((atuais) => [...atuais, createdCard]);
+      setSelectedCardId(createdCard.id);
+      setShowAddCardForm(false);
+      setNewCard({ number: "", name: "", expiry: "", cvv: "" });
+    } catch (err) {
+      setErrorMessage(err.detail || "Não foi possível salvar o cartão.");
+      setIsErrorModalOpen(true);
+    }
   };
 
   const handleConfirmPayment = async () => {
     if (cartItems.length === 0) {
       setErrorMessage("Seu carrinho está vazio!");
+      setIsErrorModalOpen(true);
+      return;
+    }
+    if (!selectedAddress) {
+      setErrorMessage("Cadastre e selecione um endereço no seu perfil antes de finalizar o pedido.");
       setIsErrorModalOpen(true);
       return;
     }
@@ -263,41 +295,26 @@ export default function Pagamento() {
           {/* Endereço de Entrega */}
           <section className="payment-section">
             <h2 className="section-subtitle">ENDEREÇO DE ENTREGA</h2>
-            {!isEditingAddress ? (
+            {addresses.length ? (
               <div className="address-row">
-                <span className="address-text">
-                  <FaMapMarkerAlt className="address-icon" /> {address}
-                </span>
-                <button
-                  className="btn-change-address"
-                  onClick={() => setIsEditingAddress(true)}
+                <FaMapMarkerAlt className="address-icon" />
+                <select
+                  className="address-input"
+                  value={selectedAddressId}
+                  onChange={(event) => setSelectedAddressId(event.target.value)}
+                  aria-label="Selecione o endereço de entrega"
                 >
-                  Alterar
-                </button>
+                  {addresses.map((item) => (
+                    <option key={item.id} value={String(item.id)}>
+                      {item.apelido}: {formatarEndereco(item)}
+                    </option>
+                  ))}
+                </select>
               </div>
             ) : (
-              <form onSubmit={handleSaveAddress} className="address-edit-form">
-                <input
-                  type="text"
-                  value={tempAddress}
-                  onChange={(e) => setTempAddress(e.target.value)}
-                  className="address-input"
-                  placeholder="Digite seu endereço completo"
-                  autoFocus
-                />
-                <div className="address-form-actions">
-                  <button type="submit" className="btn-save-addr">
-                    Salvar
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-cancel-addr"
-                    onClick={() => setIsEditingAddress(false)}
-                  >
-                    Cancelar
-                  </button>
-                </div>
-              </form>
+              <p className="profile-error">
+                Nenhum endereço salvo. Cadastre um endereço no perfil para finalizar o pedido.
+              </p>
             )}
           </section>
 
