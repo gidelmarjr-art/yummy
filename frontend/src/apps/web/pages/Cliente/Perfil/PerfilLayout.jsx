@@ -1,20 +1,22 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { 
-  FaArrowLeft, 
-  FaCreditCard, 
-  FaHeart, 
-  FaHome, 
-  FaLock, 
-  FaMapMarkerAlt, 
-  FaShoppingBag, 
-  FaUser, 
+import {
+  FaArrowLeft,
+  FaCreditCard,
+  FaHeart,
+  FaHome,
+  FaLock,
+  FaMapMarkerAlt,
+  FaShoppingBag,
+  FaUser,
   FaShoppingCart,
   FaSignOutAlt,
   FaMoon,
-  FaSun } from "react-icons/fa";
+  FaSun,
+} from "react-icons/fa";
 import "./Perfil.css";
 import { useTheme } from "../../../../../context/ThemeContext";
+import { useCart } from "../../../../../context/CartContext";
 
 const NAVIGATION = [
   { label: "Visão geral", path: "/perfil", icon: <FaHome /> },
@@ -27,9 +29,10 @@ const NAVIGATION = [
 ];
 
 export default function PerfilLayout({ title, description, children }) {
-  const location = useLocation(); 
+  const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const { totalItemsCount } = useCart();
 
   const handleLogout = () => {
     // 1. Limpa os dados de sessão do usuário
@@ -43,40 +46,57 @@ export default function PerfilLayout({ title, description, children }) {
   return (
     <div className="profile-page">
       <header className="profile-topbar">
-        <button className="profile-back" onClick={() => navigate("/home")} aria-label="Voltar ao cardápio">
+        <button
+          className="profile-back"
+          onClick={() => navigate("/home")}
+          aria-label="Voltar ao cardápio"
+        >
           <FaArrowLeft />
         </button>
-        <Link to="/home" className="profile-brand">Yummy</Link>
-        <button
-          type="button"
-          className="profile-theme-toggle"
-          onClick={toggleTheme}
-          aria-label="Alternar entre tema claro e escuro"
-          title="Alternar tema"
-        >
-          {theme === "escuro" ? <FaSun /> : <FaMoon />}
-        </button>
-        <Link to="/carrinho" className="profile-cart">
-          <FaShoppingCart />
-          <span>Carrinho</span>
+        <Link to="/home" className="profile-brand">
+          Yummy
         </Link>
+        <div className="profile-topbar-actions">
+          <button
+            type="button"
+            className="profile-theme-toggle"
+            onClick={toggleTheme}
+            aria-label="Alternar entre tema claro e escuro"
+            title="Alternar tema"
+          >
+            {theme === "escuro" ? <FaSun /> : <FaMoon />}
+          </button>
+          <Link
+            to="/carrinho"
+            className="profile-cart"
+            aria-label="Abrir carrinho"
+          >
+            <FaShoppingCart />
+            <span>Carrinho</span>
+            {totalItemsCount > 0 && (
+              <span className="profile-cart-badge">{totalItemsCount}</span>
+            )}
+          </Link>
+        </div>
       </header>
 
       <main className="profile-shell">
         <aside className="profile-sidebar">
           <div className="profile-sidebar__heading">
-            <span className="profile-sidebar__avatar"><FaUser /></span>
+            <span className="profile-sidebar__avatar">
+              <FaUser />
+            </span>
             <div>
               <strong>Minha conta</strong>
               <small>Gerencie seu perfil</small>
             </div>
           </div>
-          
+
           <nav aria-label="Navegação do perfil">
             {NAVIGATION.map((item) => (
-              <Link 
-                key={item.path} 
-                to={item.path} 
+              <Link
+                key={item.path}
+                to={item.path}
                 className={`profile-nav-link ${location.pathname === item.path ? "is-active" : ""}`}
               >
                 {item.icon}
@@ -85,9 +105,9 @@ export default function PerfilLayout({ title, description, children }) {
             ))}
 
             {/* Botão Sair com mesma classe e animação de hover */}
-            <button 
-              type="button" 
-              onClick={handleLogout} 
+            <button
+              type="button"
+              onClick={handleLogout}
               className="profile-nav-link profile-nav-logout"
             >
               <FaSignOutAlt />
@@ -107,4 +127,3 @@ export default function PerfilLayout({ title, description, children }) {
     </div>
   );
 }
-
