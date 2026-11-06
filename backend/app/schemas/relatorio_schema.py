@@ -26,10 +26,16 @@ class AlertaEstoque(BaseModel):
     status: str
 
 
+class VendaSemanal(BaseModel):
+    dia: str
+    valor: float
+
+
 class GeralDashboard(BaseModel):
     metrics: MetricasGerais
     recentOrders: List[PedidoRecente]
     stockAlerts: List[AlertaEstoque]
+    weeklySales: List[VendaSemanal]
 
 
 # ---------- Relatórios ----------
