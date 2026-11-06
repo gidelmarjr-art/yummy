@@ -83,7 +83,7 @@ function App() {
               <Route path="/estoque" element={<Estoque />} />
               <Route path="/seguranca" element={<Seguranca />} />
               <Route path="/clientes" element={<Clientes />} />
-              <Route path="/dashboard" element={<Geral />} />
+              <Route path="/geral" element={<Geral />} />
               <Route path="/configuracoes" element={<Configuracoes />} />
               <Route path="/cadastro-pratos" element={<CadastroPratos />} />
               <Route path="/perfil-loja" element={<PerfilLoja />} />
