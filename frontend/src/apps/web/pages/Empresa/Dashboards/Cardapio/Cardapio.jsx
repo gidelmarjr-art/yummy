@@ -7,6 +7,7 @@ import {
   FaBan,
   FaTrashAlt,
   FaTimes,
+  FaExclamationTriangle,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
@@ -53,6 +54,11 @@ export default function GestaoCardapio() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [salvando, setSalvando] = useState(false);
+
+  // Estado para o Modal de Confirmação de Exclusão (estilo similar ao cancelar pedido)
+  const [itemParaExcluir, setItemParaExcluir] = useState(null);
+  const [loadingExclusao, setLoadingExclusao] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     category: "Pratos principais",
@@ -123,14 +129,17 @@ export default function GestaoCardapio() {
     }
   };
 
-  const handleDeleteItem = async (id) => {
-    if (!window.confirm("Deseja realmente remover este item do cardápio?"))
-      return;
+  const confirmarExclusaoItem = async () => {
+    if (!itemParaExcluir) return;
+    setLoadingExclusao(true);
     try {
-      await excluirProduto(id);
-      setItems((prev) => prev.filter((item) => item.id !== id));
+      await excluirProduto(itemParaExcluir);
+      setItems((prev) => prev.filter((item) => item.id !== itemParaExcluir));
+      setItemParaExcluir(null);
     } catch (err) {
       alert(err.detail || "Não foi possível excluir o item.");
+    } finally {
+      setLoadingExclusao(false);
     }
   };
 
@@ -350,10 +359,10 @@ export default function GestaoCardapio() {
                       </button>
                       <button
                         className="btn-delete-single"
-                        onClick={() => handleDeleteItem(item.id)}
+                        onClick={() => setItemParaExcluir(item.id)}
                         title="Excluir item"
                       >
-                        <FaTimes />
+                        <FaTrashAlt />
                       </button>
                     </div>
                   </div>
@@ -398,6 +407,7 @@ export default function GestaoCardapio() {
         </div>
       </main>
 
+      {/* Modal de Adicionar/Editar Item */}
       {isModalOpen && (
         <div className="cardapio-modal-overlay">
           <div className="cardapio-modal-card">
@@ -529,6 +539,84 @@ export default function GestaoCardapio() {
           </div>
         </div>
       )}
+
+      {/* Pop-up de Confirmação de Exclusão de Item */}
+      {itemParaExcluir && (
+        <div className="cardapio-modal-overlay">
+          <div
+            className="cardapio-modal-card"
+            style={{ maxWidth: "400px", textAlign: "center", padding: "2rem" }}
+          >
+            <div
+              style={{
+                fontSize: "2.5rem",
+                color: "#ef4444",
+                marginBottom: "0.5rem",
+              }}
+            >
+              <FaExclamationTriangle />
+            </div>
+            <h2
+              style={{
+                marginBottom: "0.8rem",
+                color: "var(--texto, #0f172a)",
+                fontSize: "1.2rem",
+                fontWeight: "800",
+              }}
+            >
+              Excluir Item do Cardápio?
+            </h2>
+            <p
+              style={{
+                color: "var(--apoio, #64748b)",
+                fontSize: "0.9rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              Tem certeza que deseja remover permanentemente este item do
+              cardápio?
+            </p>
+            <div style={{ display: "flex", gap: "0.8rem" }}>
+              <button
+                type="button"
+                onClick={confirmarExclusaoItem}
+                disabled={loadingExclusao}
+                style={{
+                  flex: 1,
+                  backgroundColor: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  padding: "0.75rem",
+                  borderRadius: "12px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                }}
+              >
+                {loadingExclusao ? "Excluindo..." : "Sim, Excluir"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setItemParaExcluir(null)}
+                disabled={loadingExclusao}
+                style={{
+                  flex: 1,
+                  backgroundColor: "var(--fundo, #f1f5f9)",
+                  color: "var(--texto, #475569)",
+                  border: "1px solid var(--borda, #cbd5e1)",
+                  padding: "0.75rem",
+                  borderRadius: "12px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                }}
+              >
+                Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Gerenciamento de Categorias */}
       {showCategories && (
         <div className="cardapio-modal-overlay">
           <div className="cardapio-modal-card">

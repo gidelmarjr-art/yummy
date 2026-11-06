@@ -1,6 +1,12 @@
 /* Cardapio.css - Gestão de Cardápio com Animações e Estrutura Central */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .cardapio-page-layout {
   display: flex;
   min-height: 100vh;
@@ -421,18 +427,27 @@
   background-color: #ff7a45;
 }
 
+/* Botão de Exclusão (Lixeira com padrão unificado) */
 .btn-delete-single {
-  background: none;
-  border: none;
-  color: var(--apoio, #94a3b8);
+  background-color: #fee2e2;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   cursor: pointer;
-  padding: 0.4rem;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .btn-delete-single:hover {
-  color: #dc2626;
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
 }
 
 .empty-table-message {
@@ -504,7 +519,7 @@
 .cardapio-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.6);
+  background-color: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -779,4 +794,36 @@
     width: 34px;
     height: 34px;
   }
+}
+
+/* ================================================================= *
+   SUPORTE AO TEMA ESCURO — CARDÁPIO E MODAIS
+   ================================================================ */
+
+html[data-tema="escuro"] .cardapio-table-container,
+html[data-tema="escuro"] .cardapio-top-bar,
+html[data-tema="escuro"] .cardapio-modal-card,
+html[data-tema="escuro"] .menu-item-row {
+  background-color: var(--cartao, #17181c) !important;
+  border-color: var(--borda, rgba(255, 255, 255, 0.08)) !important;
+}
+
+html[data-tema="escuro"] .menu-item-row:hover {
+  background-color: rgba(237, 91, 34, 0.08) !important;
+}
+
+html[data-tema="escuro"] .cardapio-modal-overlay {
+  background: rgba(5, 7, 10, 0.8) !important;
+  backdrop-filter: blur(6px);
+}
+
+html[data-tema="escuro"] .item-title,
+html[data-tema="escuro"] .item-code,
+html[data-tema="escuro"] .item-cost,
+html[data-tema="escuro"] .modal-header h2 {
+  color: #f3f4f6 !important;
+}
+
+html[data-tema="escuro"] .item-desc {
+  color: #9ca3af !important;
 }
