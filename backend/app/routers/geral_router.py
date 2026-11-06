@@ -10,11 +10,11 @@ from app.models.pedido import Pedido
 from app.models.usuario import Usuario
 from app.schemas.relatorio_schema import GeralDashboard
 from app.security.dependencies import require_gerencia
-from app.services.estoque_service import insumo_para_dict
 
 router = APIRouter(prefix="/geral", tags=["Geral"])
 
 STATUS_ATIVOS = ["Novos", "Em preparo", "Prontos", "Entregues"]
+DIAS_SEMANA = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
 
 
 def _moeda(valor: float) -> str:
@@ -24,12 +24,29 @@ def _moeda(valor: float) -> str:
 @router.get("", response_model=GeralDashboard)
 def obter_dashboard_geral(db: Session = Depends(get_db), _u=Depends(require_gerencia)):
     inicio_do_dia = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    # Inclui hoje e os seis dias anteriores. O gráfico considera somente
+    # pedidos concluídos, para que represente faturamento, não pedidos abertos.
+    inicio_da_semana = inicio_do_dia - timedelta(days=6)
 
     faturamento_hoje = (
         db.query(func.coalesce(func.sum(Pedido.total), 0))
         .filter(Pedido.status == "Concluídos", Pedido.atualizado_em >= inicio_do_dia)
         .scalar()
     )
+
+    vendas_por_dia = {inicio_da_semana.date() + timedelta(days=i): 0.0 for i in range(7)}
+    vendas_semanais = (
+        db.query(Pedido.atualizado_em, Pedido.total)
+        .filter(
+            Pedido.status == "Concluídos",
+            Pedido.atualizado_em >= inicio_da_semana,
+        )
+        .all()
+    )
+    for data_conclusao, total in vendas_semanais:
+        dia = data_conclusao.date()
+        if dia in vendas_por_dia:
+            vendas_por_dia[dia] += float(total or 0)
 
     pedidos_ativos = db.query(func.count(Pedido.id)).filter(Pedido.status.in_(STATUS_ATIVOS)).scalar()
 
@@ -70,5 +87,12 @@ def obter_dashboard_geral(db: Session = Depends(get_db), _u=Depends(require_gere
                 "status": i.calcular_status(),
             }
             for i in sorted(alertas, key=lambda x: float(x.quantidade))[:5]
+        ],
+        "weeklySales": [
+            {
+                "dia": DIAS_SEMANA[dia.weekday()],
+                "valor": round(vendas_por_dia[dia], 2),
+            }
+            for dia in vendas_por_dia
         ],
     }
