@@ -89,7 +89,7 @@ export default function TopHeader({ title = "Dashboard Geral" }) {
         titulo: `Estoque ${insumo.status}: ${insumo.name}`,
         desc: `Disponível: ${insumo.qty}. Verifique a reposição.`,
         tempo: "Estoque atual",
-        destino: "/operacionais",
+        destino: "/estoque",
       }));
       const pedidosNovos = (geral.recentOrders || [])
         .filter((pedido) => pedido.status === "Novos")
