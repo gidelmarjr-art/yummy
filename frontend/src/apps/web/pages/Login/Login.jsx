@@ -76,7 +76,7 @@ export default function Login() {
 
       const perfisEquipe = ["gerente", "admin", "cozinha", "caixa", "garcom"];
       if (perfisEquipe.includes(data.perfil)) {
-        navigate("/dashboard");
+        navigate("/geral");
       } else {
         navigate("/home");
       }
@@ -162,9 +162,8 @@ export default function Login() {
           </h1>
 
           <p className="login-page__sub">
-            Entre com sua conta Yummy para acompanhar cada pedido em tempo
-            real, do primeiro toque no cardápio até a sua mesa — ou a sua
-            porta.
+            Entre com sua conta Yummy para acompanhar cada pedido em tempo real,
+            do primeiro toque no cardápio até a sua mesa — ou a sua porta.
           </p>
 
           <div className="login-page__benefits">
