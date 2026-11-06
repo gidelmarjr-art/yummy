@@ -194,7 +194,6 @@ html[data-tema="escuro"] {
   position: relative;
   width: 100%;
   flex: 1;
-  /* ocupa toda a altura que sobrar no card */
   min-height: 0;
 }
 
@@ -206,7 +205,6 @@ html[data-tema="escuro"] {
   min-width: 0;
 }
 
-/* Área do desenho: cresce com o card; o SVG preenche ela por inteiro */
 .svg-plot {
   position: relative;
   flex: 1;
@@ -255,7 +253,7 @@ html[data-tema="escuro"] {
 }
 
 .points-chart-node {
-  fill: #ffffff !important;
+  fill: var(--cartao) !important;
   stroke: var(--laranja) !important;
   stroke-width: 3;
   transition: transform 0.2s var(--mola), r 0.2s var(--mola);
@@ -286,11 +284,12 @@ html[data-tema="escuro"] {
   font-weight: 700;
 }
 
+/* Tooltip com suporte garantido ao tema escuro/claro */
 .chart-tooltip-floating {
   position: absolute;
-  transform: translate(-50%, -120%);
-  background-color: var(--circulo-ativo);
-  color: #ffffff;
+  transform: translate(-50%, -125%);
+  background-color: var(--texto);
+  color: var(--fundo);
   padding: 6px 12px;
   border-radius: 8px;
   display: flex;
@@ -298,13 +297,14 @@ html[data-tema="escuro"] {
   align-items: center;
   font-size: 0.75rem;
   pointer-events: none;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
   z-index: 20;
   white-space: nowrap;
+  font-weight: 600;
 }
 
 /* ==========================================================================
-   SEÇÃO INFERIOR: ÚLTIMOS PEDIDOS (LARGURA TOTAL 100%)
+   SEÇÃO INFERIOR: ÚLTIMOS PEDIDOS
    ========================================================================== */
 .full-width-orders-card {
   width: 100% !important;
@@ -325,9 +325,14 @@ html[data-tema="escuro"] {
   align-items: center;
   padding: 0.9rem 1.1rem;
   border-radius: 14px;
-  background-color: #f8fafc !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
   border: 1px solid var(--borda);
   gap: 1rem;
+}
+
+html[data-tema="escuro"] .recent-order-item,
+html[data-tema="escuro"] .stock-alert-item {
+  background-color: rgba(255, 255, 255, 0.02) !important;
 }
 
 .order-info-group {
