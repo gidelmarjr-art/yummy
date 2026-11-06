@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FaUtensils, FaPlus, FaTrashAlt, FaSave } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
+import { FaUtensils, FaPlus, FaTrashAlt, FaSave, FaImage, FaTimes } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
 import DashboardSelect from "../components/DashboardSelect";
@@ -12,7 +12,12 @@ import {
 import "../dashboards-shared.css";
 import "./Cadastro_Pratos.css";
 
+const TIPOS_DE_IMAGEM_ACEITOS = new Set(["image/png", "image/jpeg"]);
+const EXTENSOES_DE_IMAGEM_ACEITAS = /\.(png|jpe?g)$/i;
+const TAMANHO_MAXIMO_IMAGEM = 5 * 1024 * 1024;
+
 export default function CadastroPratos() {
+  const imageInputRef = useRef(null);
   const [dados, setDados] = useState({
     nome: "",
     categoria: "",
@@ -90,6 +95,50 @@ export default function CadastroPratos() {
   const insumoUnidade = (insumoId) =>
     insumos.find((i) => i.id === Number(insumoId))?.unidade || "";
 
+  const removerImagem = () => {
+    setDados((atual) => ({ ...atual, imagem_url: "" }));
+    if (imageInputRef.current) imageInputRef.current.value = "";
+  };
+
+  const handleImagemSelecionada = (event) => {
+    const arquivo = event.target.files?.[0];
+    if (!arquivo) return;
+
+    const tipoValido = TIPOS_DE_IMAGEM_ACEITOS.has(arquivo.type);
+    const extensaoValida = EXTENSOES_DE_IMAGEM_ACEITAS.test(arquivo.name);
+    if (!tipoValido || !extensaoValida) {
+      setMensagem({
+        tipo: "erro",
+        texto: "Selecione uma imagem PNG, JPG ou JPEG.",
+      });
+      event.target.value = "";
+      return;
+    }
+
+    if (arquivo.size > TAMANHO_MAXIMO_IMAGEM) {
+      setMensagem({
+        tipo: "erro",
+        texto: "A imagem deve ter no máximo 5 MB.",
+      });
+      event.target.value = "";
+      return;
+    }
+
+    const leitor = new FileReader();
+    leitor.onload = () => {
+      setDados((atual) => ({ ...atual, imagem_url: leitor.result }));
+      setMensagem(null);
+    };
+    leitor.onerror = () => {
+      setMensagem({
+        tipo: "erro",
+        texto: "Não foi possível ler a imagem selecionada.",
+      });
+      event.target.value = "";
+    };
+    leitor.readAsDataURL(arquivo);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensagem(null);
@@ -147,6 +196,7 @@ export default function CadastroPratos() {
         imagem_url: "",
         descricao: "",
       });
+      if (imageInputRef.current) imageInputRef.current.value = "";
       setFichaTecnica([{ insumo_id: "", quantidade_necessaria: "" }]);
       carregarRecentes();
     } catch (err) {
@@ -217,6 +267,43 @@ export default function CadastroPratos() {
                     }))}
                     placeholder="Selecione uma categoria"
                   />
+                </div>
+
+                <div className="cp-input-group full-width">
+                  <label>Imagem do prato (opcional)</label>
+                  <div className="cp-image-upload">
+                    <input
+                      ref={imageInputRef}
+                      id="imagem-do-prato"
+                      className="cp-image-upload__input"
+                      type="file"
+                      accept="image/png,image/jpeg,.png,.jpg,.jpeg"
+                      onChange={handleImagemSelecionada}
+                    />
+                    {dados.imagem_url ? (
+                      <div className="cp-image-upload__preview">
+                        <img src={dados.imagem_url} alt="Prévia do prato" />
+                        <div>
+                          <strong>Imagem selecionada</strong>
+                          <span>PNG, JPG ou JPEG · até 5 MB</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="cp-image-upload__remove"
+                          onClick={removerImagem}
+                          aria-label="Remover imagem selecionada"
+                          title="Remover imagem"
+                        >
+                          <FaTimes />
+                        </button>
+                      </div>
+                    ) : (
+                      <label htmlFor="imagem-do-prato" className="cp-image-upload__trigger">
+                        <FaImage />
+                        <span><strong>Selecionar arquivo</strong><small>PNG, JPG ou JPEG · máximo de 5 MB</small></span>
+                      </label>
+                    )}
+                  </div>
                 </div>
 
                 <div className="cp-input-group full-width">

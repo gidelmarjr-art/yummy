@@ -201,6 +201,109 @@
   box-shadow: 0 0 0 3px rgba(237, 91, 34, 0.15);
 }
 
+/* Upload de imagem do prato */
+.cp-image-upload__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.cp-image-upload__trigger,
+.cp-image-upload__preview {
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 1px dashed #fdba74;
+  border-radius: 12px;
+  background: #fffaf7;
+}
+
+.cp-image-upload__trigger {
+  color: var(--laranja, #ed5b22);
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, transform .2s ease;
+}
+
+.cp-image-upload__trigger:hover {
+  border-color: var(--laranja, #ed5b22);
+  background: #fff4ee;
+}
+
+.cp-image-upload__trigger:active { transform: scale(.99); }
+
+.cp-image-upload__trigger > svg {
+  flex: 0 0 auto;
+  font-size: 1.4rem;
+}
+
+.cp-image-upload__trigger span,
+.cp-image-upload__preview div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.cp-image-upload__trigger strong,
+.cp-image-upload__preview strong {
+  color: var(--texto, #1e293b);
+  font-size: .88rem;
+}
+
+.cp-image-upload__trigger small,
+.cp-image-upload__preview span {
+  color: var(--apoio, #64748b);
+  font-size: .78rem;
+  font-weight: 500;
+}
+
+.cp-image-upload__preview {
+  border-style: solid;
+  border-color: var(--borda, #e2e8f0);
+  background: var(--fundo, #f8fafc);
+}
+
+.cp-image-upload__preview img {
+  width: 62px;
+  height: 62px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border-radius: 9px;
+  background: #ffffff;
+}
+
+.cp-image-upload__remove {
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid #fecaca;
+  border-radius: 9px;
+  background: #fef2f2;
+  color: #dc2626;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, transform .18s ease;
+}
+
+.cp-image-upload__remove:hover {
+  border-color: #fca5a5;
+  background: #fee2e2;
+}
+
+.cp-image-upload__remove:focus-visible,
+.cp-image-upload__trigger:focus-within {
+  outline: 2px solid var(--laranja, #ed5b22);
+  outline-offset: 3px;
+}
+
 /* Ficha Técnica */
 .cp-ficha-list {
   display: flex;
