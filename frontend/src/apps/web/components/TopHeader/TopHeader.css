@@ -161,11 +161,19 @@
 }
 
 .notification-item {
+  appearance: none;
+  width: 100%;
+  background: transparent;
+  border: 0;
   display: flex;
+  align-items: flex-start;
   gap: 0.8rem;
   padding: 0.85rem 1.2rem;
   border-bottom: 1px solid var(--borda, #f1f5f9);
   transition: background-color 0.2s;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
 }
 
 .notification-item:hover {
@@ -178,6 +186,15 @@
 
 .notification-item.sucesso .notif-icon {
   color: #16a34a;
+}
+
+.notification-item.pedido .notif-icon {
+  color: #2563eb;
+}
+
+.notification-item:focus-visible {
+  outline: 2px solid var(--laranja, #ed5b22);
+  outline-offset: -3px;
 }
 
 .notif-content h4 {
@@ -196,6 +213,18 @@
 .notif-time {
   font-size: 0.7rem;
   color: var(--apoio, #94a3b8);
+}
+
+.notification-state {
+  margin: 0;
+  padding: 1.35rem 1.2rem;
+  color: var(--apoio, #64748b);
+  font-size: 0.84rem;
+  text-align: center;
+}
+
+.notification-state-error {
+  color: #dc2626;
 }
 
 /* ==========================================
@@ -261,5 +290,3 @@
 ::view-transition-new(root) {
   z-index: 9999;
 }
-
-
