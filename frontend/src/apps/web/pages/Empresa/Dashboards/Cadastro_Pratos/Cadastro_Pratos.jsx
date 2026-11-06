@@ -6,6 +6,7 @@ import {
   FaSave,
   FaImage,
   FaTimes,
+  FaExclamationTriangle,
 } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
@@ -46,9 +47,10 @@ export default function CadastroPratos() {
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
 
-  // Estados para o Pop-up e Drag & Drop da imagem
+  // Estados para os Pop-ups (Upload e Exclusão)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [arrastando, setArrastando] = useState(false);
+  const [confirmarExclusaoModal, setConfirmarExclusaoModal] = useState(false);
 
   const carregarRecentes = () => {
     getCardapio()
@@ -110,9 +112,9 @@ export default function CadastroPratos() {
   const removerImagem = () => {
     setDados((atual) => ({ ...atual, imagem_url: "" }));
     if (imageInputRef.current) imageInputRef.current.value = "";
+    setConfirmarExclusaoModal(false);
   };
 
-  // Processamento unificado de arquivo (via clique ou drag & drop)
   const processarArquivoDrop = (arquivo) => {
     if (!arquivo) return;
 
@@ -129,7 +131,7 @@ export default function CadastroPratos() {
     if (arquivo.size > TAMANHO_MAXIMO_IMAGEM) {
       setMensagem({
         tipo: "erro",
-        texto: "A imagem deve ter no máximo 5 MB.",
+        texto: "A imagem deve ter no máximo 3 MB.",
       });
       return;
     }
@@ -157,7 +159,6 @@ export default function CadastroPratos() {
     processarArquivoDrop(arquivo);
   };
 
-  // Máscara monetária em tempo real para o campo de preço
   const handlePrecoChange = (e) => {
     let valorLimpo = e.target.value.replace(/\D/g, "");
     if (!valorLimpo) {
@@ -356,7 +357,7 @@ export default function CadastroPratos() {
                   />
                 </div>
 
-                {/* LINHA 3 - DIREITA: Imagem do Prato (Pop-up Upload) */}
+                {/* LINHA 3 - DIREITA: Imagem do Prato com Pop-up e Botão de Lixeira */}
                 <div className="cp-input-group">
                   <label>Imagem do prato (opcional)</label>
                   <div className="cp-image-upload">
@@ -377,12 +378,12 @@ export default function CadastroPratos() {
                           className="cp-image-upload__remove"
                           onClick={(e) => {
                             e.stopPropagation();
-                            removerImagem();
+                            setConfirmarExclusaoModal(true);
                           }}
                           aria-label="Remover imagem"
                           title="Remover imagem"
                         >
-                          <FaTimes />
+                          <FaTrashAlt />
                         </button>
                       </div>
                     ) : (
@@ -579,6 +580,79 @@ export default function CadastroPratos() {
               <label htmlFor="modal-file-input" className="cp-modal-browse-btn">
                 {salvando ? "Enviando imagem…" : "Selecionar do Computador"}
               </label>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pop-up de Confirmação de Exclusão da Imagem (Estilo semelhante ao cancelar pedido) */}
+      {confirmarExclusaoModal && (
+        <div className="cp-modal-overlay">
+          <div
+            className="cp-modal-card"
+            style={{ maxWidth: "400px", textAlign: "center", padding: "2rem" }}
+          >
+            <div
+              style={{
+                fontSize: "2.5rem",
+                color: "#ef4444",
+                marginBottom: "0.5rem",
+              }}
+            >
+              <FaExclamationTriangle />
+            </div>
+            <h2
+              style={{
+                marginBottom: "0.8rem",
+                color: "var(--texto, #0f172a)",
+                fontSize: "1.2rem",
+                fontWeight: "800",
+              }}
+            >
+              Excluir Imagem?
+            </h2>
+            <p
+              style={{
+                color: "var(--apoio, #64748b)",
+                fontSize: "0.9rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              Tem certeza que deseja remover a imagem selecionada deste prato?
+            </p>
+            <div style={{ display: "flex", gap: "0.8rem" }}>
+              <button
+                type="button"
+                onClick={removerImagem}
+                style={{
+                  flex: 1,
+                  backgroundColor: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  padding: "0.75rem",
+                  borderRadius: "12px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                }}
+              >
+                Sim, Excluir
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmarExclusaoModal(false)}
+                style={{
+                  flex: 1,
+                  backgroundColor: "var(--fundo, #f1f5f9)",
+                  color: "var(--texto, #475569)",
+                  border: "1px solid var(--borda, #cbd5e1)",
+                  padding: "0.75rem",
+                  borderRadius: "12px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                }}
+              >
+                Voltar
+              </button>
             </div>
           </div>
         </div>
