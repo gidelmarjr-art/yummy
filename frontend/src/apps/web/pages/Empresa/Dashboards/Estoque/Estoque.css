@@ -585,6 +585,71 @@
   background-color: var(--borda, #e2e8f0);
 }
 
+/* ================================================================= *
+   SUPORTE AO TEMA ESCURO — CONTROLE DE ESTOQUE E INSUMOS
+   ================================================================ */
+
+html[data-tema="escuro"] .estoque-table-container,
+html[data-tema="escuro"] .novo-pedido-card-top,
+html[data-tema="escuro"] .estoque-top-bar,
+html[data-tema="escuro"] .estoque-modal-card,
+html[data-tema="escuro"] .search-box.inline-search {
+  background-color: var(--cartao, #17181c) !important;
+  border-color: var(--borda, rgba(255, 255, 255, 0.08)) !important;
+}
+
+html[data-tema="escuro"] .estoque-row-item:hover {
+  background-color: rgba(237, 91, 34, 0.08) !important;
+}
+
+html[data-tema="escuro"] .estoque-modal-overlay {
+  background: rgba(5, 7, 10, 0.8) !important;
+  backdrop-filter: blur(6px);
+}
+
+/* Ajuste de contraste para textos do estoque no tema escuro */
+html[data-tema="escuro"] .item-name,
+html[data-tema="escuro"] .item-qty,
+html[data-tema="escuro"] .item-cost,
+html[data-tema="escuro"] .card-title,
+html[data-tema="escuro"] .modal-header h2 {
+  color: #f3f4f6 !important;
+}
+
+html[data-tema="escuro"] .item-category {
+  color: #9ca3af !important;
+}
+
+/* Ajustes de contraste legível para as pílulas de status no tema escuro */
+html[data-tema="escuro"] .status-estável {
+  background-color: rgba(22, 163, 74, 0.15) !important;
+  color: #4ade80 !important;
+  border-color: rgba(74, 222, 128, 0.3) !important;
+}
+
+html[data-tema="escuro"] .status-baixo {
+  background-color: rgba(234, 179, 8, 0.15) !important;
+  color: #facc15 !important;
+  border-color: rgba(250, 204, 21, 0.3) !important;
+}
+
+html[data-tema="escuro"] .status-crítico {
+  background-color: rgba(220, 38, 38, 0.15) !important;
+  color: #f87171 !important;
+  border-color: rgba(248, 113, 113, 0.3) !important;
+}
+
+/* Botão de ver detalhes no tema escuro */
+html[data-tema="escuro"] .btn-view-details {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  color: #f3f4f6 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html[data-tema="escuro"] .btn-view-details:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
 /* ==========================================
    RESPONSIVIDADE E ESTRUTURA CENTRAL
    ========================================== */
