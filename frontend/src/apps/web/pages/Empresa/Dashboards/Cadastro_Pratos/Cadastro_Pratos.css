@@ -528,3 +528,138 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ================================================================= *
+   ESTILOS DO MODAL / POP-UP DE UPLOAD DE IMAGEM
+   ================================================================ */
+
+.cp-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  padding: 1rem;
+  animation: fadeInModal 0.25s ease both;
+}
+
+.cp-modal-card {
+  background: var(--cartao, #ffffff);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  padding: 1.8rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  border: 1px solid var(--borda, #e2e8f0);
+}
+
+.cp-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--borda, #e2e8f0);
+  padding-bottom: 0.8rem;
+}
+
+.cp-modal-header h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--texto, #0f172a);
+  margin: 0;
+}
+
+.cp-modal-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--apoio, #64748b);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease;
+}
+
+.cp-modal-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--texto, #0f172a);
+}
+
+.cp-dropzone {
+  border: 2px dashed #fdba74;
+  border-radius: 16px;
+  background: #fffaf7;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all 0.2s ease;
+}
+
+.cp-dropzone.is-dragover {
+  border-color: var(--laranja, #ed5b22);
+  background: #fff4ee;
+  transform: scale(1.02);
+}
+
+.cp-dropzone-icon {
+  font-size: 2.5rem;
+  color: var(--laranja, #ed5b22);
+  margin-bottom: 0.4rem;
+}
+
+.cp-dropzone h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--texto, #0f172a);
+  margin: 0;
+}
+
+.cp-dropzone p {
+  font-size: 0.82rem;
+  color: var(--apoio, #64748b);
+  margin: 0 0 1rem 0;
+}
+
+.cp-modal-browse-btn {
+  background-color: var(--laranja, #ed5b22);
+  color: #ffffff;
+  padding: 0.7rem 1.4rem;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(237, 91, 34, 0.25);
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.cp-modal-browse-btn:hover {
+  background-color: #ff7a45;
+  transform: translateY(-1px);
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

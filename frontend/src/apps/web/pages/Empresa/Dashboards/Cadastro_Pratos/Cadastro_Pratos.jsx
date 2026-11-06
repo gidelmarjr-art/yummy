@@ -45,6 +45,10 @@ export default function CadastroPratos() {
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
 
+  // Estados para o Pop-up e Drag & Drop da imagem
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [arrastando, setArrastando] = useState(false);
+
   const carregarRecentes = () => {
     getCardapio()
       .then((data) => setRecentes(data.slice(-5).reverse()))
@@ -107,8 +111,8 @@ export default function CadastroPratos() {
     if (imageInputRef.current) imageInputRef.current.value = "";
   };
 
-  const handleImagemSelecionada = (event) => {
-    const arquivo = event.target.files?.[0];
+  // Processamento unificado de arquivo (via clique ou drag & drop)
+  const processarArquivoDrop = (arquivo) => {
     if (!arquivo) return;
 
     const tipoValido = TIPOS_DE_IMAGEM_ACEITOS.has(arquivo.type);
@@ -118,7 +122,6 @@ export default function CadastroPratos() {
         tipo: "erro",
         texto: "Selecione uma imagem PNG, JPG ou JPEG.",
       });
-      event.target.value = "";
       return;
     }
 
@@ -127,7 +130,6 @@ export default function CadastroPratos() {
         tipo: "erro",
         texto: "A imagem deve ter no máximo 5 MB.",
       });
-      event.target.value = "";
       return;
     }
 
@@ -135,18 +137,25 @@ export default function CadastroPratos() {
     leitor.onload = () => {
       setDados((atual) => ({ ...atual, imagem_url: leitor.result }));
       setMensagem(null);
+      setIsModalOpen(false); // Fecha o pop-up ao carregar com sucesso
     };
     leitor.onerror = () => {
       setMensagem({
         tipo: "erro",
         texto: "Não foi possível ler a imagem selecionada.",
       });
-      event.target.value = "";
     };
     leitor.readAsDataURL(arquivo);
   };
 
-  // Função para formatar o valor como Moeda Brasileira (R$ 0,00) em tempo real
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setArrastando(false);
+    const arquivo = e.dataTransfer.files?.[0];
+    processarArquivoDrop(arquivo);
+  };
+
+  // Máscara monetária em tempo real para o campo de preço
   const handlePrecoChange = (e) => {
     let valorLimpo = e.target.value.replace(/\D/g, "");
     if (!valorLimpo) {
@@ -173,7 +182,6 @@ export default function CadastroPratos() {
       return;
     }
 
-    // Converte o formato "R$ 28,50" para float numérico padrão (28.50) para enviar à API
     const precoNumerico = parseFloat(
       String(dados.preco)
         .replace("R$", "")
@@ -300,7 +308,7 @@ export default function CadastroPratos() {
                   />
                 </div>
 
-                {/* LINHA 2 - ESQUERDA: Preço de Venda com Máscara Monetária */}
+                {/* LINHA 2 - ESQUERDA: Preço de Venda (R$) */}
                 <div className="cp-input-group">
                   <label>Preço de Venda (R$)</label>
                   <input
@@ -346,45 +354,47 @@ export default function CadastroPratos() {
                   />
                 </div>
 
-                {/* LINHA 3 - DIREITA: Upload de Arquivo de Imagem */}
+                {/* LINHA 3 - DIREITA: Imagem do Prato (Pop-up Upload) */}
                 <div className="cp-input-group">
                   <label>Imagem do prato (opcional)</label>
                   <div className="cp-image-upload">
-                    <input
-                      ref={imageInputRef}
-                      id="imagem-do-prato"
-                      className="cp-image-upload__input"
-                      type="file"
-                      accept="image/png,image/jpeg,.png,.jpg,.jpeg"
-                      onChange={handleImagemSelecionada}
-                    />
                     {dados.imagem_url ? (
-                      <div className="cp-image-upload__preview">
+                      <div
+                        className="cp-image-upload__preview"
+                        onClick={() => setIsModalOpen(true)}
+                        style={{ cursor: "pointer" }}
+                        title="Clique para alterar a imagem"
+                      >
                         <img src={dados.imagem_url} alt="Prévia do prato" />
                         <div>
-                          <strong>Imagem selecionada</strong>
+                          <strong>Alterar imagem</strong>
+                          <span>Clique para gerenciar</span>
                         </div>
                         <button
                           type="button"
                           className="cp-image-upload__remove"
-                          onClick={removerImagem}
-                          aria-label="Remover imagem selecionada"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removerImagem();
+                          }}
+                          aria-label="Remover imagem"
                           title="Remover imagem"
                         >
                           <FaTimes />
                         </button>
                       </div>
                     ) : (
-                      <label
-                        htmlFor="imagem-do-prato"
+                      <div
                         className="cp-image-upload__trigger"
+                        onClick={() => setIsModalOpen(true)}
+                        style={{ cursor: "pointer" }}
                       >
                         <FaImage />
                         <span>
-                          <strong>Selecionar arquivo</strong> (PNG, JPG · máx
-                          5MB)
+                          <strong>Selecionar arquivo</strong> (Clique ou
+                          arraste)
                         </span>
-                      </label>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -527,6 +537,50 @@ export default function CadastroPratos() {
           )}
         </div>
       </main>
+
+      {/* Modal / Pop-up de Upload com Drag & Drop */}
+      {isModalOpen && (
+        <div className="cp-modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="cp-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="cp-modal-header">
+              <h3>Selecionar Imagem do Prato</h3>
+              <button
+                type="button"
+                className="cp-modal-close"
+                onClick={() => setIsModalOpen(false)}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div
+              className={`cp-dropzone ${arrastando ? "is-dragover" : ""}`}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setArrastando(true);
+              }}
+              onDragLeave={() => setArrastando(false)}
+              onDrop={handleDrop}
+            >
+              <FaImage className="cp-dropzone-icon" />
+              <h4>Arraste e solte sua imagem aqui</h4>
+              <p>Suporta arquivos PNG, JPG ou JPEG (Até 5MB)</p>
+
+              <input
+                ref={imageInputRef}
+                id="modal-file-input"
+                type="file"
+                accept="image/png,image/jpeg,.png,.jpg,.jpeg"
+                style={{ display: "none" }}
+                onChange={(e) => processarArquivoDrop(e.target.files?.[0])}
+              />
+              <label htmlFor="modal-file-input" className="cp-modal-browse-btn">
+                Selecionar do Computador
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
