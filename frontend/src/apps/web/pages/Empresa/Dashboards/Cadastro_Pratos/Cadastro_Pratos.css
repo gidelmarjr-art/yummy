@@ -663,3 +663,53 @@
     transform: scale(1);
   }
 }
+
+/* ================================================================= *
+   SUPORTE AO TEMA ESCURO PARA O MODAL DE UPLOAD DE IMAGEM
+   ================================================================ */
+
+html[data-tema="escuro"] .cp-modal-overlay {
+  background: rgba(5, 7, 10, 0.8) !important;
+  backdrop-filter: blur(6px);
+}
+
+html[data-tema="escuro"] .cp-modal-card {
+  background: var(--cartao, #17181c) !important;
+  border-color: var(--borda, rgba(255, 255, 255, 0.08)) !important;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6) !important;
+}
+
+html[data-tema="escuro"] .cp-modal-header {
+  border-bottom-color: var(--borda, rgba(255, 255, 255, 0.08)) !important;
+}
+
+html[data-tema="escuro"] .cp-modal-header h3 {
+  color: var(--texto, #f3f4f6) !important;
+}
+
+html[data-tema="escuro"] .cp-modal-close {
+  color: var(--apoio, #9ca3af) !important;
+}
+
+html[data-tema="escuro"] .cp-modal-close:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: var(--texto, #f3f4f6) !important;
+}
+
+html[data-tema="escuro"] .cp-dropzone {
+  background: rgba(23, 24, 28, 0.6) !important;
+  border-color: rgba(237, 91, 34, 0.35) !important;
+}
+
+html[data-tema="escuro"] .cp-dropzone.is-dragover {
+  background: rgba(237, 91, 34, 0.1) !important;
+  border-color: var(--laranja, #ed5b22) !important;
+}
+
+html[data-tema="escuro"] .cp-dropzone h4 {
+  color: var(--texto, #f3f4f6) !important;
+}
+
+html[data-tema="escuro"] .cp-dropzone p {
+  color: var(--apoio, #9ca3af) !important;
+}
