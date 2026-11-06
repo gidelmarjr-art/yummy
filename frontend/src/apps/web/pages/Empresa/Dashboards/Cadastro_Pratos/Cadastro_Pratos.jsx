@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaUtensils, FaPlus, FaTrashAlt, FaSave, FaImage, FaTimes } from "react-icons/fa";
+import {
+  FaUtensils,
+  FaPlus,
+  FaTrashAlt,
+  FaSave,
+  FaImage,
+  FaTimes,
+} from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
 import DashboardSelect from "../components/DashboardSelect";
@@ -210,9 +217,7 @@ export default function CadastroPratos() {
   };
 
   return (
-    <div
-      className={`cadastro-pratos-page-layout`}
-    >
+    <div className="cadastro-pratos-page-layout">
       <Sidebar />
 
       <main className="cadastro-pratos-main-content">
@@ -242,7 +247,8 @@ export default function CadastroPratos() {
               </h3>
 
               <div className="cp-form-grid">
-                <div className="cp-input-group full-width">
+                {/* LINHA 1 - ESQUERDA: Nome do Prato */}
+                <div className="cp-input-group">
                   <label>Nome do Prato</label>
                   <input
                     type="text"
@@ -255,6 +261,7 @@ export default function CadastroPratos() {
                   />
                 </div>
 
+                {/* LINHA 1 - DIREITA: Categoria */}
                 <div className="cp-input-group">
                   <label>Categoria</label>
                   <DashboardSelect
@@ -269,65 +276,7 @@ export default function CadastroPratos() {
                   />
                 </div>
 
-                <div className="cp-input-group full-width">
-                  <label>Imagem do prato (opcional)</label>
-                  <div className="cp-image-upload">
-                    <input
-                      ref={imageInputRef}
-                      id="imagem-do-prato"
-                      className="cp-image-upload__input"
-                      type="file"
-                      accept="image/png,image/jpeg,.png,.jpg,.jpeg"
-                      onChange={handleImagemSelecionada}
-                    />
-                    {dados.imagem_url ? (
-                      <div className="cp-image-upload__preview">
-                        <img src={dados.imagem_url} alt="Prévia do prato" />
-                        <div>
-                          <strong>Imagem selecionada</strong>
-                          <span>PNG, JPG ou JPEG · até 5 MB</span>
-                        </div>
-                        <button
-                          type="button"
-                          className="cp-image-upload__remove"
-                          onClick={removerImagem}
-                          aria-label="Remover imagem selecionada"
-                          title="Remover imagem"
-                        >
-                          <FaTimes />
-                        </button>
-                      </div>
-                    ) : (
-                      <label htmlFor="imagem-do-prato" className="cp-image-upload__trigger">
-                        <FaImage />
-                        <span><strong>Selecionar arquivo</strong><small>PNG, JPG ou JPEG · máximo de 5 MB</small></span>
-                      </label>
-                    )}
-                  </div>
-                </div>
-
-                <div className="cp-input-group full-width">
-                  <label>URL da imagem (opcional)</label>
-                  <input
-                    type="url"
-                    placeholder="https://..."
-                    value={dados.imagem_url}
-                    onChange={(e) =>
-                      setDados({ ...dados, imagem_url: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="cp-input-group full-width">
-                  <label>Descrição (opcional)</label>
-                  <textarea
-                    rows={3}
-                    value={dados.descricao}
-                    onChange={(e) =>
-                      setDados({ ...dados, descricao: e.target.value })
-                    }
-                  />
-                </div>
-
+                {/* LINHA 2 - ESQUERDA: Preço de Venda */}
                 <div className="cp-input-group">
                   <label>Preço de Venda (R$)</label>
                   <input
@@ -342,6 +291,7 @@ export default function CadastroPratos() {
                   />
                 </div>
 
+                {/* LINHA 2 - DIREITA: Status Inicial */}
                 <div className="cp-input-group">
                   <label>Status Inicial</label>
                   <DashboardSelect
@@ -359,6 +309,75 @@ export default function CadastroPratos() {
                         color: "#dc2626",
                       },
                     ]}
+                  />
+                </div>
+
+                {/* LINHA 3 - ESQUERDA: URL da Imagem */}
+                <div className="cp-input-group">
+                  <label>URL da imagem (opcional)</label>
+                  <input
+                    type="url"
+                    placeholder="https://..."
+                    value={dados.imagem_url}
+                    onChange={(e) =>
+                      setDados({ ...dados, imagem_url: e.target.value })
+                    }
+                  />
+                </div>
+
+                {/* LINHA 3 - DIREITA: Upload de Arquivo de Imagem */}
+                <div className="cp-input-group">
+                  <label>Imagem do prato (opcional)</label>
+                  <div className="cp-image-upload">
+                    <input
+                      ref={imageInputRef}
+                      id="imagem-do-prato"
+                      className="cp-image-upload__input"
+                      type="file"
+                      accept="image/png,image/jpeg,.png,.jpg,.jpeg"
+                      onChange={handleImagemSelecionada}
+                    />
+                    {dados.imagem_url ? (
+                      <div className="cp-image-upload__preview">
+                        <img src={dados.imagem_url} alt="Prévia do prato" />
+                        <div>
+                          <strong>Imagem selecionada</strong>
+                        </div>
+                        <button
+                          type="button"
+                          className="cp-image-upload__remove"
+                          onClick={removerImagem}
+                          aria-label="Remover imagem selecionada"
+                          title="Remover imagem"
+                        >
+                          <FaTimes />
+                        </button>
+                      </div>
+                    ) : (
+                      <label
+                        htmlFor="imagem-do-prato"
+                        className="cp-image-upload__trigger"
+                      >
+                        <FaImage />
+                        <span>
+                          <strong>Selecionar arquivo</strong> (PNG, JPG · máx
+                          5MB)
+                        </span>
+                      </label>
+                    )}
+                  </div>
+                </div>
+
+                {/* LINHA 4 - LARGURA TOTAL: Descrição */}
+                <div className="cp-input-group full-width">
+                  <label>Descrição (opcional)</label>
+                  <textarea
+                    rows={3}
+                    placeholder="Descreva os ingredientes e detalhes do prato..."
+                    value={dados.descricao}
+                    onChange={(e) =>
+                      setDados({ ...dados, descricao: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -490,4 +509,3 @@ export default function CadastroPratos() {
     </div>
   );
 }
-
