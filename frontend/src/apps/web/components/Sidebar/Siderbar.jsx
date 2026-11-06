@@ -23,7 +23,7 @@ import { logout } from "../../services/api";
 import { useSidebar } from "../../../../context/SidebarContext";
 
 const NAV_ITEMS = [
-  { name: "Geral", path: "/dashboard", icon: <FaHome /> },
+  { name: "Geral", path: "/geral", icon: <FaHome /> },
   { name: "Pedidos", path: "/pedidos", icon: <FaUtensils /> },
   { name: "Cardápio", path: "/cardapio", icon: <FaClipboardList /> },
   {
