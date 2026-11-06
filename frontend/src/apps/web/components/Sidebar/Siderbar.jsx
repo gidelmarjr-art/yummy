@@ -32,7 +32,7 @@ const NAV_ITEMS = [
     icon: <FaPlusCircle />,
   },
   { name: "Estoque", path: "/estoque", icon: <FaTools /> },
-  { name: "Transactions", path: "/transacoes", icon: <FaExchangeAlt /> },
+  { name: "Transações", path: "/transacoes", icon: <FaExchangeAlt /> },
   { name: "Relatórios", path: "/relatorios", icon: <FaChartBar /> },
   { name: "Perfil da Loja", path: "/perfil-loja", icon: <FaStore /> },
   { name: "Clientes", path: "/clientes", icon: <FaUsers /> },
