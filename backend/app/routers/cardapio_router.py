@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session, joinedload
 
 from app.database import get_db
@@ -10,6 +10,7 @@ from app.models.produto import Produto
 from app.models.produto_insumo import ProdutoInsumo
 from app.schemas.produto_schema import ProdutoCreate, ProdutoResponse, ProdutoUpdate
 from app.security.dependencies import require_gerencia
+from app.services import storage_service
 from app.services.estoque_service import gerar_codigo_sequencial
 
 router = APIRouter(prefix="/cardapio", tags=["Cardápio"])
@@ -51,6 +52,33 @@ def listar_produtos(categoria: str | None = None, db: Session = Depends(get_db))
     if categoria:
         query = query.filter(Produto.categoria == categoria)
     return query.order_by(Produto.id).all()
+
+
+# Envia a foto de um prato ao Storage e devolve o link. O front coloca esse link
+# no campo imagem_url ao salvar o prato (igual a quando se cola uma URL).
+# Deve ficar ANTES das rotas com {produto_id}.
+@router.post("/imagem")
+def enviar_imagem_produto(
+    arquivo: UploadFile = File(...),
+    _u=Depends(require_gerencia),
+):
+    if not storage_service.configurado():
+        raise HTTPException(
+            status_code=503,
+            detail="O envio de imagens ainda não está configurado no servidor. Cole o link da imagem por enquanto.",
+        )
+    conteudo = arquivo.file.read(storage_service.MAX_BYTES + 1)
+    if len(conteudo) > storage_service.MAX_BYTES:
+        limite = storage_service.MAX_BYTES // (1024 * 1024)
+        raise HTTPException(status_code=413, detail=f"A imagem passa do limite de {limite} MB.")
+    tipo = storage_service.detectar_tipo(conteudo)
+    if tipo is None:
+        raise HTTPException(status_code=415, detail="Envie uma imagem PNG, JPG ou JPEG.")
+    try:
+        url = storage_service.enviar_imagem(conteudo, *tipo)
+    except storage_service.StorageFalhou as exc:
+        raise HTTPException(status_code=502, detail=str(exc))
+    return {"url": url}
 
 
 @router.get("/{produto_id}", response_model=ProdutoResponse)
@@ -99,10 +127,12 @@ def atualizar_produto(
         produto.preco = dados.preco
     if dados.status is not None:
         produto.status = dados.status
-    if dados.imagem_url is not None:
+    # model_fields_set: só mexe se o campo foi enviado — e assim dá para
+    # REMOVER a imagem/descrição mandando null ou texto vazio.
+    if "imagem_url" in dados.model_fields_set:
         produto.imagem_url = dados.imagem_url
-    if dados.descricao is not None:
-        produto.descricao = dados.descricao
+    if "descricao" in dados.model_fields_set:
+        produto.descricao = (dados.descricao or "").strip() or None
     if dados.ficha_tecnica is not None:
         _aplicar_ficha_tecnica(db, produto, dados.ficha_tecnica)
 
