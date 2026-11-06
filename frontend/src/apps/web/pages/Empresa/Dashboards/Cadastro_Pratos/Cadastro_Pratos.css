@@ -266,27 +266,16 @@
   border-radius: 6px;
 }
 
-/* Botão de Lixeira na prévia da imagem (Estilo unificado) */
 .cp-image-upload__remove {
-  background-color: #fee2e2;
-  color: #ef4444;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
   border: 1px solid #fecaca;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #dc2626;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.cp-image-upload__remove:hover {
-  background-color: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
 }
 
 /* Ficha Técnica */
@@ -338,9 +327,9 @@
 }
 
 .cp-btn-remove-row {
-  background-color: #fee2e2;
-  color: #ef4444;
+  background: #fef2f2;
   border: 1px solid #fecaca;
+  color: #ef4444;
   width: 42px;
   height: 42px;
   border-radius: 12px;
@@ -352,9 +341,8 @@
 }
 
 .cp-btn-remove-row:hover:not(:disabled) {
-  background-color: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
+  background-color: #fee2e2;
+  color: #dc2626;
 }
 
 .cp-btn-remove-row:disabled {
@@ -482,6 +470,7 @@
    CORREÇÃO DEFINITIVA DE VISIBILIDADE E SOBREPOSIÇÃO DOS DROPDOWNS
    ================================================================ */
 
+/* Habilita rolagem interna para evitar corte de lista */
 .dashboard-select-menu {
   max-height: 240px !important;
   overflow-y: auto !important;
@@ -497,6 +486,7 @@
   border-radius: 4px;
 }
 
+/* Libera o overflow para permitir que os seletores flutuem fora dos cards */
 .cadastro-pratos-body-content,
 .cadastro-pratos-form-wrapper,
 .cp-card {
@@ -540,7 +530,7 @@
 }
 
 /* ================================================================= *
-   ESTILOS DO MODAL / POP-UP DE UPLOAD E CONFIRMAÇÃO
+   ESTILOS DO MODAL / POP-UP DE UPLOAD DE IMAGEM
    ================================================================ */
 
 .cp-modal-overlay {
@@ -672,54 +662,4 @@
     opacity: 1;
     transform: scale(1);
   }
-}
-
-/* ================================================================= *
-   SUPORTE AO TEMA ESCURO — MODAIS E COMPONENTES DE CADASTRO DE PRATOS
-   ================================================================ */
-
-html[data-tema="escuro"] .cp-modal-overlay {
-  background: rgba(5, 7, 10, 0.8) !important;
-  backdrop-filter: blur(6px);
-}
-
-html[data-tema="escuro"] .cp-modal-card {
-  background: var(--cartao, #17181c) !important;
-  border-color: var(--borda, rgba(255, 255, 255, 0.08)) !important;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6) !important;
-}
-
-html[data-tema="escuro"] .cp-modal-header {
-  border-bottom-color: var(--borda, rgba(255, 255, 255, 0.08)) !important;
-}
-
-html[data-tema="escuro"] .cp-modal-header h3 {
-  color: var(--texto, #f3f4f6) !important;
-}
-
-html[data-tema="escuro"] .cp-modal-close {
-  color: var(--apoio, #9ca3af) !important;
-}
-
-html[data-tema="escuro"] .cp-modal-close:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
-  color: var(--texto, #f3f4f6) !important;
-}
-
-html[data-tema="escuro"] .cp-dropzone {
-  background: rgba(23, 24, 28, 0.6) !important;
-  border-color: rgba(237, 91, 34, 0.35) !important;
-}
-
-html[data-tema="escuro"] .cp-dropzone.is-dragover {
-  background: rgba(237, 91, 34, 0.1) !important;
-  border-color: var(--laranja, #ed5b22) !important;
-}
-
-html[data-tema="escuro"] .cp-dropzone h4 {
-  color: var(--texto, #f3f4f6) !important;
-}
-
-html[data-tema="escuro"] .cp-dropzone p {
-  color: var(--apoio, #9ca3af) !important;
 }
