@@ -182,7 +182,7 @@ html[data-tema="escuro"] .sidebar-nav::-webkit-scrollbar-thumb {
 }
 
 html[data-tema="escuro"] .sidebar-btn {
-  color: #94a3b8;
+  color: #ffffff;
 }
 
 html[data-tema="escuro"] .sidebar-btn:hover {
@@ -191,8 +191,8 @@ html[data-tema="escuro"] .sidebar-btn:hover {
 }
 
 html[data-tema="escuro"] .sidebar-btn--logout:hover {
-  background-color: #450a0a;
-  color: #ef4444;
+  background-color: #ff0000;
+  color: #000000;
 }
 
 /* ==========================================
