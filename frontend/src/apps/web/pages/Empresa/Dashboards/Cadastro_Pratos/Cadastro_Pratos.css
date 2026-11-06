@@ -266,16 +266,27 @@
   border-radius: 6px;
 }
 
+/* Botão de Lixeira na prévia da imagem (Estilo unificado) */
 .cp-image-upload__remove {
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
+  background-color: #fee2e2;
+  color: #ef4444;
   border: 1px solid #fecaca;
-  border-radius: 8px;
-  background: #fef2f2;
-  color: #dc2626;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.cp-image-upload__remove:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
 }
 
 /* Ficha Técnica */
@@ -327,9 +338,9 @@
 }
 
 .cp-btn-remove-row {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
+  background-color: #fee2e2;
   color: #ef4444;
+  border: 1px solid #fecaca;
   width: 42px;
   height: 42px;
   border-radius: 12px;
@@ -341,8 +352,9 @@
 }
 
 .cp-btn-remove-row:hover:not(:disabled) {
-  background-color: #fee2e2;
-  color: #dc2626;
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
 }
 
 .cp-btn-remove-row:disabled {
@@ -470,7 +482,6 @@
    CORREÇÃO DEFINITIVA DE VISIBILIDADE E SOBREPOSIÇÃO DOS DROPDOWNS
    ================================================================ */
 
-/* Habilita rolagem interna para evitar corte de lista */
 .dashboard-select-menu {
   max-height: 240px !important;
   overflow-y: auto !important;
@@ -486,7 +497,6 @@
   border-radius: 4px;
 }
 
-/* Libera o overflow para permitir que os seletores flutuem fora dos cards */
 .cadastro-pratos-body-content,
 .cadastro-pratos-form-wrapper,
 .cp-card {
@@ -530,7 +540,7 @@
 }
 
 /* ================================================================= *
-   ESTILOS DO MODAL / POP-UP DE UPLOAD DE IMAGEM
+   ESTILOS DO MODAL / POP-UP DE UPLOAD E CONFIRMAÇÃO
    ================================================================ */
 
 .cp-modal-overlay {
@@ -665,7 +675,7 @@
 }
 
 /* ================================================================= *
-   SUPORTE AO TEMA ESCURO PARA O MODAL DE UPLOAD DE IMAGEM
+   SUPORTE AO TEMA ESCURO — MODAIS E COMPONENTES DE CADASTRO DE PRATOS
    ================================================================ */
 
 html[data-tema="escuro"] .cp-modal-overlay {
