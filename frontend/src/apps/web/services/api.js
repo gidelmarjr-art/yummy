@@ -15,11 +15,17 @@ async function authFetch(path, { method = "GET", body, headers } = {}) {
   const response = await fetch(`${API_URL}${path}`, {
     method,
     headers: {
-      ...(body ? { "Content-Type": "application/json" } : {}),
+      ...(body && !(body instanceof FormData)
+        ? { "Content-Type": "application/json" }
+        : {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
-    body: body ? JSON.stringify(body) : undefined,
+    body: !body
+      ? undefined
+      : body instanceof FormData
+        ? body
+        : JSON.stringify(body),
   });
 
   if (response.status === 401) {
@@ -42,6 +48,14 @@ async function authFetch(path, { method = "GET", body, headers } = {}) {
   if (response.status === 204) return null;
   return response.json();
 }
+
+// ---------- Imagem de prato ----------
+// O backend valida o arquivo, envia ao Storage e devolve somente a URL pública.
+export const enviarImagemProduto = (arquivo) => {
+  const form = new FormData();
+  form.append("arquivo", arquivo);
+  return authFetch("/cardapio/imagem", { method: "POST", body: form });
+};
 
 // ---------- Geral ----------
 export const getGeral = () => authFetch("/geral");
