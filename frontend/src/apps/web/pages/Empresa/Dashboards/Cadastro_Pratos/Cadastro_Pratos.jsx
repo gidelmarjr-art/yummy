@@ -15,13 +15,14 @@ import {
   criarProduto,
   getCardapio,
   getCategorias,
+  enviarImagemProduto,
 } from "../../../../services/api";
 import "../dashboards-shared.css";
 import "./Cadastro_Pratos.css";
 
 const TIPOS_DE_IMAGEM_ACEITOS = new Set(["image/png", "image/jpeg"]);
 const EXTENSOES_DE_IMAGEM_ACEITAS = /\.(png|jpe?g)$/i;
-const TAMANHO_MAXIMO_IMAGEM = 5 * 1024 * 1024;
+const TAMANHO_MAXIMO_IMAGEM = 3 * 1024 * 1024;
 
 export default function CadastroPratos() {
   const imageInputRef = useRef(null);
@@ -133,19 +134,20 @@ export default function CadastroPratos() {
       return;
     }
 
-    const leitor = new FileReader();
-    leitor.onload = () => {
-      setDados((atual) => ({ ...atual, imagem_url: leitor.result }));
-      setMensagem(null);
-      setIsModalOpen(false); // Fecha o pop-up ao carregar com sucesso
-    };
-    leitor.onerror = () => {
-      setMensagem({
-        tipo: "erro",
-        texto: "Não foi possível ler a imagem selecionada.",
-      });
-    };
-    leitor.readAsDataURL(arquivo);
+    setSalvando(true);
+    setMensagem(null);
+    enviarImagemProduto(arquivo)
+      .then(({ url }) => {
+        setDados((atual) => ({ ...atual, imagem_url: url }));
+        setIsModalOpen(false);
+      })
+      .catch((err) => {
+        setMensagem({
+          tipo: "erro",
+          texto: err.detail || "Não foi possível enviar a imagem.",
+        });
+      })
+      .finally(() => setSalvando(false));
   };
 
   const handleDrop = (e) => {
@@ -564,7 +566,7 @@ export default function CadastroPratos() {
             >
               <FaImage className="cp-dropzone-icon" />
               <h4>Arraste e solte sua imagem aqui</h4>
-              <p>Suporta arquivos PNG, JPG ou JPEG (Até 5MB)</p>
+              <p>Suporta arquivos PNG, JPG ou JPEG (até 3 MB)</p>
 
               <input
                 ref={imageInputRef}
@@ -575,7 +577,7 @@ export default function CadastroPratos() {
                 onChange={(e) => processarArquivoDrop(e.target.files?.[0])}
               />
               <label htmlFor="modal-file-input" className="cp-modal-browse-btn">
-                Selecionar do Computador
+                {salvando ? "Enviando imagem…" : "Selecionar do Computador"}
               </label>
             </div>
           </div>
