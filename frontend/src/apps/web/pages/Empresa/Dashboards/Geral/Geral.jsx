@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaUtensils, FaBoxes, FaUsers, FaDollarSign } from "react-icons/fa";
 import Sidebar from "../../../../components/Sidebar/Siderbar";
 import TopHeader from "../../../../components/TopHeader/TopHeader";
@@ -18,6 +18,16 @@ const MARGEM_PONTOS = 24; // afastamento dos pontos das pontas do gráfico
 const MARGEM_TOPO = 12;
 const MARGEM_BASE = 8;
 const ESPACO_MIN_ROTULO = 18; // altura mínima (px) entre dois números do eixo Y
+const ATUALIZACAO_MS = 30000;
+const SERIE_SEMANAL_VAZIA = [
+  "Seg",
+  "Ter",
+  "Qua",
+  "Qui",
+  "Sex",
+  "Sáb",
+  "Dom",
+].map((dia) => ({ dia, valor: 0 }));
 
 export default function Dashboard() {
   const [metrics, setMetrics] = useState({
@@ -28,6 +38,7 @@ export default function Dashboard() {
   });
   const [recentOrders, setRecentOrders] = useState([]);
   const [stockAlerts, setStockAlerts] = useState([]);
+  const [weeklySales, setWeeklySales] = useState(SERIE_SEMANAL_VAZIA);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
   const [pontoAtivoChart, setPontoAtivoChart] = useState(null);
@@ -46,16 +57,30 @@ export default function Dashboard() {
   const insAnimado = useContagem(metrics.lowStockItems);
   const cliAnimado = useContagem(metrics.totalClients);
 
-  useEffect(() => {
-    getGeral()
-      .then((data) => {
-        setMetrics(data.metrics);
-        setRecentOrders(data.recentOrders);
-        setStockAlerts(data.stockAlerts);
-      })
-      .catch((err) => setErro(err.detail || err.message))
-      .finally(() => setCarregando(false));
+  const atualizarDashboard = useCallback(async () => {
+    try {
+      const data = await getGeral();
+      setMetrics(data.metrics);
+      setRecentOrders(data.recentOrders);
+      setStockAlerts(data.stockAlerts);
+      setWeeklySales(
+        Array.isArray(data.weeklySales) && data.weeklySales.length
+          ? data.weeklySales
+          : SERIE_SEMANAL_VAZIA,
+      );
+      setErro(null);
+    } catch (err) {
+      setErro(err.detail || err.message);
+    } finally {
+      setCarregando(false);
+    }
   }, []);
+
+  useEffect(() => {
+    atualizarDashboard();
+    const intervalo = window.setInterval(atualizarDashboard, ATUALIZACAO_MS);
+    return () => window.clearInterval(intervalo);
+  }, [atualizarDashboard]);
 
   // Mede o gráfico e acompanha mudanças (redimensionar a janela, abrir/fechar o menu lateral).
   useEffect(() => {
@@ -85,15 +110,9 @@ export default function Dashboard() {
 
   const { largura: larguraGrafico, altura: alturaGrafico } = tamanhoGrafico;
 
-  const pontosBase = [
-    { dia: "Seg", valor: 350 },
-    { dia: "Ter", valor: 520 },
-    { dia: "Qua", valor: 700 },
-    { dia: "Qui", valor: 610 },
-    { dia: "Sex", valor: 980 },
-    { dia: "Sáb", valor: 1232 },
-    { dia: "Dom", valor: numFaturamento || 1050 },
-  ];
+  // Série real dos últimos sete dias entregue pelo backend. Não há valores
+  // fictícios: dias sem pedidos concluídos chegam com R$ 0,00.
+  const pontosBase = weeklySales;
 
   // Eixo Y: de 0 até 3.000 em passos de 250 (ou mais, se algum valor ultrapassar).
   const maxValor = Math.max(...pontosBase.map((p) => p.valor));
@@ -143,9 +162,7 @@ export default function Dashboard() {
       .join(" ");
 
   return (
-    <div
-      className={`dashboard-page-layout bento-wrapper-root`}
-    >
+    <div className={`dashboard-page-layout bento-wrapper-root`}>
       <Sidebar />
 
       <main className="dashboard-main-content">
@@ -407,4 +424,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
