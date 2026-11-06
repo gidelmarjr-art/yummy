@@ -146,6 +146,21 @@ export default function CadastroPratos() {
     leitor.readAsDataURL(arquivo);
   };
 
+  // Função para formatar o valor como Moeda Brasileira (R$ 0,00) em tempo real
+  const handlePrecoChange = (e) => {
+    let valorLimpo = e.target.value.replace(/\D/g, "");
+    if (!valorLimpo) {
+      setDados({ ...dados, preco: "" });
+      return;
+    }
+    const numero = Number(valorLimpo) / 100;
+    const formatado = numero.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+    setDados({ ...dados, preco: formatado });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensagem(null);
@@ -157,6 +172,15 @@ export default function CadastroPratos() {
       });
       return;
     }
+
+    // Converte o formato "R$ 28,50" para float numérico padrão (28.50) para enviar à API
+    const precoNumerico = parseFloat(
+      String(dados.preco)
+        .replace("R$", "")
+        .replace(/\s/g, "")
+        .replace(/\./g, "")
+        .replace(",", "."),
+    );
 
     const linhasValidas = fichaTecnica.filter(
       (l) => l.insumo_id && l.quantidade_necessaria,
@@ -180,7 +204,7 @@ export default function CadastroPratos() {
       await criarProduto({
         nome: dados.nome,
         categoria: dados.categoria,
-        preco: parseFloat(String(dados.preco).replace(",", ".")),
+        preco: precoNumerico,
         status: dados.status,
         imagem_url: dados.imagem_url || null,
         descricao: dados.descricao || null,
@@ -276,17 +300,14 @@ export default function CadastroPratos() {
                   />
                 </div>
 
-                {/* LINHA 2 - ESQUERDA: Preço de Venda */}
+                {/* LINHA 2 - ESQUERDA: Preço de Venda com Máscara Monetária */}
                 <div className="cp-input-group">
                   <label>Preço de Venda (R$)</label>
                   <input
-                    type="number"
-                    step="0.01"
-                    placeholder="28.50"
+                    type="text"
+                    placeholder="R$ 0,00"
                     value={dados.preco}
-                    onChange={(e) =>
-                      setDados({ ...dados, preco: e.target.value })
-                    }
+                    onChange={handlePrecoChange}
                     required
                   />
                 </div>
